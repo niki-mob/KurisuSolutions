@@ -232,9 +232,8 @@ namespace KurisuNidalee
                             objHero.GetWaypoints(), objHero.AvgMovChangeTime(), objHero.LastMovChangeTime(),
                             objHero.AvgPathLenght(), out hitchance, ES.Player.ServerPosition);
 
-                        if (!ES.Spells["Javelin"].DoesCollide(pos) &&
-                            hitchance >= (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
-                            ES.Spells["Aspect"].Cast();
+                        if (!ES.Spells["Javelin"].DoesCollide(pos) && hitchance >= HitChance.Low)
+                             ES.Spells["Aspect"].Cast();
                     }
                 }
 
