@@ -43,7 +43,7 @@ namespace Activator.Data
                 Cleanse = false,
                 CleanseTimer = 0,
                 Slot = SpellSlot.Unknown,
-                Interval = .5
+                Interval = .8
             });
 
             Auras.Add(new AuraData
@@ -79,7 +79,7 @@ namespace Activator.Data
                 Cleanse = false,
                 CleanseTimer = 0,
                 Slot = SpellSlot.Q,
-                Interval = .5
+                Interval = .8
             });
 
             Auras.Add(new AuraData
@@ -91,7 +91,7 @@ namespace Activator.Data
                 Cleanse = false,
                 CleanseTimer = 0,
                 Slot = SpellSlot.E,
-                Interval = .5
+                Interval = .8
             });
 
             Auras.Add(new AuraData
@@ -151,7 +151,7 @@ namespace Activator.Data
                 Cleanse = false,
                 CleanseTimer = 0,
                 Slot = SpellSlot.Unknown,
-                Interval = .5
+                Interval = .8
             });
 
             Auras.Add(new AuraData
@@ -187,7 +187,7 @@ namespace Activator.Data
                 Cleanse = false,
                 CleanseTimer = 0,
                 Slot = SpellSlot.W,
-                Interval = .5
+                Interval = .8
             });
 
             Auras.Add(new AuraData
@@ -223,7 +223,7 @@ namespace Activator.Data
                 Cleanse = false,
                 CleanseTimer = 0,
                 Slot = SpellSlot.E,
-                Interval = 0.5
+                Interval = 0.8
             });
 
             Auras.Add(new AuraData

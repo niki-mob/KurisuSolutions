@@ -11,6 +11,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Activator.Base;
+using Activator.Data;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -18,9 +20,56 @@ namespace Activator.Handlers
 {
     public static class Auras
     {
-        internal static void CheckDangerousBuffs()
+        public static void StartOnUpdate()
         {
-            
+            Game.OnUpdate += Game_OnUpdate;
+        }
+
+       internal static void Game_OnUpdate(EventArgs args)
+        {
+            foreach (var hero in Activator.Allies())
+            {
+                foreach (var aura in AuraData.Auras.Where(au => hero.Player.HasBuff(au.Name)))
+                {
+                    if (aura.Cleanse)
+                    {
+                        Utility.DelayAction.Add(aura.CleanseTimer,
+                            () =>
+                            {
+                                hero.ForceQSS = true;
+                                Utility.DelayAction.Add(100, () => hero.ForceQSS = false);
+                            });
+                    }
+
+                    if (aura.Evade)
+                    {
+                        Utility.DelayAction.Add(aura.EvadeTimer,
+                            () =>
+                            {
+                                hero.HitTypes.Add(HitType.Ultimate);
+                                Utility.DelayAction.Add(100, () => hero.HitTypes.Remove(HitType.Ultimate));
+                            });
+                    }
+
+                    if (aura.DoT)
+                    {
+                        if (Utils.GameTimeTickCount - aura.TickLimiter >= aura.Interval * 1000)
+                        {
+                            hero.DotTicks += 1;
+                            hero.IncomeDamage += 15; // todo: get actuall damage
+                            aura.TickLimiter = Utils.GameTimeTickCount;
+                        }
+
+                        return;
+                    }
+                }
+
+                if (hero.DotTicks > 0)
+                {
+                    hero.IncomeDamage -= 15;
+                    hero.DotTicks -= 1;
+                }
+            }
         }
 
         #region Cleanse

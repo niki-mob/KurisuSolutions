@@ -123,10 +123,13 @@ namespace Activator
                 // drawings
                 Drawings.Load();
 
-                // damage prediction
+                // handlers
                 Projections.Load();
 
-                // object manager
+                // tracks dangerous or lethal auras
+                Auras.StartOnUpdate();
+
+                // tracks "troys" that belong to heroes such as viktors ult
                 Gametroys.StartOnUpdate();
 
                 Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
