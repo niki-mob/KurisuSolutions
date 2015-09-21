@@ -23,7 +23,7 @@ namespace KurisuDarius
 
             var drmenu = new Menu(":: Drawings", "drawings");
             drmenu.AddItem(new MenuItem("drawe", "Draw E"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.OrangeRed)));
+                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
             drmenu.AddItem(new MenuItem("drawq", "Draw Q"))
                 .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
             drmenu.AddItem(new MenuItem("drawr", "Draw R"))
@@ -44,13 +44,13 @@ namespace KurisuDarius
             cmenu.AddItem(new MenuItem("useq", "Use Q")).SetValue(true);
             cmenu.AddItem(new MenuItem("usew", "Use W")).SetValue(true);
             cmenu.AddItem(new MenuItem("usee", "Use E")).SetValue(true);
-            cmenu.AddItem(new MenuItem("eeee", "E Logic:")).SetValue(new StringList(new[] {"Smart", "Smarter [Beta]"}));
             cmenu.AddItem(new MenuItem("user", "Use R")).SetValue(true);
             cmenu.AddItem(new MenuItem("harassq", "Harass Q")).SetValue(true);
             Config.AddSubMenu(cmenu);
 
             var kmenu = new Menu(":: Miscellaneous", "kmenu");
-            kmenu.AddItem(new MenuItem("ksr", "Kill Secure R")).SetValue(true); 
+            kmenu.AddItem(new MenuItem("ksr", "Kill Secure R")).SetValue(true);
+            kmenu.AddItem(new MenuItem("eeee", "Use Advance E Logic (BETA)")).SetValue(false);
             kmenu.AddItem(new MenuItem("ksr1", "Use early if target will bleed to death (1v1)")).SetValue(false);
             kmenu.AddItem(new MenuItem("rmodi", "Adjust ult damage (Less if target doesnt die)")).SetValue(new Slider(0, -250, 250));
             Config.AddSubMenu(kmenu);
@@ -102,7 +102,7 @@ namespace KurisuDarius
 
         internal static bool CanE(Obj_AI_Hero target)
         {
-            if (Config.Item("eeee").GetValue<StringList>().SelectedIndex == 0)
+            if (!Config.Item("eeee").GetValue<bool>())
                 return true;
   
             var t = KL.TurretCache.Values.FirstOrDefault(x => x.IsEnemy && x.Distance(KL.Player.ServerPosition) <= 1500);
@@ -218,18 +218,22 @@ namespace KurisuDarius
             if (!unit.IsValidTarget() || unit.IsZombie)
                 return false;
 
-            var rr = unit.GetBuffCount("dariushemo") <= 0 ? 0 : unit.GetBuffCount("dariushemo");
+            var rr = unit.GetBuffCount("dariushemo") > 0 
+                ? unit.GetBuffCount("dariushemo") 
+                : 0;
 
-            if (KL.WDmg(unit) >= unit.Health)
+            if (KL.Spellbook["W"].IsReady() && KL.WDmg(unit) >= unit.Health &&
+                unit.Distance(KL.Player.ServerPosition) <= 200)
                 return false;
 
-            if (KL.Player.Distance(unit.ServerPosition) < 200)
+            if (KL.Player.Distance(unit.ServerPosition) < 175)
                 return false;
 
             if (KL.Player.Distance(unit.ServerPosition) > KL.Spellbook["Q"].Range)
                 return false;
 
-            if (KL.RDmg(unit, rr) - KL.Hemorrhage(unit, 1) >= unit.Health)
+            if (KL.Spellbook["R"].IsReady() && unit.Distance(KL.Player.ServerPosition) <= 460 &&
+                KL.RDmg(unit, rr) - KL.Hemorrhage(unit, 1) >= unit.Health)
                 return false;
 
             if (KL.Player.GetAutoAttackDamage(unit) * 2 + KL.Hemorrhage(unit, rr) >= unit.Health)
