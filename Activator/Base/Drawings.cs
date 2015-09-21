@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using Activator.Summoners.Hero;
+using Activator.Summoners;
 using LeagueSharp;
 using LeagueSharp.Common;
 
