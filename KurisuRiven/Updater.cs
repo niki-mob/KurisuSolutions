@@ -37,7 +37,7 @@ namespace KurisuRiven
                                             match.Groups[3],
                                             match.Groups[4]));
 
-                                if (gitVersion != KurisuRiven.Version)
+                                if (gitVersion != Program.Version)
                                 {
                                     Game.PrintChat("<b>Kurisu's Riven</b> - Outdated & newer version available!");
                                     Game.PrintChat("<font color=\"#FF6666\">- Fixed E=>W in Jungleclear");

@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Reflection;
 using LeagueSharp;
 using LeagueSharp.Common;
 using Color = System.Drawing.Color;
@@ -144,10 +143,8 @@ namespace KurisuRiven
 
         #endregion
 
-        public static System.Version Version;   
         public KurisuRiven()
         {
-            Version = Assembly.GetExecutingAssembly().GetName().Version;
             CustomEvents.Game.OnGameLoad += args =>
             {
                 try
