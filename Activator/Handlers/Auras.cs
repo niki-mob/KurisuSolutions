@@ -56,7 +56,7 @@ namespace Activator.Handlers
                         if (Utils.GameTimeTickCount - aura.TickLimiter >= aura.Interval * 1000)
                         {
                             hero.DotTicks += 1;
-                            hero.IncomeDamage += 15; // todo: get actuall damage
+                            hero.IncomeDamage += 6; // todo: get actuall damage
                             aura.TickLimiter = Utils.GameTimeTickCount;
                         }
 
@@ -66,7 +66,7 @@ namespace Activator.Handlers
 
                 if (hero.DotTicks > 0)
                 {
-                    hero.IncomeDamage -= 15;
+                    hero.IncomeDamage -= 6;
                     hero.DotTicks -= 1;
                 }
             }
