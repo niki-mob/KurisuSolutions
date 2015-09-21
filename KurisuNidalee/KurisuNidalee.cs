@@ -142,8 +142,9 @@ namespace KurisuNidalee
             ndcr.AddItem(new MenuItem("ndcrwc", "Enable in WaveClear")).SetValue(false);
 
             comenu.AddSubMenu(ndcr);
-
+                
             ccmenu.AddItem(new MenuItem("dp", ":: Drawings")).SetValue(true);
+            ccmenu.AddItem(new MenuItem("qtime", ":: Show Q Timer")).SetValue(true);
             ccmenu.AddItem(new MenuItem("exaa", ":: AA Resets (BETA)")).SetValue(true);
 
             ccmenu.AddSubMenu(comenu);
@@ -183,6 +184,12 @@ namespace KurisuNidalee
             Render.Circle.DrawCircle(ES.Player.Position, !ES.CatForm()
                 ? ES.Spells["Javelin"].Range 
                 : ES.Spells["ExPounce"].Range, Color.FromArgb(155, Color.DeepPink), 4);
+
+            if (!Player.IsDead && Player != null && Root.Item("qtime").GetValue<bool>())
+            {
+                var pos = Drawing.WorldToScreen(Player.Position);
+                Drawing.DrawText(pos[0] + 100, pos[1] - 135, Color.White, "Q: " + ES.SpellTimer["Javelin"].ToString("F"));
+            }
         }
 
         internal static void Game_OnUpdate(EventArgs args)

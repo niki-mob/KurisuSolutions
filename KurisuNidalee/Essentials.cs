@@ -373,7 +373,7 @@ namespace KurisuNidalee
         internal static Dictionary<string, Spell> Spells = new Dictionary<string, Spell>
         {
             { "Takedown", new Spell(SpellSlot.Q, 400f) },
-            { "Pounce", new Spell(SpellSlot.W, 365f) },
+            { "Pounce", new Spell(SpellSlot.W, 375f) },
             { "ExPounce", new Spell(SpellSlot.W, 740f) },
             { "Swipe", new Spell(SpellSlot.E, 300f) },
             { "Javelin", new Spell(SpellSlot.Q, 1500f) },

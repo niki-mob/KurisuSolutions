@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using KurisuNidalee;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -53,9 +54,17 @@ namespace SPrediction
         /// <returns>true if collision found</returns>
         public bool CheckMinionCollision(Vector2 from, Vector2 to, Spell s)
         {
+
             Geometry.Polygon poly = ClipperWrapper.DefineRectangle(from, to, s.Width);           
             HitChance hc;
-            return MinionManager.GetMinions(from.Distance(to) + 100, MinionTypes.All, MinionTeam.NotAlly, MinionOrderTypes.None).AsParallel().Any(p => ClipperWrapper.IsIntersects(ClipperWrapper.MakePaths(ClipperWrapper.DefineCircle(Prediction.GetPrediction(p, s, p.GetWaypoints(), 0, 0, 0, out hc, p.ServerPosition), p.BoundingRadius)), ClipperWrapper.MakePaths(poly)));
+            return
+                Essentials.MinionCache.Values.Any(
+                    p => Essentials.Player.Distance(p) <= from.Distance(to) + 100 &&            
+                        ClipperWrapper.IsIntersects(
+                            ClipperWrapper.MakePaths(
+                                ClipperWrapper.DefineCircle(
+                                    Prediction.GetPrediction(p, s, p.GetWaypoints(), 0, 0, 0, out hc, p.ServerPosition),
+                                    p.BoundingRadius)), ClipperWrapper.MakePaths(poly)));
         }
 
         /// <summary>
@@ -70,7 +79,13 @@ namespace SPrediction
         {
             Geometry.Polygon poly = ClipperWrapper.DefineRectangle(from, to, width);
             List<Obj_AI_Hero> listToCheck =  checkAlly ? HeroManager.AllHeroes : HeroManager.Enemies;
-            return listToCheck.AsParallel().Any(p => ClipperWrapper.IsIntersects(ClipperWrapper.MakePaths(poly), ClipperWrapper.MakePaths(ClipperWrapper.DefineCircle(p.ServerPosition.To2D(), p.BoundingRadius))));
+            return
+                listToCheck.AsParallel()
+                    .Any(
+                        p =>
+                            ClipperWrapper.IsIntersects(ClipperWrapper.MakePaths(poly),
+                                ClipperWrapper.MakePaths(ClipperWrapper.DefineCircle(p.ServerPosition.To2D(),
+                                    p.BoundingRadius))));
         }
 
         /// <summary>
@@ -105,7 +120,10 @@ namespace SPrediction
             if (Utils.TickCount - yasuoWallCastedTick > 4000)
                 return false;
 
-            GameObject yasuoWall = ObjectManager.Get<GameObject>().Where(p =>p.IsValid && Regex.IsMatch(p.Name, "_w_windwall_enemy_0.\\.troy", RegexOptions.IgnoreCase)).FirstOrDefault();
+            GameObject yasuoWall =
+                ObjectManager.Get<GameObject>()
+                    .FirstOrDefault(
+                        p => p.IsValid && Regex.IsMatch(p.Name, "_w_windwall_enemy_0.\\.troy", RegexOptions.IgnoreCase));
 
             if (yasuoWall == null)
                 return false;
@@ -132,7 +150,10 @@ namespace SPrediction
             if (Utils.TickCount - yasuoWallCastedTick > 4000)
                 return false;
 
-            GameObject yasuoWall = ObjectManager.Get<GameObject>().Where(p => p.IsValid && Regex.IsMatch(p.Name, "_w_windwall_enemy_0.\\.troy", RegexOptions.IgnoreCase)).FirstOrDefault();
+            GameObject yasuoWall =
+                ObjectManager.Get<GameObject>()
+                    .FirstOrDefault(
+                        p => p.IsValid && Regex.IsMatch(p.Name, "_w_windwall_enemy_0.\\.troy", RegexOptions.IgnoreCase));
 
             if (yasuoWall == null)
                 return false;
@@ -156,7 +177,8 @@ namespace SPrediction
                 yasuoWallLevel = args.Level;
                 yasuoWallCastedPos = sender.ServerPosition.To2D();
 
-                Console.WriteLine("Yasuo wall casted at ({0}, {1}) at {2} tick (wall level : {3})", yasuoWallCastedPos.X, yasuoWallCastedPos.Y, yasuoWallCastedTick, yasuoWallLevel);
+                Console.WriteLine("Yasuo wall casted at ({0}, {1}) at {2} tick (wall level : {3})", yasuoWallCastedPos.X,
+                    yasuoWallCastedPos.Y, yasuoWallCastedTick, yasuoWallLevel);
             }
         }
     }

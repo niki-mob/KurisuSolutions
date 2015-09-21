@@ -348,41 +348,44 @@ namespace KurisuNidalee
 
             else
             {
-                if (mode == "jg" && target.IsValidTarget(ES.Spells["Pounce"].Range + 100))
+                // check if in pounce range oops.
+                if (target.Distance(ES.Player.ServerPosition) <= ES.Spells["ExPounce"].Range)
                 {
-                    // switch to cougar if javelin not ready soon or Q collision
-                    if (!ES.SpellTimer["Javelin"].IsReady(2) ||
-                        ES.Spells["Javelin"].DoesCollide(target.ServerPosition.To2D()))
+                    if (mode == "jg" && target.IsValidTarget(ES.Spells["Pounce"].Range + 100))
+                    {
+                        // switch to cougar if javelin not ready soon or Q collision
+                        if (!ES.SpellTimer["Javelin"].IsReady(2) ||
+                            ES.Spells["Javelin"].DoesCollide(target.ServerPosition.To2D()))
+                            ES.Spells["Aspect"].Cast();
+                    }
+
+                    // switch to cougar if can kill target
+                    if (ES.CatDamage(target) >= target.Health)
+                    {
+                        if (mode == "co" && target.IsValidTarget(ES.Spells["Pounce"].Range))
+                            ES.Spells["Aspect"].Cast();
+                    }
+
+                    // switch if Q disabled in menu
+                    if (!KN.Root.Item("ndhq" + mode).GetValue<bool>() ||
+
+                        // or Q is not learned
+                        ES.NotLearned(ES.Spells["Javelin"]) ||
+
+                        // delay the cast .5 seconds
+                        Utils.GameTimeTickCount - (int) (ES.TimeStamp["Javelin"] * 1000) +
+                        ((6 + (6 * ES.Player.PercentCooldownMod)) * 1000) >= 500 &&
+
+                        // if Q is not ready in 2 seconds
+                        !ES.SpellTimer["Javelin"].IsReady(2))
+                    {
                         ES.Spells["Aspect"].Cast();
-
-                }
-
-                // switch to cougar if can kill target
-                if (ES.CatDamage(target) >= target.Health)
-                {
-                    if (mode == "co" && target.IsValidTarget(ES.Spells["Pounce"].Range))
-                        ES.Spells["Aspect"].Cast();
-                }
-
-                // switch if Q disabled in menu
-                if (!KN.Root.Item("ndhq" + mode).GetValue<bool>() ||
-                            
-                    // or Q is not learned
-                    ES.NotLearned(ES.Spells["Javelin"]) || 
-
-                    // delay the cast .5 seconds
-                    Utils.GameTimeTickCount - (int) (ES.TimeStamp["Javelin"] * 1000) + 
-                    ((6 + (6 * ES.Player.PercentCooldownMod)) * 1000) >= 500 &&
-                                                
-                    // if Q is not ready in 2 seconds
-                    !ES.SpellTimer["Javelin"].IsReady(2))
-                {
-                    ES.Spells["Aspect"].Cast();
+                    }
                 }
 
                 // define our q target
                 var qtarget = TargetSelector.GetTarget(ES.Spells["Javelin"].Range,
-                    TargetSelector.DamageType.Magical);
+                              TargetSelector.DamageType.Magical);
 
                 if (qtarget.IsValidTarget(ES.Spells["Javelin"].Range) && target.IsChampion())
                 {
@@ -394,10 +397,30 @@ namespace KurisuNidalee
                             qtarget.GetWaypoints(), qtarget.AvgMovChangeTime(), qtarget.LastMovChangeTime(),
                             qtarget.AvgPathLenght(), out hitchance, ES.Player.ServerPosition);
 
-                        // if we dont meet hitchance on Q target pounce nearest target
-                        if (ES.Spells["Javelin"].DoesCollide(pos) ||
-                            hitchance < (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                        // check if in pounce range.
+                        if (target.Distance(ES.Player.ServerPosition) <= ES.Spells["Pounce"].Range + 25)
+                        {
+                            // if we dont meet hitchance on Q target pounce nearest target
+                            if (ES.Spells["Javelin"].DoesCollide(pos) ||
+                                hitchance < (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                                ES.Spells["Aspect"].Cast();
+                        }
+                    }
+
+                    if (qtarget.IsHunted() && qtarget.Distance(ES.Player.ServerPosition) > ES.Spells["ExPounce"].Range + 100)
+                    {
+                        if (target.Distance(ES.Player.ServerPosition) <= ES.Spells["Pounce"].Range + 25)
+                        {
                             ES.Spells["Aspect"].Cast();
+                        }
+                    }
+
+                    if (!ES.SpellTimer["Javelin"].IsReady())
+                    {
+                        if (target.Distance(ES.Player.ServerPosition) <= ES.Spells["Pounce"].Range + 125)
+                        {
+                            ES.Spells["Aspect"].Cast();
+                        }
                     }
                 }
             }
