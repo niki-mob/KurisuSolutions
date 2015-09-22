@@ -3,13 +3,13 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	activator/spelldebuffdata.cs
-// Date:		01/07/2015
+// Document:	Data/AuraData.cs
+// Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
 
-using System.Collections.Generic;
 using LeagueSharp;
+using System.Collections.Generic;
 
 namespace Activator.Data
 {

@@ -3,8 +3,8 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	activator/projectionhandler.cs
-// Date:		01/07/2015
+// Document:	Handlers/Projections.cs
+// Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
 
@@ -19,7 +19,7 @@ namespace Activator.Handlers
     public class Projections
     {
         private static int _casted;
-        public static void Load()
+        public static void Init()
         {
             GameObject.OnCreate += GameObject_OnCreate;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast; 

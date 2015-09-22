@@ -61,6 +61,9 @@
     <Compile Include="Base\Champion.cs" />
     <Compile Include="Base\ChampionSmite.cs" />
     <Compile Include="Base\Drawings.cs" />
+    <Compile Include="Data\GameTroyData.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Handlers\Cooldowns.cs" />
     <Compile Include="Items\Consumables\_2047.cs" />
     <Compile Include="Items\Defensives\_3023.cs" />
@@ -72,8 +75,7 @@
     <Compile Include="Items\Offensives\_3092.cs" />
     <Compile Include="Handlers\Projections.cs" />
     <Compile Include="Base\Enumerators.cs" />
-    <Compile Include="Base\Gametroy.cs" />
-    <Compile Include="Data\GameTroyData.cs" />
+    <Compile Include="Base\GameTroy.cs" />
     <Compile Include="Handlers\Gametroys.cs" />
     <Compile Include="Items\Cleansers\_3137.cs" />
     <Compile Include="Items\Cleansers\_3139.cs" />

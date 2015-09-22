@@ -3,8 +3,8 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	activator/program.cs
-// Date:		01/07/2015
+// Document:	Activator/Program.cs
+// Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
 
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
-#region Namespaces
+#region Namespaces © 2015 Kurisu Solutions
 using LeagueSharp;
 using LeagueSharp.Common;
 using Activator.Base;
@@ -121,10 +121,10 @@ namespace Activator
                 Origin.AddToMainMenu();
 
                 // drawings
-                Drawings.Load();
+                Drawings.Init();
 
                 // handlers
-                Projections.Load();
+                Projections.Init();
 
                 // tracks dangerous or lethal auras
                 Auras.StartOnUpdate();
@@ -166,7 +166,7 @@ namespace Activator
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Game.PrintChat("Fatal error loading Activator!");
+                Game.PrintChat("<font color=\"#FFF280\">Fatal error loading Activator</font>: " + e.Message);
             }
         }
 
@@ -265,7 +265,7 @@ namespace Activator
                 foreach (var item in GameTroyData.Troys.Where(x => x.ChampionName == i.ChampionName))
                 {
                     TroysInGame = true;
-                    Gametroy.Troys.Add(new Gametroy(i, item.Slot, item.Name, 0, false));
+                    GameTroy.Troys.Add(new GameTroy(i, item.Slot, item.Name, 0, false));
                 }
             }
         }

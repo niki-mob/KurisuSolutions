@@ -9,7 +9,7 @@ namespace Activator.Base
 {
     class Drawings
     {
-        public static void Load()
+        public static void Init()
         {
             Drawing.OnDraw += args =>
             {
