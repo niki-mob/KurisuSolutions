@@ -36,8 +36,12 @@ namespace Activator.Handlers
                         Utility.DelayAction.Add(aura.CleanseTimer,
                             () =>
                             {
-                                hero.ForceQSS = true;
-                                Utility.DelayAction.Add(100, () => hero.ForceQSS = false);
+                                // double check after delay incase we no longer have the buff
+                                if (hero.Player.HasBuff(aura.Name))
+                                {
+                                    hero.ForceQSS = true;
+                                    Utility.DelayAction.Add(100, () => hero.ForceQSS = false);
+                                }
                             });
                     }
 
@@ -45,9 +49,13 @@ namespace Activator.Handlers
                     {
                         Utility.DelayAction.Add(aura.EvadeTimer,
                             () =>
-                            {
-                                hero.HitTypes.Add(HitType.Ultimate);
-                                Utility.DelayAction.Add(100, () => hero.HitTypes.Remove(HitType.Ultimate));
+                            {                                
+                                // double check after delay incase we no longer have the buff
+                                if (hero.Player.HasBuff(aura.Name))
+                                {
+                                    hero.HitTypes.Add(HitType.Ultimate);
+                                    Utility.DelayAction.Add(100, () => hero.HitTypes.Remove(HitType.Ultimate));
+                                }
                             });
                     }
 

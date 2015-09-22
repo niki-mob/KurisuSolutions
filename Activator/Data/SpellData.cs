@@ -337,6 +337,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R,
                 CastRange = 625f,
                 Delay = 250f,
+                Priority = 2,
                 HitType = new HitType[] { },
                 MissileSpeed = int.MaxValue
             });
@@ -449,6 +450,7 @@ namespace Activator.Data
                 CastRange = 20000f,
                 Global = true,
                 Delay = 250f,
+                Priority = 3,
                 HitType =
                     new[]
                     {
@@ -466,6 +468,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Q,
                 CastRange = 875f,
                 Delay = 250f,
+                Priority = 2,
                 HitType = new[] {Base.HitType.CrowdControl },
                 MissileName = "azirsoldiermissile",
                 FromObject = new []{ "AzirSoldier" },

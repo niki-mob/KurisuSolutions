@@ -179,6 +179,7 @@ namespace Activator.Data
                 ChampionName = "FiddleSticks",
                 Radius = 450f,
                 Slot = SpellSlot.R,
+                DelayFromStart = 500,
                 HitType =
                     new[]
                     {
