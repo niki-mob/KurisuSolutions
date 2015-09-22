@@ -11,6 +11,7 @@ namespace KurisuDarius
     {
         internal static Menu Config;
         internal static SpellSlot Ignite;
+        internal static int LastGrabTimeStamp;
         internal static HpBarIndicator HPi = new HpBarIndicator();
         internal static Orbwalking.Orbwalker Orbwalker;
 
@@ -49,8 +50,10 @@ namespace KurisuDarius
             Config.AddSubMenu(cmenu);
 
             var kmenu = new Menu(":: Miscellaneous", "kmenu");
-            kmenu.AddItem(new MenuItem("ksr", "Kill Secure R")).SetValue(true);
-            kmenu.AddItem(new MenuItem("eeee", "Use Advance E Logic (BETA)")).SetValue(false);
+            kmenu.AddItem(new MenuItem("ksr", "Auto R on killable targets")).SetValue(true);
+            kmenu.AddItem(new MenuItem("wwww", "Don't W slowed targets")).SetValue(false);
+            kmenu.AddItem(new MenuItem("iiii", "Use Hydra/Tiamat/Titanic")).SetValue(true);
+            kmenu.AddItem(new MenuItem("eeee", "Use advance E logic (beta)")).SetValue(false);
             kmenu.AddItem(new MenuItem("ksr1", "Use early if target will bleed to death (1v1)")).SetValue(false);
             kmenu.AddItem(new MenuItem("rmodi", "Adjust ult damage (Less if target doesnt die)")).SetValue(new Slider(0, -250, 250));
             Config.AddSubMenu(kmenu);
@@ -77,11 +80,17 @@ namespace KurisuDarius
 
             Obj_AI_Base.OnProcessSpellCast += (sender, args) =>
             {
+                if (sender.IsMe && args.SData.Name == "DariusAxeGrabCone")
+                    LastGrabTimeStamp = Utils.GameTimeTickCount;
+
                 if (sender.IsMe && args.SData.Name == "DariusCleave")
                     Utility.DelayAction.Add(Game.Ping + 800, Orbwalking.ResetAutoAttackTimer);
 
                 if (sender.IsMe && args.SData.Name == "DariusAxeGrabCone")
                     Utility.DelayAction.Add(Game.Ping + 100, Orbwalking.ResetAutoAttackTimer);
+
+                if (sender.IsMe && args.SData.Name == "DariusExecute")
+                    Utility.DelayAction.Add(Game.Ping + 300, Orbwalking.ResetAutoAttackTimer);
             };
         }
 
@@ -158,8 +167,20 @@ namespace KurisuDarius
             {
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                 {
-                    if (!hero.HasBuffOfType(BuffType.Slow))
-                        KL.Spellbook["W"].Cast();
+                    if (!hero.HasBuffOfType(BuffType.Slow) || !Config.Item("wwww").GetValue<bool>())
+                         KL.Spellbook["W"].Cast();
+
+                    if (KL.Spellbook["W"].IsReady() || !Config.Item("iiii").GetValue<bool>())
+                        return;
+
+                    if (Items.CanUseItem(3077) || 
+                        Items.CanUseItem(3074) ||
+                        Items.CanUseItem(3748))
+                    {
+                        Items.UseItem(3074);
+                        Items.UseItem(3077);
+                        Items.CanUseItem(3748);
+                    }
                 }
             }
         }
@@ -226,6 +247,13 @@ namespace KurisuDarius
                 unit.Distance(KL.Player.ServerPosition) <= 200)
                 return false;
 
+            if (Utils.GameTimeTickCount - LastGrabTimeStamp < 250)
+                return false;
+
+            if (KL.Spellbook["W"].IsReady() && KL.Player.HasBuff("DariusNoxonTactictsONH") &&
+                unit.Distance(KL.Player.ServerPosition) <= 205)
+                return false;
+
             if (KL.Player.Distance(unit.ServerPosition) < 175)
                 return false;
 
@@ -285,8 +313,11 @@ namespace KurisuDarius
                 var etarget = TargetSelector.GetTarget(KL.Spellbook["E"].Range, TargetSelector.DamageType.Physical);
                 if (etarget.IsValidTarget() && CanE(etarget))
                 {
-                    if (etarget.Distance(KL.Player.ServerPosition) > 270)
+                    if (etarget.Distance(KL.Player.ServerPosition) > 250)
                     {
+                        if (KL.Player.GetAutoAttackDamage(etarget) * 3 >= etarget.Health)
+                            KL.Spellbook["E"].Cast(etarget.ServerPosition);
+
                         if (KL.Spellbook["Q"].IsReady() || KL.Spellbook["W"].IsReady())
                             KL.Spellbook["E"].Cast(etarget.ServerPosition);
                     }           

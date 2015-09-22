@@ -12,7 +12,7 @@ namespace KurisuDarius
         internal static Dictionary<int, Obj_AI_Turret> TurretCache = new Dictionary<int, Obj_AI_Turret>();
         internal static Dictionary<string, Spell> Spellbook = new Dictionary<string, Spell>
         {
-            { "Q", new Spell(SpellSlot.Q, 425f) },
+            { "Q", new Spell(SpellSlot.Q, 450f) },
             { "W", new Spell(SpellSlot.W, 200f) },
             { "E", new Spell(SpellSlot.E, 490f) },
             { "R", new Spell(SpellSlot.R, 460f) }
