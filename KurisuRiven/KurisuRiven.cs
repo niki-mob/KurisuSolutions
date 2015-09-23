@@ -666,9 +666,9 @@ namespace KurisuRiven
                 if (canq) q.Cast(target.ServerPosition);
             }
 
-            else if (target.Distance(player.ServerPosition) > truerange + 100 && !e.IsReady())
+            else if (target.Distance(player.ServerPosition) > truerange + 150)
             {
-                if (menubool("usegap") && (!r.IsReady() || uo))
+                if (menubool("usegap"))
                 {
                     if (Utils.GameTimeTickCount - lastq >= menuslide("gaptimez") * 10)
                     {
@@ -806,7 +806,7 @@ namespace KurisuRiven
                             }
                         }
 
-                        var cx = 4 - cc;
+
                         if (r.GetDamage(riventarget()) / riventarget().MaxHealth * 100 >= 50)
                         {
                             if (r.GetPrediction(riventarget(), true).Hitchance >= HitChance.Medium && canws)
@@ -816,6 +816,9 @@ namespace KurisuRiven
                         if (q.IsReady())
                         {
                             // teh bro logic
+                            var cx = 4 - cc <= 1 ? 2 : cc;
+
+                            // more bro logic
                             var cy = r.GetDamage(riventarget()) + 
                                      player.GetAutoAttackDamage(riventarget()) * 2 + Qdmg(riventarget()) * cx;
 
