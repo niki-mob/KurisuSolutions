@@ -44,7 +44,7 @@ namespace Activator.Summoners
                 if (tar.Player.IsZombie || tar.Player.HasBuff("summonerdot")) 
                     continue;
 
-                if (!Parent.Item(Parent.Name + "useon" + tar.Player.ChampionName).GetValue<bool>())
+                if (!Parent.Item(Parent.Name + "useon" + tar.Player.NetworkId).GetValue<bool>())
                     continue;
 
                 // ignite damagerino
