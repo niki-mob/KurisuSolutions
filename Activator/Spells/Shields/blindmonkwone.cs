@@ -48,7 +48,7 @@ namespace Activator.Spells.Shields
 
             foreach (var hero in Activator.Allies())
             {                    
-                if (!Parent.Item(Parent.Name + "useon" + hero.Player.ChampionName).GetValue<bool>())
+                if (!Parent.Item(Parent.Name + "useon" + hero.Player.NetworkId).GetValue<bool>())
                     continue;
 
                 if (Player.GetSpell(SpellSlot.W).Name.ToLower() != "blindmonkwone")

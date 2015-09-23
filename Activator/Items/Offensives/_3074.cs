@@ -70,7 +70,7 @@ namespace Activator.Items.Offensives
             var hero = target as Obj_AI_Hero;
             if (hero.IsValidTarget(Range))
             {
-                if (!Parent.Item(Parent.Name + "useon" + hero.ChampionName).GetValue<bool>())
+                if (!Parent.Item(Parent.Name + "useon" + hero.NetworkId).GetValue<bool>())
                     return;
 
                 if (hero.Health / hero.MaxHealth * 100 <= Menu.Item("enemylowhp" + Name + "pct").GetValue<Slider>().Value)

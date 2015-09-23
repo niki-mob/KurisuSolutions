@@ -41,7 +41,7 @@ namespace Activator.Summoners
                 if (hero.Player.NetworkId != Player.NetworkId)
                     continue;
 
-                if (!Parent.Item(Parent.Name + "useon" + hero.Player.ChampionName).GetValue<bool>())
+                if (!Parent.Item(Parent.Name + "useon" + hero.Player.NetworkId).GetValue<bool>())
                     continue;
 
                 if (hero.Player.Health / hero.Player.MaxHealth * 100 <=

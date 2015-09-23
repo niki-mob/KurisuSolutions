@@ -295,7 +295,7 @@ namespace Activator
             foreach (var hero in both ? HeroManager.AllHeroes : enemy ? HeroManager.Enemies : HeroManager.Allies)
             {
                 var side = hero.Team == Player.Team ? "[Ally]" : "[Enemy]";
-                menu.AddItem(new MenuItem(parent.Name + "useon" + hero.ChampionName,
+                menu.AddItem(new MenuItem(parent.Name + "useon" + hero.NetworkId,
                     "Use for " + hero.ChampionName + " " + side).DontSave()).SetValue(true);
             }
 
