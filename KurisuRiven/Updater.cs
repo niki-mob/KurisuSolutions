@@ -40,9 +40,9 @@ namespace KurisuRiven
                                 if (gitVersion != Program.Version)
                                 {
                                     Game.PrintChat("<b>Kurisu's Riven</b> - Outdated & newer version available!");
-                                    Game.PrintChat("<font color=\"#FF6666\">- Fixed E=>W in Jungleclear");
-                                    Game.PrintChat("<font color=\"#FF6666\">- Added AoE Q farm as higher priority in Laneclear");
-                                    Game.PrintChat("<font color=\"#FF6666\">- Added Ward + Q3 to Flee");
+                                    Game.PrintChat("<font color=\"#FF6666\">- Fixed Gapclose Q.");
+                                    Game.PrintChat("<font color=\"#FF6666\">- Fixed some bugs with R2.");
+                                    Game.PrintChat("<font color=\"#FF6666\">- Fixed some Semi-Q stuff.");
                                 }
                             }
                         }

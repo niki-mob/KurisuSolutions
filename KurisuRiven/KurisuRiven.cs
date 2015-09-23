@@ -403,7 +403,7 @@ namespace KurisuRiven
             keybinds.AddItem(new MenuItem("fleekey", "Flee")).SetValue(new KeyBind(65, KeyBindType.Press));
             keybinds.AddItem(new MenuItem("shycombo", "Shy Burst")).SetValue(new KeyBind('T', KeyBindType.Press));
 
-            var mitem = new MenuItem("semiqlane", "Use Semi-Q Laneclear");
+            var mitem = new MenuItem("semiqlane", "Semi-Q Minion/Turret (Hold)");
             mitem.ValueChanged += (sender, args) =>
             {
                 if (menu.Item("Farm").GetValue<KeyBind>().Key == args.GetNewValue<KeyBind>().Key ||
@@ -806,23 +806,19 @@ namespace KurisuRiven
                             }
                         }
 
-
                         if (r.GetDamage(riventarget()) / riventarget().MaxHealth * 100 >= 50)
                         {
                             if (r.GetPrediction(riventarget(), true).Hitchance >= HitChance.Medium && canws)
                                 r.Cast(r.GetPrediction(riventarget(), true).CastPosition);
                         }
 
-                        if (q.IsReady())
+                        if (q.IsReady() && cc <= 2)
                         {
-                            // teh bro logic
-                            var cx = 4 - cc == 0 ? 2 : cc;
+                            var damage = r.GetDamage(riventarget()) 
+                                + player.GetAutoAttackDamage(riventarget()) * 2 
+                                + Qdmg(riventarget()) * 2;
 
-                            // more bro logic
-                            var cy = r.GetDamage(riventarget()) + 
-                                     player.GetAutoAttackDamage(riventarget()) * 2 + Qdmg(riventarget()) * cx;
-
-                            if (riventarget().Health <= xtra((float) cy))
+                            if (riventarget().Health <= xtra((float) damage))
                             {
                                 if (riventarget().Distance(player.ServerPosition) <= truerange + q.Range)
                                 {
@@ -1007,54 +1003,57 @@ namespace KurisuRiven
 
         #endregion
 
-        #region Riven: SemiQ 
+        #region Riven: Semi Q 
 
         private static void SemiQ()
         {
-            if (canq && Utils.GameTimeTickCount - lastaa >= 150 && menubool("semiq"))
+            if (canq && Utils.GameTimeTickCount - lastaa >= 150)
             {
-                if (q.IsReady() && Utils.GameTimeTickCount - lastaa < 1200 && qtarg != null)
+                if (menubool("semiq") || menu.Item("semiqlane").GetValue<KeyBind>().Active)
                 {
-                    if (qtarg.IsValidTarget(q.Range + 100) &&
-                       !menu.Item("clearkey").GetValue<KeyBind>().Active &&
-                       !menu.Item("harasskey").GetValue<KeyBind>().Active &&
-                       !menu.Item("combokey").GetValue<KeyBind>().Active &&
-                       !menu.Item("shycombo").GetValue<KeyBind>().Active)
+                    if (q.IsReady() && Utils.GameTimeTickCount - lastaa < 1200 && qtarg != null)
                     {
-                        if (qtarg.IsValid<Obj_AI_Hero>())
-                            q.Cast(qtarg.ServerPosition);
-                    }
-
-                    if (!menu.Item("harasskey").GetValue<KeyBind>().Active &&
-                        !menu.Item("clearkey").GetValue<KeyBind>().Active &&
-                        !menu.Item("combokey").GetValue<KeyBind>().Active &&
-                        !menu.Item("shycombo").GetValue<KeyBind>().Active)
-                    {
-                        if (qtarg.IsValidTarget(q.Range + 100) && !qtarg.Name.Contains("Mini"))
+                        if (qtarg.IsValidTarget(q.Range + 100) &&
+                            !menu.Item("clearkey").GetValue<KeyBind>().Active &&
+                            !menu.Item("harasskey").GetValue<KeyBind>().Active &&
+                            !menu.Item("combokey").GetValue<KeyBind>().Active &&
+                            !menu.Item("shycombo").GetValue<KeyBind>().Active)
                         {
-                            if (!qtarg.Name.StartsWith("Minion") && minionlist.Any(name => qtarg.Name.StartsWith(name)))
-                            {
+                            if (qtarg.IsValid<Obj_AI_Hero>())
                                 q.Cast(qtarg.ServerPosition);
-                            }
                         }
 
-                        if (qtarg.IsValidTarget(q.Range + 100))
+                        if (!menu.Item("harasskey").GetValue<KeyBind>().Active &&
+                            !menu.Item("clearkey").GetValue<KeyBind>().Active &&
+                            !menu.Item("combokey").GetValue<KeyBind>().Active &&
+                            !menu.Item("shycombo").GetValue<KeyBind>().Active)
                         {
-                            if (qtarg.IsValid<Obj_AI_Minion>() || qtarg.IsValid<Obj_AI_Turret>())
+                            if (qtarg.IsValidTarget(q.Range + 100) && !qtarg.Name.Contains("Mini"))
                             {
-                                if (menu.Item("semiqlane").GetValue<KeyBind>().Active)
+                                if (!qtarg.Name.StartsWith("Minion") && minionlist.Any(name => qtarg.Name.StartsWith(name)))
+                                {
                                     q.Cast(qtarg.ServerPosition);
+                                }
                             }
 
-                            if (qtarg.IsValid<Obj_AI_Hero>() || qtarg.IsValid<Obj_AI_Turret>())
+                            if (qtarg.IsValidTarget(q.Range + 100))
                             {
-                                if (uo)
-                                    q.Cast(qtarg.ServerPosition);
+                                if (qtarg.IsValid<Obj_AI_Minion>() || qtarg.IsValid<Obj_AI_Turret>())
+                                {
+                                    if (menu.Item("semiqlane").GetValue<KeyBind>().Active)
+                                        q.Cast(qtarg.ServerPosition);
+                                }
+
+                                if (qtarg.IsValid<Obj_AI_Hero>() || qtarg.IsValid<Obj_AI_Turret>())
+                                {
+                                    if (uo)
+                                        q.Cast(qtarg.ServerPosition);
+                                }
                             }
                         }
                     }
                 }
-            }        
+            }
         }
 
         #endregion
