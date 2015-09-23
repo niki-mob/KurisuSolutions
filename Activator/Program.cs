@@ -127,7 +127,7 @@ namespace Activator
                 Projections.Init();
 
                 // tracks dangerous or lethal auras
-                Auras.StartOnUpdate();
+                Buffs.StartOnUpdate();
 
                 // tracks "troys" that belong to heroes such as viktors ult
                 Gametroys.StartOnUpdate();

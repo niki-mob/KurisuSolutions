@@ -77,7 +77,7 @@ namespace Activator.Items.Cleansers
                         hero.QSSHighestBuffTime = 0;
                     }
 
-                    Auras.CheckMercurial(hero.Player);
+                    Buffs.CheckMercurial(hero.Player);
 
                     if (hero.MercurialBuffCount >= Menu.Item("use" + Name + "number").GetValue<Slider>().Value &&
                         hero.MercurialHighestBuffTime >= Menu.Item("use" + Name + "time").GetValue<Slider>().Value)

@@ -77,7 +77,7 @@ namespace Activator.Items.Cleansers
                         hero.QSSHighestBuffTime = 0;
                     }
 
-                    Auras.CheckDervish(hero.Player);
+                    Buffs.CheckDervish(hero.Player);
 
                     if (hero.DervishBuffCount >= Menu.Item("use" + Name + "number").GetValue<Slider>().Value &&
                         hero.DervishHighestBuffTime >= Menu.Item("use" + Name + "time").GetValue<Slider>().Value)

@@ -3,7 +3,7 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	Handlers/Auras.cs
+// Document:	Handlers/Buffs.cs
 // Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
@@ -18,7 +18,7 @@ using LeagueSharp.Common;
 
 namespace Activator.Handlers
 {
-    public static class Auras
+    public static class Buffs
     {
         public static void StartOnUpdate()
         {
@@ -29,7 +29,7 @@ namespace Activator.Handlers
         {
             foreach (var hero in Activator.Allies())
             {
-                foreach (var aura in AuraData.Auras.Where(au => hero.Player.HasBuff(au.Name)))
+                foreach (var aura in BuffData.BuffList.Where(au => hero.Player.HasBuff(au.Name)))
                 {
                     if (aura.Cleanse)
                     {
@@ -248,6 +248,7 @@ namespace Activator.Handlers
         internal static IEnumerable<BuffInstance> GetAuras(Obj_AI_Hero player, string itemname)
         {
             return player.Buffs.Where(buff => 
+                !BuffData.BuffList.Any(b => buff.Name.ToLower() == b.Name && b.QssIgnore) &&
                    (buff.Type == BuffType.Snare &&
                     Activator.Origin.Item(itemname + "csnare").GetValue<bool>() ||
                     buff.Type == BuffType.Charm &&

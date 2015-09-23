@@ -78,7 +78,7 @@ namespace Activator.Items.Cleansers
                     hero.QSSHighestBuffTime = 0;
                 }
 
-                Auras.CheckMikaels(hero.Player);
+                Buffs.CheckMikaels(hero.Player);
 
                 if (hero.MikaelsBuffCount >= Menu.Item("use" + Name + "number").GetValue<Slider>().Value &&
                     hero.MikaelsHighestBuffTime >= Menu.Item("use" + Name + "time").GetValue<Slider>().Value)

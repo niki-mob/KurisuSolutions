@@ -3,7 +3,7 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	Data/AuraData.cs
+// Document:	Data/BuffData.cs
 // Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace Activator.Data
 {
-    public class AuraData
+    public class BuffData
     {
         public string Name { get; set; }
         public bool Evade { get; set; }
@@ -30,11 +30,35 @@ namespace Activator.Data
         public bool Included { get; set; }
         public Obj_AI_Hero Sender { get; set; }
 
-        public static List<AuraData> Auras = new List<AuraData>();
+        public static List<BuffData> BuffList = new List<BuffData>();
 
-        static AuraData()
+        static BuffData()
         {
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
+            {
+                Name = "virknockup",
+                Evade =  true,
+                DoT = true,
+                EvadeTimer = 0,
+                Cleanse = false,
+                CleanseTimer = 0,
+                Slot = SpellSlot.Unknown,
+                Interval = 1.0
+            });
+
+            BuffList.Add(new BuffData
+            {
+                Name = "itemsmitechallenge",
+                Evade = false,
+                DoT = true,
+                EvadeTimer = 0,
+                Cleanse = true,
+                CleanseTimer = 100,
+                Slot = SpellSlot.Unknown,
+                Interval = 1.0
+            });
+
+            BuffList.Add(new BuffData
             {
                 Name = "gangplankpassiveattackdot",
                 Evade = false,
@@ -46,7 +70,7 @@ namespace Activator.Data
                 Interval = .8
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "bantamtraptarget",
                 Evade = false,
@@ -58,7 +82,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "toxicshotparticle",
                 Evade = false,
@@ -70,7 +94,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "talonbleeddebuf",
                 Evade = false,
@@ -82,7 +106,7 @@ namespace Activator.Data
                 Interval = .8
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "alzaharmaleficvisions",
                 Evade = false,
@@ -94,7 +118,7 @@ namespace Activator.Data
                 Interval = .8
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "drainchannel",
                 Evade = false,
@@ -106,7 +130,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "hecarimdefilelifeleech",
                 Evade = false,
@@ -118,7 +142,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "swaintorment",
                 Evade = false,
@@ -130,7 +154,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "brandablaze",
                 Evade = false,
@@ -142,7 +166,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "fizzseastonetrident",
                 Evade = false,
@@ -154,7 +178,7 @@ namespace Activator.Data
                 Interval = .8
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "tristanachargesound",
                 Evade = false,
@@ -166,7 +190,7 @@ namespace Activator.Data
                 Interval = 4.0
             });
             
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "dariushemo",
                 Evade = false,
@@ -178,7 +202,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "bushwackdamage",
                 Evade = false,
@@ -190,7 +214,7 @@ namespace Activator.Data
                 Interval = .8
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "suppression",
                 Evade = false,
@@ -202,7 +226,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "shyvanaimmolationaura",
                 Evade = false,
@@ -214,7 +238,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "missfortunescattershotslow",
                 Evade = false,
@@ -226,7 +250,7 @@ namespace Activator.Data
                 Interval = 0.8
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "missfortunepassivestack",
                 Evade = false,
@@ -238,7 +262,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "shyvanaimmolatedragon",
                 Evade = false,
@@ -250,7 +274,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "zileanqenemybomb",
                 Evade = false,
@@ -262,7 +286,7 @@ namespace Activator.Data
                 Interval = 3.8
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "monkeykingspintowin",
                 Evade = false,
@@ -274,7 +298,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "zacr",
                 Evade = true,
@@ -287,7 +311,7 @@ namespace Activator.Data
 
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "mordekaiserchildrenofthegrave",
                 Evade = false,
@@ -299,7 +323,7 @@ namespace Activator.Data
                 Interval = 1.5
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "summonerdot",
                 Evade = false,
@@ -311,7 +335,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "burningagony",
                 Evade = false,
@@ -323,7 +347,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "garene",
                 Evade = false,
@@ -335,7 +359,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "auraofdespair",
                 Evade = false,
@@ -347,7 +371,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "hecarimw",
                 Evade = false,
@@ -359,7 +383,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "bruammark",
                 Evade = false,
@@ -370,7 +394,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Q
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "zedulttargetmark",
                 Evade = true,
@@ -381,7 +405,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "fallenonetarget",
                 Evade = true,
@@ -392,7 +416,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "karthusfallenonetarget",
                 Evade = true,
@@ -403,7 +427,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "fizzmarinerdoombomb",
                 Evade = false,
@@ -414,7 +438,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "soulshackles",
                 Evade = true,
@@ -426,7 +450,7 @@ namespace Activator.Data
                 Interval = 3.9
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "varusrsecondary",
                 Evade = false,
@@ -437,7 +461,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "caitlynaceinthehole",
                 Evade = true,
@@ -448,7 +472,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "vladimirhemoplague",
                 Evade = true,
@@ -459,7 +483,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "urgotswap2",
                 Evade = false,
@@ -470,7 +494,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "skarnerimpale",
                 Evade = false,
@@ -482,7 +506,7 @@ namespace Activator.Data
             });
 
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "poppydiplomaticimmunity",
                 Evade = false,
@@ -493,7 +517,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "blindmonkqonechaos",
                 Evade = false,
@@ -504,7 +528,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Q
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "leblancsoulshackle",
                 Evade = false,
@@ -515,7 +539,7 @@ namespace Activator.Data
                 Slot = SpellSlot.E
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "leblancsoulshacklem",
                 Evade = true,
@@ -526,7 +550,7 @@ namespace Activator.Data
                 Slot = SpellSlot.E
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "vir",
                 Evade = false,
@@ -538,7 +562,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "virknockup",
                 Evade = false,
@@ -550,7 +574,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "yasuorknockupcombo",
                 Evade = false,
@@ -562,7 +586,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "yasuorknockupcombotar",
                 Evade = false,
@@ -574,7 +598,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "zyrabramblezoneknockup",
                 Evade = false,
@@ -586,7 +610,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "frozenheartaura",
                 Evade = false,
@@ -598,7 +622,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "dariusaxebrabcone",
                 Evade = false,
@@ -610,7 +634,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "frozenheartauracosmetic",
                 Evade = false,
@@ -622,7 +646,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "itemsunfirecapeaura",
                 Evade = false,
@@ -635,7 +659,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "fizzmoveback",
                 Evade = false,
@@ -647,7 +671,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "blessingofthelizardelderslow",
                 Evade = false,
@@ -660,7 +684,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "dragonburning",
                 Evade = false,
@@ -672,7 +696,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "rocketgrab2",
                 Evade = false,
@@ -684,19 +708,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
-            {
-                Name = "monkeykingspinknockup",
-                Evade = false,
-                DoT = false,
-                Cleanse = false,
-                CleanseTimer = 0,
-                EvadeTimer = 0,
-                QssIgnore = true,
-                Slot = SpellSlot.Unknown
-            });
-
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "frostarrow",
                 Evade = false,
@@ -708,7 +720,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Unknown
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
             {
                 Name = "Pulverize",
                 Evade = false,
@@ -720,7 +732,19 @@ namespace Activator.Data
                 Slot = SpellSlot.Q
             });
 
-            Auras.Add(new AuraData
+            BuffList.Add(new BuffData
+            {
+                Name = "monkeykingspinknockup",
+                Evade = false,
+                DoT = false,
+                Cleanse = false,
+                CleanseTimer = 0,
+                EvadeTimer = 0,
+                QssIgnore = true,
+                Slot = SpellSlot.Unknown
+            });
+
+            BuffList.Add(new BuffData
             {
                 Name = "headbutttarget",
                 Evade = false,
@@ -729,8 +753,33 @@ namespace Activator.Data
                 CleanseTimer = 0,
                 EvadeTimer = 0,
                 QssIgnore = true,
-                Slot = SpellSlot.Q
+                Slot = SpellSlot.W
             });
+
+            BuffList.Add(new BuffData
+            {
+                Name = "hecarimrampstuncheck",
+                Evade = false,
+                DoT = false,
+                Cleanse = false,
+                CleanseTimer = 0,
+                EvadeTimer = 0,
+                QssIgnore = true,
+                Slot = SpellSlot.Unknown
+            });
+
+            BuffList.Add(new BuffData
+            {
+                Name = "hecarimrampattackknockback",
+                Evade = false,
+                DoT = false,
+                Cleanse = false,
+                CleanseTimer = 0,
+                EvadeTimer = 0,
+                QssIgnore = true,
+                Slot = SpellSlot.Unknown
+            });
+        
         }
     }
 }

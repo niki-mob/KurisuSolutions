@@ -77,7 +77,7 @@ namespace Activator.Items.Cleansers
                         hero.QSSHighestBuffTime = 0;
                     }
 
-                    Auras.CheckQSS(hero.Player);
+                    Buffs.CheckQSS(hero.Player);
 
                     if (hero.QSSBuffCount >= Menu.Item("use" + Name + "number").GetValue<Slider>().Value &&
                         hero.QSSHighestBuffTime >= Menu.Item("use" + Name + "time").GetValue<Slider>().Value)
