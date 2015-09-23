@@ -816,7 +816,7 @@ namespace KurisuRiven
                         if (q.IsReady())
                         {
                             // teh bro logic
-                            var cx = 4 - cc <= 1 ? 2 : cc;
+                            var cx = 4 - cc == 0 ? 2 : cc;
 
                             // more bro logic
                             var cy = r.GetDamage(riventarget()) + 
@@ -824,7 +824,7 @@ namespace KurisuRiven
 
                             if (riventarget().Health <= xtra((float) cy))
                             {
-                                if (riventarget().Distance(player.ServerPosition) <= truerange + q.Range * cx)
+                                if (riventarget().Distance(player.ServerPosition) <= truerange + q.Range)
                                 {
                                     if (r.GetPrediction(riventarget(), true).Hitchance >= HitChance.High && canws)
                                         r.Cast(r.GetPrediction(riventarget(), true).CastPosition);
