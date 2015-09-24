@@ -63,7 +63,7 @@ namespace Activator.Summoners
                     if (hero.IncomeDamage > 0 && hero.HitTypes.Contains(HitType.Ultimate))
                     {
                         if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >= 45 ||
-                            hero.Player.Health / hero.Player.MaxHealth * 100 <= 35 ||
+                            hero.Player.Health / hero.Player.MaxHealth * 100 <= 50 ||
                             hero.IncomeDamage >= hero.Player.Health)
                         {
                             UseSpellOn(enemy);            

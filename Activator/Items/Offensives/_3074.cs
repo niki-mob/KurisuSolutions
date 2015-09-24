@@ -64,6 +64,9 @@ namespace Activator.Items.Offensives
 
         private void Orbwalking_AfterAttack(AttackableUnit unit, AttackableUnit target)
         {
+            if (Player.ChampionName == "Riven")
+                return;
+
             if (!Menu.Item("use" + Name).GetValue<bool>() || !IsReady())
                 return;
 
@@ -87,6 +90,7 @@ namespace Activator.Items.Offensives
 
         public override void OnTick(EventArgs args)
         {
+
         }
     }
 }
