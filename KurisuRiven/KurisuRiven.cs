@@ -849,7 +849,24 @@ namespace KurisuRiven
             {
                 OrbTo(unit);
 
-                if (q.IsReady() && canq && menubool("usejungleq"))
+                if (e.IsReady() && cane && menubool("usejunglee"))
+                {
+                    if (player.Health / player.MaxHealth * 100 <= 70 ||
+                        unit.Distance(player.ServerPosition) > truerange + 30)
+                    {
+                        e.Cast(unit.ServerPosition);
+                    }
+                }
+
+                else if (w.IsReady() && canw && menubool("usejunglew"))
+                {
+                    if (unit.Distance(player.ServerPosition) <= w.Range + 25)
+                    {
+                        w.Cast();
+                    }
+                }
+
+                else if (q.IsReady() && canq && menubool("usejungleq"))
                 {
                     if (unit.Distance(player.ServerPosition) <= q.Range + 100)
                     {
@@ -859,23 +876,6 @@ namespace KurisuRiven
                         }
 
                         q.Cast(unit.ServerPosition);
-                    }
-                }
-
-                if (w.IsReady() && canw && menubool("usejunglew"))
-                {
-                    if (unit.Distance(player.ServerPosition) <= w.Range + 10)
-                    {
-                        w.Cast();
-                    }
-                }
-
-                if (e.IsReady() && cane && menubool("usejunglee"))
-                {
-                    if (player.Health / player.MaxHealth * 100 <= 70 ||
-                        unit.Distance(player.ServerPosition) > truerange + 30)
-                    {
-                        e.Cast(unit.ServerPosition);
                     }
                 }
             }
