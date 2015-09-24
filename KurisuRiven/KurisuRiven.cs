@@ -786,11 +786,9 @@ namespace KurisuRiven
                         }
                     }
 
-                    if (player.GetAutoAttackDamage(t, true) * menuslide("overaa") >= t.Health)
-                    {
-                        if (Orbwalking.InAutoAttackRange(t))
-                            return;
-                    }
+                    if (player.GetAutoAttackDamage(t, true) * menuslide("overaa") >= t.Health &&
+                       (Orbwalking.InAutoAttackRange(t) && player.CountEnemiesInRange(900) > 1)) 
+                        return;
 
                     // only kill or killsteal etc ->
                     if (r.GetDamage(t) >= t.Health && canws)
@@ -959,7 +957,7 @@ namespace KurisuRiven
             if (cc > 2 && didq && Items.GetWardSlot() != null && menubool("wq3"))
             {
                 var attacker = HeroManager.Enemies.FirstOrDefault(x => x.Distance(player.ServerPosition) <= q.Range);
-                if (attacker != null && !player.IsFacing(attacker))
+                if (attacker.IsValidTarget(q.Range) && !player.IsFacing(attacker))
                 {
                     if (Utils.GameTimeTickCount - lastwd >= 1000)
                     {
