@@ -208,7 +208,6 @@ namespace KurisuRiven
             }
         }
 
-
         private static Obj_AI_Hero riventarget()
         {
             var cursortarg = HeroManager.Enemies
@@ -436,11 +435,11 @@ namespace KurisuRiven
             var advance = new Menu("Q Advance Settings", "advance");
             advance.AddItem(new MenuItem("qcancel", "Cancel Direction: "))
                 .SetValue(new StringList(new[] {"Auto", "Behind Me", "Target", "Cursor"}, 1));
-            advance.AddItem(new MenuItem("autoaq", "Can Q Delay (ms)")).SetValue(new Slider(25, -100, 300));
+            advance.AddItem(new MenuItem("autoaq", "Can Q Delay (ms)")).SetValue(new Slider(15, -150, 300));
             advance.AddItem(new MenuItem("qqc", "Test in a summoners rift custom on the Scuttler Crab")).SetFontStyle(FontStyle.Regular, SharpDX.Color.Gold);
             advance.AddItem(new MenuItem("qqa", "Lower = faster Q but may result in more AA cancels"));
             advance.AddItem(new MenuItem("qqb", "Higher = slower Q but less or no AA cancels"));
-            advance.AddItem(new MenuItem("qqd", "Lower your orbwalker radius for a better Q-AA")).SetFontStyle(FontStyle.Regular, SharpDX.Color.Gold);
+            advance.AddItem(new MenuItem("qqd", "Lower your orbwalker hold radius for a better Q-AA")).SetFontStyle(FontStyle.Regular, SharpDX.Color.Gold);
             qmenu.AddSubMenu(advance);
 
             qmenu.AddItem(new MenuItem("wq3", "Ward + Q3 (Flee)")).SetValue(true);
@@ -468,14 +467,16 @@ namespace KurisuRiven
             combo.AddSubMenu(emenu);
 
             var rmenu = new Menu("R  Settings", "rivenr");
+            rmenu.AddItem(new MenuItem("useignote", "Use R1 + Ignite")).SetValue(true);
             rmenu.AddItem(new MenuItem("user", "Use R1 in Combo")).SetValue(new KeyBind('H', KeyBindType.Toggle, true)).Permashow();
-            rmenu.AddItem(new MenuItem("useignote", "Use R + Ignite")).SetValue(true);
-            rmenu.AddItem(new MenuItem("multib", "Flash -> R/W When")).SetValue(new StringList(new [] { "Can Burst Target", "Always", "Dont Flash"}));
-            rmenu.AddItem(new MenuItem("overk", "Dont R if Target HP % <=")).SetValue(new Slider(25, 1, 99));
-            rmenu.AddItem(new MenuItem("userq", "Use R Only if Q Count <=")).SetValue(new Slider(2, 1, 3));
-            rmenu.AddItem(new MenuItem("ultwhen", "Use R When")).SetValue(new StringList(new[] {"Normal Kill", "Hard Kill", "Always"}, 2));
+            rmenu.AddItem(new MenuItem("overk", "Dont R1 if Target HP % <=")).SetValue(new Slider(25, 1, 99));
+            rmenu.AddItem(new MenuItem("userq", "Use R1 Only if Q Count <=")).SetValue(new Slider(2, 1, 3));
+            rmenu.AddItem(new MenuItem("ultwhen", "Use R1 When")).SetValue(new StringList(new[] {"Normal Kill", "Hard Kill", "Always"}, 2));
             rmenu.AddItem(new MenuItem("usews", "Use R2 in Combo")).SetValue(true);
+            rmenu.AddItem(new MenuItem("overaa", "Dont R2 if Target Will Die in AA")).SetValue(new Slider(2, 1, 6));
             rmenu.AddItem(new MenuItem("wsmode", "Use R2 When")).SetValue(new StringList(new[] {"Kill Only", "Kill Or MaxDamage"}, 1));
+            rmenu.AddItem(new MenuItem("multib", "Shy Burst When")).SetValue(new StringList(new[] { "Can Burst Target", "Always", "Dont Flash" }, 1));
+
             combo.AddSubMenu(rmenu);
 
             menu.AddSubMenu(combo);
@@ -505,7 +506,6 @@ namespace KurisuRiven
 
             menu.AddSubMenu(farming);
             menu.AddToMainMenu();
-
         }
 
         #endregion
@@ -784,6 +784,12 @@ namespace KurisuRiven
                         {
                             if (canhd) return;
                         }
+                    }
+
+                    if (player.GetAutoAttackDamage(t, true) * menuslide("overaa") >= t.Health)
+                    {
+                        if (Orbwalking.InAutoAttackRange(t))
+                            return;
                     }
 
                     // only kill or killsteal etc ->
@@ -1077,8 +1083,11 @@ namespace KurisuRiven
                     if (heroes.Count(ene => ene.Distance(player.ServerPosition) <= 750) > 1)
                         r.Cast();
 
-                    if (heroes.Count() < 2 && target.Health/target.MaxHealth*100 <= menuslide("overk"))
-                        return;
+                    if (heroes.Count() < 2)
+                    {
+                        if (target.Health / target.MaxHealth * 100 <= menuslide("overk") && IsLethal(target))
+                            return;
+                    }
 
                     if (menulist("ultwhen") == 0)
                     {
@@ -1088,7 +1097,6 @@ namespace KurisuRiven
                         }
                     }
 
-                    // hard kill ->
                     if (menulist("ultwhen") == 1)
                     {
                         if (ComboDamage(target) >= target.Health && target.Health >= ComboDamage(target)/1.8)
@@ -1583,7 +1591,6 @@ namespace KurisuRiven
 
             if (didaa)
             {
-
                 if (Utils.GameTimeTickCount - lastaa >= 25 + (player.AttackDelay *100) + Game.Ping/2 + menuslide("autoaq"))
                 {
                     didaa = false;
