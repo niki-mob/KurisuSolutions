@@ -40,9 +40,6 @@ namespace KurisuRiven
                                 if (gitVersion != Program.Version)
                                 {
                                     Game.PrintChat("<b>Kurisu's Riven</b> - Outdated & newer version available!");
-                                    Game.PrintChat("<font color=\"#FF6666\">- R1 Overkill tweaks");
-                                    Game.PrintChat("<font color=\"#FF6666\">- Added Dont R2 if will die in X attacks.");
-                                    Game.PrintChat("<font color=\"#FF6666\">- R Menu Updates (More Clear & Logical).");
                                 }
                             }
                         }
