@@ -55,7 +55,7 @@ namespace Activator.Summoners
                     UseSpellOn(enemy);
                 }
 
-                if (!Parent.Item(Parent.Name + "useon" + enemy.ChampionName).GetValue<bool>())
+                if (!Parent.Item(Parent.Name + "useon" + enemy.NetworkId).GetValue<bool>())
                     continue;
  
                 if (Menu.Item("use" + Name + "ulti").GetValue<bool>())
