@@ -228,13 +228,10 @@ namespace KurisuRiven
             {
                 if (sender.IsMe && !args.IsDash)
                 {
-                    if (args.Path.Count() > 1)
-                    {
-                        canmv = true;
-                        canaa = true;
-                    }
+                    if (!canmv)
+                         didaa = false;
 
-                    if (didq)
+                    if (args.Path.Count() > 1 || didq)
                     {
                         didq = false;
                         canmv = true;
@@ -278,6 +275,14 @@ namespace KurisuRiven
 
             else
                 _sh = null;
+
+            if (didq && !canmv)
+            {
+                if (orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                {
+                    player.IssueOrder(GameObjectOrder.MoveTo, movepos);
+                }
+            }
 
             // riven w range
             wrange = uo ? w.Range + 25 : w.Range;
@@ -434,7 +439,7 @@ namespace KurisuRiven
             var qmenu = new Menu("Q  Settings", "rivenq");
             var advance = new Menu("Q Advance Settings", "advance");
             advance.AddItem(new MenuItem("qcancel", "Cancel Direction: "))
-                .SetValue(new StringList(new[] {"Auto", "Behind Me", "Target", "Cursor"}, 1));
+                .SetValue(new StringList(new[] {"Auto", "Behind Me", "Target", "Cursor"}, 0));
             advance.AddItem(new MenuItem("autoaq", "Can Q Delay (ms)")).SetValue(new Slider(15, -150, 300));
             advance.AddItem(new MenuItem("qqc", "Test in a summoners rift custom on the Scuttler Crab")).SetFontStyle(FontStyle.Regular, SharpDX.Color.Gold);
             advance.AddItem(new MenuItem("qqa", "Lower = faster Q but may result in more AA cancels"));
@@ -582,6 +587,8 @@ namespace KurisuRiven
             // ignite ->
             TryIgnote(target);
 
+            var outrange = e.IsReady() ? e.Range + w.Range + 50 : w.Range + q.Range + 50;
+
             if (e.IsReady() && cane && player.Health / player.MaxHealth * 100 <= menuslide("vhealth") && target.Distance(player.ServerPosition) <=
                 e.Range + w.Range - 25 || e.IsReady() && cane && target.Distance(player.ServerPosition) <= 
                 e.Range + w.Range - 25 && target.Distance(player.ServerPosition) > truerange ||
@@ -666,7 +673,7 @@ namespace KurisuRiven
                 if (canq) q.Cast(target.ServerPosition);
             }
 
-            else if (target.Distance(player.ServerPosition) > truerange + 150)
+            else if (target.Distance(player.ServerPosition) > outrange)
             {
                 if (menubool("usegap"))
                 {
@@ -868,7 +875,7 @@ namespace KurisuRiven
 
                 else if (q.IsReady() && canq && menubool("usejungleq"))
                 {
-                    if (unit.Distance(player.ServerPosition) <= q.Range + 100)
+                    if (unit.Distance(player.ServerPosition) <= truerange + q.Range)
                     {
                         if (menulist("emode") == 0)
                         {
@@ -1154,7 +1161,6 @@ namespace KurisuRiven
                     return;
                 }
 
-
                 if (args.SData.Name.ToLower().Contains("ward"))
                     lastwd = Utils.GameTimeTickCount;
 
@@ -1173,11 +1179,6 @@ namespace KurisuRiven
                                 () => Orbwalking.LastAATick = 0);
 
                         if (!uo) ssfl = false;
-
-                        // cancel q animation
-                        Utility.DelayAction.Add(100 + (100 - Game.Ping / 2),
-                            () => player.IssueOrder(GameObjectOrder.MoveTo, movepos));
-
                         break;
                     case "RivenMartyr":
                         didw = true;
@@ -1322,7 +1323,7 @@ namespace KurisuRiven
                             }
                         }
 
-                        if (menulist("emode") == 1)
+                        if (menulist("emode") == 1 && Utils.GameTimeTickCount - laste >= 1500)
                         {
                             if (menu.Item("combokey").GetValue<KeyBind>().Active)
                             {
@@ -1389,7 +1390,7 @@ namespace KurisuRiven
                         break;
                 }
 
-                if (!didq && args.SData.Name.Contains("Attack"))
+                if (canmv && args.SData.Name.ToLower().Contains("attack"))
                 {
                     didaa = true;
                     canaa = false;
@@ -1540,16 +1541,8 @@ namespace KurisuRiven
                 }
             }
 
-            if (canmv)
-            {
-                if (q.IsReady())
-                {
-                    if (target.IsValidTarget(truerange + rangeoverride))
-                    {
-                        Orbwalking.LastAATick = 0;
-                    }
-                }
-            }
+            if (canmv && q.IsReady() && target.IsValidTarget(truerange + 100 + rangeoverride))
+                Orbwalking.LastAATick = 0;
         }
 
         private static void CombatCore()
@@ -1557,93 +1550,54 @@ namespace KurisuRiven
             if (didhd && canhd && Utils.GameTimeTickCount - lasthd >= 250)
                 didhd = false;
 
-            if (didq)
+            if (didq && Utils.GameTimeTickCount - lastq >= 500 + Game.Ping / 2)
             {
-                if (Utils.GameTimeTickCount - lastq >= 500 + Game.Ping/2)
-                {
-                    didq = false;
-                    canmv = true;
-                    canaa = true;
-                }
+                didq = false;
+                canmv = true;
+                canaa = true;
             }
 
-            if (didw)
+            if (didw && Utils.GameTimeTickCount - lastw >= 266)
             {
-                if (Utils.GameTimeTickCount - lastw >= 266)
-                {
-                    didw = false;
-                    canmv = true;
-                    canaa = true;
-                }
+                didw = false;
+                canmv = true;
+                canaa = true;
             }
 
-            if (dide)
+            if (dide && Utils.GameTimeTickCount - laste >= 300)
             {
-                if (Utils.GameTimeTickCount - laste >= 300)
-                {
-                    dide = false;
-                    canmv = true;
-                    canaa = true;
-                }             
+                dide = false;
+                canmv = true;
+                canaa = true;
             }
 
-            if (didaa)
-            {
-                if (Utils.GameTimeTickCount - lastaa >= 25 + (player.AttackDelay *100) + Game.Ping/2 + menuslide("autoaq"))
-                {
-                    didaa = false;
-                    canmv = true;
-                    canq = true;
-                    cane = true;
-                    canw = true;
-                    canws = true;
-                }
-            }
+            if (!canw && w.IsReady() && !(didaa || didq || dide))
+                 canw = true;
 
-            if (!canw && w.IsReady())
-            {
-                if (!(didaa || didq || dide))
-                {
-                    canw = true;
-                }
-            }
+            if (!cane && e.IsReady() && !(didaa || didq || didw))
+                 cane = true;
 
-            if (!cane && e.IsReady())
-            {
-                if (!(didaa || didq || didw))
-                {
-                    cane = true;
-                }
-            }
+            if (!canws && r.IsReady() && (!(didaa || didw) && uo))
+                 canws = true;
 
-            if (!canws && r.IsReady())
-            {
-                if (!(didaa || didw) && uo)
-                {
-                    canws = true;
-                }
-            }
+            if (!canaa && !(didq || didw || dide || didws || didhd || didhs) && 
+                Utils.GameTimeTickCount - lastaa >= 1000)
+                canaa = true;
 
-            if (!canaa)
-            {
-                if (!(didq || didw|| dide || didws || didhd || didhs))
-                {
-                    if (Utils.GameTimeTickCount - lastaa >= 1000)
-                    {
-                        canaa = true;
-                    }
-                }
-            }
+            if (!canmv && !(didq || didw || dide || didws || didhd || didhs) && 
+                Utils.GameTimeTickCount - lastaa >= 1100)
+                canmv = true;
 
-            if (!canmv)
+            if (didaa &&
+                Utils.GameTimeTickCount - lastaa >=
+                25 + (player.AttackDelay * 100) + Game.Ping / 2 + menuslide("autoaq"))
             {
-                if (!(didq || didw || dide || didws || didhd || didhs))
-                {
-                    if (Utils.GameTimeTickCount - lastaa >= 1100)
-                    {
-                        canmv = true;
-                    }
-                }
+                didaa = false;
+                canmv = true;
+                canq = true;
+                cane = true;
+                canw = true;
+                canws = true;
             }
         }
 
