@@ -34,7 +34,7 @@ namespace KurisuBlitz
             _q.SetSkillshot(0.25f, 70f, 1800f, true, SkillshotType.SkillshotLine);
 
             _x = new Spell(SpellSlot.Q, 950f);
-            _x.SetSkillshot(0.25f, 70f, 1800f, false, SkillshotType.SkillshotLine);
+            _x.SetSkillshot(0.50f, 70f, 1800f, false, SkillshotType.SkillshotLine);
 
             _e = new Spell(SpellSlot.E, 150f);
             _r = new Spell(SpellSlot.R, 550f);
@@ -157,26 +157,26 @@ namespace KurisuBlitz
 
         private static void BlitzOnUpdate(EventArgs args)
         {
-            AutoCast(_menu.Item("qdashing").GetValue<bool>(),
-                     _menu.Item("qimmobil").GetValue<bool>());
-
             Secure(_menu.Item("secureq").GetValue<bool>(), 
                    _menu.Item("securee").GetValue<bool>(),
                    _menu.Item("securer").GetValue<bool>());
 
-            if (Me.HealthPercent < _menu.Item("hnd").GetValue<Slider>().Value)
-                return;
-
-            if (_menu.Item("combokey").GetValue<KeyBind>().Active)
+            if (Me.HealthPercent >= _menu.Item("hnd").GetValue<Slider>().Value)
             {
-                Combo(_menu.Item("usecomboq").GetValue<bool>(),
-                        _menu.Item("usecomboe").GetValue<bool>(),
-                        _menu.Item("usecombor").GetValue<bool>());
-            }
+                AutoCast(_menu.Item("qdashing").GetValue<bool>(),
+                         _menu.Item("qimmobil").GetValue<bool>());
 
-            if (_menu.Item("grabkey").GetValue<KeyBind>().Active)
-            {
-                Combo(true, false, false);
+                if (_menu.Item("combokey").GetValue<KeyBind>().Active)
+                {
+                    Combo(_menu.Item("usecomboq").GetValue<bool>(),
+                          _menu.Item("usecomboe").GetValue<bool>(),
+                         _menu.Item("usecombor").GetValue<bool>());
+                }
+
+                if (_menu.Item("grabkey").GetValue<KeyBind>().Active)
+                {
+                    Combo(true, false, false);
+                }
             }
         }
 
@@ -189,11 +189,11 @@ namespace KurisuBlitz
                         ObjectManager.Get<Obj_AI_Hero>()
                             .Where(x => x.IsValidTarget(_menu.Item("maxdist").GetValue<Slider>().Value)))
                 {
-                    if (dashing)
+                    if (dashing && _menu.Item("dograb" + ii.ChampionName).GetValue<StringList>().SelectedIndex != 0)
                         if (ii.Distance(Me.ServerPosition) > _menu.Item("mindist").GetValue<Slider>().Value)
                             _q.CastIfHitchanceEquals(ii, HitChance.Dashing);
 
-                    if (immobile)
+                    if (immobile && _menu.Item("dograb" + ii.ChampionName).GetValue<StringList>().SelectedIndex != 0)
                         if (ii.Distance(Me.ServerPosition) > _menu.Item("mindist").GetValue<Slider>().Value)
                             _q.CastIfHitchanceEquals(ii, HitChance.Immobile);
                 }
