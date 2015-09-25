@@ -170,7 +170,7 @@ namespace KurisuBlitz
                 {
                     Combo(_menu.Item("usecomboq").GetValue<bool>(),
                           _menu.Item("usecomboe").GetValue<bool>(),
-                         _menu.Item("usecombor").GetValue<bool>());
+                          _menu.Item("usecombor").GetValue<bool>());
                 }
 
                 if (_menu.Item("grabkey").GetValue<KeyBind>().Active)
@@ -216,11 +216,22 @@ namespace KurisuBlitz
                             {
                                 if (_menu.Item("dograb" + qtarget.ChampionName).GetValue<StringList>().SelectedIndex == 2)
                                 {
-                                    if (poutput.CollisionObjects.All(
-                                            x => x.Health <= _r.GetDamage(x) && x.Distance(Me.ServerPosition) <= _r.Range))
+                                    // not working yet, need to use own projection
+                                    var qcol = poutput.CollisionObjects;
+
+                                    // borked
+                                    if (_r.IsReady())
                                     {
-                                        _r.Cast();
-                                        Utility.DelayAction.Add(150, () => _x.Cast(poutput.CastPosition));
+                                        if (qcol.Count > 0)
+                                        {
+                                            if (qcol.All(
+                                                    x => x.Health <= _r.GetDamage(x) && x.IsValidTarget(_r.Range)))
+                                            {
+                                                _r.Cast();
+                                                _x.Cast(poutput.CastPosition);
+                                            }
+                                        }
+
                                     }
                                 }
 
@@ -233,8 +244,8 @@ namespace KurisuBlitz
 
             if (usee && _e.IsReady())
             {
-                var etarget = TargetSelector.GetTarget(1000, TargetSelector.DamageType.Physical);
-                if (etarget.IsValidTarget(_menu.Item("mindist").GetValue<Slider>().Value + etarget.BoundingRadius))
+                var etarget = TargetSelector.GetTarget(350, TargetSelector.DamageType.Physical);
+                if (etarget.IsValidTarget())
                 {
                     _e.CastOnUnit(Me);
                 }
