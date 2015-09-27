@@ -39,7 +39,9 @@ namespace KurisuRiven
 
                                 if (gitVersion != Program.Version)
                                 {
-                                    Game.PrintChat("<b>Kurisu's Riven</b> - Outdated & newer version available!");
+                                    Game.PrintChat(
+                                        "<font color=\"#FF6666\"><b>Kurisu's Riven</b> - Outdated & newer version available!</font> (" +
+                                        Program.Version + ")");
                                 }
                             }
                         }

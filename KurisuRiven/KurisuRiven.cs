@@ -228,9 +228,6 @@ namespace KurisuRiven
             {
                 if (sender.IsMe && !args.IsDash)
                 {
-                    if (!canmv)
-                         didaa = false;
-
                     if (args.Path.Count() > 1 || didq)
                     {
                         didq = false;
@@ -589,8 +586,8 @@ namespace KurisuRiven
 
             var outrange = e.IsReady() ? e.Range + w.Range + 50 : w.Range + q.Range + 50;
 
-            if (e.IsReady() && cane && player.Health / player.MaxHealth * 100 <= menuslide("vhealth") && target.Distance(player.ServerPosition) <=
-                e.Range + w.Range - 25 || e.IsReady() && cane && target.Distance(player.ServerPosition) <= 
+            if (e.IsReady() && cane && player.Health / player.MaxHealth * 100 <= menuslide("vhealth") || 
+                e.IsReady() && cane && target.Distance(player.ServerPosition) <= 
                 e.Range + w.Range - 25 && target.Distance(player.ServerPosition) > truerange ||
                 e.IsReady() && uo && cane && target.Distance(player.ServerPosition) > truerange + 50)
             {
@@ -1121,44 +1118,21 @@ namespace KurisuRiven
         {
             Obj_AI_Base.OnProcessSpellCast += (sender, args) =>
             {
-                #region Riven Shield
-                if (sender.IsEnemy && sender.Type == player.Type)
-                {
-                    var epos = player.ServerPosition +
-                              (player.ServerPosition - sender.ServerPosition).Normalized()*300;
-
-                    if (player.Distance(sender.ServerPosition) <= args.SData.CastRange)
-                    {
-                        switch (args.SData.TargettingType)
-                        {
-                            case SpellDataTargetType.Unit:
-
-                                if (args.Target.NetworkId == player.NetworkId && menubool("ashield"))
-                                {
-                                    if (orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit)
-                                    {
-                                        e.Cast(epos);
-                                    }
-                                }
-
-                                break;
-                            case SpellDataTargetType.SelfAoe:
-
-                                if (orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit && menubool("bshield"))
-                                {
-                                    e.Cast(epos);
-                                }
-
-                                break;
-                        }
-                    }
-                }
-
-                #endregion
-
                 if (!sender.IsMe)
                 {
                     return;
+                }
+
+                if (canmv && args.SData.Name.ToLower().Contains("attack"))
+                {
+                    didaa = true;
+                    canaa = false;
+                    canq = false;
+                    canw = false;
+                    cane = false;
+                    canws = false;
+                    lastaa = Utils.GameTimeTickCount;
+                    qtarg = (Obj_AI_Base)args.Target;
                 }
 
                 if (args.SData.Name.ToLower().Contains("ward"))
@@ -1393,17 +1367,41 @@ namespace KurisuRiven
                         break;
                 }
 
-                if (canmv && args.SData.Name.ToLower().Contains("attack"))
+                #region Riven Shield (Use at your own discretion)
+                // Kappa: Spelldata sux atm
+                if (sender.IsEnemy && sender.Type == player.Type)
                 {
-                    didaa = true;
-                    canaa = false;
-                    canq = false;
-                    canw = false;
-                    cane = false;
-                    canws = false;
-                    lastaa = Utils.GameTimeTickCount;
-                    qtarg = (Obj_AI_Base) args.Target;
+                    var epos = player.ServerPosition +
+                              (player.ServerPosition - sender.ServerPosition).Normalized() * 300;
+
+                    if (player.Distance(sender.ServerPosition) <= args.SData.CastRange)
+                    {
+                        switch (args.SData.TargettingType)
+                        {
+                            case SpellDataTargetType.Unit:
+
+                                if (args.Target.NetworkId == player.NetworkId && menubool("ashield"))
+                                {
+                                    if (orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit)
+                                    {
+                                        e.Cast(epos);
+                                    }
+                                }
+
+                                break;
+                            case SpellDataTargetType.SelfAoe:
+
+                                if (orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit && menubool("bshield"))
+                                {
+                                    e.Cast(epos);
+                                }
+
+                                break;
+                        }
+                    }
                 }
+
+                #endregion
             };
         }
 
