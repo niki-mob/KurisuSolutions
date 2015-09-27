@@ -1123,7 +1123,7 @@ namespace KurisuRiven
                     return;
                 }
 
-                if (canmv && args.SData.Name.ToLower().Contains("attack"))
+                if (!didq && args.SData.Name.ToLower().Contains("attack"))
                 {
                     didaa = true;
                     canaa = false;
