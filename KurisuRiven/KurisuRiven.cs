@@ -1181,6 +1181,7 @@ namespace KurisuRiven
                         if (!uo) ssfl = false;
                         break;
                     case "RivenMartyr":
+                        canmv = false;
                         didw = true;
                         lastw = Utils.GameTimeTickCount;
                         canw = false;
@@ -1207,6 +1208,7 @@ namespace KurisuRiven
 
                         break;
                     case "RivenFeint":
+                        canmv = false;
                         dide = true;
                         didaa = false;
                         laste = Utils.GameTimeTickCount;
@@ -1325,7 +1327,7 @@ namespace KurisuRiven
 
                         if (menulist("emode") == 1 && Utils.GameTimeTickCount - laste >= 1500)
                         {
-                            if (menu.Item("combokey").GetValue<KeyBind>().Active)
+                            if (menu.Item("combokey").GetValue<KeyBind>().Active && !uo)
                             {
                                 checkr();
                                 Utility.DelayAction.Add(Game.Ping + 175, () => q.Cast(Game.CursorPos));
@@ -1334,9 +1336,10 @@ namespace KurisuRiven
 
                         break;
                     default:
-                        if (args.SData.Name.Contains("Attack"))
+                        if (args.SData.Name.ToLower().Contains("attack"))
                         {
-                            if (menu.Item("combokey").GetValue<KeyBind>().Active || menu.Item("shycombo").GetValue<KeyBind>().Active)
+                            if (menu.Item("combokey").GetValue<KeyBind>().Active || 
+                                menu.Item("shycombo").GetValue<KeyBind>().Active)
                             {
                                 if (canburst() || menulist("emode") == 0 && !canburst() ||
                                     menu.Item("shycombo").GetValue<KeyBind>().Active)
