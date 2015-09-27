@@ -46,6 +46,9 @@ namespace Activator.Spells
             Menu = new Menu(DisplayName, "m" + Name);
             Menu.AddItem(new MenuItem("use" + Name, "Use " + DisplayName)).SetValue(false).Permashow();
 
+            if (Player.ChampionName == "Zed")
+                Menu.AddItem(new MenuItem("useswap2", "Use Death Mark Swap (R2)")).SetValue(false).Permashow();
+
             if (Category.Any(t => t == MenuType.Stealth))
                 Menu.AddItem(new MenuItem("Stealth" + Name + "pct", "Use on Stealth")).SetValue(true);
 

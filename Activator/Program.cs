@@ -42,7 +42,7 @@ namespace Activator
 
         public static bool UseEnemyMenu, UseAllyMenu;
         public static System.Version Version;
-        public static List<Champion> Heroes = new List<Champion>(); 
+        public static List<Champion> Heroes = new List<Champion>();
 
         private static void Main(string[] args)
         {
@@ -64,7 +64,7 @@ namespace Activator
 
                 Origin = new Menu("Activator", "activator", true);
 
-                var cmenu = new Menu("Cleansers", "cleansers");
+                var cmenu = new Menu("Cleansers", "cmenu");
                 SubMenu(cmenu, false);
                 GetItemGroup("Items.Cleansers").ForEach(t => NewItem((CoreItem)NewInstance(t), cmenu));
                 Origin.AddSubMenu(cmenu);
