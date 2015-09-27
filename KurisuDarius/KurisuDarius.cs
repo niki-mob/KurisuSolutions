@@ -12,8 +12,14 @@ namespace KurisuDarius
         internal static Menu Config;
         internal static SpellSlot Ignite;
         internal static int LastGrabTimeStamp;
+        internal static int LastDunkTimeStamp;
         internal static HpBarIndicator HPi = new HpBarIndicator();
         internal static Orbwalking.Orbwalker Orbwalker;
+
+        internal static readonly int ECost = 45;
+        internal static readonly int WCost = 30;
+        internal static readonly int[] QCost = { 30, 35, 40, 45, 50 };
+        internal static readonly int[] RCost = { 100, 100, 0 };
 
         public KurisuDarius()
         {
@@ -82,6 +88,9 @@ namespace KurisuDarius
             {
                 if (sender.IsMe && args.SData.Name == "DariusAxeGrabCone")
                     LastGrabTimeStamp = Utils.GameTimeTickCount;
+
+                if (sender.IsMe && args.SData.Name == "DariusExecute")
+                    LastDunkTimeStamp = Utils.GameTimeTickCount;
 
                 if (sender.IsMe && args.SData.Name == "DariusCleave")
                     Utility.DelayAction.Add(Game.Ping + 800, Orbwalking.ResetAutoAttackTimer);
@@ -167,6 +176,10 @@ namespace KurisuDarius
             {
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                 {
+                    if (KL.Spellbook["R"].IsReady() && 
+                        KL.Player.Mana - WCost < RCost[KL.Spellbook["R"].Level - 1])
+                        return;
+
                     if (!hero.HasBuffOfType(BuffType.Slow) || !Config.Item("wwww").GetValue<bool>())
                          KL.Spellbook["W"].Cast();
 
@@ -187,6 +200,12 @@ namespace KurisuDarius
 
 
         internal static float Rmodi;
+
+        internal static int PassiveCount(Obj_AI_Base unit)
+        {
+            return unit.GetBuffCount("dariushemo") > 0 ? unit.GetBuffCount("dariushemo") : 0;
+        }
+
         internal static void Game_OnUpdate(EventArgs args)
         {
             Rmodi = Config.Item("rmodi").GetValue<Slider>().Value;
@@ -195,23 +214,19 @@ namespace KurisuDarius
             {
                 foreach (var unit in HeroManager.Enemies.Where(ene => ene.IsValidTarget(KL.Spellbook["R"].Range) && !ene.IsZombie))
                 {
-                    int rr = unit.GetBuffCount("dariushemo") <= 0 ? 0 : unit.GetBuffCount("dariushemo");
                     if (unit.CountEnemiesInRange(1200) <= 1 && Config.Item("ksr1").GetValue<bool>())
                     {
-                        if (KL.Player.Distance(unit.ServerPosition) > 265)
+                        if (KL.RDmg(unit, PassiveCount(unit)) + Rmodi + KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health)
                         {
-                            if (KL.RDmg(unit, rr) + Rmodi + KL.Hemorrhage(unit, rr) >= unit.Health)
+                            if (!unit.HasBuffOfType(BuffType.Invulnerability) &&
+                                !unit.HasBuffOfType(BuffType.SpellShield))
                             {
-                                if (!unit.HasBuffOfType(BuffType.Invulnerability) &&
-                                    !unit.HasBuffOfType(BuffType.SpellShield))
-                                {
-                                    KL.Spellbook["R"].CastOnUnit(unit);
-                                }
+                                KL.Spellbook["R"].CastOnUnit(unit);
                             }
                         }
                     }
 
-                    if (KL.RDmg(unit, rr) + Rmodi >= unit.Health +  KL.Hemorrhage(unit, 1))
+                    if (KL.RDmg(unit, PassiveCount(unit)) + Rmodi >= unit.Health + KL.Hemorrhage(unit, 1))
                     {
                         if (!unit.HasBuffOfType(BuffType.Invulnerability) &&
                             !unit.HasBuffOfType(BuffType.SpellShield))
@@ -239,9 +254,9 @@ namespace KurisuDarius
             if (!unit.IsValidTarget() || unit.IsZombie)
                 return false;
 
-            var rr = unit.GetBuffCount("dariushemo") > 0 
-                ? unit.GetBuffCount("dariushemo") 
-                : 0;
+            if (KL.Spellbook["R"].IsReady() &&
+                KL.Player.Mana - QCost[KL.Spellbook["Q"].Level - 1] < RCost[KL.Spellbook["R"].Level - 1])
+                return false;
 
             if (KL.Spellbook["W"].IsReady() && KL.WDmg(unit) >= unit.Health &&
                 unit.Distance(KL.Player.ServerPosition) <= 200)
@@ -261,10 +276,10 @@ namespace KurisuDarius
                 return false;
 
             if (KL.Spellbook["R"].IsReady() && unit.Distance(KL.Player.ServerPosition) <= 460 &&
-                KL.RDmg(unit, rr) - KL.Hemorrhage(unit, 1) >= unit.Health)
+                KL.RDmg(unit, PassiveCount(unit)) - KL.Hemorrhage(unit, 1) >= unit.Health)
                 return false;
 
-            if (KL.Player.GetAutoAttackDamage(unit) * 2 + KL.Hemorrhage(unit, rr) >= unit.Health)
+            if (KL.Player.GetAutoAttackDamage(unit) * 2 + KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health)
                 if (KL.Player.Distance(unit.ServerPosition) <= 180)
                     return false;
 
@@ -277,8 +292,7 @@ namespace KurisuDarius
             {
                 if (KL.Player.Mana / KL.Player.MaxMana * 100 > 60)
                 {
-                    if (CanQ(TargetSelector.GetTarget(KL.Spellbook["E"].Range,
-                             TargetSelector.DamageType.Physical)))
+                    if (CanQ(TargetSelector.GetTarget(KL.Spellbook["E"].Range, TargetSelector.DamageType.Physical)))
                     {
                         KL.Spellbook["Q"].Cast();
                     }
@@ -303,7 +317,10 @@ namespace KurisuDarius
                 {
                     if (wtarget.Distance(KL.Player.ServerPosition) <= 200 && KL.WDmg(wtarget) >= wtarget.Health)
                     {
-                        KL.Spellbook["W"].Cast();
+                        if (Utils.GameTimeTickCount - LastDunkTimeStamp >= 500)
+                        {
+                            KL.Spellbook["W"].Cast();
+                        }
                     }
                 }
             }
@@ -315,10 +332,13 @@ namespace KurisuDarius
                 {
                     if (etarget.Distance(KL.Player.ServerPosition) > 250)
                     {
-                        if (KL.Player.GetAutoAttackDamage(etarget) * 3 >= etarget.Health)
+                        if (KL.RDmg(etarget, PassiveCount(etarget)) - KL.Hemorrhage(etarget, 1) >= etarget.Health)
                             KL.Spellbook["E"].Cast(etarget.ServerPosition);
 
                         if (KL.Spellbook["Q"].IsReady() || KL.Spellbook["W"].IsReady())
+                            KL.Spellbook["E"].Cast(etarget.ServerPosition);
+
+                        if (KL.Player.GetAutoAttackDamage(etarget) + KL.Hemorrhage(etarget, 3) * 3 >= etarget.Health)
                             KL.Spellbook["E"].Cast(etarget.ServerPosition);
                     }           
                 }
@@ -330,10 +350,9 @@ namespace KurisuDarius
 
                 if (unit.IsValidTarget(KL.Spellbook["R"].Range) && !unit.IsZombie)
                 {
-                    int rr = unit.GetBuffCount("dariushemo") <= 0 ? 0 : unit.GetBuffCount("dariushemo");
                     if (!unit.HasBuffOfType(BuffType.Invulnerability) && !unit.HasBuffOfType(BuffType.SpellShield))
                     {
-                        if (KL.RDmg(unit, rr) + Rmodi >= unit.Health + KL.Hemorrhage(unit, 1))
+                        if (KL.RDmg(unit, PassiveCount(unit)) + Rmodi >= unit.Health + KL.Hemorrhage(unit, 1))
                         {
                             if (!unit.HasBuffOfType(BuffType.Invulnerability) &&
                                 !unit.HasBuffOfType(BuffType.SpellShield))

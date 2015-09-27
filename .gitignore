@@ -215,3 +215,4 @@ pip-log.txt
 .mr.developer.cfg
 LeagueSharp.Common/LeagueSharp.Common/LeagueSharp.Common.csproj
 ProSeries.sln
+*.sln
