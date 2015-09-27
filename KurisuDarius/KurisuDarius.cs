@@ -19,7 +19,7 @@ namespace KurisuDarius
         internal static readonly int ECost = 45;
         internal static readonly int WCost = 30;
         internal static readonly int[] QCost = { 30, 30, 35, 40, 45, 50 };
-        internal static readonly int[] RCost = { 1100, 100, 100, 0 };
+        internal static readonly int[] RCost = { 100, 100, 100, 0 };
 
         public KurisuDarius()
         {
