@@ -72,7 +72,8 @@ namespace Activator.Items.Consumables
                     if (hero.Player.Health/hero.Player.MaxHealth*100 <=
                         Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
                     {
-                        if (hero.IncomeDamage > 0 || hero.MinionDamage > 0)
+                        if ((hero.IncomeDamage > 0 || hero.MinionDamage > 0) ||
+                            !Menu.Item("use" + Name + "cbat").GetValue<bool>())
                         {
                             if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
                                 UseItem();
@@ -82,11 +83,8 @@ namespace Activator.Items.Consumables
                     if (hero.IncomeDamage/hero.Player.MaxHealth*100 >=
                         Menu.Item("selfmuchhp" + Name + "pct").GetValue<Slider>().Value)
                     {
-                        if (hero.IncomeDamage > 0 || hero.MinionDamage > 0)
-                        {
-                            if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
-                                UseItem();
-                        }
+                        if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
+                            UseItem();
                     }        
                 }
             }

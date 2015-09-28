@@ -22,6 +22,10 @@ namespace Activator
                                 c.DownloadString(
                                     "https://raw.githubusercontent.com/xKurisu/KurisuSolutions/master/Activator/Properties/AssemblyInfo.cs");
 
+                            //var rawLog =
+                            //    c.DownloadString(
+                            //        "https://raw.githubusercontent.com/xKurisu/KurisuSolutions/master/Activator/Changelog.txt");
+                                
                             var match =
                                 new Regex(
                                     @"\[assembly\: AssemblyVersion\(""(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})""\)\]")

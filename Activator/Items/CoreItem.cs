@@ -164,6 +164,12 @@ namespace Activator.Items
             if (Category.Any(t => t == MenuType.SelfMinHP))
                 Menu.AddItem(new MenuItem("selfminhp" + Name + "pct", "Minimum HP %")).SetValue(new Slider(55));
 
+            if (Category.Any(t => t == MenuType.SelfLowHP) &&
+               (Name.Contains("Potion") || Name.Contains("Flask") || Name.Contains("Biscuit")))
+            {
+                Menu.AddItem(new MenuItem("use" + Name + "cbat", "Use Only in Combat")).SetValue(true);
+            }
+
             if (Category.Any(t => t == MenuType.Zhonyas))
             {
                 Menu.AddItem(new MenuItem("use" + Name + "norm", "Use on Dangerous (Spells)")).SetValue(false);
