@@ -1,2 +1,1 @@
 ﻿New: Optional menu to use potions out of combat.
-New: Combo ignite now calculates ally combo damage in range to target.
