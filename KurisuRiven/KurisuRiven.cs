@@ -275,6 +275,7 @@ namespace KurisuRiven
             if (didq && !canmv)
             {
                 if (menu.Item("shycombo").GetValue<KeyBind>().Active ||
+                    menu.Item("semiqlane").GetValue<KeyBind>().Active ||
                     orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
                     player.IssueOrder(GameObjectOrder.MoveTo, movepos);
