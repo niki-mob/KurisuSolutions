@@ -786,7 +786,8 @@ namespace KurisuRiven
                     }
 
                     if (player.GetAutoAttackDamage(t, true) * menuslide("overaa") >= t.Health &&
-                       (Orbwalking.InAutoAttackRange(t) && player.CountEnemiesInRange(900) > 1)) 
+                       (Orbwalking.InAutoAttackRange(t) && player.CountEnemiesInRange(900) > 1) && 
+                        menu.Item("shycombo").GetValue<KeyBind>().Active) 
                         return;
 
                     // only kill or killsteal etc ->
