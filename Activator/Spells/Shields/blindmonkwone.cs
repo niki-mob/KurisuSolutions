@@ -14,7 +14,7 @@ namespace Activator.Spells.Shields
 
         internal override string DisplayName
         {
-            get { return "Safegaurd | W"; }
+            get { return "Safeguard | W"; }
         }
 
         internal override float Range
