@@ -1,2 +1,3 @@
 ﻿Fixed: Bad Q-AA with large hold radius
-Fixed: Fixed Shy Combo not attempting Q cancel.
+Fixed: Shy Combo not attempting Q cancel.
+Fixed: Semi-Q not attempting Q cancel.
