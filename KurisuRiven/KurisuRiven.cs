@@ -323,7 +323,6 @@ namespace KurisuRiven
             SemiQ();
             AuraUpdate();
             CombatCore();
-            Windslash();
 
             orbwalker.SetAttack(canmv);
             orbwalker.SetMovement(canmv);
@@ -380,6 +379,8 @@ namespace KurisuRiven
 
             if (player.IsValid && menu.Item("fleekey").GetValue<KeyBind>().Active)
                 Flee();
+
+            Windslash();
         }
 
         #endregion
@@ -612,7 +613,7 @@ namespace KurisuRiven
                 }
             }
 
-            else if (w.IsReady() && canw && menubool("usecombow") &&
+            if (w.IsReady() && canw && menubool("usecombow") &&
                      target.Distance(player.ServerPosition) <= wrange)
             {
                 useinventoryitems(target);
@@ -786,8 +787,7 @@ namespace KurisuRiven
                     }
 
                     if (player.GetAutoAttackDamage(t, true) * menuslide("overaa") >= t.Health &&
-                       (Orbwalking.InAutoAttackRange(t) && player.CountEnemiesInRange(900) > 1) && 
-                        menu.Item("shycombo").GetValue<KeyBind>().Active) 
+                       (Orbwalking.InAutoAttackRange(t) && player.CountEnemiesInRange(900) > 1)) 
                         return;
 
                     // only kill or killsteal etc ->
@@ -858,7 +858,7 @@ namespace KurisuRiven
                     }
                 }
 
-                else if (w.IsReady() && canw && menubool("usejunglew"))
+                if (w.IsReady() && canw && menubool("usejunglew"))
                 {
                     if (unit.Distance(player.ServerPosition) <= w.Range + 25)
                     {
@@ -1138,14 +1138,14 @@ namespace KurisuRiven
                 {
                     case "RivenTriCleave":
                         cc += 1;
+                        canmv = false;
                         didq = true;
                         didaa = false;
-                        canmv = false;
                         lastq = Utils.GameTimeTickCount;
                         canq = false;
 
                         if (cc >= 2)
-                            Utility.DelayAction.Add(425 + (100 - Game.Ping / 2),
+                            Utility.DelayAction.Add(425 - (100 - Game.Ping / 2),
                                 () => Orbwalking.LastAATick = 0);
 
                         if (!uo) ssfl = false;
@@ -1517,9 +1517,12 @@ namespace KurisuRiven
                 }
             }
 
-            if (canmv && q.IsReady() && target.IsValidTarget(truerange + 100 + rangeoverride))
+            if (canmv && q.IsReady())
             {
-                Orbwalking.LastAATick = 0;
+                if (target.IsValidTarget(truerange + 100 + rangeoverride))
+                {
+                    Orbwalking.LastAATick = 0;
+                }
             }
         }
 
