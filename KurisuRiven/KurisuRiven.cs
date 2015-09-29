@@ -259,20 +259,20 @@ namespace KurisuRiven
             if (!qtarg.IsValidTarget(truerange + 100))
                  qtarg = player;
 
-            if (_sh.IsValidTarget())
+            if (riventarget().IsValidTarget())
             {
                 if (menu.Item("combokey").GetValue<KeyBind>().Active ||
                     menu.Item("harasskey").GetValue<KeyBind>().Active ||
                     menu.Item("shycombo").GetValue<KeyBind>().Active)
                 {
-                    orbwalker.ForceTarget(_sh);
+                    orbwalker.ForceTarget(riventarget());
                 }
             }
 
             else
                 _sh = null;
 
-            if (didq && !canmv)
+            if (!canmv && didq)
             {
                 player.IssueOrder(GameObjectOrder.MoveTo, movepos);
             }
@@ -437,7 +437,6 @@ namespace KurisuRiven
             advance.AddItem(new MenuItem("qqc", "Test in a summoners rift custom on the Scuttler Crab")).SetFontStyle(FontStyle.Regular, SharpDX.Color.Gold);
             advance.AddItem(new MenuItem("qqa", "Lower = faster Q but may result in more AA cancels"));
             advance.AddItem(new MenuItem("qqb", "Higher = slower Q but less or no AA cancels"));
-            advance.AddItem(new MenuItem("qqd", "Lower your orbwalker hold radius for a better Q-AA")).SetFontStyle(FontStyle.Regular, SharpDX.Color.Gold);
             qmenu.AddSubMenu(advance);
 
             qmenu.AddItem(new MenuItem("wq3", "Ward + Q3 (Flee)")).SetValue(true);
@@ -1262,7 +1261,7 @@ namespace KurisuRiven
 
                         break;
                     case "ItemTiamatCleave":
-                    case "ItemTitanicHydraCleave":
+                    case "ItemTitanicHydraCleave":  
                         lasthd = Utils.GameTimeTickCount;
                         didhd = true;
                         canws = true;
@@ -1518,7 +1517,9 @@ namespace KurisuRiven
             }
 
             if (canmv && q.IsReady() && target.IsValidTarget(truerange + 100 + rangeoverride))
+            {
                 Orbwalking.LastAATick = 0;
+            }
         }
 
         private static void CombatCore()
