@@ -21,6 +21,10 @@ namespace KurisuRiven
                                 c.DownloadString(
                                     "https://raw.githubusercontent.com/xKurisu/KurisuSolutions/master/KurisuRiven/Properties/AssemblyInfo.cs");
 
+                            var rawLog =
+                                c.DownloadString(
+                                    "https://raw.githubusercontent.com/xKurisu/KurisuSolutions/master/KurisuRiven/Changelog.txt");
+                               
                             var match =
                                 new Regex(
                                     @"\[assembly\: AssemblyVersion\(""(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})""\)\]")
@@ -39,9 +43,9 @@ namespace KurisuRiven
 
                                 if (gitVersion != Program.Version)
                                 {
-                                    Game.PrintChat(
-                                        "<font color=\"#FF6666\"><b>Kurisu's Riven</b> - Outdated & newer version available!</font> (" +
-                                        Program.Version + ")");
+                                    Game.PrintChat("<font color=\"#FF6666\"><b>Kurisu's Riven</b> - Outdated & newer " +
+                                                   "version available!</font> (" + Program.Version + ")");
+                                    Game.PrintChat("<font color=\"#FF6666\">" + rawLog + "</font>");
                                 }
                             }
                         }

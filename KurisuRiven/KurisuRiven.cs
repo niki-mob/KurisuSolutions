@@ -54,7 +54,6 @@ namespace KurisuRiven
         private static float wrange;
         private static float truerange;
         private static Vector3 movepos;
-
         #endregion
 
         # region Riven: Utils
@@ -275,7 +274,8 @@ namespace KurisuRiven
 
             if (didq && !canmv)
             {
-                if (orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                if (menu.Item("shycombo").GetValue<KeyBind>().Active ||
+                    orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
                 {
                     player.IssueOrder(GameObjectOrder.MoveTo, movepos);
                 }
@@ -1132,7 +1132,7 @@ namespace KurisuRiven
                     cane = false;
                     canws = false;
                     lastaa = Utils.GameTimeTickCount;
-                    qtarg = (Obj_AI_Base)args.Target;
+                    qtarg = (Obj_AI_Base) args.Target;
                 }
 
                 if (args.SData.Name.ToLower().Contains("ward"))
@@ -1461,27 +1461,6 @@ namespace KurisuRiven
 
         private void OnPlayAnimation()
         {
-            Obj_AI_Base.OnPlayAnimation += (sender, args) =>
-            {
-                if (!(didq || didw || didws || dide) && !player.IsDead)
-                {
-                    if (sender.IsMe)
-                    {
-                        if (args.Animation.Contains("Idle"))
-                        {
-                            canq = false;
-                            canaa = true;
-                        }
-
-                        if (args.Animation.Contains("Run"))
-                        {
-                            canq = false;
-                            canaa = true;
-                        }
-                    }
-                }
-
-            };
         }
 
         #endregion
