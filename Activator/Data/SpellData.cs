@@ -2472,7 +2472,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R,
                 CastRange = 550f,
                 Delay = 500f,
-                HitType = new[] { Base.HitType.Danger, Base.HitType.Ultimate },
+                HitType = new[] { Base.HitType.Danger },
                 MissileSpeed = int.MaxValue
             });
 
@@ -2665,7 +2665,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R,
                 CastRange = 700f,
                 Delay = 250f,
-                HitType = new[] { Base.HitType.Danger, Base.HitType.Ultimate },
+                HitType = new[] { Base.HitType.Danger },
                 MissileSpeed = 2000
             });
 
@@ -2828,12 +2828,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R,
                 CastRange = 1200f,
                 Delay = 550f,
-                HitType =
-                    new[]
-                    {
-                        Base.HitType.Danger, Base.HitType.Ultimate,
-                        Base.HitType.CrowdControl
-                    },
+                HitType = new[] { Base.HitType.Danger, Base.HitType.CrowdControl  },
                 MissileName = "leonasolarflare",
                 MissileSpeed = int.MaxValue
             });
@@ -3413,7 +3408,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R,
                 CastRange = 850f,
                 Delay = 250f,
-                HitType = new[] { Base.HitType.Danger, Base.HitType.Ultimate },
+                HitType = new[] { Base.HitType.Danger },
                 MissileSpeed = int.MaxValue
             });
 
@@ -4964,7 +4959,7 @@ namespace Activator.Data
                 ChampionName = "syndra",
                 Slot = SpellSlot.R,
                 CastRange = 675f,
-                Delay = 250f,
+                Delay = 450f,
                 HitType = new[] { Base.HitType.Danger, Base.HitType.Ultimate },
                 MissileSpeed = 1250
             });
@@ -5054,7 +5049,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R,
                 CastRange = 400f,
                 Delay = 250f,
-                HitType = new[] { Base.HitType.Danger, Base.HitType.Ultimate },
+                HitType = new[] { Base.HitType.Danger },
                 MissileSpeed = int.MaxValue
             });
 
@@ -5734,7 +5729,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R,
                 CastRange = 1575f,
                 Delay = 0f,
-                HitType = new[] { Base.HitType.Ultimate },
+                HitType = new[] { Base.HitType.Danger },
                 MissileSpeed = 1500
             });
 
@@ -6424,7 +6419,7 @@ namespace Activator.Data
                 ChampionName = "zyra",
                 Slot = SpellSlot.R,
                 CastRange = 700f,
-                Delay = 250f,
+                Delay = 500f,
                 HitType =
                     new[]
                     {

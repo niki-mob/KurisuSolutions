@@ -1,1 +1,2 @@
-﻿New: Optional menu to use potions out of combat.
+﻿Fixed: Using a potion when you wouldn't have recieved the full duration.
+Removed: Some some spells that were'nt that dangerous (ultimate)

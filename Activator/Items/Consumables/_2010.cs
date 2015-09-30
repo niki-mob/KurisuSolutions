@@ -74,7 +74,8 @@ namespace Activator.Items.Consumables
                         }
                     }
 
-                    if (hero.Player.HasBuff("ItemMiniRegenPotion"))
+                    if (hero.Player.HasBuff("ItemMiniRegenPotion") || 
+                        hero.Player.MaxHealth - hero.Player.Health + hero.IncomeDamage <= 150)
                         return;
 
                     if (hero.Player.Health/hero.Player.MaxHealth*100 <=
