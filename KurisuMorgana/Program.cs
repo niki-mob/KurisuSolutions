@@ -58,7 +58,7 @@ namespace KurisuMorgana
             var ccmenu = new Menu(":: Combo Settings", "ccmenu");
 
             var menuQ = new Menu("Dark Binding (Q)", "qmenu");
-            menuQ.AddItem(new MenuItem("hitchanceq", "Binding hitchance ")).SetValue(new Slider(4, 1, 4));
+            menuQ.AddItem(new MenuItem("hitchanceq", "Binding hitchance ")).SetValue(new Slider(3, 1, 4));
             menuQ.AddItem(new MenuItem("useqcombo", "Use in combo")).SetValue(true);
             menuQ.AddItem(new MenuItem("useharassq", "Use in harass")).SetValue(true);
             menuQ.AddItem(new MenuItem("useqanti", "Use on gapcloser")).SetValue(true);

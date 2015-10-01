@@ -40,6 +40,7 @@ namespace KurisuNidalee
         private static readonly List<Spell> HumanSpellList = new List<Spell>();
         private static readonly List<Spell> CougarSpellList = new List<Spell>();
         private static readonly IEnumerable<int> NidaItems = new[] { 3128, 3144, 3153, 3092 };
+
         private static bool TSCollision()
         {
             return _mainMenu.Item("coll").GetValue<bool>();
@@ -130,7 +131,7 @@ namespace KurisuNidalee
         #region Nidalee: Menu
         private static void NidaMenu()
         {
-            _mainMenu = new Menu("KurisuNidalee", "nidalee", true);
+            _mainMenu = new Menu("Kurisu's Nidalee", "nidalee", true);
 
             var nidaOrb = new Menu(":: Orbwalker", "orbwalker");
             _orbwalker = new Orbwalking.Orbwalker(nidaOrb);

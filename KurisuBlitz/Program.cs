@@ -93,7 +93,7 @@ namespace KurisuBlitz
             _menu.AddSubMenu(spellmenu);
 
             var menuM = new Menu(":: Other/Misc", "bmisc");
-            menuM.AddItem(new MenuItem("hitchanceq", "Q Hitchance 1-Low, 4-Very High")).SetValue(new Slider(4, 1, 4));
+            menuM.AddItem(new MenuItem("hitchanceq", "Q Hitchance 1-Low, 4-Very High")).SetValue(new Slider(3, 1, 4));
             menuM.AddItem(new MenuItem("mindist", "Mininum Distance to Q")).SetValue(new Slider((int)_r.Range - 100, 0, (int)_q.Range));
             menuM.AddItem(new MenuItem("maxdist", "Maximum Distance to Q")).SetValue(new Slider((int)_q.Range, 0, (int)_q.Range));
             menuM.AddItem(new MenuItem("hnd", "Dont grab if below health %")).SetValue(new Slider(0));
