@@ -154,10 +154,10 @@ namespace KurisuBlitz
                 var qcircle = _menu.Item("drawQ").GetValue<Circle>();
 
                 if (qcircle.Active)
-                    Render.Circle.DrawCircle(Me.Position, _q.Range, qcircle.Color, 2, true);
+                    Render.Circle.DrawCircle(Me.Position, _q.Range, qcircle.Color, 2);
 
                 if (rcircle.Active)
-                    Render.Circle.DrawCircle(Me.Position, _r.Range, qcircle.Color, 2 , true);
+                    Render.Circle.DrawCircle(Me.Position, _r.Range, qcircle.Color, 2);
             }
         }
 

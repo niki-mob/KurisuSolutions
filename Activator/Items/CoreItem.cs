@@ -136,6 +136,12 @@ namespace Activator.Items
             Menu.AddItem(new MenuItem("use" + Name, "Use " + usefname)).SetValue(true);
             Menu.AddItem(new MenuItem("prior" + Name, DisplayName + " Priority")).SetValue(new Slider(Priority, 1, 7));
 
+            if (Category.Any(t => t == MenuType.SelfLowHP) &&
+               (Name.Contains("Potion") || Name.Contains("Flask") || Name.Contains("Biscuit")))
+            {
+                Menu.AddItem(new MenuItem("use" + Name + "cbat", "Predict Damage")).SetValue(true);
+            }
+
             if (Category.Any(t => t == MenuType.EnemyLowHP))
             {
                 Menu.AddItem(new MenuItem("enemylowhp" + Name + "pct", "Use on Enemy HP % <="))
@@ -163,12 +169,6 @@ namespace Activator.Items
 
             if (Category.Any(t => t == MenuType.SelfMinHP))
                 Menu.AddItem(new MenuItem("selfminhp" + Name + "pct", "Minimum HP %")).SetValue(new Slider(55));
-
-            if (Category.Any(t => t == MenuType.SelfLowHP) &&
-               (Name.Contains("Potion") || Name.Contains("Flask") || Name.Contains("Biscuit")))
-            {
-                Menu.AddItem(new MenuItem("use" + Name + "cbat", "Predict Dmg")).SetValue(true);
-            }
 
             if (Category.Any(t => t == MenuType.Zhonyas))
             {

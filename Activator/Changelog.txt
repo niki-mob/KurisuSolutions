@@ -1,2 +1,2 @@
-﻿Fixed: Using a potion when you wouldn't have recieved the full duration.
-Removed: Some some spells that were'nt that dangerous (ultimate)
+﻿New: Added combo mode for Heal and Exhaust (optional)
+Fixed: Always using exhaust even in combo mode.

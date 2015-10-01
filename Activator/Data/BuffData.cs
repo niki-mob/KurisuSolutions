@@ -402,7 +402,8 @@ namespace Activator.Data
                 EvadeTimer = 2800,
                 Cleanse = true,
                 CleanseTimer = 1800,
-                Slot = SpellSlot.R
+                Slot = SpellSlot.R,
+                Interval = 1.0
             });
 
             BuffList.Add(new BuffData
@@ -778,8 +779,7 @@ namespace Activator.Data
                 EvadeTimer = 0,
                 QssIgnore = true,
                 Slot = SpellSlot.Unknown
-            });
-        
+            });       
         }
     }
 }

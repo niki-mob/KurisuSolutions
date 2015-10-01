@@ -48,15 +48,15 @@ namespace Activator.Summoners
                     Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
                 {
                     if (hero.IncomeDamage > 0 && !hero.Player.IsRecalling() && !hero.Player.InFountain())
-                        UseSpell();
+                        UseSpell(Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
 
                     if (hero.IncomeDamage > hero.Player.Health)
-                        UseSpell();
+                        UseSpell(Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
                 }
 
                 if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >=
                     Menu.Item("selfmuchhp" + Name + "pct").GetValue<Slider>().Value)
-                    UseSpell();
+                    UseSpell(Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
 
                 if (Menu.Item("use" + Name + "ulti").GetValue<bool>() &&
                     hero.IncomeDamage > 0 && hero.HitTypes.Contains(HitType.Ultimate))
