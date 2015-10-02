@@ -141,6 +141,11 @@ namespace KurisuDarius
 
         internal static void Drawing_OnDraw(EventArgs args)
         {
+            if (KL.Player.IsDead)
+            {
+                return;
+            }
+
             var acircle = Config.Item("drawe").GetValue<Circle>();
             var rcircle = Config.Item("drawr").GetValue<Circle>();
             var qcircle = Config.Item("drawq").GetValue<Circle>();
@@ -157,13 +162,21 @@ namespace KurisuDarius
             if (!Config.Item("drawstack").GetValue<bool>())
                 return;
 
+            var plaz = Drawing.WorldToScreen(KL.Player.Position);
+            if (KL.Player.GetBuffCount("dariusexecutemulticast") > 0)
+            {
+                var executetime = KL.Player.GetBuff("dariusexecutemulticast").EndTime - Game.Time;
+                Drawing.DrawText(plaz[0] - 15, plaz[1] + 55, System.Drawing.Color.OrangeRed, executetime.ToString("0.0"));
+            }
+
             foreach (var enemy in HeroManager.Enemies.Where(ene => ene.IsValidTarget() && !ene.IsZombie))
             {
                 var enez = Drawing.WorldToScreen(enemy.Position);
                 if (enemy.GetBuffCount("dariushemo") > 0)
                 {
-                    Drawing.DrawText(enez[0] - 50, enez[1], System.Drawing.Color.OrangeRed, 
-                        "Stack Count: " + enemy.GetBuffCount("dariushemo"));
+                    var endtime = enemy.GetBuff("dariushemo").EndTime - Game.Time;
+                    Drawing.DrawText(enez[0] - 50, enez[1], System.Drawing.Color.OrangeRed,  "Stack Count: " + enemy.GetBuffCount("dariushemo"));
+                    Drawing.DrawText(enez[0] - 25, enez[1] + 20, System.Drawing.Color.OrangeRed, endtime.ToString("0.0"));
                 }
             }
         }
@@ -172,30 +185,34 @@ namespace KurisuDarius
         internal static void Orbwalking_AfterAttack(AttackableUnit unit, AttackableUnit target)
         {
             var hero = unit as Obj_AI_Hero;
-            if (hero != null && hero.Type == GameObjectType.obj_AI_Hero)
+            if (hero == null || !hero.IsValid<Obj_AI_Hero>())
+                return;
+
+            if (hero.Type != GameObjectType.obj_AI_Hero)
+                return;
+
+            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+                return;
+
+            if (KL.Spellbook["R"].IsReady() && KL.Player.Mana - WCost > RCost[KL.Spellbook["R"].Level - 1] || 
+               !KL.Spellbook["R"].IsReady())
             {
-                if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
-                {
-                    if (KL.Spellbook["R"].IsReady() && 
-                        KL.Player.Mana - WCost < RCost[KL.Spellbook["R"].Level - 1])
-                        return;
-
-                    if (!hero.HasBuffOfType(BuffType.Slow) || !Config.Item("wwww").GetValue<bool>())
-                         KL.Spellbook["W"].Cast();
-
-                    if (KL.Spellbook["W"].IsReady() || !Config.Item("iiii").GetValue<bool>())
-                        return;
-
-                    if (Items.CanUseItem(3077) || 
-                        Items.CanUseItem(3074) ||
-                        Items.CanUseItem(3748))
-                    {
-                        Items.UseItem(3074);
-                        Items.UseItem(3077);
-                        Items.CanUseItem(3748);
-                    }
-                }
+                if (!hero.HasBuffOfType(BuffType.Slow) || !Config.Item("wwww").GetValue<bool>())
+                    KL.Spellbook["W"].Cast();
             }
+
+            if (KL.Spellbook["W"].IsReady() || !Config.Item("iiii").GetValue<bool>())
+                return;
+
+            if (Items.HasItem(3077) && Items.CanUseItem(3077))
+                Items.UseItem(3077);
+
+            if (Items.HasItem(3074) && Items.CanUseItem(3074))
+                Items.UseItem(3074);
+
+            if (Items.HasItem(3748) && Items.CanUseItem(3748))
+                Items.UseItem(3748);
+
         }
 
 
@@ -254,6 +271,9 @@ namespace KurisuDarius
             if (!unit.IsValidTarget() || unit.IsZombie)
                 return false;
 
+            if (KL.Player.Distance(unit.ServerPosition) < 175)
+                return false;
+
             if (KL.Spellbook["R"].IsReady() &&
                 KL.Player.Mana - QCost[KL.Spellbook["Q"].Level - 1] < RCost[KL.Spellbook["R"].Level - 1])
                 return false;
@@ -267,9 +287,6 @@ namespace KurisuDarius
 
             if (KL.Spellbook["W"].IsReady() && KL.Player.HasBuff("DariusNoxonTactictsONH") &&
                 unit.Distance(KL.Player.ServerPosition) <= 205)
-                return false;
-
-            if (KL.Player.Distance(unit.ServerPosition) < 175)
                 return false;
 
             if (KL.Player.Distance(unit.ServerPosition) > KL.Spellbook["Q"].Range)
@@ -332,6 +349,9 @@ namespace KurisuDarius
                 {
                     if (etarget.Distance(KL.Player.ServerPosition) > 250)
                     {
+                        if (KL.Player.CountAlliesInRange(1000) >= 1)
+                            KL.Spellbook["E"].Cast(etarget.ServerPosition);
+
                         if (KL.RDmg(etarget, PassiveCount(etarget)) - KL.Hemorrhage(etarget, 1) >= etarget.Health)
                             KL.Spellbook["E"].Cast(etarget.ServerPosition);
 
