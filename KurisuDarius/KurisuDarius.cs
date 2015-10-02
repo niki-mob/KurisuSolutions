@@ -235,21 +235,15 @@ namespace KurisuDarius
                     {
                         if (KL.RDmg(unit, PassiveCount(unit)) + Rmodi + KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health)
                         {
-                            if (!unit.HasBuffOfType(BuffType.Invulnerability) &&
-                                !unit.HasBuffOfType(BuffType.SpellShield))
-                            {
+                            if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
                                 KL.Spellbook["R"].CastOnUnit(unit);
-                            }
                         }
                     }
 
                     if (KL.RDmg(unit, PassiveCount(unit)) + Rmodi >= unit.Health + KL.Hemorrhage(unit, 1))
                     {
-                        if (!unit.HasBuffOfType(BuffType.Invulnerability) &&
-                            !unit.HasBuffOfType(BuffType.SpellShield))
-                        {
+                        if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
                             KL.Spellbook["R"].CastOnUnit(unit);
-                        }
                     }
                 }
             }
@@ -268,7 +262,8 @@ namespace KurisuDarius
 
         internal static bool CanQ(Obj_AI_Base unit)
         {
-            if (!unit.IsValidTarget() || unit.IsZombie)
+            if (!unit.IsValidTarget() || unit.IsZombie || 
+                TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.Physical))
                 return false;
 
             if (KL.Player.Distance(unit.ServerPosition) < 175)
@@ -374,8 +369,7 @@ namespace KurisuDarius
                     {
                         if (KL.RDmg(unit, PassiveCount(unit)) + Rmodi >= unit.Health + KL.Hemorrhage(unit, 1))
                         {
-                            if (!unit.HasBuffOfType(BuffType.Invulnerability) &&
-                                !unit.HasBuffOfType(BuffType.SpellShield))
+                            if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
                             {
                                 KL.Spellbook["R"].CastOnUnit(unit);
                             }
