@@ -10,7 +10,8 @@ namespace KurisuMorgana
         Unknown = 0,
         Line = 1,
         Circle = 2,
-        Cone = 3
+        Cone = 3,
+        Unit = 4
     }
 
     public class KurisuLib
@@ -76,6 +77,7 @@ namespace KurisuMorgana
                     HeroName = "Alistar",
                     SpellMenuName = "Headbutt",
                     Slot = SpellSlot.W,
+                    Type = Skilltype.Unit,
                     SDataName = "Headbutt",
                     DangerLevel = 3
                 });
@@ -124,7 +126,7 @@ namespace KurisuMorgana
                 {
                     HeroName = "Annie",
                     SpellMenuName = "Tibbers",
-                    Slot = SpellSlot.Q,
+                    Slot = SpellSlot.R,
                     Type = Skilltype.Circle,
                     SDataName = "InfernalGuardian",
                     DangerLevel = 5
@@ -147,16 +149,6 @@ namespace KurisuMorgana
                     Slot = SpellSlot.W,
                     Type = Skilltype.Cone,
                     SDataName = "Volley",
-                    DangerLevel = 3
-                });
-            CCList.Add(
-                new KurisuLib
-                {
-                    HeroName = "Azir",
-                    SpellMenuName = "ShiftingSands",
-                    Slot = SpellSlot.E,
-                    Type = Skilltype.Circle,
-                    SDataName = "AzirE",
                     DangerLevel = 3
                 });
             CCList.Add(
@@ -356,6 +348,7 @@ namespace KurisuMorgana
                 HeroName = "FiddleSticks",
                 SpellMenuName = "Terrify",
                 Slot = SpellSlot.Q,
+                Type = Skilltype.Unit,
                 DangerLevel = 5,
                 SDataName = "Terrify"
             });
@@ -500,6 +493,7 @@ namespace KurisuMorgana
                      SpellMenuName = "Zephyr",
                      Slot = SpellSlot.W,
                      DangerLevel = 3,
+                     Type = Skilltype.Unit,
                      SDataName = "ReapTheWhirlwind",
                  });
             CCList.Add(
@@ -508,7 +502,7 @@ namespace KurisuMorgana
                      HeroName = "Jax",
                      SpellMenuName = "Counter Strike",
                      Slot = SpellSlot.E,
-                     Type = Skilltype.Line,
+                     Type = Skilltype.Circle,
                      DangerLevel = 5,
                      SDataName = "JaxCounterStrike",
                  });
@@ -528,6 +522,7 @@ namespace KurisuMorgana
                     HeroName = "Jayce",
                     SpellMenuName = "Thundering Blow",
                     Slot = SpellSlot.E,
+                    Type = Skilltype.Unit,
                     DangerLevel = 3,
                     SDataName = "JayceThunderingBlow",
                 });
@@ -547,7 +542,7 @@ namespace KurisuMorgana
                     HeroName = "Jinx",
                     SpellMenuName = "Chompers!",
                     Slot = SpellSlot.E,
-                    Type = Skilltype.Line,
+                    Type = Skilltype.Circle,
                     DangerLevel = 4,
                     SDataName = "JinxE",
                 });
@@ -567,6 +562,7 @@ namespace KurisuMorgana
                      HeroName = "Karma",
                      SpellMenuName = "Sprit Bond",
                      Slot = SpellSlot.W,
+                     Type = Skilltype.Unit,
                      DangerLevel = 3,
                      SDataName = "KarmaQMantra",
                  });
@@ -588,7 +584,7 @@ namespace KurisuMorgana
                     HeroName = "Khazix",
                     SpellMenuName = "Void Spikes",
                     Slot = SpellSlot.W,
-                    Type = Skilltype.Line,
+                    Type = Skilltype.Cone,
                     DangerLevel = 2,
                     SDataName = "KhazixW",
                 });
@@ -598,6 +594,7 @@ namespace KurisuMorgana
                     HeroName = "Kayle",
                     SpellMenuName = "Reckoning",
                     Slot = SpellSlot.Q,
+                    Type = Skilltype.Unit,
                     DangerLevel = 3,
                     SDataName = "JudicatorReckoning",
                 });
@@ -637,6 +634,7 @@ namespace KurisuMorgana
                     HeroName = "LeeSin",
                     SpellMenuName = "Dragon's Rage",
                     Slot = SpellSlot.R,
+                    Type = Skilltype.Unit,
                     DangerLevel = 5,
                     SDataName = "BlindMonkRKick",
                 });
@@ -656,6 +654,7 @@ namespace KurisuMorgana
                      HeroName = "Leona",
                      SpellMenuName = "Shield of Daybreak",
                      Slot = SpellSlot.Q,
+                     Type = Skilltype.Circle,
                      DangerLevel = 3,
                      SDataName = "LeonaShieldOfDaybreak",
                  });
@@ -689,7 +688,16 @@ namespace KurisuMorgana
                     DangerLevel = 3,
                     SDataName = "LissandraW",
                 });
-
+            CCList.Add(
+                new KurisuLib
+                {
+                    HeroName = "Lissandra",
+                    SpellMenuName = "Frozen Tomb",
+                    Slot = SpellSlot.R,
+                    Type = Skilltype.Unit,
+                    DangerLevel = 5,
+                    SDataName = "LissandraR",
+                });
             CCList.Add(
                 new KurisuLib
                 {
@@ -775,6 +783,7 @@ namespace KurisuMorgana
                      HeroName = "Maokai",
                      SpellMenuName = "Twisted Advance",
                      Slot = SpellSlot.W,
+                     Type = Skilltype.Unit,
                      DangerLevel = 3,
                      SDataName = "MaokaiUnstableGrowth",
                  });
@@ -784,6 +793,7 @@ namespace KurisuMorgana
                      HeroName = "Maokai",
                      SpellMenuName = "Arcane Smash",
                      Slot = SpellSlot.Q,
+                     Type = Skilltype.Line,
                      DangerLevel = 3,
                      SDataName = "MaokaiTrunkLine",
                  });
@@ -802,7 +812,8 @@ namespace KurisuMorgana
                  {
                      HeroName = "Mordekaiser",
                      SpellMenuName = "Children of the Grave",
-                     Slot = SpellSlot.Q,
+                     Slot = SpellSlot.R,
+                     Type = Skilltype.Unit,
                      DangerLevel = 5,
                      SDataName = "MordekaiserChildrenOfTheGrave",
                  });
@@ -881,6 +892,7 @@ namespace KurisuMorgana
                     HeroName = "Nautilus",
                     SpellMenuName = "Depth Charge",
                     Slot = SpellSlot.R,
+                    Type = Skilltype.Unit,
                     DangerLevel = 5,
                     SDataName = "NautilusGrandLine",
                 });
@@ -962,6 +974,7 @@ namespace KurisuMorgana
                      HeroName = "Fiddlesticks",
                      SpellMenuName = "Terrify",
                      Slot = SpellSlot.Q,
+                     Type = Skilltype.Unit,
                      DangerLevel = 3,
                      SDataName = "Terrify"
                  });
@@ -971,6 +984,7 @@ namespace KurisuMorgana
                      HeroName = "Renekton",
                      SpellMenuName = "Ruthless Predator",
                      Slot = SpellSlot.W,
+                     Type = Skilltype.Circle,
                      DangerLevel = 3,
                      SDataName = "RenektonPreExecute",
                  });
@@ -980,7 +994,7 @@ namespace KurisuMorgana
                     HeroName = "Riven",
                     SpellMenuName = "Ki Burst",
                     Slot = SpellSlot.W,
-                    Type = Skilltype.Line,
+                    Type = Skilltype.Circle,
                     DangerLevel = 5,
                     SDataName = "RivenMartyr"
                 });
@@ -1010,6 +1024,7 @@ namespace KurisuMorgana
                     HeroName = "Ryze",
                     SpellMenuName = "Rune Prision",
                     Slot = SpellSlot.W,
+                    Type = Skilltype.Unit,
                     DangerLevel = 3,
                     SDataName = "RunePrison",
                 });
@@ -1049,6 +1064,7 @@ namespace KurisuMorgana
                     HeroName = "Singed",
                     SpellMenuName = "Fling",
                     Slot = SpellSlot.E,
+                    Type = Skilltype.Unit,
                     DangerLevel = 2,
                     SDataName = "Fling",
                 });
@@ -1058,6 +1074,7 @@ namespace KurisuMorgana
                     HeroName = "Nocturne",
                     SpellMenuName = "Unspeakable Horror",
                     Slot = SpellSlot.E,
+                    Type = Skilltype.Unit,
                     DangerLevel = 3,
                     SDataName = "NocturneUnspeakableHorror",
                 });
@@ -1097,9 +1114,9 @@ namespace KurisuMorgana
                     HeroName = "Skarner",
                     SpellMenuName = "Impale",
                     Slot = SpellSlot.R,
-                    Type = Skilltype.Line,
+                    Type = Skilltype.Unit,
                     DangerLevel = 5,
-                    SDataName = "SkarnerFractureMissile",
+                    SDataName = "SkarnerImpale",
                 });
             CCList.Add(
                 new KurisuLib
@@ -1114,10 +1131,11 @@ namespace KurisuMorgana
                  new KurisuLib
                  {
                      HeroName = "Pantheon",
-                     SpellMenuName = "Heroic Charge",
+                     SpellMenuName = "Aegis of Zeonia",
                      Slot = SpellSlot.W,
+                     Type = Skilltype.Unit,
                      DangerLevel = 3,
-                     SDataName = "PoppyHeroicCharge",
+                     SDataName = "PantheonW",
                  });
             CCList.Add(
                  new KurisuLib
@@ -1136,7 +1154,7 @@ namespace KurisuMorgana
                     Slot = SpellSlot.R,
                     Type = Skilltype.Line,
                     DangerLevel = 5,
-                    SDataName = "SonaCrescendo",
+                    SDataName = "SonaR",
                 });
             CCList.Add(
                 new KurisuLib
@@ -1184,7 +1202,7 @@ namespace KurisuMorgana
                     HeroName = "Thresh",
                     SpellMenuName = "Flay",
                     Slot = SpellSlot.E,
-                    Type = Skilltype.Line,
+                    Type = Skilltype.Circle,
                     DangerLevel = 3,
                     SDataName = "ThreshEFlay",
                 });
@@ -1194,6 +1212,7 @@ namespace KurisuMorgana
                     HeroName = "Tristana",
                     SpellMenuName = "Buster Shot",
                     Slot = SpellSlot.R,
+                    Type = Skilltype.Unit,
                     DangerLevel = 5,
                     SDataName = "BusterShot",
                 });
@@ -1212,6 +1231,7 @@ namespace KurisuMorgana
                     HeroName = "Trundle",
                     SpellMenuName = "Subjugate",
                     Slot = SpellSlot.R,
+                    Type = Skilltype.Unit,
                     DangerLevel = 5,
                     SDataName = "TrundlePain",
                 });
@@ -1321,6 +1341,7 @@ namespace KurisuMorgana
                     HeroName = "Vi",
                     SpellMenuName = "Assault and Battery",
                     Slot = SpellSlot.R,
+                    Type = Skilltype.Unit,
                     DangerLevel = 5,
                     SDataName = "ViR",
                 });
@@ -1340,6 +1361,7 @@ namespace KurisuMorgana
                     HeroName = "Vayne",
                     SpellMenuName = "Condemn",
                     Slot = SpellSlot.E,
+                    Type = Skilltype.Unit,
                     DangerLevel = 3,
                     SDataName = "Vayne Condemn",
                 });
@@ -1349,6 +1371,7 @@ namespace KurisuMorgana
                     HeroName = "Warwick",
                     SpellMenuName = "Infinite Duress",
                     Slot = SpellSlot.R,
+                    Type = Skilltype.Unit,
                     DangerLevel = 5,
                     SDataName = "InfiniteDuress",
                 });
@@ -1387,6 +1410,7 @@ namespace KurisuMorgana
                      HeroName = "XinZhao",
                      SpellMenuName = "Audacious Charge",
                      Slot = SpellSlot.E,
+                     Type = Skilltype.Unit,
                      DangerLevel = 4,
                      SDataName = "XenZhaoSweep",
                  });
@@ -1455,8 +1479,9 @@ namespace KurisuMorgana
                     HeroName = "Zed",
                     SpellMenuName = "Death Mark",
                     Slot = SpellSlot.R,
+                    Type = Skilltype.Unit,
                     DangerLevel = 5,
-                    SDataName = "ZedUlt",
+                    SDataName = "ZedR",
                 });
             CCList.Add(
                 new KurisuLib
@@ -1494,6 +1519,7 @@ namespace KurisuMorgana
                     HeroName = "Taric",
                     SpellMenuName = "Dazzle",
                     Slot = SpellSlot.E,
+                    Type = Skilltype.Unit,
                     SDataName = "Dazzle",
                     DangerLevel = 5
                 });
@@ -1511,7 +1537,7 @@ namespace KurisuMorgana
                 {
                     HeroName = "Yasuo",
                     SpellMenuName = "Steel Tempest (3)",
-                    Slot = SpellSlot.W,
+                    Slot = SpellSlot.Q,
                     DangerLevel = 3,
                     SDataName = "YasuoQ3",
                 });
@@ -1524,6 +1550,7 @@ namespace KurisuMorgana
                     HeroName = "FiddleSticks",
                     SpellMenuName = "Dark Wind",
                     Slot = SpellSlot.E,
+                    Type = Skilltype.Unit,
                     DangerLevel = 3,
                     SDataName = "FiddlesticksDarkWind",
                 });
@@ -1566,6 +1593,7 @@ namespace KurisuMorgana
                     HeroName = "Talon",
                     SpellMenuName = "Cutthroat",
                     Slot = SpellSlot.E,
+                    Type = Skilltype.Unit,
                     DangerLevel = 3,
                     SDataName = "TalonCutthroat",
                 });
@@ -1575,6 +1603,7 @@ namespace KurisuMorgana
                      HeroName = "Garen",
                      SpellMenuName = "Decisive Strike",
                      Slot = SpellSlot.Q,
+                     Type = Skilltype.Circle,
                      DangerLevel = 3,
                      SDataName = "GarenQ",
                  });

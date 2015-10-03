@@ -282,8 +282,8 @@ namespace KurisuMorgana
             {
                 foreach (var itarget in HeroManager.Enemies.Where(h => h.IsValidTarget(_q.Range)))
                 {
-                    if (immobile)
-                        _q.SPredictionCast(itarget, HitChance.Immobile);
+                    if (immobile && Immobile(itarget))
+                        _q.SPredictionCast(itarget, HitChance.Medium);
 
                     if (dashing && itarget.Distance(Me.ServerPosition) <= 400f)
                         _q.SPredictionCast(itarget, HitChance.Dashing);
@@ -293,7 +293,8 @@ namespace KurisuMorgana
             if (_w.IsReady() && soil)
             {
                 foreach (var itarget in HeroManager.Enemies.Where(h => h.IsValidTarget(_w.Range)))
-                    _w.SPredictionCast(itarget, HitChance.Immobile);
+                    if (immobile && Immobile(itarget))
+                        _w.Cast(itarget.ServerPosition);
             }
 
             if (_r.IsReady())
@@ -355,10 +356,16 @@ namespace KurisuMorgana
                     continue;
 
                 foreach (var lib in KurisuLib.CCList.Where(x => x.HeroName == attacker.ChampionName && x.Slot == attacker.GetSpellSlot(args.SData.Name)))
+                {
+                    if (lib.Type == Skilltype.Unit && args.Target.NetworkId != ally.NetworkId)
+                        return;
+
                     if (_menu.Item(lib.SDataName + "on").GetValue<bool>() && _menu.Item("useon" + ally.ChampionName).GetValue<bool>())
                     {
                         LeagueSharp.Common.Utility.DelayAction.Add(100, () => _e.CastOnUnit(ally));
-                    }}
+                    }
+                }
+            }
         }
     }
 }
