@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Activator.Base;
-using Activator.Data;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -180,19 +179,6 @@ namespace Activator.Items
             if (Category.Any(t => t == MenuType.Cleanse))
             {
                 var ccmenu = new Menu(Name + " Debuff Config", Name.ToLower() + "cdeb");
-                var ssmenu = new Menu(Name + " Special Buffs", Name.ToLower() + "xspe");
-
-                foreach (var b in BuffData.BuffList.Where(x => x.MenuName != null && (x.Cleanse || x.DoT)))
-                {
-                    string xdot = b.DoT && b.Cleanse ? "[Danger]" : (b.DoT ? "[DoT]" : "[Danger]");
-
-                    if (b.Champion != null)
-                        foreach (var ene in Activator.Heroes.Where(x => x.Player.IsEnemy && b.Champion == x.Player.ChampionName))
-                            ssmenu.AddItem(new MenuItem(Name + b.Name + "cc", b.MenuName + " " + xdot)).SetValue(true);
-                    else
-                        ssmenu.AddItem(new MenuItem(Name + b.Name + "cc", b.MenuName + " " + xdot)).SetValue(true);
-                }
-
                 ccmenu.AddItem(new MenuItem(Name + "cignote", "Ignite")).SetValue(true);
                 ccmenu.AddItem(new MenuItem(Name + "cexhaust", "Exhaust")).SetValue(true);
                 ccmenu.AddItem(new MenuItem(Name + "cstun", "Stuns")).SetValue(true);
@@ -208,13 +194,11 @@ namespace Activator.Items
                 ccmenu.AddItem(new MenuItem(Name + "cslow", "Slows")).SetValue(false);
                 ccmenu.AddItem(new MenuItem(Name + "cpoison", "Poisons")).SetValue(true);
                 Menu.AddSubMenu(ccmenu);
-                Menu.AddSubMenu(ssmenu);
 
-                Menu.AddItem(new MenuItem("use" + Name + "delay", Name + " Delay")).SetValue(new Slider(150, 0, 500));
-                Menu.AddItem(new MenuItem("use" + Name + "od", Name +" Dangerous Only")).SetValue(false);
-                Menu.AddItem(new MenuItem("use" + Name + "dot", Name + " DoT only if HP% <")).SetValue(new Slider(35));
-                Menu.AddItem(new MenuItem("use" + Name + "number", "Minimum Spells to Use")).SetValue(new Slider(DefaultHP / 5, 1, 5));
-                Menu.AddItem(new MenuItem("use" + Name + "time", "Minumum Durration to Use")).SetValue(new Slider(1, 1, 5));
+                Menu.AddItem(new MenuItem("use" + Name + "number", "Minimum Spells to Use")).SetValue(new Slider(DefaultHP/5, 1, 5));
+                Menu.AddItem(new MenuItem("use" + Name + "time", "Minumum Durration to Use")).SetValue(new Slider(2, 1, 5));
+                Menu.AddItem(new MenuItem("use" + Name + "delay","Activation Delay")).SetValue(new Slider(150, 0, 500));
+                Menu.AddItem(new MenuItem("use" + Name + "od", Name + " Dangerous Only")).SetValue(false);
             }
 
             if (Category.Any(t => t == MenuType.ActiveCheck))

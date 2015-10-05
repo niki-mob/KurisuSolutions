@@ -1,4 +1,2 @@
-﻿New: Added special buffs cleanse menu to cleanse items.
-New: Added cleansing DoT (Damage Over Time) spells if HP% < X.
-New: Cleanse item menu changes (i know its a mess).
-Special Thanks: Zezzy for helping test.
+﻿New: Added combo mode for Heal and Exhaust (optional)
+Fixed: Always using exhaust even in combo mode.

@@ -16,8 +16,6 @@ namespace Activator.Data
     public class BuffData
     {
         public string Name { get; set; }
-        public string MenuName { get; set; }
-        public string Champion { get; set; }
         public bool Evade { get; set; }
         public bool DoT { get; set; }
         public int EvadeTimer { get; set; }
@@ -38,24 +36,9 @@ namespace Activator.Data
         {
             BuffList.Add(new BuffData
             {
-                Name = "suppression",
-                MenuName = "Suppresion",
-                Evade = false,
-                DoT = false,
-                EvadeTimer = 0,
-                Cleanse = true,
-                CleanseTimer = 0,
-                Slot = SpellSlot.R,
-                Interval = 1.0
-            });
-
-            BuffList.Add(new BuffData
-            {
-                Champion = "Vi",
                 Name = "virknockup",
-                MenuName = "Vi R Knockup",
                 Evade =  true,
-                DoT = false,
+                DoT = true,
                 EvadeTimer = 0,
                 Cleanse = false,
                 CleanseTimer = 0,
@@ -66,7 +49,6 @@ namespace Activator.Data
             BuffList.Add(new BuffData
             {
                 Name = "itemsmitechallenge",
-                MenuName = "Challenging Smite",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -78,8 +60,6 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Gangplank",
-                MenuName = "Passive Burn",
                 Name = "gangplankpassiveattackdot",
                 Evade = false,
                 DoT = true,
@@ -92,9 +72,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Teemo",
                 Name = "bantamtraptarget",
-                MenuName = "Teemo Shroom",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -106,9 +84,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Teemo",
                 Name = "toxicshotparticle",
-                MenuName = "Teemo Toxic Shot",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -120,9 +96,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Talon",
                 Name = "talonbleeddebuf",
-                MenuName = "Talon Bleed",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -134,9 +108,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Malzahar",
                 Name = "alzaharmaleficvisions",
-                MenuName = "Malzahar Aids",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -148,9 +120,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "FiddleSticks",
                 Name = "drainchannel",
-                MenuName = "Fiddle Drain",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -162,7 +132,6 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Hecarim",
                 Name = "hecarimdefilelifeleech",
                 Evade = false,
                 DoT = true,
@@ -175,9 +144,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Swain",
                 Name = "swaintorment",
-                MenuName = "Swain Torment",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -189,9 +156,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Brand",
                 Name = "brandablaze",
-                MenuName = "Brand Blaze",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -203,9 +168,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Fizz",
                 Name = "fizzseastonetrident",
-                MenuName = "Fizz Burn Passive",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -217,11 +180,9 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Tristana",
-                Name = "tristanaechargesound",
-                MenuName = "Explosive Charge",
+                Name = "tristanachargesound",
                 Evade = false,
-                DoT = true, // not really a dot but can be cleansed
+                DoT = false,
                 EvadeTimer = 0,
                 Cleanse = false,
                 CleanseTimer = 0,
@@ -231,9 +192,7 @@ namespace Activator.Data
             
             BuffList.Add(new BuffData
             {
-                Champion = "Darius",
                 Name = "dariushemo",
-                MenuName = "Hemorrhage",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -245,9 +204,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Nidalee",
                 Name = "bushwackdamage",
-                MenuName = "Bushwhack",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -255,6 +212,18 @@ namespace Activator.Data
                 CleanseTimer = 0,
                 Slot = SpellSlot.W,
                 Interval = .8
+            });
+
+            BuffList.Add(new BuffData
+            {
+                Name = "suppression",
+                Evade = false,
+                DoT = true,
+                EvadeTimer = 0,
+                Cleanse = true,
+                CleanseTimer = 0,
+                Slot = SpellSlot.R,
+                Interval = 1.0
             });
 
             BuffList.Add(new BuffData
@@ -307,9 +276,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Zilean",
                 Name = "zileanqenemybomb",
-                MenuName = "Zilean Bomb",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -321,7 +288,6 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Wukong",
                 Name = "monkeykingspintowin",
                 Evade = false,
                 DoT = true,
@@ -334,7 +300,6 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Zac",
                 Name = "zacr",
                 Evade = true,
                 DoT = true,
@@ -348,9 +313,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Mordekaiser",
                 Name = "mordekaiserchildrenofthegrave",
-                MenuName = "Children of the Grave",
                 Evade = false,
                 DoT = true,
                 EvadeTimer = 0,
@@ -422,9 +385,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Bruam",
                 Name = "bruammark",
-                MenuName = "Bruam Passive",
                 Evade = false,
                 DoT = false,
                 EvadeTimer = 0,
@@ -435,11 +396,9 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Zed",
                 Name = "zedulttargetmark",
-                MenuName = "Zed Mark",
                 Evade = true,
-                DoT = false,
+                DoT = true,
                 EvadeTimer = 2800,
                 Cleanse = true,
                 CleanseTimer = 1800,
@@ -449,7 +408,6 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Karthus",
                 Name = "fallenonetarget",
                 Evade = true,
                 DoT = false,
@@ -461,7 +419,6 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Karthus",
                 Name = "karthusfallenonetarget",
                 Evade = true,
                 DoT = false,
@@ -473,9 +430,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Fizz",
                 Name = "fizzmarinerdoombomb",
-                MenuName = "Shark Bait",
                 Evade = false,
                 DoT = false,
                 EvadeTimer = 0,
@@ -486,11 +441,9 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Morgana",
                 Name = "soulshackles",
-                MenuName = "Soul Shackles",
                 Evade = true,
-                DoT = false,
+                DoT = true,
                 EvadeTimer = 2600,
                 Cleanse = true,
                 CleanseTimer = 1100,
@@ -500,9 +453,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Varus",
                 Name = "varusrsecondary",
-                MenuName = "Chains of Corruption",
                 Evade = false,
                 DoT = false,
                 EvadeTimer = 0,
@@ -513,7 +464,6 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Caitlyn",
                 Name = "caitlynaceinthehole",
                 Evade = true,
                 DoT = false,
@@ -525,9 +475,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Vladimir",
                 Name = "vladimirhemoplague",
-                MenuName = "Hemoplague",
                 Evade = true,
                 DoT = false,
                 EvadeTimer = 4500,
@@ -538,9 +486,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Urgot",
                 Name = "urgotswap2",
-                MenuName = "Urgot Swap",
                 Evade = false,
                 DoT = false,
                 EvadeTimer = 0,
@@ -551,9 +497,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Skarner",
                 Name = "skarnerimpale",
-                MenuName = "Skarner Impale",
                 Evade = false,
                 DoT = false,
                 EvadeTimer = 0,
@@ -562,11 +506,10 @@ namespace Activator.Data
                 Slot = SpellSlot.R
             });
 
+
             BuffList.Add(new BuffData
             {
-                Champion = "Poppy",
-                Name = "poppyulttargetmark",
-                MenuName = "Diplomatic Immunity",
+                Name = "poppydiplomaticimmunity",
                 Evade = false,
                 DoT = false,
                 EvadeTimer = 0,
@@ -577,9 +520,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "LeeSin",
                 Name = "blindmonkqonechaos",
-                MenuName = "Lee Sonic Wave",
                 Evade = false,
                 DoT = false,
                 EvadeTimer = 0,
@@ -590,9 +531,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Leblanc",
                 Name = "leblancsoulshackle",
-                MenuName = "Leblanc Shackle",
                 Evade = false,
                 DoT = false,
                 EvadeTimer = 2000,
@@ -603,9 +542,7 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
-                Champion = "Leblanc",
                 Name = "leblancsoulshacklem",
-                MenuName = "Leblanc Shackle (R)",
                 Evade = true,
                 DoT = false,
                 EvadeTimer = 2000,
