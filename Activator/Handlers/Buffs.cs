@@ -20,18 +20,36 @@ namespace Activator.Handlers
 {
     public static class Buffs
     {
-        public static void StartOnUpdate()
+        public static void OnUpdate()
         {
-            Game.OnUpdate += Game_OnUpdate;
+            Game.OnUpdate += args =>
+            {
+                foreach (var hero in Activator.Allies())
+                {
+                    foreach (var aura in BuffData.BuffList.Where(au => hero.Player.HasBuff(au.Name)).Where(aura => aura.Evade))
+                    {
+                        Utility.DelayAction.Add(aura.EvadeTimer,
+                            () =>
+                            {
+                                // double check after delay incase we no longer have the buff
+                                if (hero.Player.HasBuff(aura.Name))
+                                {
+                                    hero.HitTypes.Add(HitType.Ultimate);
+                                    Utility.DelayAction.Add(100, () => hero.HitTypes.Remove(HitType.Ultimate));
+                                }
+                            });
+                    }
+                }
+            };
         }
 
-       internal static void Game_OnUpdate(EventArgs args)
+        internal static void CheckSpecial(string item, Menu menu, Obj_AI_Hero unit)
         {
-            foreach (var hero in Activator.Allies())
+            foreach (var hero in Activator.Allies().Where(x => x.Player.NetworkId == unit.NetworkId))
             {
                 foreach (var aura in BuffData.BuffList.Where(au => hero.Player.HasBuff(au.Name)))
                 {
-                    if (aura.Cleanse)
+                    if (aura.Cleanse && menu.Item(item + aura.Name + "cc").GetValue<bool>())
                     {
                         Utility.DelayAction.Add(aura.CleanseTimer,
                             () =>
@@ -45,18 +63,17 @@ namespace Activator.Handlers
                             });
                     }
 
-                    if (aura.Evade)
+                    if (aura.DoT && menu.Item(item + aura.Name + "cc").GetValue<bool>())
                     {
-                        Utility.DelayAction.Add(aura.EvadeTimer,
-                            () =>
-                            {                                
-                                // double check after delay incase we no longer have the buff
-                                if (hero.Player.HasBuff(aura.Name))
-                                {
-                                    hero.HitTypes.Add(HitType.Ultimate);
-                                    Utility.DelayAction.Add(100, () => hero.HitTypes.Remove(HitType.Ultimate));
-                                }
-                            });
+                        if (hero.Player.HealthPercent <= menu.Item("use" + item + "dot").GetValue<Slider>().Value)
+                        {
+                            // double check after delay incase we no longer have the buff
+                            if (hero.Player.HasBuff(aura.Name))
+                            {
+                                hero.ForceQSS = true;
+                                Utility.DelayAction.Add(100, () => hero.ForceQSS = false);
+                            }
+                        }
                     }
 
                     if (aura.DoT)
@@ -158,7 +175,7 @@ namespace Activator.Handlers
                 {
                     foreach (var buff in GetAuras(hero.Player, "Quicksilver"))
                     {
-                        var duration = (int)Math.Ceiling(buff.EndTime - buff.StartTime);
+                        var duration = (int) Math.Ceiling(buff.EndTime - buff.StartTime);
                         if (duration > hero.QSSHighestBuffTime)
                         {
                             hero.QSSHighestBuffTime = duration;

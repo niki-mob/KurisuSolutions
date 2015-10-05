@@ -78,6 +78,8 @@ namespace Activator.Items.Cleansers
                     hero.QSSHighestBuffTime = 0;
                 }
 
+
+                Buffs.CheckSpecial(Name, Menu, hero.Player);
                 Buffs.CheckMikaels(hero.Player);
 
                 if (hero.MikaelsBuffCount >= Menu.Item("use" + Name + "number").GetValue<Slider>().Value &&
