@@ -53,7 +53,7 @@ namespace Activator.Summoners
             if (Name == "summonerboost")
             {
                 Activator.UseAllyMenu = true;
-                var ccmenu = new Menu(DisplayName + " Debuff Config", DisplayName.ToLower() + "cdeb");
+                var ccmenu = new Menu(DisplayName + " Buff Types", DisplayName.ToLower() + "cdeb");
                 ccmenu.AddItem(new MenuItem(Name + "cignote", "Ignite")).SetValue(true);
                 ccmenu.AddItem(new MenuItem(Name + "cexhaust", "Exhaust")).SetValue(true);
                 ccmenu.AddItem(new MenuItem(Name + "cstun", "Stuns")).SetValue(true);
@@ -70,10 +70,10 @@ namespace Activator.Summoners
                 ccmenu.AddItem(new MenuItem(Name + "cpoison", "Poisons")).SetValue(true);
                 Menu.AddSubMenu(ccmenu);
 
-                Menu.AddItem(new MenuItem("use" + Name + "number", "Minimum Spells to Use")).SetValue(new Slider(1, 1, 5));
-                Menu.AddItem(new MenuItem("use" + Name + "time", "Minumum Durration to Use")).SetValue(new Slider(2, 1, 5));
+                Menu.AddItem(new MenuItem("use" + Name + "number", "Min Buffs to Use")).SetValue(new Slider(1, 1, 5));
+                Menu.AddItem(new MenuItem("use" + Name + "time", "Min Durration to Use (sec)")).SetValue(new Slider(2, 1, 5));
                 Menu.AddItem(new MenuItem("use" + Name + "delay", "Activation Delay")).SetValue(new Slider(150, 0, 500));
-                Menu.AddItem(new MenuItem("use" + Name + "od", DisplayName + " Dangerous Only")).SetValue(false);
+                Menu.AddItem(new MenuItem("use" + Name + "od", "Use for Dangerous Only")).SetValue(false);
                 Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }));
             }
 
