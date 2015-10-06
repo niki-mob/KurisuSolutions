@@ -77,6 +77,8 @@ namespace Activator.Items.Cleansers
                         hero.QSSHighestBuffTime = 0;
                     }
 
+
+                    Buffs.CheckSpecial(Name, Menu, hero.Player);
                     Buffs.CheckMercurial(hero.Player);
 
                     if (hero.MercurialBuffCount >= Menu.Item("use" + Name + "number").GetValue<Slider>().Value &&
