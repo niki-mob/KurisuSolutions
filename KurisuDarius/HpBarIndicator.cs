@@ -61,7 +61,6 @@ namespace KurisuDarius
             dxLine.OnLostDevice();
         }
 
-
         private float getHpProc(float dmg = 0)
         {
             float health = ((unit.Health - dmg) > 0) ? (unit.Health - dmg) : 0;

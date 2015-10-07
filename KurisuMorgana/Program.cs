@@ -26,10 +26,10 @@ namespace KurisuMorgana
 
             // set spells
             _q = new Spell(SpellSlot.Q, 1175f);
-            _q.SetSkillshot(0.25f, 80f, 1200f, true, SkillshotType.SkillshotLine);
+            _q.SetSkillshot(0.25f, 75f, 1200f, true, SkillshotType.SkillshotLine);
 
             _w = new Spell(SpellSlot.W, 900f);
-            _w.SetSkillshot(0.50f, 400f, 2200f, false, SkillshotType.SkillshotCircle);
+            _w.SetSkillshot(0.50f, 200f, 2200f, false, SkillshotType.SkillshotCircle);
 
             _e = new Spell(SpellSlot.E, 750f);
             _r = new Spell(SpellSlot.R, 600f);
@@ -122,10 +122,17 @@ namespace KurisuMorgana
             ccmenu.AddItem(new MenuItem("harassmana", "Harass mana %")).SetValue(new Slider(55, 0, 99));
             spellmenu.AddSubMenu(ccmenu);
 
+            var wwmenu = new Menu(":: Farm Settings", "wwmenu");
+            wwmenu.AddItem(new MenuItem("farmw", "Use W")).SetValue(true);
+            wwmenu.AddItem(new MenuItem("farmcount", "-> If Min Minions >=")).SetValue(new Slider(3, 1, 7));
+            wwmenu.AddItem(new MenuItem("farmkey", "WaveClear (active)"))
+                .SetValue(new KeyBind('V', KeyBindType.Press));
+            spellmenu.AddSubMenu(wwmenu);
 
             spellmenu.AddItem(new MenuItem("support", ":: Support Mode")).SetValue(false);
             spellmenu.AddItem(new MenuItem("dp", ":: Drawings")).SetValue(true);
             _menu.AddSubMenu(spellmenu);
+
             _menu.AddToMainMenu();
 
             Game.PrintChat("<font color=\"#FF33D6\"><b>KurisuMorgana</b></font> - Loaded!");
@@ -189,6 +196,16 @@ namespace KurisuMorgana
                 Harass(_menu.Item("useharassq").GetValue<bool>(),
                        _menu.Item("useharassw").GetValue<bool>());
             }
+
+            if (_menu.Item("farmkey").GetValue<KeyBind>().Active && _w.IsReady())
+            {
+                var minionpositions = MinionManager.GetMinions(_w.Range).Select(x => x.Position.To2D());
+                var location = MinionManager.GetBestCircularFarmLocation(minionpositions.ToList(), _w.Width, _w.Range);
+                if (location.MinionsHit >= _menu.Item("farmcount").GetValue<Slider>().Value)
+                {
+                    _w.Cast(location.Position);
+                }
+            }
         }
 
         private static void Drawing_OnDraw(EventArgs args)
@@ -228,6 +245,7 @@ namespace KurisuMorgana
             if (user && _r.IsReady())
             {
                 var ticks = _menu.Item("calcw").GetValue<Slider>().Value;
+
                 var rtarget = TargetSelector.GetTarget(_r.Range, TargetSelector.DamageType.Magical);
                 if (rtarget.IsValidTarget() && _menu.Item("rkill").GetValue<bool>())
                 {
@@ -236,7 +254,7 @@ namespace KurisuMorgana
                         if (rtarget.Health > _mr + _ma * 2 + _mw * 2 && !rtarget.IsZombie)
                         {
                             if (_e.IsReady()) _e.CastOnUnit(Me);
-                            _r.Cast();
+                                _r.Cast();
                         }
                     }
 
