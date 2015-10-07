@@ -238,6 +238,10 @@ namespace KurisuNidalee
             {
                 _mainMenu.SubMenu("SPRED").DisplayName = ":: SPrediction";
                 _mainMenu.Item("SPREDREACTIONDELAY").SetValue(new Slider(0, 0, 200));
+
+                // Set Common Pred defualt
+                _mainMenu.Item("PREDICTONLIST").SetValue(new StringList(new[] { "SPrediction", "Common Predicion" }, 1));
+                _mainMenu.Item("SPREDDRAWINGS").SetValue(false);
             }
 
             Game.PrintChat("<font color=\"#FF9900\"><b>KurisuNidalee:</b></font> Loaded");
@@ -263,7 +267,7 @@ namespace KurisuNidalee
                 {
                     if (_mainMenu.Item("usecombo").GetValue<KeyBind>().Active && _cougarForm)
                     {
-                        Me.IssueOrder(GameObjectOrder.AttackUnit, _target);
+                        Orbwalking.LastAATick = 0;
                     }
                 }
             }
@@ -502,9 +506,9 @@ namespace KurisuNidalee
                 if (Takedown.IsReady() && _mainMenu.Item("usecougarq").GetValue<bool>() && 
                     target.Distance(Me.ServerPosition, true) <= Takedown.RangeSqr + 150*150)
                 {
-                    Takedown.CastOnUnit(Me); 
+                    Takedown.CastOnUnit(Me);
                     if (Me.HasBuff("Takedown"))
-                        Me.IssueOrder(GameObjectOrder.AttackUnit, target);
+                        Orbwalking.LastAATick = 0;
                 }
 
                 // Check is pounce is ready 

@@ -147,6 +147,7 @@ namespace SPrediction
                 predMenu.AddItem(new MenuItem("PREDICTONLIST", "Prediction Method").SetValue(new StringList(new[] { "SPrediction", "Common Predicion" }, 0)));
                 predMenu.AddItem(new MenuItem("SPREDWINDUP", "Check for target AA Windup").SetValue(true));
                 predMenu.AddItem(new MenuItem("SPREDWPANALYSIS", "Waypoint analysis splitting method").SetValue(new StringList(new[] { "By target bounding radius", "By spell width" }, 1)));
+                predMenu.AddItem(new MenuItem("SPREDMAXRANGEIGNORE", "Max Range Dodge Ignore (%)").SetValue(new Slider(50, 0, 100)));
                 predMenu.AddItem(new MenuItem("SPREDREACTIONDELAY", "Ignore Rection Delay").SetValue<Slider>(new Slider(0, 0, 200)));
                 predMenu.AddItem(new MenuItem("SPREDDELAY", "Spell Delay").SetValue<Slider>(new Slider(0, 0, 200)));
                 predMenu.AddItem(new MenuItem("SPREDHC", "Count HitChance").SetValue<KeyBind>(new KeyBind(32, KeyBindType.Press)));
@@ -212,8 +213,11 @@ namespace SPrediction
 
             try
             {
+                if (type == SkillshotType.SkillshotCircle)
+                    range += width;
+
                 //to do: hook logic ? by storing average movement direction etc
-                if (path.Count <= 1 && (Environment.TickCount - PathTracker.EnemyInfo[target.NetworkId].LastAATick > 300 || !predMenu.Item("SPREDWINDUP").GetValue<bool>())) //if target is not moving, easy to hit (and not aaing)
+                if (path.Count <= 1 && movt > 100 && (Environment.TickCount - PathTracker.EnemyInfo[target.NetworkId].LastAATick > 300 || !predMenu.Item("SPREDWINDUP").GetValue<bool>())) //if target is not moving, easy to hit (and not aaing)
                 {
                     result.HitChance = HitChance.VeryHigh;
                     result.CastPosition = target.ServerPosition.To2D();
@@ -267,10 +271,10 @@ namespace SPrediction
                     }
 
                     //to do: find a fuking logic
-                    if (avgp < 400 && movt < 100)
+                    if (avgp < 400 && movt < 100 && path.PathLength() <= avgp)
                     {
                         result.HitChance = HitChance.High;
-                        result.CastPosition = target.ServerPosition.To2D();
+                        result.CastPosition = path.Last();
                         result.UnitPosition = result.CastPosition;
                         result.CollisionResult = Collision.GetCollisions(from, result.CastPosition, width, delay, missileSpeed);
 
@@ -422,9 +426,9 @@ namespace SPrediction
             if (distance == 0)
             {
                 float targetDistance = from.Value.Distance(target.ServerPosition);
-                float flyTime = 0f;
+                float flyTime = targetDistance / missileSpeed;
 
-                if (missileSpeed != 0) //skillshot with a missile
+                /*if (missileSpeed != 0) //skillshot with a missile
                 {
                     Vector2 Vt = (path[path.Count - 1] - path[0]).Normalized() * target.MoveSpeed;
                     Vector2 Vs = (target.ServerPosition.To2D() - from.Value).Normalized() * missileSpeed;
@@ -434,9 +438,9 @@ namespace SPrediction
 
                     if (path.Count > 5) //complicated movement
                         flyTime = targetDistance / missileSpeed;
-                }
+                }*/
 
-                float t = flyTime + delay + Game.Ping / 2000f + SpellDelay / 1000f;
+                float t = flyTime + delay + Game.Ping / 2000f;
                 distance = t * target.MoveSpeed;
             }
 
@@ -850,7 +854,7 @@ namespace SPrediction
                 if (collisionable && result.CollisionResult.Objects.HasFlag(Collision.Flags.Minions))
                     result.HitChance = HitChance.Collision;
 
-                if (from.Distance(result.CastPosition) > range - GetArrivalTime(from.Distance(result.CastPosition), delay, missileSpeed) * target.MoveSpeed)
+                if (from.Distance(result.CastPosition) > range - GetArrivalTime(from.Distance(result.CastPosition), delay, missileSpeed) * target.MoveSpeed * (100 - predMenu.Item("SPREDMAXRANGEIGNORE").GetValue<Slider>().Value) / 100f)
                     result.HitChance = HitChance.OutOfRange;
 
                 return result;
@@ -983,7 +987,7 @@ namespace SPrediction
                         Vector2 center = (pA + pB) / 2f;
 
                         float flytime = missileSpeed != 0 ? from.Distance(center) / missileSpeed : 0f;
-                        float t = flytime + delay + Game.Ping / 2000f + SpellDelay / 1000f;
+                        float t = flytime + delay + Game.Ping / 1000f + SpellDelay / 1000f;
 
                         Vector2 currentPosition = isDash ? target.Position.To2D() : target.ServerPosition.To2D();
 
@@ -993,7 +997,7 @@ namespace SPrediction
                         if (Math.Min(arriveTimeA, arriveTimeB) <= t && Math.Max(arriveTimeA, arriveTimeB) >= t)
                         {
                             result.HitChance = GetHitChance(t, avgt, movt, avgp);
-                            result.CastPosition = center;
+                            result.CastPosition = center + (direction * Game.Ping / 1000f * moveSpeed) - (type == SkillshotType.SkillshotLine ? (center - from).Normalized().Perpendicular() * width / 2f : Vector2.Zero);
                             result.UnitPosition = center + (direction * (t - Math.Min(arriveTimeA, arriveTimeB)) * moveSpeed);
                             result.CollisionResult = Collision.GetCollisions(from, result.CastPosition, width, delay, missileSpeed);
                             return result;
@@ -1092,9 +1096,9 @@ namespace SPrediction
                     Drawing.DrawText(centerPos.X, centerPos.Y, System.Drawing.Color.Red, lastDrawHitchance);
                 }
 
-                Drawing.DrawText(Drawing.Width - 200, 150, System.Drawing.Color.Red, String.Format("Casted Spell Count: {0}", castCount));
-                Drawing.DrawText(Drawing.Width - 200, 170, System.Drawing.Color.Red, String.Format("Hit Spell Count: {0}", hitCount));
-                Drawing.DrawText(Drawing.Width - 200, 190, System.Drawing.Color.Red, String.Format("Hitchance (%): {0}%", castCount > 0 ? (((float)hitCount / castCount) * 100).ToString("00.00") : "n/a"));
+                Drawing.DrawText(Drawing.Width - 200, 0, System.Drawing.Color.Red, String.Format("Casted Spell Count: {0}", castCount));
+                Drawing.DrawText(Drawing.Width - 200, 20, System.Drawing.Color.Red, String.Format("Hit Spell Count: {0}", hitCount));
+                Drawing.DrawText(Drawing.Width - 200, 40, System.Drawing.Color.Red, String.Format("Hitchance (%): {0}%", castCount > 0 ? (((float)hitCount / castCount) * 100).ToString("00.00") : "n/a"));
             }
         }
 

@@ -42,7 +42,11 @@ namespace KurisuMorgana
             if (_menu.SubMenu("SPRED") != null)
             {
                 _menu.SubMenu("SPRED").DisplayName = ":: SPrediction";
-                _menu.Item("SPREDREACTIONDELAY").SetValue(new Slider(0, 0, 200));
+                _menu.Item("SPREDREACTIONDELAY").SetValue(new Slider(0, 0, 200)); 
+             
+                // Set Common Pred defualt
+                _menu.Item("PREDICTONLIST").SetValue(new StringList(new[] { "SPrediction", "Common Predicion" }, 1));
+                _menu.Item("SPREDDRAWINGS").SetValue(false);         
             }
 
             var orbmenu = new Menu(":: Orbwalker", "orbwalker");
