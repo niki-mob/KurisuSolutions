@@ -130,17 +130,14 @@ namespace Activator.Items
 
         public CoreItem CreateMenu(Menu root)
         {
-            var usefname = DisplayName ?? Name;
-
             Menu = new Menu(Name, "m" + Name);
-            Menu.AddItem(new MenuItem("use" + Name, "Use " + usefname)).SetValue(true);
+            Menu.AddItem(new MenuItem("use" + Name, "Use " + DisplayName ?? Name)).SetValue(true);
             Menu.AddItem(new MenuItem("prior" + Name, DisplayName + " Priority")).SetValue(new Slider(Priority, 1, 7));
 
- 
             if (Category.Any(t => t == MenuType.SelfLowHP) &&
                (Name.Contains("Potion") || Name.Contains("Flask") || Name.Contains("Biscuit")))
             {
-                Menu.AddItem(new MenuItem("use" + Name + "cbat", "Predict Damage")).SetValue(true);
+                Menu.AddItem(new MenuItem("use" + Name + "cbat", "Use Damage Prediction")).SetValue(true);
             }
 
             if (Category.Any(t => t == MenuType.EnemyLowHP))
@@ -151,7 +148,7 @@ namespace Activator.Items
 
             if (Category.Any(t => t == MenuType.SelfLowHP))
                 Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
-                    .SetValue(new Slider(DefaultHP <= 50 || DefaultHP > 90 ? DefaultHP : 45));
+                    .SetValue(new Slider(DefaultHP < 50 || DefaultHP >= 90 ? (Name == "Botrk" ? 75 : 35) : 55));
 
             if (Category.Any(t => t == MenuType.SelfMuchHP))
                 Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))

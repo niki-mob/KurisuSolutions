@@ -48,7 +48,7 @@ namespace Activator.Items.Defensives
 
         internal override int DefaultHP
         {
-            get { return 20; }
+            get { return 35; }
         }
 
         internal override int DefaultMP

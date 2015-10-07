@@ -66,7 +66,7 @@ namespace Activator
 
                 var cmenu = new Menu("Cleansers", "cmenu");
                 SubMenu(cmenu, false);
-                GetItemGroup("Items.Cleansers").ForEach(t => NewItem((CoreItem)NewInstance(t), cmenu));
+                GetItemGroup("Items.Cleansers").ForEach(t => NewItem((CoreItem) NewInstance(t), cmenu));
                 Origin.AddSubMenu(cmenu);
 
                 var dmenu = new Menu("Defensives", "dmenu");
@@ -230,7 +230,7 @@ namespace Activator
             {
                 if (entry.Key == Player.ChampionName)
                     foreach (DamageSpell spell in entry.Value)
-                        Data.SpellData.DamageLib.Add(spell.Damage, spell.Slot);          
+                        Data.SpellData.DamageLib.Add(spell.Damage, spell.Slot);
             }
         }
 
@@ -335,9 +335,9 @@ namespace Activator
                 foreach (var entry in Data.SpellData.Spells)
                 {
                     if (entry.ChampionName == unit.Player.ChampionName.ToLower())
-                    {                           
+                    {
                         var newmenu = new Menu(entry.SDataName, entry.SDataName);
-                        
+
                         // activation parameters
                         newmenu.AddItem(new MenuItem(entry.SDataName + "predict", "enabled").DontSave())
                             .SetValue(entry.CastRange != 0f);
@@ -359,14 +359,14 @@ namespace Activator
 
         private static void CheckEvade()
         {
-            if (Menu.GetMenu("ezEvade", "ezEvade") != null)         
+            if (Menu.GetMenu("ezEvade", "ezEvade") != null)
                 Origin.Item("evade").SetValue(true);
 
-            if (Menu.GetMenu("Evade", "Evade") != null)         
+            if (Menu.GetMenu("Evade", "Evade") != null)
                 Origin.Item("evade").SetValue(true);
 
             if (Menu.GetMenu("Evade", "Evade") == null &&
-                Menu.GetMenu("ezEvade", "ezEvade") == null)            
+                Menu.GetMenu("ezEvade", "ezEvade") == null)
                 Origin.Item("evade").SetValue(false);
         }
 
