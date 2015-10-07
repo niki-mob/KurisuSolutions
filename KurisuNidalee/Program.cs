@@ -236,7 +236,7 @@ namespace KurisuNidalee
             // Change menu name
             if (_mainMenu.SubMenu("SPRED") != null)
             {
-                _mainMenu.SubMenu("SPRED").DisplayName = ":: SPrediction";
+                _mainMenu.SubMenu("SPRED").DisplayName = ":: Prediction";
                 _mainMenu.Item("SPREDREACTIONDELAY").SetValue(new Slider(0, 0, 200));
 
                 // Set Common Pred defualt

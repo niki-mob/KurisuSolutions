@@ -41,7 +41,7 @@ namespace KurisuMorgana
             // Change menu name
             if (_menu.SubMenu("SPRED") != null)
             {
-                _menu.SubMenu("SPRED").DisplayName = ":: SPrediction";
+                _menu.SubMenu("SPRED").DisplayName = ":: Prediction";
                 _menu.Item("SPREDREACTIONDELAY").SetValue(new Slider(0, 0, 200)); 
              
                 // Set Common Pred defualt
