@@ -46,16 +46,16 @@ namespace KurisuMorgana
              
                 // Set Common Pred defualt
                 _menu.Item("PREDICTONLIST").SetValue(new StringList(new[] { "SPrediction", "Common Predicion" }, 1));
-                _menu.Item("SPREDDRAWINGS").SetValue(false);         
-            }
+                _menu.Item("SPREDDRAWINGS").SetValue(false);
+            } 
+            
+            var tsmenu = new Menu(":: Selector", "tsmenu");
+            TargetSelector.AddToMenu(tsmenu);
+            _menu.AddSubMenu(tsmenu);
 
             var orbmenu = new Menu(":: Orbwalker", "orbwalker");
             _orbwalker = new Orbwalking.Orbwalker(orbmenu);
             _menu.AddSubMenu(orbmenu);
-
-            var tsmenu = new Menu(":: Target Selector", "selector");
-            TargetSelector.AddToMenu(tsmenu);
-            _menu.AddSubMenu(tsmenu);
 
             var spellmenu = new Menu(":: Main Settings", "spells");
 
