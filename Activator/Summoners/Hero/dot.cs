@@ -106,30 +106,32 @@ namespace Activator.Summoners
                                 ? entry.Key(Player, tar.Player, Player.GetSpell(entry.Value).Level - 1)
                                 : 0);
 
-                if (totaldmg + ignotedmg >= tar.Player.Health)
+                if (totaldmg + ignotedmg < tar.Player.Health)
+                    continue;
+
+                if (Orbwalking.InAutoAttackRange(tar.Player))
                 {
-                    if (Orbwalking.InAutoAttackRange(tar.Player))
-                    {
-                        if (totaldmg + ignotedmg/2.5 >= tar.Player.Health)
-                            continue;
-                    }
-
-                    if (!Menu.Item("ignotet").GetValue<bool>())
-                    {
-                        if (tar.Player.UnderTurret(true) && ignotedmg < tar.Player.Health)
-                            continue;
-                    }
-
-                    if (tar.Player.Level <= 4)
-                    {
-                        if (tar.Player.InventoryItems.Any(item => item.Id == (ItemId) 2003 || item.Id == (ItemId) 2010))
-                        {
-                            continue;
-                        }
-                    }
-
-                    UseSpellOn(tar.Player, true);
+                    if (totaldmg + ignotedmg/2.5 >= tar.Player.Health &&
+                        Menu.Item("ignoteo").GetValue<bool>())
+                        continue;
                 }
+
+                if (!Menu.Item("ignotet").GetValue<bool>())
+                {
+                    if (tar.Player.UnderTurret(true) && ignotedmg < tar.Player.Health)
+                        continue;
+                }
+
+                if (tar.Player.Level <= 4 &&
+                    tar.Player.InventoryItems
+                        .Any(item => 
+                             item.Id == (ItemId) 2003 ||
+                             item.Id == (ItemId) 2010))
+                {
+                    continue;
+                }
+
+                UseSpellOn(tar.Player, true);
             }
         }
     }

@@ -102,6 +102,7 @@ namespace Activator
                 if (SmiteInGame)
                 {
                     var ddmenu = new Menu("Drawings", "drawings");
+                    ddmenu.AddItem(new MenuItem("drawsmitet", "Draw Smite Text")).SetValue(true);
                     ddmenu.AddItem(new MenuItem("drawfill", "Draw Smite Fill")).SetValue(true);
                     ddmenu.AddItem(new MenuItem("drawsmite", "Draw Smite Range")).SetValue(true);
                     zmenu.AddSubMenu(ddmenu);
@@ -117,16 +118,15 @@ namespace Activator
                 zmenu.AddSubMenu(uumenu);
 
                 Origin.AddSubMenu(zmenu);
-
                 Origin.AddToMainMenu();
 
                 // drawings
                 Drawings.Init();
 
                 // handlers
-                Projections.Init();
+                Events.OnHeroCast();
 
-                // tracks dangerous or lethal auras
+                // tracks dangerous or lethal buffs/auras
                 Buffs.StartOnUpdate();
 
                 // tracks "troys" that belong to heroes such as viktors ult
@@ -166,7 +166,7 @@ namespace Activator
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Game.PrintChat("<font color=\"#FFF280\">Fatal error loading Activator</font>: " + e.Message);
+                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.OnGameLoad: </font>: " + e.Message);
             }
         }
 
@@ -191,27 +191,54 @@ namespace Activator
 
         private static void NewItem(CoreItem item, Menu parent)
         {
-            if (item.Maps.Contains((MapType) MapId) ||
-                item.Maps.Contains(MapType.Common))
+            try
             {
-                Lists.Items.Add(item.CreateMenu(parent));
+                if (item.Maps.Contains((MapType) MapId) || 
+                    item.Maps.Contains(MapType.Common))
+                {
+                    Lists.Items.Add(item.CreateMenu(parent));
+                }
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewItem: </font>: " + e.Message);
             }
         }
 
         private static void NewSpell(CoreSpell spell, Menu parent)
         {
-            if (Player.GetSpellSlot(spell.Name) != SpellSlot.Unknown)
-                Lists.Spells.Add(spell.CreateMenu(parent));
+            try
+            {
+                if (Player.GetSpellSlot(spell.Name) != SpellSlot.Unknown)
+                    Lists.Spells.Add(spell.CreateMenu(parent));
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewSpell: </font>: " + e.Message);
+            }
         }
 
         private static void NewSummoner(CoreSum summoner, Menu parent)
         {
-            if (!summoner.Name.Contains("smite") && 
-                Player.GetSpellSlot(summoner.Name) != SpellSlot.Unknown)
-                Lists.Summoners.Add(summoner.CreateMenu(parent));
+            try
+            {
+                if (!summoner.Name.Contains("smite") && 
+                    Player.GetSpellSlot(summoner.Name) != SpellSlot.Unknown)
+                    Lists.Summoners.Add(summoner.CreateMenu(parent));
 
-            if (summoner.Name.Contains("smite") && SmiteInGame)
-                Lists.Summoners.Add(summoner.CreateMenu(parent));
+                if (summoner.Name.Contains("smite") && SmiteInGame)
+                    Lists.Summoners.Add(summoner.CreateMenu(parent));
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewSummoner: </font>: " + e.Message);
+            }
         }
 
         private static List<Type> GetItemGroup(string nspace)

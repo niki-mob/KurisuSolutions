@@ -1,5 +1,6 @@
 ﻿using System;
 using Activator.Base;
+using Activator.Handlers;
 using LeagueSharp.Common;
 
 namespace Activator.Items.Defensives
@@ -51,6 +52,11 @@ namespace Activator.Items.Defensives
             get { return new[] { MapType.SummonersRift }; }
         }
 
+        public _3364()
+        {
+            Events.OnStealth();
+        }
+
         public override void OnTick(EventArgs args)
         {
             if (!Menu.Item("use" + Name).GetValue<bool>() || !IsReady())
@@ -64,7 +70,7 @@ namespace Activator.Items.Defensives
                 if (hero.Player.Distance(Player.ServerPosition) > Range)
                     continue;
 
-                if (hero.HitTypes.Contains(HitType.Stealth) || hero.Player.HasBuff("rengarralertsound"))
+                if (hero.HitTypes.Contains(HitType.Stealth))
                 {
                     UseItem(hero.Player.ServerPosition, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
                 }

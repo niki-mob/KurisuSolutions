@@ -129,7 +129,8 @@ namespace Activator.Items.Offensives
 
             else
             {
-                Utility.DelayAction.Add(650 + (int)(args.SData.CastFrame / 30), () => muramana = false);
+                Utility.DelayAction.Add(650 + (int) ((args.SData.CastFrame / 30) * 1000), 
+                    () => muramana = false);
             }
         }
     }

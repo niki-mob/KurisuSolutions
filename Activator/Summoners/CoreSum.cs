@@ -32,111 +32,130 @@ namespace Activator.Summoners
 
         public CoreSum CreateMenu(Menu root)
         {
-            Menu = new Menu(DisplayName, "m" + Name);
+            try
+            {
+                Menu = new Menu(DisplayName, "m" + Name);
 
-            if (!Name.Contains("smite"))
-                 Menu.AddItem(new MenuItem("use" + Name, "Use " + DisplayName)).SetValue(true).Permashow();
+                if (!Name.Contains("smite") && !Name.Contains("teleport"))
+                    Menu.AddItem(new MenuItem("use" + Name, "Use " + DisplayName)).SetValue(true).Permashow();
  
-            if (Name == "summonersnowball")
-                Activator.UseEnemyMenu = true;
+                if (Name == "summonersnowball")
+                    Activator.UseEnemyMenu = true;
 
-            if (Name == "summonerheal")
-            {
-                Activator.UseAllyMenu = true;
-                Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
-                    .SetValue(new Slider(20));
-                Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))
-                    .SetValue(new Slider(45));
-                Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }, 1));
-            }
-
-            if (Name == "summonerboost")
-            {
-                Activator.UseAllyMenu = true;
-                var ccmenu = new Menu(DisplayName + " Buff Types", DisplayName.ToLower() + "cdeb");
-                ccmenu.AddItem(new MenuItem(Name + "cignote", "Ignite")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "cexhaust", "Exhaust")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "cstun", "Stuns")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "ccharm", "Charms")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "ctaunt", "Taunts")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "cfear", "Fears")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "cflee", "Flee")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "csnare", "Snares")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "csilence", "Silences")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "csupp", "Supression")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "cpolymorph", "Polymorphs")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "cblind", "Blinds")).SetValue(true);
-                ccmenu.AddItem(new MenuItem(Name + "cslow", "Slows")).SetValue(false);
-                ccmenu.AddItem(new MenuItem(Name + "cpoison", "Poisons")).SetValue(true);
-                Menu.AddSubMenu(ccmenu);
-
-                Menu.AddItem(new MenuItem("use" + Name + "number", "Min Buffs to Use")).SetValue(new Slider(1, 1, 5));
-                Menu.AddItem(new MenuItem("use" + Name + "time", "Min Durration to Use (sec)")).SetValue(new Slider(2, 1, 5));
-                Menu.AddItem(new MenuItem("use" + Name + "delay", "Activation Delay")).SetValue(new Slider(150, 0, 500));
-                Menu.AddItem(new MenuItem("use" + Name + "od", "Use for Dangerous Only")).SetValue(false);
-                Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }));
-            }
-
-            if (Name == "summonerdot")
-            {
-                Activator.UseEnemyMenu = true;
-                Menu.AddItem(new MenuItem("ignotet", "Ignite Under Turret")).SetValue(true);
-
-                switch (Player.ChampionName)
+                if (Name == "summonerheal")
                 {
-                    case "Ahri":
-                        Menu.AddItem(new MenuItem("ii" + Player.ChampionName, "Ignite after Charm?")).SetValue(false);
-                        break;
-                    case "Cassiopeia":
-                        Menu.AddItem(new MenuItem("ii" + Player.ChampionName, "Ignite after Poison?")).SetValue(false);
-                        break;
-                    case "Diana":
-                        Menu.AddItem(new MenuItem("ii" + Player.ChampionName, "Ignite after Moonlight?")).SetValue(false);
-                        break;
+                    Activator.UseAllyMenu = true;
+                    Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
+                        .SetValue(new Slider(20));
+                    Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))
+                        .SetValue(new Slider(45));
+                    Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }, 1));
                 }
+
+                if (Name == "summonerboost")
+                {
+                    Activator.UseAllyMenu = true;
+                    var ccmenu = new Menu(DisplayName + " Buff Types", DisplayName.ToLower() + "cdeb");
+                    ccmenu.AddItem(new MenuItem(Name + "cignote", "Ignite")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "cexhaust", "Exhaust")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "cstun", "Stuns")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "ccharm", "Charms")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "ctaunt", "Taunts")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "cfear", "Fears")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "cflee", "Flee")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "csnare", "Snares")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "csilence", "Silences")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "csupp", "Supression")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "cpolymorph", "Polymorphs")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "cblind", "Blinds")).SetValue(true);
+                    ccmenu.AddItem(new MenuItem(Name + "cslow", "Slows")).SetValue(false);
+                    ccmenu.AddItem(new MenuItem(Name + "cpoison", "Poisons")).SetValue(true);
+                    Menu.AddSubMenu(ccmenu);
+
+                    Menu.AddItem(new MenuItem("use" + Name + "number", "Min Buffs to Use")).SetValue(new Slider(1, 1, 5));
+                    Menu.AddItem(new MenuItem("use" + Name + "time", "Min Durration to Use (sec)")).SetValue(new Slider(2, 1, 5));
+                    Menu.AddItem(new MenuItem("use" + Name + "delay", "Activation Delay")).SetValue(new Slider(150, 0, 500));
+                    Menu.AddItem(new MenuItem("use" + Name + "od", "Use for Dangerous Only")).SetValue(false);
+                    Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }));
+                }
+
+                if (Name == "summonerdot")
+                {
+                    Activator.UseEnemyMenu = true;
+                    Menu.AddItem(new MenuItem("ignotet", "Ignite Under Turret")).SetValue(true);
+                    Menu.AddItem(new MenuItem("ignoteo", "Check Overkill (Combo)")).SetValue(false);
+
+                    switch (Player.ChampionName)
+                    {
+                        case "Ahri":
+                            Menu.AddItem(new MenuItem("ii" + Player.ChampionName, "Ignite after Charm?")).SetValue(false);
+                            break;
+                        case "Cassiopeia":
+                            Menu.AddItem(new MenuItem("ii" + Player.ChampionName, "Ignite after Poison?")).SetValue(false);
+                            break;
+                        case "Diana":
+                            Menu.AddItem(new MenuItem("ii" + Player.ChampionName, "Ignite after Moonlight?")).SetValue(false);
+                            break;
+                    }
                 
-                Menu.AddItem(new MenuItem("mode" + Name, "Mode: "))
-                    .SetValue(new StringList(new[] { "Killsteal", "Combo" }, 1));
+                    Menu.AddItem(new MenuItem("mode" + Name, "Mode: "))
+                        .SetValue(new StringList(new[] { "Killsteal", "Combo" }, 1));
+                }
+
+                if (Name == "summonermana")
+                {
+                    Activator.UseAllyMenu = true;
+                    Menu.AddItem(new MenuItem("selflowmp" + Name + "pct", "Minimum Mana % <=")).SetValue(new Slider(40));        
+                }
+
+                if (Name == "summonerbarrier")
+                {
+                    Activator.UseAllyMenu = true;
+                    Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <=")).SetValue(new Slider(20));
+                    Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >=")).SetValue(new Slider(45));
+                    Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Ultimates Only)")).SetValue(true);
+                    Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }, 1));
+                }
+
+                if (Name == "summonerexhaust")
+                {
+                    Activator.UseEnemyMenu = true;
+                    Menu.AddItem(new MenuItem("a" + Name + "pct", "Exhaust on ally HP %")).SetValue(new Slider(35));
+                    Menu.AddItem(new MenuItem("e" + Name + "pct", "Exhaust on enemy HP %")).SetValue(new Slider(35));
+                    Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous")).SetValue(true);
+                    Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }));
+                }
+
+                if (Name == "summonersmite")
+                {
+                    Activator.UseEnemyMenu = true;
+                    Menu.AddItem(new MenuItem("usesmite", "Use Smite")).SetValue(new KeyBind('M', KeyBindType.Toggle, true)).Permashow();
+                    Menu.AddItem(new MenuItem("smiteskill", "Smite + Ability")).SetValue(true);
+                    Menu.AddItem(new MenuItem("smitesmall", "Smite Small Camps")).SetValue(true);
+                    Menu.AddItem(new MenuItem("smitelarge", "Smite Large Camps")).SetValue(true);
+                    Menu.AddItem(new MenuItem("smitesuper", "Smite Epic Camps")).SetValue(true);
+                    Menu.AddItem(new MenuItem("smitemode", "Smite Enemies: "))
+                        .SetValue(new StringList(new[] { "Killsteal", "Combo", "Nope" }, 1));
+                    Menu.AddItem(new MenuItem("savesmite", "Save a Smite Charge").SetValue(true));
+                }
+
+                if (Name == "summonerteleport")
+                {
+                    Activator.UseAllyMenu = true;
+                    Menu.AddItem(new MenuItem("telesep", "Beta (Pings are Local)"));
+                    Menu.AddItem(new MenuItem("telehp", "Ping Low Health Allies")).SetValue(true);
+                    Menu.AddItem(new MenuItem("teleult", "Ping Dangerous Activity")).SetValue(true);
+                }
+
+                root.AddSubMenu(Menu);
             }
 
-            if (Name == "summonermana")
+            catch (Exception e)
             {
-                Activator.UseAllyMenu = true;
-                Menu.AddItem(new MenuItem("selflowmp" + Name + "pct", "Minimum Mana % <=")).SetValue(new Slider(40));        
+                Console.WriteLine(e);
+                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at CoreSum.CreateMenu: </font>: " + e.Message);
             }
 
-            if (Name == "summonerbarrier")
-            {
-                Activator.UseAllyMenu = true;
-                Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <=")).SetValue(new Slider(20));
-                Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >=")).SetValue(new Slider(45));
-                Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Ultimates Only)")).SetValue(true);
-                Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }, 1));
-            }
-
-            if (Name == "summonerexhaust")
-            {
-                Activator.UseEnemyMenu = true;
-                Menu.AddItem(new MenuItem("a" + Name + "pct", "Exhaust on ally HP %")).SetValue(new Slider(35));
-                Menu.AddItem(new MenuItem("e" + Name + "pct", "Exhaust on enemy HP %")).SetValue(new Slider(35));
-                Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous")).SetValue(true);
-                Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }));
-            }
-
-            if (Name == "summonersmite")
-            {
-                Activator.UseEnemyMenu = true;
-                Menu.AddItem(new MenuItem("usesmite", "Use Smite")).SetValue(new KeyBind('M', KeyBindType.Toggle, true)).Permashow();
-                Menu.AddItem(new MenuItem("smiteskill", "Smite + Ability")).SetValue(true);
-                Menu.AddItem(new MenuItem("smitesmall", "Smite Small Camps")).SetValue(true);
-                Menu.AddItem(new MenuItem("smitelarge", "Smite Large Camps")).SetValue(true);
-                Menu.AddItem(new MenuItem("smitesuper", "Smite Epic Camps")).SetValue(true);
-                Menu.AddItem(new MenuItem("smitemode", "Smite Enemies: "))
-                    .SetValue(new StringList(new[] { "Killsteal", "Combo", "Nope" }, 1));
-                Menu.AddItem(new MenuItem("savesmite", "Save a Smite Charge").SetValue(true));
-            }
-
-            root.AddSubMenu(Menu);
             return this;
         }
 

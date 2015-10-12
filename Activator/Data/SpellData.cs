@@ -34,7 +34,6 @@ namespace Activator.Data
         public static List<SpellData> Spells = new List<SpellData>();
         public static Dictionary<SpellDamageDelegate, SpellSlot> DamageLib = new Dictionary<SpellDamageDelegate, SpellSlot>();
 
-
         static SpellData()
         {
             Spells.Add(new SpellData

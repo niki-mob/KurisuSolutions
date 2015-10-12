@@ -64,7 +64,6 @@
     <Compile Include="Data\GameTroyData.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Handlers\Cooldowns.cs" />
     <Compile Include="Items\Consumables\_2047.cs" />
     <Compile Include="Items\Defensives\_3023.cs" />
     <Compile Include="Items\Defensives\_3048.cs" />
@@ -73,7 +72,7 @@
     <Compile Include="Items\Offensives\_3050.cs" />
     <Compile Include="Items\Offensives\_3748.cs" />
     <Compile Include="Items\Offensives\_3092.cs" />
-    <Compile Include="Handlers\Projections.cs" />
+    <Compile Include="Handlers\Events.cs" />
     <Compile Include="Base\Enumerators.cs" />
     <Compile Include="Base\GameTroy.cs" />
     <Compile Include="Handlers\Gametroys.cs" />
@@ -175,6 +174,7 @@
     <Compile Include="Summoners\Hero\smite.cs" />
     <Compile Include="Summoners\Hero\snowball.cs" />
     <Compile Include="Summoners\CoreSum.cs" />
+    <Compile Include="Summoners\Hero\teleport.cs" />
     <Compile Include="Updater.cs" />
   </ItemGroup>
   <ItemGroup>

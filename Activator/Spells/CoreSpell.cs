@@ -40,61 +40,71 @@ namespace Activator.Spells
         }
         public CoreSpell CreateMenu(Menu root)
         {
-            if (Player.GetSpellSlot(Name) == SpellSlot.Unknown)
-                return null;
-
-            Menu = new Menu(DisplayName, "m" + Name);
-            Menu.AddItem(new MenuItem("use" + Name, "Use " + DisplayName)).SetValue(false).Permashow();
-
-            if (Category.Any(t => t == MenuType.Stealth))
-                Menu.AddItem(new MenuItem("Stealth" + Name + "pct", "Use on Stealth")).SetValue(true);
-
-            if (Category.Any(t => t == MenuType.SlowRemoval))
-                Menu.AddItem(new MenuItem("use" + Name + "sr", "Use on Slows")).SetValue(true);
-
-            if (Category.Any(t => t == MenuType.EnemyLowHP))
-                Menu.AddItem(new MenuItem("enemylowhp" + Name + "pct", "Use on Enemy HP % <="))
-                    .SetValue(new Slider(DefaultHP));
-
-            if (Category.Any(t => t == MenuType.SelfLowHP))
-                Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
-                    .SetValue(new Slider(DefaultHP));
-
-            if (Category.Any(t => t == MenuType.SelfMuchHP))
-                Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))
-                    .SetValue(new Slider(55));
-
-            if (Category.Any(t => t == MenuType.SelfLowMP))
-                Menu.AddItem(new MenuItem("selflowmp" + Name + "pct", "Use on Hero Mana % <="))
-                    .SetValue(new Slider(DefaultMP));
-
-            if (Category.Any(t => t == MenuType.SelfCount))
-                Menu.AddItem(new MenuItem("selfcount" + Name, "Use on # Near Hero >="))
-                    .SetValue(new Slider(3, 1, 5));
-
-            if (Category.Any(t => t == MenuType.SelfMinMP))
-                Menu.AddItem(new MenuItem("selfminmp" + Name + "pct", "Minimum Mana/Energy % <=")).SetValue(new Slider(40));
-
-            if (Category.Any(t => t == MenuType.SelfMinHP))
-                Menu.AddItem(new MenuItem("selfminhp" + Name + "pct", "Minimum HP % <=")).SetValue(new Slider(40));
-
-            if (Category.Any(t => t == MenuType.SpellShield))
+            try
             {
-                Menu.AddItem(new MenuItem("ss" + Name + "all", "Use on Any Spell")).SetValue(false);
-                Menu.AddItem(new MenuItem("ss" + Name + "cc", "Use on Crowd Control")).SetValue(true);
+                if (Player.GetSpellSlot(Name) == SpellSlot.Unknown)
+                    return null;
+
+                Menu = new Menu(DisplayName, "m" + Name);
+                Menu.AddItem(new MenuItem("use" + Name, "Use " + DisplayName)).SetValue(false).Permashow();
+
+                if (Category.Any(t => t == MenuType.Stealth))
+                    Menu.AddItem(new MenuItem("Stealth" + Name + "pct", "Use on Stealth")).SetValue(true);
+
+                if (Category.Any(t => t == MenuType.SlowRemoval))
+                    Menu.AddItem(new MenuItem("use" + Name + "sr", "Use on Slows")).SetValue(true);
+
+                if (Category.Any(t => t == MenuType.EnemyLowHP))
+                    Menu.AddItem(new MenuItem("enemylowhp" + Name + "pct", "Use on Enemy HP % <="))
+                        .SetValue(new Slider(DefaultHP));
+
+                if (Category.Any(t => t == MenuType.SelfLowHP))
+                    Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
+                        .SetValue(new Slider(DefaultHP));
+
+                if (Category.Any(t => t == MenuType.SelfMuchHP))
+                    Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))
+                        .SetValue(new Slider(55));
+
+                if (Category.Any(t => t == MenuType.SelfLowMP))
+                    Menu.AddItem(new MenuItem("selflowmp" + Name + "pct", "Use on Hero Mana % <="))
+                        .SetValue(new Slider(DefaultMP));
+
+                if (Category.Any(t => t == MenuType.SelfCount))
+                    Menu.AddItem(new MenuItem("selfcount" + Name, "Use on # Near Hero >="))
+                        .SetValue(new Slider(3, 1, 5));
+
+                if (Category.Any(t => t == MenuType.SelfMinMP))
+                    Menu.AddItem(new MenuItem("selfminmp" + Name + "pct", "Minimum Mana/Energy % <=")).SetValue(new Slider(40));
+
+                if (Category.Any(t => t == MenuType.SelfMinHP))
+                    Menu.AddItem(new MenuItem("selfminhp" + Name + "pct", "Minimum HP % <=")).SetValue(new Slider(40));
+
+                if (Category.Any(t => t == MenuType.SpellShield))
+                {
+                    Menu.AddItem(new MenuItem("ss" + Name + "all", "Use on Any Spell")).SetValue(false);
+                    Menu.AddItem(new MenuItem("ss" + Name + "cc", "Use on Crowd Control")).SetValue(true);
+                }
+
+                if (Category.Any(t => t == MenuType.Zhonyas))
+                {
+                    Menu.AddItem(new MenuItem("use" + Name + "norm", "Use on Dangerous (Spells)")).SetValue(false);
+                    Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Ultimates Only)")).SetValue(true);
+                }
+
+                if (Category.Any(t => t == MenuType.ActiveCheck))
+                    Menu.AddItem(new MenuItem("mode" + Name, "Mode: "))
+                        .SetValue(new StringList(new[] { "Always", "Combo" }));
+
+                root.AddSubMenu(Menu);
             }
 
-            if (Category.Any(t => t == MenuType.Zhonyas))
+            catch (Exception e)
             {
-                Menu.AddItem(new MenuItem("use" + Name + "norm", "Use on Dangerous (Spells)")).SetValue(false);
-                Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Ultimates Only)")).SetValue(true);
+                Console.WriteLine(e);
+                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at CoreSpell.CreateMenu: </font>: " + e.Message);
             }
 
-            if (Category.Any(t => t == MenuType.ActiveCheck))
-                Menu.AddItem(new MenuItem("mode" + Name, "Mode: "))
-                    .SetValue(new StringList(new[] { "Always", "Combo" }));
-
-            root.AddSubMenu(Menu);
             return this;
         }
 

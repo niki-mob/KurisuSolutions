@@ -1,5 +1,6 @@
 ﻿using System;
 using Activator.Base;
+using Activator.Handlers;
 using LeagueSharp.Common;
 
 namespace Activator.Items.Consumables
@@ -56,6 +57,11 @@ namespace Activator.Items.Consumables
             get { return 0; }
         }
 
+        public _2043()
+        {
+            Events.OnStealth();
+        }
+
         public override void OnTick(EventArgs args)
         {
             if (!Menu.Item("use" + Name).GetValue<bool>() || !IsReady())
@@ -66,7 +72,7 @@ namespace Activator.Items.Consumables
                 if (hero.Player.Distance(Player.ServerPosition) > Range)
                     continue;
 
-                if (hero.HitTypes.Contains(HitType.Stealth) || hero.Player.HasBuff("rengarralertsound"))
+                if (hero.HitTypes.Contains(HitType.Stealth))
                 {
                     UseItem(hero.Player.ServerPosition, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
                 }

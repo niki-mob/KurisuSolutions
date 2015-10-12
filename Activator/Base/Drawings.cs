@@ -31,6 +31,17 @@ namespace Activator.Base
 
                 if (Activator.SmiteInGame)
                 {
+                    if (Activator.Origin.Item("drawsmitet").GetValue<bool>())
+                    {
+                        var wts = Drawing.WorldToScreen(Activator.Player.Position);
+
+                        if (Activator.Origin.Item("usesmite").GetValue<KeyBind>().Active)
+                            Drawing.DrawText(wts[0] - 35, wts[1] + 55, Color.White, "Smite: ON");
+
+                        if (!Activator.Origin.Item("usesmite").GetValue<KeyBind>().Active)
+                            Drawing.DrawText(wts[0]- 35, wts[1] + 55, Color.Gray, "Smite: OFF");
+                    }
+
                     if (Activator.Origin.Item("drawsmite").GetValue<bool>())
                     {
                         if (Activator.Origin.Item("usesmite").GetValue<KeyBind>().Active)
@@ -62,6 +73,7 @@ namespace Activator.Base
                                 continue;
 
                             var barPos = minion.HPBarPosition;
+
                             var smite = Activator.Player.GetSpell(Activator.Smite).State == SpellState.Ready
                                 ? Activator.Player.GetSummonerSpellDamage(minion, Damage.SummonerSpell.Smite)
                                 : 0;
@@ -81,6 +93,7 @@ namespace Activator.Base
                                 if (Activator.Origin.Item("usesmite").GetValue<KeyBind>().Active)
                                     Drawing.DrawLine((float) pos + i, yaxis, (float) pos + i, yaxis + height, 1,
                                         Color.White);
+
                                 if (!Activator.Origin.Item("usesmite").GetValue<KeyBind>().Active)
                                     Drawing.DrawLine((float) pos + i, yaxis, (float) pos + i, yaxis + height, 1,
                                         Color.Gray);
