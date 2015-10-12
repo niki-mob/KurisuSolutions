@@ -30,7 +30,7 @@ namespace SPrediction
     /// <summary>
     /// Obj_AI_Hero extensions for SPrediction
     /// </summary>
-    public static class Extensions
+    public static class Obj_AI_HeroExtensions
     {
         /// <summary>
         /// Gets passed time without moving
