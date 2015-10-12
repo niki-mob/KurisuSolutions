@@ -143,8 +143,8 @@ namespace Activator.Summoners
                 {
                     Activator.UseAllyMenu = true;
                     Menu.AddItem(new MenuItem("telesep", "Beta (Pings are Local)"));
-                    Menu.AddItem(new MenuItem("telehp", "Ping Low Health Allies")).SetValue(true);
-                    Menu.AddItem(new MenuItem("teleult", "Ping Dangerous Activity")).SetValue(true);
+                    Menu.AddItem(new MenuItem("telehp", "Ping Low Health Allies")).SetValue(false);
+                    Menu.AddItem(new MenuItem("teleult", "Ping Dangerous Activity")).SetValue(false);
                 }
 
                 root.AddSubMenu(Menu);
