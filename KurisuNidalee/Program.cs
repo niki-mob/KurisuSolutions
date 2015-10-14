@@ -235,14 +235,7 @@ namespace KurisuNidalee
 
             // Change menu name
             if (_mainMenu.SubMenu("SPRED") != null)
-            {
                 _mainMenu.SubMenu("SPRED").DisplayName = ":: Prediction";
-                _mainMenu.Item("SPREDREACTIONDELAY").SetValue(new Slider(0, 0, 200));
-
-                // Set Common Pred defualt
-                _mainMenu.Item("PREDICTONLIST").SetValue(new StringList(new[] { "SPrediction", "Common Predicion" }, 1));
-                _mainMenu.Item("SPREDDRAWINGS").SetValue(false);
-            }
 
             Game.PrintChat("<font color=\"#FF9900\"><b>KurisuNidalee:</b></font> Loaded");
 

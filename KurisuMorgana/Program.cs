@@ -40,15 +40,8 @@ namespace KurisuMorgana
 
             // Change menu name
             if (_menu.SubMenu("SPRED") != null)
-            {
                 _menu.SubMenu("SPRED").DisplayName = ":: Prediction";
-                _menu.Item("SPREDREACTIONDELAY").SetValue(new Slider(0, 0, 200)); 
-             
-                // Set Common Pred defualt
-                _menu.Item("PREDICTONLIST").SetValue(new StringList(new[] { "SPrediction", "Common Predicion" }, 1));
-                _menu.Item("SPREDDRAWINGS").SetValue(false);
-            } 
-            
+         
             var tsmenu = new Menu(":: Selector", "tsmenu");
             TargetSelector.AddToMenu(tsmenu);
             _menu.AddSubMenu(tsmenu);
@@ -163,12 +156,18 @@ namespace KurisuMorgana
 
         private static void Orbwalking_BeforeAttack(Orbwalking.BeforeAttackEventArgs args)
         {
-            if (_orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed)
+            if (!_menu.Item("support").GetValue<bool>())
+                return;
+
+            if (_orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed ||
+                _orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LastHit)
             {
                 if (args.Target.Type == GameObjectType.obj_AI_Minion)
                 {
-                    if (_menu.Item("support").GetValue<bool>())
+                    if (HeroManager.Allies.Any(x => x.IsValidTarget(1000, false) && !x.IsMe))
+                    {
                         args.Process = false;
+                    }
                 }
             }
         }
