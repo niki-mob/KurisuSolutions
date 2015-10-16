@@ -100,6 +100,14 @@ namespace KurisuNidalee
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
         }
 
+        private static bool Immobile(Obj_AI_Hero unit)
+        {
+            return unit.HasBuffOfType(BuffType.Charm) || unit.HasBuffOfType(BuffType.Fear) ||
+                   unit.HasBuffOfType(BuffType.Flee) || unit.HasBuffOfType(BuffType.Stun) ||
+                   unit.HasBuffOfType(BuffType.Knockup) || unit.HasBuffOfType(BuffType.Snare) ||
+                   unit.HasBuffOfType(BuffType.Taunt) || unit.HasBuffOfType(BuffType.Suppression);
+        }
+
         private static void AntiGapcloser_OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             if (!_mainMenu.Item("gapp").GetValue<bool>())
@@ -223,9 +231,9 @@ namespace KurisuNidalee
             var nidaM = new Menu(":: Misc", "misc");
             nidaM.AddItem(new MenuItem("useitems", "Use Items")).SetValue(true);
             nidaM.AddItem(new MenuItem("dash", "Q on Dashing")).SetValue(false);
+            nidaM.AddItem(new MenuItem("opop", "Q on Immobile")).SetValue(true);
             nidaM.AddItem(new MenuItem("gapp", "Q Anti-Gapcloser")).SetValue(true);
-            nidaM.AddItem(new MenuItem("qimmobile", "Q on Immobile")).SetValue(true);
-            nidaM.AddItem(new MenuItem("formimm", "Switch Form Immobile")).SetValue(true);
+            nidaM.AddItem(new MenuItem("formimm", "Switch Form on CC")).SetValue(true);
             _mainMenu.AddSubMenu(nidaM);
 
             _mainMenu.AddToMainMenu();
@@ -280,19 +288,28 @@ namespace KurisuNidalee
 
         #region Nidalee: Auto Spells
         private static void AutoSpells()
-        {      
-            if (_mainMenu.Item("qimmobile").GetValue<bool>() && HQ == 0)
+        {
+            if (_mainMenu.Item("formimm").GetValue<bool>())
             {
-                foreach (var unit in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsValidTarget(Javelin.Range)))
+                if (Me.HasBuffOfType(BuffType.Stun) || Me.HasBuffOfType(BuffType.Snare) ||
+                    Me.HasBuffOfType(BuffType.Knockup))
                 {
-                    if (!_cougarForm)
-                        Javelin.SPredictionCast(unit, HitChance.Immobile);
-                    else
+                    if (!_cougarForm && Aspectofcougar.IsReady())
                     {
-                        if (_mainMenu.Item("formimm").GetValue<bool>())
-                            if (Aspectofcougar.IsReady())
-                                Aspectofcougar.Cast();
+                        Aspectofcougar.Cast();
                     }
+                }
+            }
+
+            if (_mainMenu.Item("opop").GetValue<bool>())
+            {
+                foreach (var ene in HeroManager.Enemies.Where(ene => ene.IsValidTarget(Javelin.Range) && Immobile(ene)))
+                {
+                    if (!_cougarForm && HQ == 0)
+                        Javelin.Cast(ene);
+
+                    if (_cougarForm && Aspectofcougar.IsReady() && HQ == 0)
+                        Aspectofcougar.Cast();
                 }
             }
         }
