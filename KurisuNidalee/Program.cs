@@ -291,7 +291,7 @@ namespace KurisuNidalee
         {
             if (_mainMenu.Item("formimm").GetValue<bool>())
             {
-                if (Me.HasBuffOfType(BuffType.Stun) || Me.HasBuffOfType(BuffType.Snare) ||
+                if (Me.HasBuffOfType(BuffType.Stun) ||
                     Me.HasBuffOfType(BuffType.Knockup))
                 {
                     if (!_cougarForm && Aspectofcougar.IsReady())
