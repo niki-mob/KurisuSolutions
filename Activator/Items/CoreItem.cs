@@ -134,10 +134,11 @@ namespace Activator.Items
             {
                 Menu = new Menu(Name, "m" + Name);
                 Menu.AddItem(new MenuItem("use" + Name, "Use " + DisplayName ?? Name)).SetValue(true);
-                Menu.AddItem(new MenuItem("prior" + Name, DisplayName + " Priority")).SetValue(new Slider(Priority, 1, 7));
+                Menu.AddItem(new MenuItem("prior" + Name, DisplayName + " Priority")).SetValue(new Slider(Priority, 1, 7))
+                    .SetTooltip("The activation priority this has over another item. 1 = Lowest, 7 = Highest");
 
                 if (Category.Any(t => t == MenuType.SelfLowHP) &&
-                    (Name.Contains("Potion") || Name.Contains("Flask") || Name.Contains("Biscuit")))
+                   (Name.Contains("Potion") || Name.Contains("Flask") || Name.Contains("Biscuit")))
                 {
                     Menu.AddItem(new MenuItem("use" + Name + "cbat", "Use Damage Prediction")).SetValue(true);
                 }

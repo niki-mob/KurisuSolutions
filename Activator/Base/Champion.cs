@@ -15,6 +15,7 @@ namespace Activator.Base
 {
     public class Champion
     {
+        public float TowerDamage;
         public float IncomeDamage;
         public float MinionDamage;
 

@@ -503,12 +503,12 @@ namespace Activator.Handlers
                                 Utility.DelayAction.Add(450, () =>
                                 {
                                     hero.HitTypes.Add(HitType.TurretAttack);
-                                    hero.IncomeDamage += dmg;
+                                    hero.TowerDamage += dmg;
 
                                     Utility.DelayAction.Add(150, () =>
                                     {
                                         hero.Attacker = null;
-                                        hero.IncomeDamage -= dmg;
+                                        hero.TowerDamage -= dmg;
                                         hero.HitTypes.Remove(HitType.TurretAttack);
                                     });
                                 });

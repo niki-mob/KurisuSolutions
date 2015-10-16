@@ -48,7 +48,7 @@ namespace Activator.Summoners
                         if (hero.IncomeDamage > 0 && !hero.Player.IsRecalling() && !hero.Player.InFountain())
                             UseSpell(Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
 
-                        if (hero.IncomeDamage > hero.Player.Health)
+                        if (hero.TowerDamage > 0 && Menu.Item("use" + Name + "tower").GetValue<bool>())
                             UseSpell(Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
                     }
 
