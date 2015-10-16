@@ -131,22 +131,23 @@ namespace KurisuDarius
             }
 
             var acircle = Config.Item("drawe").GetValue<Circle>();
-            var rcircle = Config.Item("drawr").GetValue<Circle>();
-            var qcircle = Config.Item("drawq").GetValue<Circle>();
-
             if (acircle.Active)
                 Render.Circle.DrawCircle(KL.Player.Position, KL.Spellbook["E"].Range, acircle.Color, 3);
 
+            var rcircle = Config.Item("drawr").GetValue<Circle>();
             if (rcircle.Active)
                 Render.Circle.DrawCircle(KL.Player.Position, KL.Spellbook["R"].Range, rcircle.Color, 3);
 
+            var qcircle = Config.Item("drawq").GetValue<Circle>();
             if (qcircle.Active)
                 Render.Circle.DrawCircle(KL.Player.Position, KL.Spellbook["Q"].Range, qcircle.Color, 3);
 
             if (!Config.Item("drawstack").GetValue<bool>())
+            {
                 return;
+            }
 
-            var plaz = Drawing.WorldToScreen(KL.Player.Position);
+            var plaz = Drawing.WorldToScreen(KL.Player.Position); // player z axis
             if (KL.Player.GetBuffCount("dariusexecutemulticast") > 0)
             {
                 var executetime = KL.Player.GetBuff("dariusexecutemulticast").EndTime - Game.Time;
@@ -155,7 +156,7 @@ namespace KurisuDarius
 
             foreach (var enemy in HeroManager.Enemies.Where(ene => ene.IsValidTarget() && !ene.IsZombie))
             {
-                var enez = Drawing.WorldToScreen(enemy.Position);
+                var enez = Drawing.WorldToScreen(enemy.Position); // enemy z axis
                 if (enemy.GetBuffCount("dariushemo") > 0)
                 {
                     var endtime = enemy.GetBuff("dariushemo").EndTime - Game.Time;
@@ -175,8 +176,8 @@ namespace KurisuDarius
                 return;
             }
 
-            if (KL.Spellbook["R"].IsReady() && KL.Player.Mana - KL.Spellbook["W"].ManaCost > KL.Spellbook["R"].ManaCost || 
-               !KL.Spellbook["R"].IsReady())
+            if (KL.Spellbook["R"].IsReady() && KL.Player.Mana - KL.Spellbook["W"].ManaCost > 
+                KL.Spellbook["R"].ManaCost || !KL.Spellbook["R"].IsReady())
             {
                 if (!hero.HasBuffOfType(BuffType.Slow) || !Config.Item("wwww").GetValue<bool>())
                     KL.Spellbook["W"].Cast();
