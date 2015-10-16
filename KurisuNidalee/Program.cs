@@ -139,7 +139,6 @@ namespace KurisuNidalee
 
             var nidaTS = new Menu(":: Selector", "target selecter");
             nidaTS.AddItem(new MenuItem("coll", "Check Collision")).SetValue(false);
-            TargetSelector.AddToMenu(nidaTS);
             _mainMenu.AddSubMenu(nidaTS);
 
             var nidaKeys = new Menu(":: Keybinds", "keybindongs");
@@ -254,16 +253,9 @@ namespace KurisuNidalee
             PrimalSurge();
             ProcessCooldowns();
 
-            if (Me.HasBuff("Takedown"))
-            {
-                if (_target.IsValidTarget(Takedown.Range))
-                {
-                    if (_mainMenu.Item("usecombo").GetValue<KeyBind>().Active && _cougarForm)
-                    {
-                        Orbwalking.LastAATick = 0;
-                    }
-                }
-            }
+            if (Me.HasBuff("Takedown") &&
+                _orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None)
+                Orbwalking.LastAATick = 0;
 
             if (_mainMenu.Item("usecombo").GetValue<KeyBind>().Active)
                 UseCombo(_target);
@@ -500,8 +492,6 @@ namespace KurisuNidalee
                     target.Distance(Me.ServerPosition, true) <= Takedown.RangeSqr + 150*150)
                 {
                     Takedown.CastOnUnit(Me);
-                    if (Me.HasBuff("Takedown"))
-                        Orbwalking.LastAATick = 0;
                 }
 
                 // Check is pounce is ready 
