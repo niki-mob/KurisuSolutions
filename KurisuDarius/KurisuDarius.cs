@@ -198,7 +198,7 @@ namespace KurisuDarius
             }
 
             if (KL.Player.Distance(unit.ServerPosition) < 175 ||
-                Utils.GameTimeTickCount - LastGrabTimeStamp < 250)
+                Utils.GameTimeTickCount - LastGrabTimeStamp < 350)
             {
                 return false;
             }
@@ -216,7 +216,7 @@ namespace KurisuDarius
             }
 
             if (KL.Spellbook["W"].IsReady() && KL.Player.HasBuff("DariusNoxonTactictsONH") &&
-                unit.Distance(KL.Player.ServerPosition) <= 205)
+                unit.Distance(KL.Player.ServerPosition) <= 225)
             {
                 return false;
             }
@@ -226,7 +226,7 @@ namespace KurisuDarius
                 return false;
             }
 
-            if (KL.Spellbook["R"].IsReady() && unit.Distance(KL.Player.ServerPosition) <= 460 &&
+            if (KL.Spellbook["R"].IsReady() && KL.Spellbook["R"].IsInRange(unit) &&
                 KL.RDmg(unit, PassiveCount(unit)) - KL.Hemorrhage(unit, 1) >= unit.Health)
             {
                 return false;
