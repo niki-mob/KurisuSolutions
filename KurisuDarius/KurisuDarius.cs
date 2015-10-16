@@ -10,105 +10,75 @@ namespace KurisuDarius
     internal class KurisuDarius
     {
         internal static Menu Config;
-        internal static SpellSlot Ignite;
         internal static int LastGrabTimeStamp;
         internal static int LastDunkTimeStamp;
         internal static HpBarIndicator HPi = new HpBarIndicator();
         internal static Orbwalking.Orbwalker Orbwalker;
 
-        internal static readonly int ECost = 45;
-        internal static readonly int WCost = 30;
-        internal static readonly int[] QCost = { 30, 30, 35, 40, 45, 50 };
-        internal static readonly int[] RCost = { 100, 100, 100, 0 };
-
         public KurisuDarius()
         {
-            if (ObjectManager.Player.ChampionName != "Darius")
-                return;
-          
-            Config = new Menu("Kurisu's Darius", "darius", true);
-
-            var drmenu = new Menu(":: Drawings", "drawings");
-            drmenu.AddItem(new MenuItem("drawe", "Draw E"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
-            drmenu.AddItem(new MenuItem("drawq", "Draw Q"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
-            drmenu.AddItem(new MenuItem("drawr", "Draw R"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.DarkRed)));
-            drmenu.AddItem(new MenuItem("drawfill", "Draw R Damage Fill")).SetValue(true);
-            drmenu.AddItem(new MenuItem("drawstack", "Draw Stack Count")).SetValue(true);
-            Config.AddSubMenu(drmenu);
-
-            var omenu = new Menu(":: Orbwalker", "omenu");
-            Orbwalker = new Orbwalking.Orbwalker(omenu);
-            Config.AddSubMenu(omenu);
-
-            var tsmenu = new Menu(":: Target Selector", "tmenu");
-            TargetSelector.AddToMenu(tsmenu);
-            Config.AddSubMenu(tsmenu);
-
-            var cmenu = new Menu(":: Main Settings", "cmenu");
-            cmenu.AddItem(new MenuItem("useq", "Use Q")).SetValue(true);
-            cmenu.AddItem(new MenuItem("usew", "Use W")).SetValue(true);
-            cmenu.AddItem(new MenuItem("usee", "Use E")).SetValue(true);
-            cmenu.AddItem(new MenuItem("user", "Use R")).SetValue(true);
-            cmenu.AddItem(new MenuItem("harassq", "Harass Q")).SetValue(true);
-            Config.AddSubMenu(cmenu);
-
-            var kmenu = new Menu(":: Miscellaneous", "kmenu");
-            kmenu.AddItem(new MenuItem("ksr", "Auto R on killable targets")).SetValue(true);
-            kmenu.AddItem(new MenuItem("wwww", "Don't W slowed targets")).SetValue(false);
-            kmenu.AddItem(new MenuItem("iiii", "Use Hydra/Tiamat/Titanic")).SetValue(true);
-            kmenu.AddItem(new MenuItem("eeee", "Use advance E logic (beta)")).SetValue(false);
-            kmenu.AddItem(new MenuItem("ksr1", "Use early if target will bleed to death (1v1)")).SetValue(false);
-            kmenu.AddItem(new MenuItem("rmodi", "Adjust ult damage (Less if target doesnt die)")).SetValue(new Slider(0, -250, 250));
-            Config.AddSubMenu(kmenu);
-
-            Config.AddToMainMenu();
-
-            if (KL.Player.Spellbook.GetSpell(SpellSlot.Summoner1).Name.ToLower().Contains("dot"))
-                Ignite = SpellSlot.Summoner1;
-
-            if (KL.Player.Spellbook.GetSpell(SpellSlot.Summoner2).Name.ToLower().Contains("dot"))
-                Ignite = SpellSlot.Summoner2;
-
-            Game.OnUpdate += Game_OnUpdate;
-            Orbwalking.AfterAttack += Orbwalking_AfterAttack;
-
-            Drawing.OnDraw += Drawing_OnDraw;
-            Drawing.OnEndScene += Drawing_OnEndScene;
-
-            foreach (var obj in ObjectManager.Get<Obj_AI_Turret>())
+            if (ObjectManager.Player.ChampionName == "Darius")
             {
-                if (!KL.TurretCache.ContainsKey(obj.NetworkId))
-                     KL.TurretCache.Add(obj.NetworkId, obj);
-            }     
+                Menu_OnLoad();
 
-            Obj_AI_Base.OnProcessSpellCast += (sender, args) =>
-            {
-                if (sender.IsMe && args.SData.Name == "DariusAxeGrabCone")
-                    LastGrabTimeStamp = Utils.GameTimeTickCount;
+                // On Update Event
+                Game.OnUpdate += Game_OnUpdate;
 
-                if (sender.IsMe && args.SData.Name == "DariusExecute")
-                    LastDunkTimeStamp = Utils.GameTimeTickCount;
+                // On Draw Event
+                Drawing.OnDraw += Drawing_OnDraw;
+                Drawing.OnEndScene += Drawing_OnEndScene;
 
-                if (sender.IsMe && args.SData.Name == "DariusCleave")
-                    Utility.DelayAction.Add(Game.Ping + 800, Orbwalking.ResetAutoAttackTimer);
+                // After Attack Event
+                Orbwalking.AfterAttack += Orbwalking_AfterAttack;
 
-                if (sender.IsMe && args.SData.Name == "DariusAxeGrabCone")
-                    Utility.DelayAction.Add(Game.Ping + 100, Orbwalking.ResetAutoAttackTimer);
-
-                if (sender.IsMe && args.SData.Name == "DariusExecute")
-                    Utility.DelayAction.Add(Game.Ping + 300, Orbwalking.ResetAutoAttackTimer);
-            };
+                // On Spell Cast Event
+                Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
+            }
         }
 
-        internal void Drawing_OnEndScene(EventArgs args)
+        internal static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (!Config.Item("drawfill").GetValue<bool>())
+            if (!sender.IsMe)
+            {
                 return;
+            }
 
-            foreach (var enemy in HeroManager.Enemies.Where(ene => ene.IsValidTarget() && !ene.IsZombie))
+            switch (args.SData.Name.ToLower())
+            {
+                case "dariuscleave":
+                    Utility.DelayAction.Add(Game.Ping + 800, Orbwalking.ResetAutoAttackTimer);
+                    break;
+
+                case "dariusaxegrabcone":
+                    LastGrabTimeStamp = Utils.GameTimeTickCount;
+                    Utility.DelayAction.Add(Game.Ping + 100, Orbwalking.ResetAutoAttackTimer);
+                    break;
+
+                case "dariusexecute":
+                    LastDunkTimeStamp = Utils.GameTimeTickCount;
+                    Utility.DelayAction.Add(Game.Ping + 400, Orbwalking.ResetAutoAttackTimer);
+                    break;
+            }
+        }
+
+        internal static float RModifier
+        {
+            get { return Config.Item("rmodi").GetValue<Slider>().Value; }
+        }
+
+        internal static int PassiveCount(Obj_AI_Base unit)
+        {
+            return unit.GetBuffCount("dariushemo") > 0 ? unit.GetBuffCount("dariushemo") : 0;
+        }
+
+        internal static void Drawing_OnEndScene(EventArgs args)
+        {
+            if (!Config.Item("drawfill").GetValue<bool>() || KL.Player.IsDead)
+            {
+                return;
+            }
+
+            foreach (var enemy in HeroManager.Enemies.Where(ene => ene.IsValidTarget() && ene.IsHPBarRendered))
             {
                 HPi.unit = enemy;
                 HPi.drawDmg(
@@ -118,25 +88,39 @@ namespace KurisuDarius
             }
         }
 
-        internal static bool CanE(Obj_AI_Hero target)
+        internal static void Game_OnUpdate(EventArgs args)
         {
-            if (!Config.Item("eeee").GetValue<bool>())
-                return true;
-  
-            var t = KL.TurretCache.Values.FirstOrDefault(x => x.IsEnemy && x.Distance(KL.Player.ServerPosition) <= 1500);
-            if (t == null || t.IsDead || !t.IsValid)
-                return true;
-
-            if (KL.Player.Distance(t) <= 1200 && target.Distance(t) <= 1200)
+            if (KL.Spellbook["R"].IsReady() && Config.Item("ksr").GetValue<bool>())
             {
-                if (target.Distance(t) > KL.Player.Distance(t))
+                foreach (var unit in HeroManager.Enemies.Where(ene => ene.IsValidTarget(KL.Spellbook["R"].Range) && !ene.IsZombie))
                 {
-                    if (target.IsFacing(t))
-                        return false;
+                    if (unit.CountEnemiesInRange(1200) <= 1 && Config.Item("ksr1").GetValue<bool>())
+                    {
+                        if (KL.RDmg(unit, PassiveCount(unit)) + RModifier + KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health)
+                        {
+                            if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
+                                KL.Spellbook["R"].CastOnUnit(unit);
+                        }
+                    }
+
+                    if (KL.RDmg(unit, PassiveCount(unit)) + RModifier >= unit.Health + KL.Hemorrhage(unit, 1))
+                    {
+                        if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
+                            KL.Spellbook["R"].CastOnUnit(unit);
+                    }
                 }
             }
-            
-            return true;
+
+            switch (Orbwalker.ActiveMode)
+            {
+                case Orbwalking.OrbwalkingMode.Combo:
+                    Combo(Config.Item("useq").GetValue<bool>(), Config.Item("usew").GetValue<bool>(),
+                          Config.Item("usee").GetValue<bool>(), Config.Item("user").GetValue<bool>());
+                    break;
+                case Orbwalking.OrbwalkingMode.Mixed:
+                    Harass();
+                    break;
+            }
         }
 
         internal static void Drawing_OnDraw(EventArgs args)
@@ -185,115 +169,73 @@ namespace KurisuDarius
         internal static void Orbwalking_AfterAttack(AttackableUnit unit, AttackableUnit target)
         {
             var hero = unit as Obj_AI_Hero;
-            if (hero == null || !hero.IsValid<Obj_AI_Hero>())
+            if (hero == null || !hero.IsValid<Obj_AI_Hero>() || hero.Type != GameObjectType.obj_AI_Hero ||
+                Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
+            {
                 return;
+            }
 
-            if (hero.Type != GameObjectType.obj_AI_Hero)
-                return;
-
-            if (Orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.Combo)
-                return;
-
-            if (KL.Spellbook["R"].IsReady() && KL.Player.Mana - WCost > RCost[KL.Spellbook["R"].Level - 1] || 
+            if (KL.Spellbook["R"].IsReady() && KL.Player.Mana - KL.Spellbook["W"].ManaCost > KL.Spellbook["R"].ManaCost || 
                !KL.Spellbook["R"].IsReady())
             {
                 if (!hero.HasBuffOfType(BuffType.Slow) || !Config.Item("wwww").GetValue<bool>())
                     KL.Spellbook["W"].Cast();
             }
 
-            if (KL.Spellbook["W"].IsReady() || !Config.Item("iiii").GetValue<bool>())
-                return;
-
-            if (Items.HasItem(3077) && Items.CanUseItem(3077))
-                Items.UseItem(3077);
-
-            if (Items.HasItem(3074) && Items.CanUseItem(3074))
-                Items.UseItem(3074);
-
-            if (Items.HasItem(3748) && Items.CanUseItem(3748))
-                Items.UseItem(3748);
-
-        }
-
-
-        internal static float Rmodi;
-
-        internal static int PassiveCount(Obj_AI_Base unit)
-        {
-            return unit.GetBuffCount("dariushemo") > 0 ? unit.GetBuffCount("dariushemo") : 0;
-        }
-
-        internal static void Game_OnUpdate(EventArgs args)
-        {
-            Rmodi = Config.Item("rmodi").GetValue<Slider>().Value;
-
-            if (KL.Spellbook["R"].IsReady() && Config.Item("ksr").GetValue<bool>())
+            if (!KL.Spellbook["W"].IsReady() && Config.Item("iiii").GetValue<bool>())
             {
-                foreach (var unit in HeroManager.Enemies.Where(ene => ene.IsValidTarget(KL.Spellbook["R"].Range) && !ene.IsZombie))
-                {
-                    if (unit.CountEnemiesInRange(1200) <= 1 && Config.Item("ksr1").GetValue<bool>())
-                    {
-                        if (KL.RDmg(unit, PassiveCount(unit)) + Rmodi + KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health)
-                        {
-                            if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
-                                KL.Spellbook["R"].CastOnUnit(unit);
-                        }
-                    }
-
-                    if (KL.RDmg(unit, PassiveCount(unit)) + Rmodi >= unit.Health + KL.Hemorrhage(unit, 1))
-                    {
-                        if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
-                            KL.Spellbook["R"].CastOnUnit(unit);
-                    }
-                }
-            }
-
-            switch (Orbwalker.ActiveMode)
-            {
-                case Orbwalking.OrbwalkingMode.Combo:
-                    Combo(Config.Item("useq").GetValue<bool>(), Config.Item("usew").GetValue<bool>(),
-                          Config.Item("usee").GetValue<bool>(), Config.Item("user").GetValue<bool>());
-                    break;
-                case Orbwalking.OrbwalkingMode.Mixed:
-                    Harass();
-                    break;
+                KL.HandleItems();
             }
         }
 
         internal static bool CanQ(Obj_AI_Base unit)
         {
-            if (!unit.IsValidTarget() || unit.IsZombie || 
+            if (!unit.IsValidTarget() || unit.IsZombie ||
                 TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.Physical))
+            {
                 return false;
+            }
 
-            if (KL.Player.Distance(unit.ServerPosition) < 175)
+            if (KL.Player.Distance(unit.ServerPosition) < 175 ||
+                Utils.GameTimeTickCount - LastGrabTimeStamp < 250)
+            {
                 return false;
+            }
 
             if (KL.Spellbook["R"].IsReady() &&
-                KL.Player.Mana - QCost[KL.Spellbook["Q"].Level - 1] < RCost[KL.Spellbook["R"].Level - 1])
+                KL.Player.Mana - KL.Spellbook["Q"].ManaCost < KL.Spellbook["R"].ManaCost)
+            {
                 return false;
+            }
 
             if (KL.Spellbook["W"].IsReady() && KL.WDmg(unit) >= unit.Health &&
                 unit.Distance(KL.Player.ServerPosition) <= 200)
+            {
                 return false;
-
-            if (Utils.GameTimeTickCount - LastGrabTimeStamp < 250)
-                return false;
+            }
 
             if (KL.Spellbook["W"].IsReady() && KL.Player.HasBuff("DariusNoxonTactictsONH") &&
                 unit.Distance(KL.Player.ServerPosition) <= 205)
+            {
                 return false;
+            }
 
             if (KL.Player.Distance(unit.ServerPosition) > KL.Spellbook["Q"].Range)
+            {
                 return false;
+            }
 
             if (KL.Spellbook["R"].IsReady() && unit.Distance(KL.Player.ServerPosition) <= 460 &&
                 KL.RDmg(unit, PassiveCount(unit)) - KL.Hemorrhage(unit, 1) >= unit.Health)
+            {
                 return false;
+            }
 
-            if (KL.Player.GetAutoAttackDamage(unit) * 2 + KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health)
-                if (KL.Player.Distance(unit.ServerPosition) <= 180)
-                    return false;
+            if (KL.Player.GetAutoAttackDamage(unit) * 2 + KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health &&
+                KL.Player.Distance(unit.ServerPosition) <= 180)
+            {
+                return false;
+            }
 
             return true;
         }
@@ -340,7 +282,7 @@ namespace KurisuDarius
             if (usee && KL.Spellbook["E"].IsReady())
             {
                 var etarget = TargetSelector.GetTarget(KL.Spellbook["E"].Range, TargetSelector.DamageType.Physical);
-                if (etarget.IsValidTarget() && CanE(etarget))
+                if (etarget.IsValidTarget())
                 {
                     if (etarget.Distance(KL.Player.ServerPosition) > 250)
                     {
@@ -367,7 +309,7 @@ namespace KurisuDarius
                 {
                     if (!unit.HasBuffOfType(BuffType.Invulnerability) && !unit.HasBuffOfType(BuffType.SpellShield))
                     {
-                        if (KL.RDmg(unit, PassiveCount(unit)) + Rmodi >= unit.Health + KL.Hemorrhage(unit, 1))
+                        if (KL.RDmg(unit, PassiveCount(unit)) + RModifier >= unit.Health + KL.Hemorrhage(unit, 1))
                         {
                             if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
                             {
@@ -377,6 +319,44 @@ namespace KurisuDarius
                     }
                 }
             }
+        }
+
+        internal static void Menu_OnLoad()
+        {
+            Config = new Menu("Kurisu's Darius", "darius", true);
+
+            var drmenu = new Menu(":: Drawings", "drawings");
+            drmenu.AddItem(new MenuItem("drawe", "Draw E"))
+                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
+            drmenu.AddItem(new MenuItem("drawq", "Draw Q"))
+                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
+            drmenu.AddItem(new MenuItem("drawr", "Draw R"))
+                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.DarkRed)));
+            drmenu.AddItem(new MenuItem("drawfill", "Draw R Damage Fill")).SetValue(true);
+            drmenu.AddItem(new MenuItem("drawstack", "Draw Stack Count")).SetValue(true);
+            Config.AddSubMenu(drmenu);
+
+            var omenu = new Menu(":: Orbwalker", "omenu");
+            Orbwalker = new Orbwalking.Orbwalker(omenu);
+            Config.AddSubMenu(omenu);
+
+            var cmenu = new Menu(":: Main Settings", "cmenu");
+            cmenu.AddItem(new MenuItem("useq", "Use Q")).SetValue(true);
+            cmenu.AddItem(new MenuItem("usew", "Use W")).SetValue(true);
+            cmenu.AddItem(new MenuItem("usee", "Use E")).SetValue(true);
+            cmenu.AddItem(new MenuItem("user", "Use R")).SetValue(true);
+            cmenu.AddItem(new MenuItem("harassq", "Harass Q")).SetValue(true);
+            Config.AddSubMenu(cmenu);
+
+            var kmenu = new Menu(":: Miscellaneous", "kmenu");
+            kmenu.AddItem(new MenuItem("ksr", "Auto R on killable targets")).SetValue(true);
+            kmenu.AddItem(new MenuItem("wwww", "Don't W slowed targets")).SetValue(false);
+            kmenu.AddItem(new MenuItem("iiii", "Use Hydra/Tiamat/Titanic")).SetValue(true);
+            kmenu.AddItem(new MenuItem("ksr1", "Use early if target will bleed to death (1v1)")).SetValue(false);
+            kmenu.AddItem(new MenuItem("rmodi", "Adjust ult damage (Less if target doesnt die)")).SetValue(new Slider(0, -250, 250));
+            Config.AddSubMenu(kmenu);
+
+            Config.AddToMainMenu();
         }
     }
 }

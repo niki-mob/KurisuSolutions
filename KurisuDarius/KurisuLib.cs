@@ -8,8 +8,6 @@ namespace KurisuDarius
     internal class KurisuLib
     {
         internal static Obj_AI_Hero Player = ObjectManager.Player;
-
-        internal static Dictionary<int, Obj_AI_Turret> TurretCache = new Dictionary<int, Obj_AI_Turret>();
         internal static Dictionary<string, Spell> Spellbook = new Dictionary<string, Spell>
         {
             { "Q", new Spell(SpellSlot.Q, 425f) },
@@ -17,6 +15,21 @@ namespace KurisuDarius
             { "E", new Spell(SpellSlot.E, 490f) },
             { "R", new Spell(SpellSlot.R, 460f) }
         };
+
+        internal static void HandleItems()
+        {
+            // hydra
+            if (Items.HasItem(3077) && Items.CanUseItem(3077))
+                Items.UseItem(3077);
+
+            // tiamat
+            if (Items.HasItem(3074) && Items.CanUseItem(3074))
+                Items.UseItem(3074);
+
+            // titanic hydra
+            if (Items.HasItem(3748) && Items.CanUseItem(3748))
+                Items.UseItem(3748);
+        }
 
         internal static float QDmg(Obj_AI_Base unit)
         {
@@ -48,7 +61,7 @@ namespace KurisuDarius
 
         internal static float Hemorrhage(Obj_AI_Base unit, int stackcount)
         {
-            if (stackcount <= 0)
+            if (stackcount < 1)
                 stackcount = 1;
 
             return
