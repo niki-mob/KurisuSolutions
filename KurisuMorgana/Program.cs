@@ -73,6 +73,8 @@ namespace KurisuMorgana
             ccmenu.AddSubMenu(menuW);
 
             var menuE = new Menu("BlackShield (E)", "emenu");
+            menuE.AddItem(new MenuItem("usemorge", "Enabled")).SetValue(true);
+            menuE.AddItem(new MenuItem("shieldtg", "Shield Only Target Spells")).SetValue(false);
 
             var newmenu = new Menu("Allies", "usefor");
             foreach (var frn in ObjectManager.Get<Obj_AI_Hero>().Where(x => x.Team == Me.Team))
@@ -366,7 +368,7 @@ namespace KurisuMorgana
 
         internal static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender.Type != Me.Type || !_e.IsReady() || !sender.IsEnemy) 
+            if (sender.Type != Me.Type || !_e.IsReady() || !sender.IsEnemy || !_menu.Item("usemorge").GetValue<bool>()) 
                 return;
 
             var attacker = ObjectManager.Get<Obj_AI_Hero>().First(x => x.NetworkId == sender.NetworkId);
@@ -379,6 +381,9 @@ namespace KurisuMorgana
                 foreach (var lib in KurisuLib.CCList.Where(x => x.HeroName == attacker.ChampionName && x.Slot == attacker.GetSpellSlot(args.SData.Name)))
                 {
                     if (lib.Type == Skilltype.Unit && args.Target.NetworkId != ally.NetworkId)
+                        return;
+
+                    if (_menu.Item("shieldtg").GetValue<bool>() && lib.Type != Skilltype.Unit)
                         return;
 
                     if (_menu.Item(lib.SDataName + "on").GetValue<bool>() && _menu.Item("useon" + ally.ChampionName).GetValue<bool>())
