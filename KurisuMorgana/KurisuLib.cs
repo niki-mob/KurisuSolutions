@@ -851,7 +851,7 @@ namespace KurisuMorgana
                 {
                     HeroName = "Karthus",
                     SpellMenuName = "Wall of Pain",
-                    Slot = SpellSlot.Q,
+                    Slot = SpellSlot.W,
                     Type = Skilltype.Circle,
                     DangerLevel = 3,
                     SDataName = "KarthusWallOfPain",
