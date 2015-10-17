@@ -135,7 +135,7 @@ namespace Activator
                 Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
                 Obj_AI_Base.OnPlaceItemInSlot += Obj_AI_Base_OnPlaceItemInSlot;
 
-                Game.PrintChat("<b>Activator#</b> - Future Bugsplat Fixed/Patched!");
+                Game.PrintChat("<b>Activator#</b> - Loaded! Thanks for Using <3");
                 Updater.UpdateCheck();
 
                 foreach (var autospell in Lists.Spells)

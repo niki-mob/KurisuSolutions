@@ -71,10 +71,12 @@ namespace Activator.Summoners
                     ccmenu.AddItem(new MenuItem(Name + "cpoison", "Poisons")).SetValue(true);
                     Menu.AddSubMenu(ccmenu);
 
-                    Menu.AddItem(new MenuItem("use" + Name + "number", "Min Buffs to Use")).SetValue(new Slider(1, 1, 5));
-                    Menu.AddItem(new MenuItem("use" + Name + "time", "Min Durration to Use (sec)")).SetValue(new Slider(2, 1, 5));
-                    Menu.AddItem(new MenuItem("use" + Name + "delay", "Activation Delay")).SetValue(new Slider(150, 0, 500));
+                    Menu.AddItem(new MenuItem("use" + Name + "number", "Min Buffs to Use")).SetValue(new Slider(1, 1, 5))
+                        .SetTooltip("Will Only " + DisplayName + " if Your Buff Count is > Value");
+                    Menu.AddItem(new MenuItem("use" + Name + "time", "Min Durration to Use")).SetValue(new Slider(2, 1, 5))
+                        .SetTooltip("Will Only " + DisplayName + " if the Buff is > Value (Seconds)");
                     Menu.AddItem(new MenuItem("use" + Name + "od", "Use for Dangerous Only")).SetValue(false);
+                    Menu.AddItem(new MenuItem("use" + Name + "delay", "Activation Delay (in ms)")).SetValue(new Slider(150, 0, 500));
                     Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }));
                 }
 

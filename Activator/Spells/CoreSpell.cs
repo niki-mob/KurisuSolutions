@@ -38,6 +38,7 @@ namespace Activator.Spells
                     .OrderBy(ene => ene.Health/ene.MaxHealth*100).First();
             }
         }
+
         public CoreSpell CreateMenu(Menu root)
         {
             try
@@ -56,15 +57,18 @@ namespace Activator.Spells
 
                 if (Category.Any(t => t == MenuType.EnemyLowHP))
                     Menu.AddItem(new MenuItem("enemylowhp" + Name + "pct", "Use on Enemy HP % <="))
-                        .SetValue(new Slider(DefaultHP));
+                        .SetValue(new Slider(DefaultHP))
+                        .SetTooltip("Will Use " + Name + " on Enemy if Their HP % < Value"); 
 
                 if (Category.Any(t => t == MenuType.SelfLowHP))
                     Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
-                        .SetValue(new Slider(DefaultHP));
+                        .SetValue(new Slider(DefaultHP))
+                        .SetTooltip("Will Use " + Name + " When the Hero's HP % < Value");
 
                 if (Category.Any(t => t == MenuType.SelfMuchHP))
                     Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))
-                        .SetValue(new Slider(55));
+                        .SetValue(new Slider(55))
+                        .SetTooltip("Will Use " + Name + " When the Hero's Income Damage % > Value");
 
                 if (Category.Any(t => t == MenuType.SelfLowMP))
                     Menu.AddItem(new MenuItem("selflowmp" + Name + "pct", "Use on Hero Mana % <="))

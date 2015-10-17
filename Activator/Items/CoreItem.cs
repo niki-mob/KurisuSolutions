@@ -134,27 +134,33 @@ namespace Activator.Items
             {
                 Menu = new Menu(Name, "m" + Name);
                 Menu.AddItem(new MenuItem("use" + Name, "Use " + DisplayName ?? Name)).SetValue(true);
-                Menu.AddItem(new MenuItem("prior" + Name, DisplayName + " Priority")).SetValue(new Slider(Priority, 1, 7));
+                Menu.AddItem(new MenuItem("prior" + Name, DisplayName + " Priority"))
+                    .SetValue(new Slider(Priority, 1, 7))
+                    .SetTooltip("The Priority " + Name + " Will Have Over Another Item (7 = Highest)");
 
                 if (Category.Any(t => t == MenuType.SelfLowHP) &&
                    (Name.Contains("Potion") || Name.Contains("Flask") || Name.Contains("Biscuit")))
                 {
-                    Menu.AddItem(new MenuItem("use" + Name + "cbat", "Use Damage Prediction")).SetValue(true);
+                    Menu.AddItem(new MenuItem("use" + Name + "cbat", "Use Damage Prediction"))
+                        .SetValue(true).SetTooltip("Disabling this would use pots even out of combat.");
                 }
 
                 if (Category.Any(t => t == MenuType.EnemyLowHP))
                 {
                     Menu.AddItem(new MenuItem("enemylowhp" + Name + "pct", "Use on Enemy HP % <="))
-                        .SetValue(new Slider(DefaultHP));
+                        .SetValue(new Slider(DefaultHP))
+                        .SetTooltip("Will Use " + Name + " on Enemy if Their HP % < Value");
                 }
 
                 if (Category.Any(t => t == MenuType.SelfLowHP))
                     Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
-                        .SetValue(new Slider(DefaultHP < 50 || DefaultHP >= 90 ? (Name == "Botrk" ? 75 : 35) : 55));
+                        .SetValue(new Slider(DefaultHP < 50 || DefaultHP >= 90 ? (Name == "Botrk" ? 75 : 35) : 55))
+                        .SetTooltip("Will Use " + Name + " When the Hero's HP % < Value");
 
                 if (Category.Any(t => t == MenuType.SelfMuchHP))
                     Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))
-                        .SetValue(new Slider(DefaultHP > 45 ? 55 : DefaultHP < 35 ? 45 : 40));
+                        .SetValue(new Slider(DefaultHP > 45 ? 55 : DefaultHP < 35 ? 45 : 40))
+                        .SetTooltip("Will Use " + Name + " When the Hero's Income Damage % > Value");
 
                 if (Category.Any(t => t == MenuType.SelfLowMP))
                     Menu.AddItem(new MenuItem("selflowmp" + Name + "pct", "Use on Hero Mana % <="))
@@ -209,11 +215,15 @@ namespace Activator.Items
                     Menu.AddSubMenu(ccmenu);
                     Menu.AddSubMenu(ssmenu);
 
-                    Menu.AddItem(new MenuItem("use" + Name + "number", "Min Buffs to Use")).SetValue(new Slider(DefaultHP/5, 1, 5));
-                    Menu.AddItem(new MenuItem("use" + Name + "time", "Min Durration to Use (sec)")).SetValue(new Slider(1, 1, 5));
-                    Menu.AddItem(new MenuItem("use" + Name + "delay", "Activation Delay")).SetValue(new Slider(150, 0, 500));
-                    Menu.AddItem(new MenuItem("use" + Name + "od", "Use for Dangerous Only")).SetValue(false);
-                    Menu.AddItem(new MenuItem("use" + Name + "dot", "Use for DoTs only if HP% <")).SetValue(new Slider(35));
+                    Menu.AddItem(new MenuItem("use" + Name + "number", "Min Buffs to Use"))
+                        .SetValue(new Slider(DefaultHP / 5, 1, 5)).SetTooltip("Will Only " + Name + " if Your Buff Count is > Value");
+                    Menu.AddItem(new MenuItem("use" + Name + "time", "Min Durration to Use"))
+                        .SetValue(new Slider(1, 1, 5)).SetTooltip("Will Only " + Name + " if the Buff is > Value (Seconds)");
+                    Menu.AddItem(new MenuItem("use" + Name + "od", "Use for Dangerous Only"))
+                        .SetValue(false).SetTooltip("Will Save " + Name + " for Buffs Like Zed R, Suppresion, etc");
+                    Menu.AddItem(new MenuItem("use" + Name + "dot", "Use for DoTs only if HP% <"))
+                        .SetValue(new Slider(35)).SetTooltip("Will " + Name + " Damage Over Time Spells if Below HP%");
+                    Menu.AddItem(new MenuItem("use" + Name + "delay", "Activation Delay (in ms)")).SetValue(new Slider(150, 0, 500));
                 }
 
                 if (Category.Any(t => t == MenuType.ActiveCheck))

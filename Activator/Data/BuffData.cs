@@ -132,6 +132,20 @@ namespace Activator.Data
                 Interval = .8
             });
 
+            BuffList.Add(new BuffData()
+            {
+                Champion = "Malzahar",
+                Name = "alzaharnethergrasp",
+                MenuName = "Nether Grasp",
+                Evade = false,
+                DoT = true,
+                EvadeTimer = 0,
+                Cleanse = true,
+                CleanseTimer = 0,
+                Slot = SpellSlot.R,
+                Interval = .8
+            });
+
             BuffList.Add(new BuffData
             {
                 Champion = "Malzahar",
@@ -155,6 +169,34 @@ namespace Activator.Data
                 DoT = true,
                 EvadeTimer = 0,
                 Cleanse = false,
+                CleanseTimer = 0,
+                Slot = SpellSlot.W,
+                Interval = 1.0
+            });
+
+            BuffList.Add(new BuffData
+            {
+                Champion = "Galio",
+                Name = "galioidolofdurand",
+                MenuName = "Idol of Durand",
+                Evade = false,
+                DoT = false,
+                EvadeTimer = 0,
+                Cleanse = true,
+                CleanseTimer = 0,
+                Slot = SpellSlot.R,
+                Interval = 1.0
+            });
+
+            BuffList.Add(new BuffData
+            {
+                Champion = "Nasus",
+                Name = "nasuswither",
+                MenuName = "Wither",
+                Evade = false,
+                DoT = false,
+                EvadeTimer = 0,
+                Cleanse = true,
                 CleanseTimer = 0,
                 Slot = SpellSlot.W,
                 Interval = 1.0
