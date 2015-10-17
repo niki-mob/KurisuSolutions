@@ -122,21 +122,6 @@ namespace KurisuGraves
 
             if (Target.IsValidTarget() && Chargeshot.IsReady())
             {
-                foreach (var hero in HeroManager.Enemies.Where(x => x.IsValidTarget(Chargeshot.Range)))
-                {
-                    if (GetRDamage(hero) >= hero.Health && MainMenu.Item("secure").GetValue<bool>())
-                    {
-                        var pred = Prediction.GetPrediction(hero, 0.25f).UnitPosition;
-                        if (pred.Distance(Me.ServerPosition) <= Me.AttackRange)
-                        {
-                            if (Me.GetAutoAttackDamage(hero, true) * 2 >= hero.Health)
-                                return;
-                        }
-
-                        Chargeshot.CastIfHitchanceEquals(hero, HitChance.High);
-                    }
-                }
-
                 if (MainMenu.Item("shootr").GetValue<KeyBind>().Active)
                     Chargeshot.CastIfHitchanceEquals(Target, HitChance.VeryHigh);
 
@@ -148,8 +133,27 @@ namespace KurisuGraves
                         if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                         {
                             if (Target.CountAlliesInRange(650) >= 2)
-                                Chargeshot.CastIfHitchanceEquals(Target, HitChance.Medium);
+                                Chargeshot.CastIfHitchanceEquals(Target, HitChance.High);
                         }
+                    }
+                }
+            }
+
+            if (Chargeshot.IsReady())
+            {
+                foreach (var hero in HeroManager.Enemies.Where(x => x.IsValidTarget(Chargeshot.Range)))
+                {
+                    if (GetRDamage(hero) >= hero.Health && MainMenu.Item("secure").GetValue<bool>())
+                    {
+                        var pred = Prediction.GetPrediction(hero, 0.25f).UnitPosition;
+                        if (pred.Distance(Me.ServerPosition) <= Me.AttackRange)
+                        {
+                            if (Me.GetAutoAttackDamage(hero, true) * 3 >= hero.Health &&
+                                Me.HealthPercent > 40)
+                                return;
+                        }
+
+                        Chargeshot.CastIfHitchanceEquals(hero, HitChance.High);
                     }
                 }
             }
