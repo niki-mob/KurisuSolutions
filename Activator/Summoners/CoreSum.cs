@@ -84,21 +84,24 @@ namespace Activator.Summoners
                 {
                     Activator.UseEnemyMenu = true;
                     Menu.AddItem(new MenuItem("ignotet", "Ignite Under Turret")).SetValue(true);
-                    Menu.AddItem(new MenuItem("ignoteo", "Check Overkill (Combo)")).SetValue(false);
 
                     switch (Player.ChampionName)
                     {
                         case "Ahri":
-                            Menu.AddItem(new MenuItem("ii" + Player.ChampionName, "Ignite after Charm?")).SetValue(false);
+                            Menu.AddItem(new MenuItem("ii" + Player.ChampionName, Player.ChampionName + ": Check Charm"))
+                                .SetValue(false).SetTooltip("Only ignite if target is charmed?");
                             break;
                         case "Cassiopeia":
-                            Menu.AddItem(new MenuItem("ii" + Player.ChampionName, "Ignite after Poison?")).SetValue(false);
+                            Menu.AddItem(new MenuItem("ii" + Player.ChampionName, Player.ChampionName + ": Check Poison"))
+                                .SetValue(false).SetTooltip("Only ignite if target is poisoned?");
                             break;
                         case "Diana":
-                            Menu.AddItem(new MenuItem("ii" + Player.ChampionName, "Ignite after Moonlight?")).SetValue(false);
+                            Menu.AddItem(new MenuItem("ii" + Player.ChampionName, Player.ChampionName + ": Check Moonlight?"))
+                                .SetValue(false).SetTooltip("Only ignite if target has moonlight debuff?");
                             break;
                     }
-                
+
+                    Menu.AddItem(new MenuItem("ignoteo", "Check Overkill (Combo)")).SetValue(false);
                     Menu.AddItem(new MenuItem("mode" + Name, "Mode: "))
                         .SetValue(new StringList(new[] { "Killsteal", "Combo" }, 1));
                 }
