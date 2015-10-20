@@ -74,9 +74,12 @@ namespace Activator.Items
                     {
                         if (Utils.GameTimeTickCount - Activator.LastUsedTimeStamp > Duration)
                         {
-                            LeagueSharp.Common.Items.UseItem(Id);
-                            Activator.LastUsedTimeStamp = Utils.GameTimeTickCount;
-                            Activator.LastUsedDuration = Duration;
+                            if (!Activator.Player.HasBuffOfType(BuffType.Invisibility))
+                            {
+                                LeagueSharp.Common.Items.UseItem(Id);
+                                Activator.LastUsedTimeStamp = Utils.GameTimeTickCount;
+                                Activator.LastUsedDuration = Duration;
+                            }
                         }
                     }
                 }
@@ -97,9 +100,12 @@ namespace Activator.Items
                     {
                         if (Utils.GameTimeTickCount - Activator.LastUsedTimeStamp > Duration)
                         {
-                            LeagueSharp.Common.Items.UseItem(Id, target);
-                            Activator.LastUsedTimeStamp = Utils.GameTimeTickCount;
-                            Activator.LastUsedDuration = Duration;
+                            if (!Activator.Player.HasBuffOfType(BuffType.Invisibility))
+                            {
+                                LeagueSharp.Common.Items.UseItem(Id, target);
+                                Activator.LastUsedTimeStamp = Utils.GameTimeTickCount;
+                                Activator.LastUsedDuration = Duration;
+                            }
                         }
                     }
                 }
@@ -118,9 +124,12 @@ namespace Activator.Items
                 {
                     if (Utils.GameTimeTickCount - Activator.LastUsedTimeStamp > Duration)
                     {
-                        LeagueSharp.Common.Items.UseItem(Id, pos);
-                        Activator.LastUsedTimeStamp = Utils.GameTimeTickCount;
-                        Activator.LastUsedDuration = Duration;
+                        if (!Activator.Player.HasBuffOfType(BuffType.Invisibility))
+                        {
+                            LeagueSharp.Common.Items.UseItem(Id, pos);
+                            Activator.LastUsedTimeStamp = Utils.GameTimeTickCount;
+                            Activator.LastUsedDuration = Duration;
+                        }
                     }
                 }
             }
@@ -216,9 +225,9 @@ namespace Activator.Items
                     Menu.AddSubMenu(ssmenu);
 
                     Menu.AddItem(new MenuItem("use" + Name + "number", "Min Buffs to Use"))
-                        .SetValue(new Slider(DefaultHP / 5, 1, 5)).SetTooltip("Will Only " + Name + " if Your Buff Count is > Value");
+                        .SetValue(new Slider(DefaultHP / 5, 1, 5)).SetTooltip("Will Only " + Name + " if Your Buff Count is >= Value");
                     Menu.AddItem(new MenuItem("use" + Name + "time", "Min Durration to Use"))
-                        .SetValue(new Slider(1, 1, 5)).SetTooltip("Will Only " + Name + " if the Buff is > Value (Seconds)");
+                        .SetValue(new Slider(1, 1, 5)).SetTooltip("Will Only " + Name + " if the Buff is >= Value (Seconds)");
                     Menu.AddItem(new MenuItem("use" + Name + "od", "Use for Dangerous Only"))
                         .SetValue(false).SetTooltip("Will Save " + Name + " for Buffs Like Zed R, Suppresion, etc");
                     Menu.AddItem(new MenuItem("use" + Name + "dot", "Use for DoTs only if HP% <"))

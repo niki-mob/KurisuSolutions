@@ -51,7 +51,7 @@ namespace Activator
                     catch (Exception e)
                     {
                         Console.WriteLine(e);
-                        Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.Updater: </font>: " + e.Message);
+                        Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.Updater");
                     }
                 });
         }

@@ -1,2 +1,0 @@
-﻿﻿New: Added special buffs cleanse menu to cleanse items.
-New: Added cleansing DoT (Damage Over Time) spells if HP% < X.

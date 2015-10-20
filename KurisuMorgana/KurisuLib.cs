@@ -842,7 +842,7 @@ namespace KurisuMorgana
                 {
                     HeroName = "Nasus",
                     SpellMenuName = "Wither",
-                    Slot = SpellSlot.Q,
+                    Slot = SpellSlot.W,
                     DangerLevel = 3,
                     SDataName = "NasusW",
                 });
@@ -1007,16 +1007,6 @@ namespace KurisuMorgana
                     Type = Skilltype.Line,
                     DangerLevel = 2,
                     SDataName = "RumbleGrenade",
-                });
-            CCList.Add(
-                new KurisuLib
-                {
-                    HeroName = "Rumble",
-                    SpellMenuName = "RumbleCarpetBombM",
-                    Slot = SpellSlot.R,
-                    Type = Skilltype.Line,
-                    DangerLevel = 4,
-                    SDataName = "RumbleCarpetBombMissile",
                 });
             CCList.Add(
                 new KurisuLib
