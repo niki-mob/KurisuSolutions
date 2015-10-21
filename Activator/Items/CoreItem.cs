@@ -231,7 +231,7 @@ namespace Activator.Items
                     Menu.AddItem(new MenuItem("use" + Name + "od", "Use for Dangerous Only"))
                         .SetValue(false).SetTooltip("Will Save " + Name + " for Buffs Like Zed R, Suppresion, etc");
                     Menu.AddItem(new MenuItem("use" + Name + "dot", "Use for DoTs only if HP% <"))
-                        .SetValue(new Slider(35)).SetTooltip("Will " + Name + " Damage Over Time Spells if Below HP%");
+                        .SetValue(new Slider(35)).SetTooltip("Will " + Name + " Damage Spells if Below HP%");
                     Menu.AddItem(new MenuItem("use" + Name + "delay", "Activation Delay (in ms)")).SetValue(new Slider(150, 0, 500));
                 }
 
