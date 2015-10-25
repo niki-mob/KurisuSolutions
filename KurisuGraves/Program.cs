@@ -347,6 +347,12 @@ namespace KurisuGraves
                                 Chargeshot.CastIfHitchanceEquals(Target, HitChance.High);
                         }
                     }
+
+                    if (Target.CountAlliesInRange(400) >= 2)
+                    {
+                        if (CanR(Target) && GetComboDamage(Target) >= Target.Health)
+                            Chargeshot.CastIfHitchanceEquals(Target, HitChance.High);
+                    }
                 }
             }
 
