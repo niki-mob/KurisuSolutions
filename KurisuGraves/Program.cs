@@ -347,7 +347,10 @@ namespace KurisuGraves
                                 Chargeshot.CastIfHitchanceEquals(Target, HitChance.High);
                         }
                     }
+                }
 
+                if (rpred.Distance(Me.ServerPosition) <= Quickdraw.Range * 2)
+                {
                     if (Target.CountAlliesInRange(400) >= 2)
                     {
                         if (CanR(Target) && GetComboDamage(Target) >= Target.Health)
