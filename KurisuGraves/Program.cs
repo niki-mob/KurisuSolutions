@@ -81,8 +81,13 @@ namespace KurisuGraves
                 GravesCombo();
 
             if (MainMenu.Item("autosmoke").GetValue<bool>() && Smokescreen.IsReady())
+            {
                 foreach (var hero in HeroManager.Enemies.Where(x => x.IsValidTarget(Smokescreen.Range)))
-                    Smokescreen.CastIfHitchanceEquals(hero, HitChance.Immobile);
+                {
+                    if (!Me.IsWindingUp && Utils.GameTimeTickCount - LE > 1100)
+                        Smokescreen.CastIfHitchanceEquals(hero, HitChance.Immobile);
+                }
+            }
 
             if (MainMenu.Item("fleekey").GetValue<KeyBind>().Active)
             {
@@ -132,7 +137,7 @@ namespace KurisuGraves
                     {
                         if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Combo)
                         {
-                            if (Target.CountAlliesInRange(650) >= 2)
+                            if (Target.CountAlliesInRange(750) >= 2)
                                 Chargeshot.CastIfHitchanceEquals(Target, HitChance.High);
                         }
                     }
@@ -143,16 +148,8 @@ namespace KurisuGraves
             {
                 foreach (var hero in HeroManager.Enemies.Where(x => x.IsValidTarget(Chargeshot.Range)))
                 {
-                    if (GetRDamage(hero) >= hero.Health && MainMenu.Item("secure").GetValue<bool>())
+                    if (CanR(hero) && GetRDamage(hero) >= hero.Health && MainMenu.Item("secure").GetValue<bool>())
                     {
-                        var pred = Prediction.GetPrediction(hero, 0.25f).UnitPosition;
-                        if (pred.Distance(Me.ServerPosition) <= Me.AttackRange)
-                        {
-                            if (Me.GetAutoAttackDamage(hero, true) * 3 >= hero.Health &&
-                                Me.HealthPercent > 40)
-                                return;
-                        }
-
                         Chargeshot.CastIfHitchanceEquals(hero, HitChance.High);
                     }
                 }
@@ -264,9 +261,10 @@ namespace KurisuGraves
             {
                 if (sender.Distance(Me.ServerPosition) <= Smokescreen.Range)
                 {
-                    if ((args.SData.CastFrame / 30) > 500)
+                    if ((args.SData.CastFrame / 30) * 1000 > 500)
                     {
-                        Smokescreen.Cast(sender.ServerPosition);
+                        if (!Me.IsWindingUp && Utils.GameTimeTickCount - LE > 1100)
+                            Smokescreen.Cast(sender.ServerPosition);
                     }
                 }
             }
@@ -345,7 +343,7 @@ namespace KurisuGraves
                     {
                         if (MainMenu.Item("usercombo").GetValue<bool>())
                         {
-                            if (GetComboDamage(Target) >= Target.Health)
+                            if (CanR(Target) && GetComboDamage(Target) >= Target.Health)
                                 Chargeshot.CastIfHitchanceEquals(Target, HitChance.High);
                         }
                     }
@@ -377,8 +375,13 @@ namespace KurisuGraves
                     {
                         if (Me.GetAutoAttackDamage(qtarget)*3 < qtarget.Health)
                         {
-                            if (!Quickdraw.IsReady() && !Buckshot.IsReady())
-                                Smokescreen.CastIfHitchanceEquals(wtarget, HitChance.VeryHigh);
+                            if (!Quickdraw.IsReady() && !Buckshot.IsReady() && !Me.IsWindingUp)
+                            {
+                                if (Utils.GameTimeTickCount - LE >= 1100)
+                                {
+                                    Smokescreen.CastIfHitchanceEquals(wtarget, HitChance.High);
+                                }
+                            }
                         }
                     }
                 }
@@ -517,8 +520,13 @@ namespace KurisuGraves
                     return;
                 }
 
+                if (epos.To3D().CountEnemiesInRange(Quickdraw.Range - 100) > 0)
+                {
+                    return;
+                }
+
                 // intersection found
-                Quickdraw.Cast(path.MinOrDefault(x => x.Distance(Game.CursorPos)));
+                Quickdraw.Cast(epos);
             }
 
             if (path.Count() == 0)
@@ -536,6 +544,44 @@ namespace KurisuGraves
                 Quickdraw.Cast(Me.ServerPosition.Extend(target.ServerPosition, -Quickdraw.Range));
             }
         }
+
+        #endregion
+
+        #region Can R
+
+        internal static bool CanR(Obj_AI_Hero unit)
+        {
+            if (Me.HealthPercent <= 35 && unit.Distance(Me.ServerPosition) <= Me.AttackRange + 65)
+            {
+                return true;
+            }
+
+            if (unit.IsZombie || TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.Physical))
+            {
+                return false;
+            }
+
+            if (Orbwalking.InAutoAttackRange(unit) && 
+                Me.GetAutoAttackDamage(unit, true) * 3 >= unit.Health)
+            {
+                return false;
+            }
+
+            if (Buckshot.IsReady() && unit.Distance(Me.ServerPosition) <= Buckshot.Range && 
+                Buckshot.GetDamage(unit) >= unit.Health)
+            {
+                return false;
+            }
+
+            if (Quickdraw.IsReady() && unit.Distance(Me.ServerPosition) <= Quickdraw.Range + 25 &&
+                Me.GetAutoAttackDamage(unit, true) * 3 >= unit.Health)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
 
         #endregion
 
@@ -569,7 +615,8 @@ namespace KurisuGraves
             MainMenu.AddSubMenu(misc);
 
             var comenu = new Menu("Combo Settings", "comenu");
-            comenu.AddItem(new MenuItem("usew", "Use W in combo")).SetValue(false);
+            comenu.AddItem(new MenuItem("usew", "Use W in combo"))
+                .SetValue(false).SetTooltip("Still working on this logic, I prefer to leave it off.");
             comenu.AddItem(new MenuItem("autosmoke", "Use W on cc'd target")).SetValue(true);
             comenu.AddItem(new MenuItem("usewongap", "Use W on gapclosers")).SetValue(true);
 
@@ -577,10 +624,11 @@ namespace KurisuGraves
             comenu.AddItem(new MenuItem("ewherecom", "Use E to"))
                 .SetValue(new StringList(new[] { "Safe Position", "Game Cursor" }));
             comenu.AddItem(new MenuItem("useeafter", "Use E after attack")).SetValue(true);
-
             comenu.AddItem(new MenuItem("usercombo", "Use R in combo")).SetValue(true);
-            comenu.AddItem(new MenuItem("rmulti", "Use R in combo if hit >=")).SetValue(new Slider(3, 1, 5));
-            comenu.AddItem(new MenuItem("secure", "Use R secure kill")).SetValue(true);
+            comenu.AddItem(new MenuItem("rmulti", "Use R in combo if hit >="))
+                .SetValue(new Slider(3, 1, 5)).SetTooltip("Checks if R will hit X ammount. 2 allies must be in range.");
+            comenu.AddItem(new MenuItem("secure", "Use R secure kill"))
+                .SetValue(true).SetTooltip("Will kill steal without any key press.");
             MainMenu.AddSubMenu(comenu);
 
             MainMenu.AddToMainMenu();
