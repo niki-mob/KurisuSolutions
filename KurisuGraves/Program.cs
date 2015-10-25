@@ -561,6 +561,12 @@ namespace KurisuGraves
                 return false;
             }
 
+            if (unit.CountAlliesInRange(400) >= 2 &&
+                Me.GetAutoAttackDamage(unit, true) * 6 >= unit.Health)
+            {
+                return false;
+            }
+
             if (Orbwalking.InAutoAttackRange(unit) && 
                 Me.GetAutoAttackDamage(unit, true) * 3 >= unit.Health)
             {
