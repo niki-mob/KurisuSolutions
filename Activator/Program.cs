@@ -248,7 +248,7 @@ namespace Activator
                     .GetTypes()
                     .FindAll(t => t.IsClass && t.Namespace == "Activator." + nspace &&
                                   t.Name != "CoreItem" && t.Name != "CoreSpell" && t.Name != "CoreSum" &&
-                                 !t.Name.Contains("c__")); // kek
+                                 !t.Name.Contains("c__") && !t.Name.Contains("<>c")); // kek
         }
 
         private static void GetComboDamage()
@@ -404,11 +404,9 @@ namespace Activator
                 return System.Activator.CreateInstance(type);
             }
 
-            catch (Exception e)
+            finally 
             {
-                Console.WriteLine(e);
-                Game.PrintChat("Exception thrown at <font color=\"#FFF280\">Activator.CreateInstance</font>");
-                return null;
+                CodeAccessPermission.RevertAssert();
             }
         }
     }
