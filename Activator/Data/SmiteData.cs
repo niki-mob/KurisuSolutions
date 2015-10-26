@@ -3,7 +3,7 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	Base/ChampionSmite.cs
+// Document:	Data/SmiteData.cs
 // Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
@@ -11,9 +11,9 @@
 using LeagueSharp;
 using System.Collections.Generic;
 
-namespace Activator.Base
+namespace Activator.Data
 {
-    public class ChampionSmite
+    public class SmiteData
     {
         public string Name;
         public float CastRange;
@@ -21,7 +21,7 @@ namespace Activator.Base
         public int Stage;
         public SpellDataTargetType Type;
 
-        public static List<ChampionSmite> SpellList = new List<ChampionSmite>();
+        public static List<SmiteData> SpellList = new List<SmiteData>();
 
         public bool HeroReqs(Obj_AI_Base unit)
         {
@@ -51,9 +51,9 @@ namespace Activator.Base
             return true;
         }
 
-        static ChampionSmite()
+        static SmiteData()
         {
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "FiddleSticks",
                 CastRange = 750f,
@@ -62,7 +62,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "JarvanIV",
                 CastRange = 770f,
@@ -71,7 +71,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Location
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Twitch",
                 CastRange = 950f,
@@ -80,7 +80,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Self
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Riven",
                 CastRange = 150f,
@@ -89,7 +89,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Self
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Malphite",
                 CastRange = 200f,
@@ -98,7 +98,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Self
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Nunu",
                 CastRange = 200f,
@@ -107,7 +107,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Olaf",
                 CastRange = 325f,
@@ -116,7 +116,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Elise",
                 CastRange = 475f,
@@ -125,7 +125,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Warwick",
                 CastRange = 400f,
@@ -134,7 +134,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "MasterYi",
                 CastRange = 600f,
@@ -143,7 +143,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Kayle",
                 CastRange = 650f,
@@ -152,7 +152,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Khazix",
                 CastRange = 325f,
@@ -161,7 +161,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "MonkeyKing",
                 CastRange = 300f,
@@ -170,7 +170,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Darius",
                 CastRange = 425f,
@@ -179,7 +179,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Self
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Diana",
                 CastRange = 825f,
@@ -188,7 +188,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Fizz",
                 CastRange = 550f,
@@ -197,7 +197,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Evelynn",
                 CastRange = 225f,
@@ -207,7 +207,7 @@ namespace Activator.Base
             });
 
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Maokai",
                 CastRange = 600f,
@@ -216,7 +216,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Location
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Nocturne",
                 CastRange = 500f,
@@ -225,7 +225,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Location
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Pantheon",
                 CastRange = 600f,
@@ -234,7 +234,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Volibear",
                 CastRange = 400f,
@@ -243,7 +243,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Tryndamere",
                 CastRange = 400f,
@@ -252,7 +252,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Location
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Zac",
                 CastRange = 550f,
@@ -261,7 +261,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Location
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Shen",
                 CastRange = 475f,
@@ -270,7 +270,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "XinZhao",
                 CastRange = 600f,
@@ -279,7 +279,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Unit
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Amumu",
                 CastRange = 150f,
@@ -288,7 +288,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Self
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "LeeSin",
                 CastRange = 1300f,
@@ -297,7 +297,7 @@ namespace Activator.Base
                 Type = SpellDataTargetType.Self
             });
 
-            SpellList.Add(new ChampionSmite
+            SpellList.Add(new SmiteData
             {
                 Name = "Chogath",
                 CastRange = 175f,

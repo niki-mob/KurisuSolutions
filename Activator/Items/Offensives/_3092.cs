@@ -13,7 +13,7 @@ namespace Activator.Items.Offensives
 
         internal override int Priority
         {
-            get { return 7; }
+            get { return 6; }
         }
 
         internal override string Name 

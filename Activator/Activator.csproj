@@ -59,9 +59,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\Champion.cs" />
-    <Compile Include="Base\ChampionSmite.cs" />
+    <Compile Include="Data\SmiteData.cs" />
+    <Compile Include="Base\Troy.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\TroyData.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Base\Drawings.cs" />
-    <Compile Include="Data\GameTroyData.cs">
+    <Compile Include="Handlers\Troys.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Consumables\_2047.cs" />
@@ -74,8 +80,6 @@
     <Compile Include="Items\Offensives\_3092.cs" />
     <Compile Include="Handlers\Events.cs" />
     <Compile Include="Base\Enumerators.cs" />
-    <Compile Include="Base\GameTroy.cs" />
-    <Compile Include="Handlers\Gametroys.cs" />
     <Compile Include="Items\Cleansers\_3137.cs" />
     <Compile Include="Items\Cleansers\_3139.cs" />
     <Compile Include="Items\Cleansers\_3140.cs" />

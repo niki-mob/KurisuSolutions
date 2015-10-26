@@ -2105,7 +2105,7 @@ namespace Activator.Data
                 SDataName = "jaycethunderingblow",
                 ChampionName = "jayce",
                 Slot = SpellSlot.E,
-                CastRange = 300f,
+                CastRange = 325f,
                 Delay = 250f,
                 HitType = new[] { Base.HitType.CrowdControl },
                 MissileSpeed = int.MaxValue
@@ -2161,21 +2161,10 @@ namespace Activator.Data
                 ChampionName = "jinx",
                 Slot = SpellSlot.W,
                 CastRange = 1550f,
-                Delay = 550f,
+                Delay = 600f,
                 HitType = new[] { Base.HitType.CrowdControl },
                 MissileName = "jinxwmissile",
-                MissileSpeed = 1200
-            });
-
-            Spells.Add(new SpellData
-            {
-                SDataName = "jinxwmissle",
-                ChampionName = "jinx",
-                Slot = SpellSlot.W,
-                CastRange = 1550f,
-                Delay = 500f,
-                HitType = new[] { Base.HitType.CrowdControl },
-                MissileSpeed = 1200
+                MissileSpeed = 2200
             });
 
             Spells.Add(new SpellData
@@ -2185,7 +2174,7 @@ namespace Activator.Data
                 Slot = SpellSlot.E,
                 CastRange = 900f,
                 Delay = 250f,
-                HitType = new[] { Base.HitType.CrowdControl },
+                HitType = new HitType[] { },
                 MissileSpeed = 1000
             });
 
@@ -2755,7 +2744,7 @@ namespace Activator.Data
                 Slot = SpellSlot.E,
                 CastRange = 425f,
                 Delay = 250f,
-                HitType = new HitType[] { },
+                HitType = new[] { Base.HitType.CrowdControl },
                 MissileSpeed = int.MaxValue
             });
 
@@ -2766,7 +2755,7 @@ namespace Activator.Data
                 Slot = SpellSlot.E,
                 CastRange = 350f,
                 Delay = 0f,
-                HitType = new[] { Base.HitType.CrowdControl },
+                HitType = new HitType[] { },
                 MissileSpeed = int.MaxValue
             });
 
@@ -2826,7 +2815,7 @@ namespace Activator.Data
                 ChampionName = "leona",
                 Slot = SpellSlot.R,
                 CastRange = 1200f,
-                Delay = 550f,
+                Delay = 1200f,
                 HitType = new[] { Base.HitType.Danger, Base.HitType.CrowdControl  },
                 MissileName = "leonasolarflare",
                 MissileSpeed = int.MaxValue

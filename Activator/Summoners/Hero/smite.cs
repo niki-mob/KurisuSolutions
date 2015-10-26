@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Activator.Base;
+using Activator.Data;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -70,7 +71,7 @@ namespace Activator.Summoners
 
         internal static void L33TSmite(Obj_AI_Base unit, float smitedmg)
         {
-            foreach (var hero in ChampionSmite.SpellList.Where(x => x.Name == Activator.Player.ChampionName))
+            foreach (var hero in SmiteData.SpellList.Where(x => x.Name == Activator.Player.ChampionName))
             {
                 if (Activator.Player.GetSpellDamage(unit, hero.Slot, hero.Stage) + smitedmg >= unit.Health)
                 {

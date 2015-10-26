@@ -3,7 +3,7 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	Handlers/Gametroys.cs
+// Document:	Handlers/Troys.cs
 // Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
@@ -17,7 +17,7 @@ using LeagueSharp.Common;
 
 namespace Activator.Handlers
 {
-    public class Gametroys
+    public class Troys
     {
         public static void StartOnUpdate()
         {
@@ -27,7 +27,7 @@ namespace Activator.Handlers
 
         static void GameObject_OnCreate(GameObject obj, EventArgs args)
         {
-            foreach (var troy in GameTroy.Troys)
+            foreach (var troy in Troy.Troys)
             {
                 if (obj.Name.Contains(troy.Name))
                 {
@@ -42,7 +42,7 @@ namespace Activator.Handlers
 
         static void Game_OnUpdate(EventArgs args)
         {
-            foreach (var troy in GameTroy.Troys.Where(x => x.Included))
+            foreach (var troy in Troy.Troys.Where(x => x.Included))
             {
                 if (troy.Owner.IsAlly)
                     continue;
@@ -51,7 +51,7 @@ namespace Activator.Handlers
                 {
                     if (troy.Owner != null && troy.Obj != null && troy.Obj.IsValid)
                     {
-                        foreach (var item in GameTroyData.Troys.Where(x => x.Name == troy.Name))
+                        foreach (var item in TroyData.Troys.Where(x => x.Name == troy.Name))
                         {
                             if (hero.Player.Distance(troy.Obj.Position, true) <= item.Radius * item.Radius)
                             {

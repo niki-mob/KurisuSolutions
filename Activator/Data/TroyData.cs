@@ -3,7 +3,7 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	Data/GameData.cs
+// Document:	Data/TroyeData.cs
 // Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace Activator.Data
 {
-    public class GameTroyData
+    public class TroyData
     {
         public string Name { get; set; }
         public string ChampionName { get; set; }
@@ -26,11 +26,11 @@ namespace Activator.Data
         public HitType[] HitType { get; set; }
         public int DelayFromStart { get; set; }
 
-        public static List<GameTroyData> Troys = new List<GameTroyData>(); 
+        public static List<TroyData> Troys = new List<TroyData>(); 
 
-        static GameTroyData()
+        static TroyData()
         {
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Hecarim_Defile",
                 ChampionName = "Hecarim",
@@ -41,7 +41,7 @@ namespace Activator.Data
                 Interval = .75
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Gangplank_Base_R_AoE",
                 ChampionName = "Gangplank",
@@ -52,7 +52,7 @@ namespace Activator.Data
                 Interval = 1.5
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "W_Shield",
                 ChampionName = "Diana",
@@ -63,7 +63,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "W_aoe_red",
                 ChampionName = "Malzahar",
@@ -74,7 +74,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "E_Defile",
                 ChampionName = "Karthus",
@@ -85,7 +85,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Elise_Base_W_volatile",
                 ChampionName = "Elise",
@@ -96,7 +96,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "DarkWind_tar",
                 ChampionName = "FiddleSticks",
@@ -107,7 +107,7 @@ namespace Activator.Data
                 Interval = 1.5
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Ahri_Base_FoxFire",
                 ChampionName = "Ahri",
@@ -118,7 +118,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Fizz_Ring_Red",
                 ChampionName = "Fizz",
@@ -130,7 +130,7 @@ namespace Activator.Data
                 Interval = 1.0
              });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "katarina_deathLotus_tar",
                 ChampionName = "Katarina",
@@ -141,7 +141,7 @@ namespace Activator.Data
                 Interval = 0.5
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Nautilus_R_sequence_impact",
                 ChampionName = "Nautilus",
@@ -152,7 +152,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Acidtrail_buf",
                 ChampionName = "Singed",
@@ -163,7 +163,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Tremors_cas",
                 ChampionName = "Rammus",
@@ -174,7 +174,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Crowstorm",
                 ChampionName = "FiddleSticks",
@@ -191,7 +191,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "caitlyn_Base_yordleTrap_idle",
                 ChampionName = "Caitlyn",
@@ -202,7 +202,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "tar_aoe_red",
                 ChampionName = "Lux",
@@ -213,7 +213,7 @@ namespace Activator.Data
                 Interval = 2.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Viktor_ChaosStorm",
                 ChampionName = "Viktor",
@@ -224,7 +224,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Viktor_Catalyst",
                 ChampionName = "Viktor",
@@ -235,7 +235,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "W_AUG",
                 ChampionName = "Viktor",
@@ -246,7 +246,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "cryo_storm",
                 ChampionName = "Anivia",
@@ -257,7 +257,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "ZiggsE",
                 ChampionName = "Ziggs",
@@ -268,7 +268,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "ZiggsWRing",
                 ChampionName = "Ziggs",
@@ -279,7 +279,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "W_Miasma_tar",
                 ChampionName = "Cassiopeia",
@@ -290,7 +290,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "Soraka_Base_E_rune",
                 ChampionName = "Soraka",
@@ -301,7 +301,7 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-            Troys.Add(new GameTroyData
+            Troys.Add(new TroyData
             {
                 Name = "W_Tar",
                 ChampionName = "Morgana",

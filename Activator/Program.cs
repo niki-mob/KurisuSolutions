@@ -76,7 +76,7 @@ namespace Activator
 
                 var smenu = new Menu("Summoners", "smenu");
                 SubMenu(smenu, true, true);
-                GetItemGroup("Summoners").ForEach(t => NewSummoner((CoreSum) NewInstance(t), smenu));
+                GetItemGroup("Summoners").ForEach(t => NewSumm((CoreSum) NewInstance(t), smenu));
                 Origin.AddSubMenu(smenu);
 
                 var omenu = new Menu("Offensives", "omenu");
@@ -130,12 +130,12 @@ namespace Activator
                 Buffs.StartOnUpdate();
 
                 // tracks "troys" that belong to heroes such as viktors ult
-                Gametroys.StartOnUpdate();
+                Troys.StartOnUpdate();
 
                 Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
                 Obj_AI_Base.OnPlaceItemInSlot += Obj_AI_Base_OnPlaceItemInSlot;
 
-                Game.PrintChat("<b>Activator#</b> - Loaded! Thanks for Using <3");
+                Game.PrintChat("<b>Activator#</b> - Loaded!");
                 Updater.UpdateCheck();
 
                 foreach (var autospell in Lists.Spells)
@@ -218,11 +218,11 @@ namespace Activator
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewSpell: </font>: " + e.Message);
+                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewSpell");
             }
         }
 
-        private static void NewSummoner(CoreSum summoner, Menu parent)
+        private static void NewSumm(CoreSum summoner, Menu parent)
         {
             try
             {
@@ -237,7 +237,7 @@ namespace Activator
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewSummoner: </font>: " + e.Message);
+                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewSumm");
             }
         }
 
@@ -289,10 +289,10 @@ namespace Activator
         {
             foreach (var i in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.Team != Player.Team))
             {
-                foreach (var item in GameTroyData.Troys.Where(x => x.ChampionName == i.ChampionName))
+                foreach (var item in TroyData.Troys.Where(x => x.ChampionName == i.ChampionName))
                 {
                     TroysInGame = true;
-                    GameTroy.Troys.Add(new GameTroy(i, item.Slot, item.Name, 0, false));
+                    Troy.Troys.Add(new Troy(i, item.Slot, item.Name, 0, false));
                 }
             }
         }
@@ -329,7 +329,6 @@ namespace Activator
             parent.AddSubMenu(menu);
         }
 
-        // here we will level up our spellslot r only once!
         private static void Obj_AI_Base_OnLevelUp(Obj_AI_Base sender, EventArgs args)
         {
             var hero = sender as Obj_AI_Hero;
@@ -339,8 +338,8 @@ namespace Activator
             if (!hero.IsMe)
                 return;
 
-            if (hero.ChampionName == "Jayce" ||
-                hero.ChampionName == "Udyr" ||
+            if (hero.ChampionName == "Jayce" || 
+                hero.ChampionName == "Udyr" || 
                 hero.ChampionName == "Elise")
                 return;
 
@@ -392,7 +391,7 @@ namespace Activator
             if (Menu.GetMenu("Evade", "Evade") != null)
                 Origin.Item("evade").SetValue(true);
 
-            if (Menu.GetMenu("Evade", "Evade") == null &&
+            if (Menu.GetMenu("Evade", "Evade") == null && 
                 Menu.GetMenu("ezEvade", "ezEvade") == null)
                 Origin.Item("evade").SetValue(false);
         }

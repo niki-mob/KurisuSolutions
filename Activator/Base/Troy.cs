@@ -3,7 +3,7 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	Base/GameTroy.cs
+// Document:	Base/Troy.cs
 // Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace Activator.Base
 {
-    public class GameTroy
+    public class Troy
     {
         public int Damage;
         public bool Included;
@@ -23,7 +23,7 @@ namespace Activator.Base
         public SpellSlot Slot;
         public int Start;
 
-        public GameTroy(
+        public Troy(
             Obj_AI_Hero owner, 
             SpellSlot slot, 
             string name, 
@@ -41,9 +41,9 @@ namespace Activator.Base
             Damage = incdmg;
         }
 
-        public static List<GameTroy> Troys = new List<GameTroy>(); 
+        public static List<Troy> Troys = new List<Troy>(); 
 
-        static GameTroy()
+        static Troy()
         {
             
         }
