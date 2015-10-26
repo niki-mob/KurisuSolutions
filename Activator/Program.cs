@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
+using System.Security;
 
 #region Namespaces © 2015 Kurisu Solutions
 using LeagueSharp;
@@ -166,7 +166,7 @@ namespace Activator
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.OnGameLoad: </font>: " + e.Message);
+                Game.PrintChat("Exception thrown at <font color=\"#FFF280\">Activator.OnGameLoad</font>");
             }
         }
 
@@ -203,7 +203,7 @@ namespace Activator
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewItem: </font>: " + e.Message);
+                Game.PrintChat("Exception thrown at <font color=\"#FFF280\">Activator.NewItem</font>");
             }
         }
 
@@ -218,7 +218,7 @@ namespace Activator
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewSpell");
+                Game.PrintChat("Exception thrown at <font color=\"#FFF280\">Activator.NewSpell</font>");
             }
         }
 
@@ -237,7 +237,7 @@ namespace Activator
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                Game.PrintChat("<font color=\"#FFF280\">Exception thrown at Activator.NewSumm");
+                Game.PrintChat("Exception thrown at <font color=\"#FFF280\">Activator.NewSumm</font>");
             }
         }
 
@@ -398,18 +398,17 @@ namespace Activator
 
         private static object NewInstance(Type type)
         {
-            var target = type.GetConstructor(Type.EmptyTypes);
-            var dynamic = new DynamicMethod(string.Empty, type, new Type[0], target.DeclaringType);
-            var il = dynamic.GetILGenerator();
+            try
+            {
+                new PermissionSet(System.Security.Permissions.PermissionState.Unrestricted).Assert();
+                return System.Activator.CreateInstance(type);
+            }
 
-            il.DeclareLocal(target.DeclaringType);
-            il.Emit(OpCodes.Newobj, target);
-            il.Emit(OpCodes.Stloc_0);
-            il.Emit(OpCodes.Ldloc_0);
-            il.Emit(OpCodes.Ret);
-
-            var method = (Func<object>) dynamic.CreateDelegate(typeof (Func<object>));
-            return method();
+            catch (Exception e)
+            {
+                Game.PrintChat("Exception thrown at <font color=\"#FFF280\">Activator.CreateInstance</font>");
+                return null;
+            }
         }
     }
 }
