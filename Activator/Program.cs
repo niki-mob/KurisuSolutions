@@ -406,6 +406,7 @@ namespace Activator
 
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 Game.PrintChat("Exception thrown at <font color=\"#FFF280\">Activator.CreateInstance</font>");
                 return null;
             }
