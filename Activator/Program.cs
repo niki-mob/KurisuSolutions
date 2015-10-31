@@ -111,6 +111,7 @@ namespace Activator
 
                 zmenu.AddItem(new MenuItem("acdebug", "Debug")).SetValue(false);
                 zmenu.AddItem(new MenuItem("evade", "Evade Integration")).SetValue(true);
+                zmenu.AddItem(new MenuItem("alvl6", "Auto Level Ultimate")).SetValue(true).SetTooltip("Level 6 only. Must not be Jayce or Udyr");
                 zmenu.AddItem(new MenuItem("healthp", "Ally Priority:")).SetValue(new StringList(new[] { "Low HP", "Most AD/AP", "Most HP" }, 1));
                 zmenu.AddItem(new MenuItem("usecombo", "Combo (active)")).SetValue(new KeyBind(32, KeyBindType.Press, true));
 
@@ -333,16 +334,15 @@ namespace Activator
         private static void Obj_AI_Base_OnLevelUp(Obj_AI_Base sender, EventArgs args)
         {
             var hero = sender as Obj_AI_Hero;
-            if (hero == null)
+            if (hero == null || !hero.IsMe || !Origin.Item("alvl6").GetValue<bool>())
+            {
                 return;
+            }
 
-            if (!hero.IsMe)
+            if (hero.ChampionName == "Jayce" || hero.ChampionName == "Udyr")
+            {
                 return;
-
-            if (hero.ChampionName == "Jayce" || 
-                hero.ChampionName == "Udyr" || 
-                hero.ChampionName == "Elise")
-                return;
+            }
 
             switch (Player.Level)
             {
