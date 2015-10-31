@@ -50,10 +50,8 @@ namespace KurisuDarius
 
         internal static float RDmg(Obj_AI_Base unit, int stackcount)
         {
-            var bonus =
-                stackcount *
-                    (new[] { 20, 20, 40, 60 } [Spellbook["R"].Level] + (0.20 * Player.FlatPhysicalDamageMod));
-
+            var bonus = (new[] {20, 20, 40, 60} [Spellbook["R"].Level] +
+                            (0.25 * Player.FlatPhysicalDamageMod) * stackcount);
             return
                 (float) (bonus + (Player.CalcDamage(unit, Damage.DamageType.True,
                         new[] { 100, 100, 200, 300} [Spellbook["R"].Level] + (0.75 * Player.FlatPhysicalDamageMod))));
