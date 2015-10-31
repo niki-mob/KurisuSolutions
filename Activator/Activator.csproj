@@ -121,6 +121,7 @@
     <Compile Include="Spells\Evaders\fizzjump.cs" />
     <Compile Include="Spells\Evaders\hallucinatefull.cs" />
     <Compile Include="Spells\Evaders\judicatorintervention.cs" />
+    <Compile Include="Spells\Evaders\kindredr.cs" />
     <Compile Include="Spells\Evaders\lissandrar.cs" />
     <Compile Include="Spells\Evaders\maokaiunstablegrowth.cs" />
     <Compile Include="Spells\Evaders\nocturneshroudofdarkness.cs" />

@@ -63,7 +63,7 @@ namespace Activator.Spells
                 if (Category.Any(t => t == MenuType.SelfLowHP))
                     Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
                         .SetValue(new Slider(DefaultHP))
-                        .SetTooltip("Will Use " + Name + " When the Hero's HP % < Value");
+                        .SetTooltip("Will Use " + Name + " When the Income Damage + Hero's HP % < Value");
 
                 if (Category.Any(t => t == MenuType.SelfMuchHP))
                     Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))
@@ -93,7 +93,7 @@ namespace Activator.Spells
                 if (Category.Any(t => t == MenuType.Zhonyas))
                 {
                     Menu.AddItem(new MenuItem("use" + Name + "norm", "Use on Dangerous (Spells)")).SetValue(false);
-                    Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Ultimates Only)")).SetValue(true);
+                    Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Ultimates Only)")).SetValue(false);
                 }
 
                 if (Category.Any(t => t == MenuType.ActiveCheck))

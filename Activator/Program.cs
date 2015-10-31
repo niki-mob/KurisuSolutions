@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security;
+using System.Security.Permissions;
 
 #region Namespaces © 2015 Kurisu Solutions
 using LeagueSharp;
@@ -400,12 +401,20 @@ namespace Activator
         {
             try
             {
-                new PermissionSet(System.Security.Permissions.PermissionState.Unrestricted).Assert();
+                new PermissionSet(PermissionState.Unrestricted).Assert();
                 return System.Activator.CreateInstance(type);
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Game.PrintChat("Exception thrown at <font color=\"#FFF280\">Activator.NewInstance</font>");
+                return null;
             }
 
             finally 
             {
+                // revert permisions
                 CodeAccessPermission.RevertAssert();
             }
         }

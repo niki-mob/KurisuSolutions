@@ -23,13 +23,29 @@ namespace Activator.Handlers
         {
             Game.OnUpdate += Game_OnUpdate;
             GameObject.OnCreate += GameObject_OnCreate;
+            GameObject.OnDelete += GameObject_OnDelete;
+        }
+
+        static void GameObject_OnDelete(GameObject obj, EventArgs args)
+        {
+            foreach (var troy in Troy.Troys)
+            {
+                if (obj.Name.Contains(troy.Name))
+                {
+                    troy.Obj = null;
+                    troy.Start = 0;
+
+                    if (troy.Included)
+                        troy.Included = false;
+                }             
+            }
         }
 
         static void GameObject_OnCreate(GameObject obj, EventArgs args)
         {
             foreach (var troy in Troy.Troys)
             {
-                if (obj.Name.Contains(troy.Name))
+                if (obj.Name.Contains(troy.Name) && obj.IsValid<GameObject>())
                 {
                     troy.Obj = obj;
                     troy.Start = Utils.GameTimeTickCount;
@@ -66,7 +82,7 @@ namespace Activator.Handlers
                                     if (Utils.GameTimeTickCount - item.TickLimiter >= item.Interval * 1000)
                                     {
                                         hero.Attacker = troy.Owner;
-                                        hero.IncomeDamage += 15; // todo: get actuall spell damage
+                                        hero.IncomeDamage += 5; // todo: get actuall spell damage
                                         hero.TroyTicks += 1;
 
                                         item.TickLimiter = Utils.GameTimeTickCount;
