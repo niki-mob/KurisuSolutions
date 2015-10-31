@@ -33,6 +33,20 @@ namespace KurisuDarius
 
                 // On Spell Cast Event
                 Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
+
+                // Interrupter
+                Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
+            }
+        }
+
+        internal static void Interrupter2_OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
+        {
+            if (sender.IsValidTarget(KL.Spellbook["E"].Range) && KL.Spellbook["E"].IsReady())
+            {
+                if (Config.Item("useeint").GetValue<bool>())
+                {
+                    KL.Spellbook["E"].Cast(sender.ServerPosition);
+                }
             }
         }
 
@@ -56,7 +70,7 @@ namespace KurisuDarius
 
                 case "dariusexecute":
                     LastDunkTimeStamp = Utils.GameTimeTickCount;
-                    Utility.DelayAction.Add(Game.Ping + 400, Orbwalking.ResetAutoAttackTimer);
+                    Utility.DelayAction.Add(Game.Ping + 350, Orbwalking.ResetAutoAttackTimer);
                     break;
             }
         }
@@ -81,10 +95,7 @@ namespace KurisuDarius
             foreach (var enemy in HeroManager.Enemies.Where(ene => ene.IsValidTarget() && ene.IsHPBarRendered))
             {
                 HPi.unit = enemy;
-                HPi.drawDmg(
-                    KL.RDmg(enemy, 
-                        enemy.GetBuffCount("dariushemo") <= 0 ? 0 
-                      : enemy.GetBuffCount("dariushemo")),new ColorBGRA(255, 255, 0, 90));
+                HPi.drawDmg(KL.RDmg(enemy, PassiveCount(enemy)), new ColorBGRA(255, 255, 0, 90));
             }
         }
 
@@ -99,14 +110,20 @@ namespace KurisuDarius
                         if (KL.RDmg(unit, PassiveCount(unit)) + RModifier + KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health)
                         {
                             if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
-                                KL.Spellbook["R"].CastOnUnit(unit);
+                            {
+                                if (!unit.HasBuff("kindredrnodeathbuff"))
+                                    KL.Spellbook["R"].CastOnUnit(unit);
+                            }
                         }
                     }
 
                     if (KL.RDmg(unit, PassiveCount(unit)) + RModifier >= unit.Health + KL.Hemorrhage(unit, 1))
                     {
                         if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
-                            KL.Spellbook["R"].CastOnUnit(unit);
+                        {
+                            if (!unit.HasBuff("kindredrnodeathbuff"))
+                                KL.Spellbook["R"].CastOnUnit(unit);
+                        }
                     }
                 }
             }
@@ -120,6 +137,12 @@ namespace KurisuDarius
                 case Orbwalking.OrbwalkingMode.Mixed:
                     Harass();
                     break;
+            }
+
+            if (Config.Item("caste").GetValue<KeyBind>().Active)
+            {
+                Orbwalking.Orbwalk(null, Game.CursorPos);
+                Combo(false, false, true, false);
             }
         }
 
@@ -179,7 +202,7 @@ namespace KurisuDarius
             if (KL.Spellbook["R"].IsReady() && KL.Player.Mana - KL.Spellbook["W"].ManaCost > 
                 KL.Spellbook["R"].ManaCost || !KL.Spellbook["R"].IsReady())
             {
-                if (!hero.HasBuffOfType(BuffType.Slow) || !Config.Item("wwww").GetValue<bool>())
+                if (!hero.HasBuffOfType(BuffType.Slow) || Config.Item("wwww").GetValue<bool>())
                     KL.Spellbook["W"].Cast();
             }
 
@@ -314,7 +337,8 @@ namespace KurisuDarius
                         {
                             if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
                             {
-                                KL.Spellbook["R"].CastOnUnit(unit);
+                                if (!unit.HasBuff("kindredrnodeathbuff"))
+                                    KL.Spellbook["R"].CastOnUnit(unit);
                             }
                         }
                     }
@@ -326,7 +350,19 @@ namespace KurisuDarius
         {
             Config = new Menu("Kurisu's Darius", "darius", true);
 
-            var drmenu = new Menu(":: Drawings", "drawings");
+            var rmenu = new Menu("Ultimate", "rmenu");
+            rmenu.AddItem(new MenuItem("user", "Use R in combo")).SetValue(true);
+            rmenu.AddItem(new MenuItem("ksr", "Use R auto (no key)")).SetValue(true);
+            rmenu.AddItem(new MenuItem("ksr1", "Use R early if target will bleed to death (1v1)")).SetValue(false);
+            //rmenu.AddItem(new MenuItem("userlast", "Use R before buff expiry"))
+            //    .SetValue(true)
+            //    .SetTooltip("After a successful ult, will not waste R if buff will Expire");
+            rmenu.AddItem(new MenuItem("rmodi", "Adjust R damage"))
+                .SetValue(new Slider(0, -250, 250))
+                .SetTooltip("Lower it if the target is living with a slither of health.");
+            Config.AddSubMenu(rmenu);
+
+            var drmenu = new Menu("Drawings", "drawings");
             drmenu.AddItem(new MenuItem("drawe", "Draw E"))
                 .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
             drmenu.AddItem(new MenuItem("drawq", "Draw Q"))
@@ -337,26 +373,24 @@ namespace KurisuDarius
             drmenu.AddItem(new MenuItem("drawstack", "Draw Stack Count")).SetValue(true);
             Config.AddSubMenu(drmenu);
 
-            var omenu = new Menu(":: Orbwalker", "omenu");
+            var omenu = new Menu("Orbwalker", "omenu");
             Orbwalker = new Orbwalking.Orbwalker(omenu);
             Config.AddSubMenu(omenu);
 
-            var cmenu = new Menu(":: Main Settings", "cmenu");
-            cmenu.AddItem(new MenuItem("useq", "Use Q")).SetValue(true);
-            cmenu.AddItem(new MenuItem("usew", "Use W")).SetValue(true);
-            cmenu.AddItem(new MenuItem("usee", "Use E")).SetValue(true);
-            cmenu.AddItem(new MenuItem("user", "Use R")).SetValue(true);
-            cmenu.AddItem(new MenuItem("harassq", "Harass Q")).SetValue(true);
+            var cmenu = new Menu("Combo Config", "cmenu");
+            cmenu.AddItem(new MenuItem("iiii", "Use Hydra/Tiamat/Titanic")).SetValue(true);
+            cmenu.AddItem(new MenuItem("usee", "Use E in combo")).SetValue(true);
+            cmenu.AddItem(new MenuItem("caste", "Cast assisted E").SetValue(new KeyBind('E', KeyBindType.Press)));
+            cmenu.AddItem(new MenuItem("useeint", "Interrupt spells with E")).SetValue(true);
+            //cmenu.AddItem(new MenuItem("useeflee", "Auto E fleeing targets"))
+            //    .SetValue(true)
+            //    .SetTooltip("Will pull targets in who use a spell to flee.");
+            cmenu.AddItem(new MenuItem("useq", "Use Q in combo")).SetValue(true);
+            cmenu.AddItem(new MenuItem("harassq", "Use Q in harass")).SetValue(true);
+            cmenu.AddItem(new MenuItem("usew", "Use W after attack")).SetValue(true);
+            cmenu.AddItem(new MenuItem("wwww", "Use W on slowed targets")).SetValue(true);
             Config.AddSubMenu(cmenu);
-
-            var kmenu = new Menu(":: Miscellaneous", "kmenu");
-            kmenu.AddItem(new MenuItem("ksr", "Auto R on killable targets")).SetValue(true);
-            kmenu.AddItem(new MenuItem("wwww", "Don't W slowed targets")).SetValue(false);
-            kmenu.AddItem(new MenuItem("iiii", "Use Hydra/Tiamat/Titanic")).SetValue(true);
-            kmenu.AddItem(new MenuItem("ksr1", "Use early if target will bleed to death (1v1)")).SetValue(false);
-            kmenu.AddItem(new MenuItem("rmodi", "Adjust ult damage (Less if target doesnt die)")).SetValue(new Slider(0, -250, 250));
-            Config.AddSubMenu(kmenu);
-
+          
             Config.AddToMainMenu();
         }
     }
