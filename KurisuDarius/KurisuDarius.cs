@@ -80,6 +80,16 @@ namespace KurisuDarius
             get { return Config.Item("rmodi").GetValue<Slider>().Value; }
         }
 
+        internal static float MordeShield(Obj_AI_Hero unit)
+        {
+            if (unit.ChampionName != "Mordekaiser")
+            {
+                return 0f;
+            }
+
+            return unit.Mana;
+        }
+
         internal static int PassiveCount(Obj_AI_Base unit)
         {
             return unit.GetBuffCount("dariushemo") > 0 ? unit.GetBuffCount("dariushemo") : 0;
@@ -107,7 +117,8 @@ namespace KurisuDarius
                 {
                     if (unit.CountEnemiesInRange(1200) <= 1 && Config.Item("ksr1").GetValue<bool>())
                     {
-                        if (KL.RDmg(unit, PassiveCount(unit)) + RModifier + KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health)
+                        if (KL.RDmg(unit, PassiveCount(unit)) + RModifier + 
+                            KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health + MordeShield(unit))
                         {
                             if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
                             {
@@ -117,7 +128,8 @@ namespace KurisuDarius
                         }
                     }
 
-                    if (KL.RDmg(unit, PassiveCount(unit)) + RModifier >= unit.Health + KL.Hemorrhage(unit, 1))
+                    if (KL.RDmg(unit, PassiveCount(unit)) + RModifier >= unit.Health +
+                        KL.Hemorrhage(unit, 1) + MordeShield(unit))
                     {
                         if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
                         {
@@ -333,7 +345,8 @@ namespace KurisuDarius
                 {
                     if (!unit.HasBuffOfType(BuffType.Invulnerability) && !unit.HasBuffOfType(BuffType.SpellShield))
                     {
-                        if (KL.RDmg(unit, PassiveCount(unit)) + RModifier >= unit.Health + KL.Hemorrhage(unit, 1))
+                        if (KL.RDmg(unit, PassiveCount(unit)) + RModifier >= unit.Health +
+                            KL.Hemorrhage(unit, 1) + MordeShield(unit))
                         {
                             if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
                             {
