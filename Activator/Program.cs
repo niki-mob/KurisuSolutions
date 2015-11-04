@@ -347,7 +347,8 @@ namespace Activator
             switch (Player.Level)
             {
                 case 6:
-                    Player.Spellbook.LevelSpell(SpellSlot.R);
+                    Utility.DelayAction.Add(70 + Math.Min(60, Game.Ping), 
+                        () => { Player.Spellbook.LevelSpell(SpellSlot.R); });
                     break;
             }
         }
