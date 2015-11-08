@@ -59,7 +59,7 @@ namespace Activator.Items.Consumables
 
         public _2043()
         {
-            Events.OnStealth();
+            Stealth.Init();
         }
 
         public override void OnTick(EventArgs args)

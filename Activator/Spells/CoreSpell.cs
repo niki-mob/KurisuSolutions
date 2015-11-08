@@ -87,7 +87,7 @@ namespace Activator.Spells
                 if (Category.Any(t => t == MenuType.SpellShield))
                 {
                     Menu.AddItem(new MenuItem("ss" + Name + "all", "Use on Any Spell")).SetValue(false);
-                    Menu.AddItem(new MenuItem("ss" + Name + "cc", "Use on Crowd Control")).SetValue(true);
+                    Menu.AddItem(new MenuItem("ss" + Name + "cc", "Use on Crowd Control")).SetValue(false);
                 }
 
                 if (Category.Any(t => t == MenuType.Zhonyas))

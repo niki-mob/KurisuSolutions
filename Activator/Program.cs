@@ -62,6 +62,7 @@ namespace Activator
                 GetTroysInGame();
                 GetHeroesInGame();
                 GetComboDamage();
+                GetSpellsInGame();
 
                 Origin = new Menu("Activator", "activator", true);
 
@@ -126,12 +127,12 @@ namespace Activator
                 Drawings.Init();
 
                 // handlers
-                Events.OnHeroCast();
+                Projections.Init();
 
                 // tracks dangerous or lethal buffs/auras
                 Buffs.StartOnUpdate();
 
-                // tracks "troys" that belong to heroes such as viktors ult
+                // tracks gameobjects 
                 Troys.StartOnUpdate();
 
                 Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
@@ -295,6 +296,17 @@ namespace Activator
                 {
                     TroysInGame = true;
                     Troy.Troys.Add(new Troy(i, item.Slot, item.Name, 0, false));
+                }
+            }
+        }
+
+        private static void GetSpellsInGame()
+        {
+            foreach (var i in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.Team != Player.Team))
+            {
+                foreach (var item in Data.SpellData.Spells.Where(x => x.ChampionName == i.ChampionName.ToLower()))
+                {
+                    Data.SpellData.SomeSpells.Add(item);
                 }
             }
         }

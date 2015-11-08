@@ -62,7 +62,6 @@ namespace Activator.Data
                 Interval = 1.0
             });
 
-
             BuffList.Add(new BuffData
             {
                 Champion = "Vi",
@@ -404,6 +403,45 @@ namespace Activator.Data
 
             BuffList.Add(new BuffData
             {
+                Champion = "Cassiopeia",
+                Name = "cassiopeiapetrifyinggazestun",
+                Evade = false,
+                DoT = false,
+                EvadeTimer = 0,
+                Cleanse = true,
+                CleanseTimer = 100,
+                Slot = SpellSlot.R,
+                Interval = 1.0
+            });
+
+            BuffList.Add(new BuffData
+            {
+                Champion = "Lissandra",
+                Name = "lissandrarenemy2",
+                Evade = false,
+                DoT = false,
+                EvadeTimer = 0,
+                Cleanse = true,
+                CleanseTimer = 100,
+                Slot = SpellSlot.R,
+                Interval = 1.0
+            });
+
+            BuffList.Add(new BuffData
+            {
+                Champion = "Sejuani",
+                Name = "sejuaniglacialprison",
+                Evade = false,
+                DoT = false,
+                EvadeTimer = 0,
+                Cleanse = true,
+                CleanseTimer = 100,
+                Slot = SpellSlot.R,
+                Interval = 1.0
+            });
+
+            BuffList.Add(new BuffData
+            {
                 Champion = "Zac",
                 Name = "zacr",
                 Evade = true,
@@ -500,7 +538,7 @@ namespace Activator.Data
                 DoT = false,
                 EvadeTimer = 2800,
                 Cleanse = true,
-                CleanseTimer = 1800,
+                CleanseTimer = 1500,
                 Slot = SpellSlot.R,
                 Interval = 1.0
             });
@@ -730,6 +768,19 @@ namespace Activator.Data
                 EvadeTimer = 0,
                 QssIgnore = true,
                 Slot = SpellSlot.Unknown
+            });
+
+            BuffList.Add(new BuffData
+            {
+                Name = "velkozresearchstack",
+                Evade = false,
+                DoT = true,
+                Cleanse = false,
+                CleanseTimer = 0,
+                EvadeTimer = 0,
+                QssIgnore = true,
+                Slot = SpellSlot.Unknown,
+                Interval = 1.2
             });
 
             BuffList.Add(new BuffData

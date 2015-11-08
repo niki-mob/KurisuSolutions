@@ -67,6 +67,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Base\Drawings.cs" />
+    <Compile Include="Handlers\Projections.cs" />
     <Compile Include="Handlers\Troys.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -78,7 +79,7 @@
     <Compile Include="Items\Offensives\_3050.cs" />
     <Compile Include="Items\Offensives\_3748.cs" />
     <Compile Include="Items\Offensives\_3092.cs" />
-    <Compile Include="Handlers\Events.cs" />
+    <Compile Include="Handlers\Stealth.cs" />
     <Compile Include="Base\Enumerators.cs" />
     <Compile Include="Items\Cleansers\_3137.cs" />
     <Compile Include="Items\Cleansers\_3139.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Spells\Health\lulur.cs" />
     <Compile Include="Spells\Health\sadism.cs" />
     <Compile Include="Spells\Health\sorakar.cs" />
+    <Compile Include="Spells\Health\tahmkenche.cs" />
     <Compile Include="Spells\Health\undyingrage.cs" />
     <Compile Include="Spells\Health\yorickreviveally.cs" />
     <Compile Include="Spells\Shields\blindmonkwone.cs" />

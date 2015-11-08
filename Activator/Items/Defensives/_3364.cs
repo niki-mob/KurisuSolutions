@@ -54,7 +54,7 @@ namespace Activator.Items.Defensives
 
         public _3364()
         {
-            Events.OnStealth();
+            Stealth.Init();
         }
 
         public override void OnTick(EventArgs args)

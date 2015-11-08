@@ -67,6 +67,10 @@ namespace Activator.Handlers
                             {
                                 if (!hero.Player.IsZombie && !hero.Immunity)
                                 {
+                                    if (aura.Name == "velkozresearchstack" &&
+                                       !hero.Player.HasBuffOfType(BuffType.Slow))
+                                        continue;
+
                                     hero.DotTicks += 1;
                                     hero.IncomeDamage += 1; // todo: get actuall damage
                                     aura.TickLimiter = Utils.GameTimeTickCount;

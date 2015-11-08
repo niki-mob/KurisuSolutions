@@ -32,6 +32,7 @@ namespace Activator.Data
         public HitType[] HitType { get; set; }
 
         public static List<SpellData> Spells = new List<SpellData>();
+        public static List<SpellData> SomeSpells = new List<SpellData>(); 
         public static Dictionary<SpellDamageDelegate, SpellSlot> DamageLib = new Dictionary<SpellDamageDelegate, SpellSlot>();
 
         static SpellData()
@@ -1833,13 +1834,24 @@ namespace Activator.Data
 
             Spells.Add(new SpellData
             {
-                SDataName = "heimerdingerq",
+                SDataName = "heimerdingerturretenergyblast",
                 ChampionName = "heimerdinger",
                 Slot = SpellSlot.Q,
-                CastRange = 0f,
-                Delay = 250f,
+                CastRange = 1000f,
+                Delay = 435f,
                 HitType = new HitType[] { },
-                MissileSpeed = int.MaxValue
+                MissileSpeed = 1650
+            });
+
+            Spells.Add(new SpellData
+            {
+                SDataName = "heimerdingerturretbigenergyblast",
+                ChampionName = "heimerdinger",
+                Slot = SpellSlot.Q,
+                CastRange = 1000f,
+                Delay = 350f,
+                HitType = new HitType[] { },
+                MissileSpeed = 1650
             });
 
             Spells.Add(new SpellData
@@ -1926,21 +1938,22 @@ namespace Activator.Data
                 ChampionName = "irelia",
                 Slot = SpellSlot.R,
                 CastRange = 1200f,
-                Delay = 250f,
+                Delay = 0f,
                 HitType = new HitType[] { },
-                MissileName = "ireliatranscendentblades",
+                MissileName = "ireliatranscendentbladesspell",
                 MissileSpeed = 1600
             });
 
             Spells.Add(new SpellData
             {
-                SDataName = "howlinggale",
+                SDataName = "howlinggalespell",
                 ChampionName = "janna",
                 Slot = SpellSlot.Q,
-                CastRange = 850f,
-                Delay = 250f,
+                CastRange = 1550f,
+                Delay = 0f,
                 HitType = new[] { Base.HitType.CrowdControl },
-                MissileSpeed = int.MaxValue
+                MissileName = "howlinggalespell",
+                MissileSpeed = 2000
             });
 
             Spells.Add(new SpellData
@@ -2016,8 +2029,8 @@ namespace Activator.Data
                 SDataName = "jarvanivcataclysm",
                 ChampionName = "jarvaniv",
                 Slot = SpellSlot.R,
-                CastRange = 650f,
-                Delay = 500f,
+                CastRange = 825f,
+                Delay = 0f,
                 HitType = new[] { Base.HitType.Danger, Base.HitType.Ultimate },
                 MissileSpeed = int.MaxValue
             });
@@ -2027,7 +2040,7 @@ namespace Activator.Data
                 SDataName = "jaxleapstrike",
                 ChampionName = "jax",
                 Slot = SpellSlot.Q,
-                CastRange = 210f,
+                CastRange = 700f,
                 Delay = 250f,
                 HitType = new[] { Base.HitType.Danger },
                 MissileSpeed = 2200
@@ -2061,7 +2074,7 @@ namespace Activator.Data
                 ChampionName = "jayce",
                 Slot = SpellSlot.Q,
                 CastRange = 600f,
-                Delay = 250f,
+                Delay = 450f,
                 HitType = new[] { Base.HitType.CrowdControl, Base.HitType.Danger },
                 MissileSpeed = int.MaxValue
             });
@@ -2071,11 +2084,11 @@ namespace Activator.Data
                 SDataName = "jayceshockblast",
                 ChampionName = "jayce",
                 Slot = SpellSlot.Q,
-                CastRange = 1050f,
+                CastRange = 1570f,
                 Delay = 250f,
                 HitType = new[] { Base.HitType.CrowdControl, Base.HitType.Danger },
                 MissileName = "jayceshockblastmis",
-                MissileSpeed = 2200
+                MissileSpeed = 2350
             });
 
             Spells.Add(new SpellData
@@ -2116,7 +2129,7 @@ namespace Activator.Data
                 SDataName = "jayceaccelerationgate",
                 ChampionName = "jayce",
                 Slot = SpellSlot.E,
-                CastRange = 685f,
+                CastRange = 0f,
                 Delay = 250f,
                 HitType = new HitType[] { },
                 MissileSpeed = 1600
@@ -2163,7 +2176,7 @@ namespace Activator.Data
                 CastRange = 1550f,
                 Delay = 600f,
                 HitType = new[] { Base.HitType.CrowdControl },
-                MissileName = "jinxwmissile",
+                MissileName = "jinxwmis",
                 MissileSpeed = 2200
             });
 
@@ -2243,7 +2256,7 @@ namespace Activator.Data
                 ChampionName = "karthus",
                 Slot = SpellSlot.Q,
                 CastRange = 875f,
-                Delay = 250f,
+                Delay = 900f,
                 HitType = new HitType[] { },
                 ExtraMissileNames = new[]  {
                             "karthuslaywastea3", "karthuslaywastea1", "karthuslaywastedeada1", "karthuslaywastedeada2",
