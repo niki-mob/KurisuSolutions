@@ -1061,6 +1061,26 @@ namespace KurisuMorgana
             CCList.Add(
                 new KurisuLib
                 {
+                    HeroName = "TwistedFate",
+                    SpellMenuName = "TF Yellow Card",
+                    Slot = SpellSlot.Unknown,
+                    Type = Skilltype.Unit,
+                    DangerLevel = 3,
+                    SDataName = "goldcardpreattack",
+                });
+            CCList.Add(
+                new KurisuLib
+                {
+                    HeroName = "TwistedFate",
+                    SpellMenuName = "TF Red Card",
+                    Slot = SpellSlot.Unknown,
+                    Type = Skilltype.Unit,
+                    DangerLevel = 2,
+                    SDataName = "redcardpreattack",
+                });
+            CCList.Add(
+                new KurisuLib
+                {
                     HeroName = "Nocturne",
                     SpellMenuName = "Unspeakable Horror",
                     Slot = SpellSlot.E,
