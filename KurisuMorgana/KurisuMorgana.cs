@@ -377,9 +377,9 @@ namespace KurisuMorgana
 
         internal static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender.IsEnemy && sender.Type == GameObjectType.obj_AI_Hero)
+            if (sender.IsEnemy && sender.Type == GameObjectType.obj_AI_Hero && _q.IsReady())
             {
-                if (args.Target.IsMe || args.End.Distance(Me.ServerPosition) <= 200 + Me.BoundingRadius)
+                if (args.End.IsValid() && args.End.Distance(Me.ServerPosition) <= 200 + Me.BoundingRadius)
                 {
                     var hero = sender as Obj_AI_Hero;
                     if (!hero.IsValid<Obj_AI_Hero>() || !hero.IsValidTarget(_q.Range - 50))
