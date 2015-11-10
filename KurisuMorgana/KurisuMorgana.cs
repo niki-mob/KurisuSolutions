@@ -28,7 +28,7 @@ namespace KurisuMorgana
             _e = new Spell(SpellSlot.E, 750f);
             _r = new Spell(SpellSlot.R, 600f);
 
-            _menu = new Menu("KurisuMorgana", "morgana", true);
+            _menu = new Menu("Kurisu's Morgana", "morgana", true);
 
             var orbmenu = new Menu(":: Orbwalker", "orbwalker");
             _orbwalker = new Orbwalking.Orbwalker(orbmenu);
@@ -229,10 +229,13 @@ namespace KurisuMorgana
                 var wtarget = TargetSelector.GetTarget(_w.Range + 10, TargetSelector.DamageType.Magical);
                 if (wtarget.IsValidTarget())
                 {
-                    var poutput = _w.GetPrediction(wtarget);
-                    if (poutput.Hitchance >= (HitChance)_menu.Item("hitchancew").GetValue<Slider>().Value + 2)
+                    if (!_menu.Item("waitfor").GetValue<bool>() || _mw * 1 >= wtarget.Health)
                     {
-                        _w.Cast(poutput.CastPosition);
+                        var poutput = _w.GetPrediction(wtarget);
+                        if (poutput.Hitchance >= (HitChance) _menu.Item("hitchancew").GetValue<Slider>().Value + 2)
+                        {
+                            _w.Cast(poutput.CastPosition);
+                        }
                     }
                 }
             }
@@ -376,15 +379,18 @@ namespace KurisuMorgana
         {
             if (sender.IsEnemy && sender.Type == GameObjectType.obj_AI_Hero)
             {
-                var hero = sender as Obj_AI_Hero;
-                if (!hero.IsValid<Obj_AI_Hero>() || !hero.IsValidTarget(_q.Range - 50))
+                if (args.Target.IsMe || args.End.Distance(Me.ServerPosition) <= 200 + Me.BoundingRadius)
                 {
-                    return;
-                }
+                    var hero = sender as Obj_AI_Hero;
+                    if (!hero.IsValid<Obj_AI_Hero>() || !hero.IsValidTarget(_q.Range - 50))
+                    {
+                        return;
+                    }
 
-                if ( _menu.Item("autoqaa").GetValue<bool>())
-                {
-                    _q.CastIfHitchanceEquals(hero, HitChance.VeryHigh);
+                    if ( _menu.Item("autoqaa").GetValue<bool>())
+                    {
+                        _q.CastIfHitchanceEquals(hero, HitChance.VeryHigh);
+                    }
                 }
             }
 
