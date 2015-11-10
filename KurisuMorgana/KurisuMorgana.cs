@@ -139,7 +139,7 @@ namespace KurisuMorgana
         private static bool Immobile(Obj_AI_Hero unit)
         {
             return unit.HasBuffOfType(BuffType.Charm) || unit.HasBuffOfType(BuffType.Knockup) ||
-                   unit.HasBuffOfType(BuffType.Snare) || unit.IsImmovable || !unit.CanMove ||
+                   unit.HasBuffOfType(BuffType.Snare) ||
                    unit.HasBuffOfType(BuffType.Taunt) || unit.HasBuffOfType(BuffType.Suppression);
         }
 
