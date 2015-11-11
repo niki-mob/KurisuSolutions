@@ -4,11 +4,11 @@ using LeagueSharp.Common;
 
 namespace Activator.Items.Consumables
 {
-    class _2010 : CoreItem
+    class _2033 : CoreItem
     {
         internal override int Id
         {
-            get { return 2010; }
+            get { return 2033; }
         }
         internal override int Priority
         {
@@ -17,12 +17,12 @@ namespace Activator.Items.Consumables
 
         internal override string Name
         {
-            get { return "Total Biscuit"; }
+            get { return "Corrupting Pot"; }
         }
 
         internal override string DisplayName
         {
-            get { return "Total Biscuit"; }
+            get { return "Corrupting Pot"; }
         }
 
         internal override int Duration
@@ -37,12 +37,12 @@ namespace Activator.Items.Consumables
 
         internal override MenuType[] Category
         {
-            get { return new[] { MenuType.SelfLowHP, MenuType.SelfLowMP, MenuType.SelfMuchHP }; }
+            get { return new[] { MenuType.SelfLowMP, MenuType.SelfLowHP, MenuType.SelfMuchHP }; }
         }
 
         internal override MapType[] Maps
         {
-            get { return new[] { MapType.Common }; }
+            get { return new[] { MapType.SummonersRift, MapType.TwistedTreeline, MapType.CrystalScar }; }
         }
 
         internal override int DefaultHP
@@ -64,25 +64,24 @@ namespace Activator.Items.Consumables
             {
                 if (hero.Player.NetworkId == Player.NetworkId)
                 {
-                    if (hero.Player.Health / hero.Player.MaxHealth * 100 <= 15)
-                    {
-                        if ((hero.IncomeDamage > 0 || hero.MinionDamage > 0) ||
-                            !Menu.Item("use" + Name + "cbat").GetValue<bool>())
-                        {
-                            if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
-                                UseItem();
-                        }
-                    }
-
-                    if (hero.Player.HasBuff("ItemMiniRegenPotion") || 
-                        hero.Player.MaxHealth - hero.Player.Health + hero.IncomeDamage <= 150)
+                    if (hero.Player.HasBuff("ItemDarkCrystalFlask"))
                         return;
 
-                    if (hero.Player.Health/hero.Player.MaxHealth*100 <=
-                        Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
+                    if (hero.Player.MaxHealth - hero.Player.Health + hero.IncomeDamage > 120)
                     {
-                        if ((hero.IncomeDamage > 0 || hero.MinionDamage > 0 || hero.TowerDamage > 0) ||
-                            !Menu.Item("use" + Name + "cbat").GetValue<bool>())
+                        if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
+                            Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
+                        {
+                            if ((hero.IncomeDamage > 0 || hero.MinionDamage > 0 || hero.TowerDamage > 0) ||
+                                !Menu.Item("use" + Name + "cbat").GetValue<bool>())
+                            {
+                                if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
+                                    UseItem();
+                            }
+                        }
+
+                        if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >=
+                            Menu.Item("selfmuchhp" + Name + "pct").GetValue<Slider>().Value)
                         {
                             if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
                                 UseItem();
@@ -92,12 +91,12 @@ namespace Activator.Items.Consumables
                     if (hero.Player.MaxMana <= 200)
                         continue;
 
-                    if (hero.Player.Mana / hero.Player.MaxMana * 100 <= 
+                    if (hero.Player.Mana / hero.Player.MaxMana * 100 <=
                         Menu.Item("selflowmp" + Name + "pct").GetValue<Slider>().Value)
                     {
                         if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
-                            UseItem();     
-                    }       
+                            UseItem();
+                    }
                 }
             }
         }

@@ -39,6 +39,7 @@ namespace Activator.Summoners
 
         internal static readonly string[] EpicMinions =
         {
+            "SRU_RiftHerald",
             "TT_Spiderboss8.1",
             "SRU_Baron",
             "SRU_Dragon"

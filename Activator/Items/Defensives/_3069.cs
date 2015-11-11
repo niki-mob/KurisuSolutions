@@ -27,7 +27,7 @@ namespace Activator.Items.Defensives
 
         internal override int Duration
         {
-            get { return 2000; }
+            get { return 1000; }
         }
 
         internal override float Range

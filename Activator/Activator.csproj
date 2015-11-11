@@ -71,10 +71,12 @@
     <Compile Include="Handlers\Troys.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Items\Consumables\_2031.cs" />
+    <Compile Include="Items\Consumables\_2032.cs" />
+    <Compile Include="Items\Consumables\_2033.cs" />
     <Compile Include="Items\Consumables\_2047.cs" />
-    <Compile Include="Items\Defensives\_3023.cs" />
+    <Compile Include="Items\Offensives\_3023.cs" />
     <Compile Include="Items\Defensives\_3048.cs" />
-    <Compile Include="Items\Defensives\_3290.cs" />
     <Compile Include="Items\Offensives\_3043.cs" />
     <Compile Include="Items\Offensives\_3050.cs" />
     <Compile Include="Items\Offensives\_3748.cs" />
@@ -86,7 +88,6 @@
     <Compile Include="Items\Cleansers\_3140.cs" />
     <Compile Include="Items\Cleansers\_3222.cs" />
     <Compile Include="Items\Consumables\_2003.cs" />
-    <Compile Include="Items\Consumables\_2004.cs" />
     <Compile Include="Items\Consumables\_2010.cs" />
     <Compile Include="Items\Consumables\_2041.cs" />
     <Compile Include="Items\Consumables\_2043.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Spells\Shields\galiobulwark.cs" />
     <Compile Include="Spells\Shields\garenw.cs" />
     <Compile Include="Spells\Shields\karmasolkimshield.cs" />
+    <Compile Include="Spells\Shields\leonasolarbarrier.cs" />
     <Compile Include="Spells\Shields\lulue.cs" />
     <Compile Include="Spells\Shields\luxprismaticwave.cs" />
     <Compile Include="Spells\Shields\moltenshield.cs" />

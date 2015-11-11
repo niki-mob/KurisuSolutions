@@ -47,7 +47,7 @@ namespace Activator.Items.Defensives
 
         internal override MenuType[] Category
         {
-            get { return new[] { MenuType.SelfLowHP, MenuType.Zhonyas }; }
+            get { return new[] { MenuType.SelfLowHP, MenuType.Zhonyas, MenuType.SelfMuchHP }; }
         }
 
         internal override MapType[] Maps
@@ -82,6 +82,10 @@ namespace Activator.Items.Defensives
                             hero.MinionDamage > hero.Player.Health)
                             UseItem(hero.Player);
                     }
+
+                    if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >=
+                        Menu.Item("selfmuchhp" + Name + "pct").GetValue<Slider>().Value)
+                        UseItem(hero.Player);
                 }
             }
         }

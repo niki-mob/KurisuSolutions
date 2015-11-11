@@ -21,7 +21,6 @@ namespace Activator.Data
         public SpellSlot Slot { get; set; }
         public float Radius { get; set; }
         public double Interval { get; set; }
-        public int TickLimiter { get; set; }
         public bool PredictDmg { get; set; }
         public HitType[] HitType { get; set; }
         public int DelayFromStart { get; set; }

@@ -2,13 +2,13 @@
 using Activator.Base;
 using LeagueSharp.Common;
 
-namespace Activator.Items.Defensives
+namespace Activator.Items.Offensives
 {
-    class _30290 : CoreItem
+    class _3023 : CoreItem
     {
         internal override int Id
         {
-            get { return 3290; }
+            get { return 3092; }
         }
         internal override int Priority
         {
@@ -17,12 +17,12 @@ namespace Activator.Items.Defensives
 
         internal override string Name
         {
-            get { return "Shadows"; }
+            get { return "Queens"; }
         }
 
         internal override string DisplayName
         {
-            get { return "Twin Shadows"; }
+            get { return "Forst Queen's Claim"; }
         }
 
         internal override int Duration
@@ -42,7 +42,7 @@ namespace Activator.Items.Defensives
 
         internal override MapType[] Maps
         {
-            get { return new[] { MapType.TwistedTreeline, MapType.CrystalScar }; }
+            get { return new[] { MapType.SummonersRift, MapType.HowlingAbyss }; }
         }
 
         internal override int DefaultHP

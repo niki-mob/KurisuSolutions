@@ -38,58 +38,66 @@ namespace Activator.Summoners
                 return;
 
             var hid = Activator.Heroes
-                    .OrderByDescending(h => h.Player.FlatPhysicalDamageMod)
-                    .FirstOrDefault(h => h.Player.IsValidTarget(Range + 250));
+                .OrderByDescending(h => h.Player.FlatPhysicalDamageMod)
+                .FirstOrDefault(h => h.Player.IsValidTarget(Range + 250));
 
             foreach (var hero in Activator.Allies())
             {
-                var enemy = hero.Attacker as Obj_AI_Hero;
-                if (enemy == null || hid == null) 
+                var attacker = hero.Attacker as Obj_AI_Hero;
+                if (attacker == null || hid == null)
                     continue;
 
-                if (enemy.Distance(hero.Player.ServerPosition) > Range) 
+                if (hero.Player.Distance(Player.ServerPosition) > Range)
                     continue;
 
-                if (hero.HitTypes.Contains(HitType.ForceExhaust))
+                if (attacker.Distance(hero.Player.ServerPosition) <= 1250)
                 {
-                    UseSpellOn(enemy);
-                }
-
-                if (!Parent.Item(Parent.Name + "useon" + enemy.NetworkId).GetValue<bool>())
-                    continue;
- 
-                if (Menu.Item("use" + Name + "ulti").GetValue<bool>())
-                {
-                    if (hero.IncomeDamage > 0 && hero.HitTypes.Contains(HitType.Ultimate))
+                    if (hero.HitTypes.Contains(HitType.ForceExhaust))
                     {
-                        if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >= 45)
-                            UseSpellOn(enemy, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
-
-                        else if (hero.Player.Health / hero.Player.MaxHealth * 100 <= 50)
-                            UseSpellOn(enemy, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
-
-                        else if (hero.IncomeDamage >= hero.Player.Health)
-                            UseSpellOn(enemy, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
+                        UseSpellOn(attacker);
                     }
-                }
 
-                if (hero.Player.Health/hero.Player.MaxHealth*100 <= Menu.Item("a" + Name + "pct").GetValue<Slider>().Value)
-                {
-                    if (!hero.Player.IsFacing(enemy))
+                    if (!Parent.Item(Parent.Name + "useon" + attacker.NetworkId).GetValue<bool>())
+                        continue;
+
+                    if (Menu.Item("use" + Name + "ulti").GetValue<bool>())
                     {
-                        if (enemy.NetworkId == hid.Player.NetworkId)
+                        if (hero.HitTypes.Contains(HitType.Ultimate))
                         {
-                            UseSpellOn(enemy, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
+                            if (Menu.Item("f" + Name).GetValue<bool>())
+                                UseSpellOn(attacker);
+
+                            else if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >= 45)
+                                UseSpellOn(attacker, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
+
+                            else if (hero.Player.Health / hero.Player.MaxHealth * 100 <= 50)
+                                UseSpellOn(attacker, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
+
+                            else if (hero.IncomeDamage >= hero.Player.Health)
+                                UseSpellOn(attacker, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
                         }
                     }
-                }
 
-                if (enemy.Health / enemy.MaxHealth * 100 <= Menu.Item("e" + Name + "pct").GetValue<Slider>().Value)
-                {
-                    if (!enemy.IsFacing(hero.Player))
+                    if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
+                        Menu.Item("a" + Name + "pct").GetValue<Slider>().Value)
                     {
-                        UseSpellOn(enemy, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
-                    }       
+                        if (!hero.Player.IsFacing(attacker))
+                        {
+                            if (attacker.NetworkId == hid.Player.NetworkId)
+                            {
+                                UseSpellOn(attacker, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
+                            }
+                        }
+                    }
+
+                    if (attacker.Health / attacker.MaxHealth * 100 <=
+                        Menu.Item("e" + Name + "pct").GetValue<Slider>().Value)
+                    {
+                        if (!attacker.IsFacing(hero.Player))
+                        {
+                            UseSpellOn(attacker, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
+                        }
+                    }
                 }
             }
         }

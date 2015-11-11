@@ -28,7 +28,7 @@ namespace Activator.Items.Offensives
 
         internal override int Duration
         {
-            get { return 3000; }
+            get { return 100; }
         }
 
         internal override float Range

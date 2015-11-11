@@ -4,12 +4,13 @@ using LeagueSharp.Common;
 
 namespace Activator.Items.Consumables
 {
-    class _2010 : CoreItem
+    class _2032 : CoreItem
     {
         internal override int Id
         {
-            get { return 2010; }
+            get { return 2032; }
         }
+
         internal override int Priority
         {
             get { return 3; }
@@ -17,12 +18,12 @@ namespace Activator.Items.Consumables
 
         internal override string Name
         {
-            get { return "Total Biscuit"; }
+            get { return "Hunter's Pot"; }
         }
 
         internal override string DisplayName
         {
-            get { return "Total Biscuit"; }
+            get { return "Hunter's Pot"; }
         }
 
         internal override int Duration
@@ -37,7 +38,7 @@ namespace Activator.Items.Consumables
 
         internal override MenuType[] Category
         {
-            get { return new[] { MenuType.SelfLowHP, MenuType.SelfLowMP, MenuType.SelfMuchHP }; }
+            get { return new[] { MenuType.SelfLowMP, MenuType.SelfLowHP, MenuType.SelfMuchHP }; }
         }
 
         internal override MapType[] Maps
@@ -64,25 +65,24 @@ namespace Activator.Items.Consumables
             {
                 if (hero.Player.NetworkId == Player.NetworkId)
                 {
-                    if (hero.Player.Health / hero.Player.MaxHealth * 100 <= 15)
-                    {
-                        if ((hero.IncomeDamage > 0 || hero.MinionDamage > 0) ||
-                            !Menu.Item("use" + Name + "cbat").GetValue<bool>())
-                        {
-                            if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
-                                UseItem();
-                        }
-                    }
-
-                    if (hero.Player.HasBuff("ItemMiniRegenPotion") || 
-                        hero.Player.MaxHealth - hero.Player.Health + hero.IncomeDamage <= 150)
+                    if (hero.Player.HasBuff("ItemCrystalFlaskJungle"))
                         return;
 
-                    if (hero.Player.Health/hero.Player.MaxHealth*100 <=
-                        Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
+                    if (hero.Player.MaxHealth - hero.Player.Health + hero.IncomeDamage > 120)
                     {
-                        if ((hero.IncomeDamage > 0 || hero.MinionDamage > 0 || hero.TowerDamage > 0) ||
-                            !Menu.Item("use" + Name + "cbat").GetValue<bool>())
+                        if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
+                            Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
+                        {
+                            if ((hero.IncomeDamage > 0 || hero.MinionDamage > 0 || hero.TowerDamage > 0) ||
+                                !Menu.Item("use" + Name + "cbat").GetValue<bool>())
+                            {
+                                if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
+                                    UseItem();
+                            }
+                        }
+
+                        if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >=
+                            Menu.Item("selfmuchhp" + Name + "pct").GetValue<Slider>().Value)
                         {
                             if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
                                 UseItem();
@@ -92,12 +92,12 @@ namespace Activator.Items.Consumables
                     if (hero.Player.MaxMana <= 200)
                         continue;
 
-                    if (hero.Player.Mana / hero.Player.MaxMana * 100 <= 
+                    if (hero.Player.Mana / hero.Player.MaxMana * 100 <=
                         Menu.Item("selflowmp" + Name + "pct").GetValue<Slider>().Value)
                     {
                         if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
-                            UseItem();     
-                    }       
+                            UseItem();
+                    }
                 }
             }
         }

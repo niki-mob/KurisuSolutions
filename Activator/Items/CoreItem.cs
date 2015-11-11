@@ -46,7 +46,7 @@ namespace Activator.Items
                                !hero.Player.IsZombie).OrderBy(x => x.Player.Distance(Game.CursorPos)).FirstOrDefault();
             }
         }
-
+        
         public static IEnumerable<CoreItem> PriorityList()
         {
             var hpi = from ii in Lists.Items
@@ -64,7 +64,10 @@ namespace Activator.Items
            
         public void UseItem(bool combo = false)
         {
-            Craving = true;
+            if (IsReady())
+            {
+                Utility.DelayAction.Add(80 - Priority * 10, () => Craving = true);
+            }
 
             if (!combo || Activator.Origin.Item("usecombo").GetValue<KeyBind>().Active)
             {
@@ -81,16 +84,19 @@ namespace Activator.Items
                                 Activator.LastUsedDuration = Duration;
                             }
                         }
+
+                        Craving = false;
                     }
                 }
             }
-
-            Craving = false;
         }
 
         public void UseItem(Obj_AI_Base target, bool combo = false)
         {
-            Craving = true;
+            if (IsReady())
+            {
+                Utility.DelayAction.Add(80 - Priority * 10, () => Craving = true);
+            }
 
             if (!combo || Activator.Origin.Item("usecombo").GetValue<KeyBind>().Active)
             {
@@ -105,18 +111,22 @@ namespace Activator.Items
                                 LeagueSharp.Common.Items.UseItem(Id, target);
                                 Activator.LastUsedTimeStamp = Utils.GameTimeTickCount;
                                 Activator.LastUsedDuration = Duration;
+
                             }
                         }
+
+                        Craving = false;
                     }
                 }
             }
-
-            Craving = false;
         }
 
         public void UseItem(Vector3 pos, bool combo = false)
         {
-            Craving = true;
+            if (IsReady())
+            {
+                Utility.DelayAction.Add(80 - Priority * 10, () => Craving = true);
+            }
 
             if (!combo || Activator.Origin.Item("usecombo").GetValue<KeyBind>().Active)
             {
@@ -131,10 +141,10 @@ namespace Activator.Items
                             Activator.LastUsedDuration = Duration;
                         }
                     }
+
+                    Craving = false;
                 }
             }
-
-            Craving = false;
         }
 
         public CoreItem CreateMenu(Menu root)
@@ -150,8 +160,8 @@ namespace Activator.Items
                 if (Category.Any(t => t == MenuType.SelfLowHP) &&
                    (Name.Contains("Potion") || Name.Contains("Flask") || Name.Contains("Biscuit")))
                 {
-                    Menu.AddItem(new MenuItem("use" + Name + "cbat", "Use Damage Prediction"))
-                        .SetValue(true).SetTooltip("Disabling this would use pots even out of combat.");
+                    Menu.AddItem(new MenuItem("use" + Name + "cbat", "Use Only In Combat"))
+                        .SetValue(true).SetTooltip("aka Taking damage from Minions and Heroes");
                 }
 
                 if (Category.Any(t => t == MenuType.EnemyLowHP))

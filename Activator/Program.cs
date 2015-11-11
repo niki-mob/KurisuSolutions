@@ -116,7 +116,7 @@ namespace Activator
                 zmenu.AddItem(new MenuItem("healthp", "Ally Priority:")).SetValue(new StringList(new[] { "Low HP", "Most AD/AP", "Most HP" }, 1));
                 zmenu.AddItem(new MenuItem("usecombo", "Combo (active)")).SetValue(new KeyBind(32, KeyBindType.Press, true));
 
-                var uumenu = new Menu("Evade Menu", "evadem");
+                var uumenu = new Menu("Spell Database", "evadem");
                 LoadEvadeMenu(uumenu);
                 zmenu.AddSubMenu(uumenu);
 

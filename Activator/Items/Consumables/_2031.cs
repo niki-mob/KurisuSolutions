@@ -2,27 +2,28 @@
 using Activator.Base;
 using LeagueSharp.Common;
 
-namespace Activator.Items.Defensives
+namespace Activator.Items.Consumables
 {
-    class _3023 : CoreItem
+    class _2031 : CoreItem
     {
         internal override int Id
         {
-            get { return 3023; }
+            get { return 2031; }
         }
+
         internal override int Priority
         {
-            get { return 4; }
+            get { return 3; }
         }
 
         internal override string Name
         {
-            get { return "Shadows"; }
+            get { return "Refillable Pot"; }
         }
 
         internal override string DisplayName
         {
-            get { return "Twin Shadows"; }
+            get { return "Refillable Pot"; }
         }
 
         internal override int Duration
@@ -32,17 +33,17 @@ namespace Activator.Items.Defensives
 
         internal override float Range
         {
-            get { return 1600f; }
+            get { return float.MaxValue; }
         }
 
         internal override MenuType[] Category
         {
-            get { return new[] { MenuType.EnemyLowHP, MenuType.SelfLowHP }; }
+            get { return new[] { MenuType.SelfLowHP, MenuType.SelfMuchHP }; }
         }
 
         internal override MapType[] Maps
         {
-            get { return new[] { MapType.SummonersRift, MapType.HowlingAbyss }; }
+            get { return new[] { MapType.Common }; }
         }
 
         internal override int DefaultHP
@@ -62,26 +63,28 @@ namespace Activator.Items.Defensives
 
             foreach (var hero in Activator.Allies())
             {
-                if (!Parent.Item(Parent.Name + "useon" + hero.Player.NetworkId).GetValue<bool>())
-                    continue;
-
-                if (hero.Player.Distance(Player.ServerPosition) <= Range)
+                if (hero.Player.NetworkId == Player.NetworkId)
                 {
+                    if (hero.Player.HasBuff("ItemCrystalFlask"))
+                        return;
+
                     if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
                         Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
                     {
-                        if (hero.IncomeDamage > 0 && hero.Attacker != null &&
-                            hero.Attacker.Distance(hero.Player.ServerPosition) <= 600)
+                        if ((hero.IncomeDamage > 0 || hero.MinionDamage > 0 || hero.TowerDamage > 0) ||
+                            !Menu.Item("use" + Name + "cbat").GetValue<bool>())
+                        {
+                            if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
+                                UseItem();
+                        }
+                    }
+
+                    if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >=
+                        Menu.Item("selfmuchhp" + Name + "pct").GetValue<Slider>().Value)
+                    {
+                        if (!hero.Player.IsRecalling() && !hero.Player.InFountain())
                             UseItem();
                     }
-                }
-            }
-
-            if (Tar != null)
-            {
-                if (Tar.Player.Health / Tar.Player.MaxHealth * 100 <= Menu.Item("enemylowhp" + Name + "pct").GetValue<Slider>().Value)
-                {
-                    UseItem();
                 }
             }
         }

@@ -2876,7 +2876,7 @@ namespace Activator.Data
                 Slot = SpellSlot.R,
                 CastRange = 550f,
                 Delay = 250f,
-                HitType = new[] { Base.HitType.CrowdControl },
+                HitType = new[] { Base.HitType.CrowdControl, Base.HitType.Danger, Base.HitType.Ultimate },
                 MissileSpeed = int.MaxValue
             });
 

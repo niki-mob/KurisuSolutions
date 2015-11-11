@@ -34,6 +34,7 @@ namespace Activator.Handlers
                 {
                     troy.Obj = null;
                     troy.Start = 0;
+                    troy.Limiter = 0; // reset limiter
 
                     if (troy.Included)
                         troy.Included = false;
@@ -58,52 +59,72 @@ namespace Activator.Handlers
 
         static void Game_OnUpdate(EventArgs args)
         {
-            foreach (var troy in Troy.Troys.Where(x => x.Included))
+            foreach (var troy in Troy.Troys)
             {
                 if (troy.Owner.IsAlly)
                     continue;
 
                 foreach (var hero in Activator.Allies())
                 {
-                    if (troy.Owner != null && troy.Obj != null && troy.Obj.IsValid)
+                    if (troy.Included)
                     {
+                        if (troy.Owner == null || troy.Obj == null || !troy.Obj.IsValid)
+                            continue;
+
                         foreach (var item in TroyData.Troys.Where(x => x.Name == troy.Name))
                         {
-                            if (hero.Player.Distance(troy.Obj.Position, true) <= item.Radius * item.Radius)
+                            if (hero.Player.Distance(troy.Obj.Position, true) > item.Radius * item.Radius)
+                                continue;
+
+                            // check delay (e.g fizz bait)
+                            if (Utils.GameTimeTickCount - troy.Start >= item.DelayFromStart)
                             {
-                                if (Utils.GameTimeTickCount - troy.Start >= item.DelayFromStart)
+                                foreach (var ii in item.HitType)
                                 {
-                                    foreach (var ii in item.HitType)
-                                    {
-                                        if (!hero.HitTypes.Contains(ii))
-                                             hero.HitTypes.Add(ii);
-                                    }
+                                    if (!hero.HitTypes.Contains(ii))
+                                        hero.HitTypes.Add(ii);
+                                }
 
-                                    if (Utils.GameTimeTickCount - item.TickLimiter >= item.Interval * 1000)
-                                    {
-                                        hero.Attacker = troy.Owner;
-                                        hero.IncomeDamage += 5; // todo: get actuall spell damage
-                                        hero.TroyTicks += 1;
+                                // limit the damage using an interval
+                                if (Utils.GameTimeTickCount - troy.Limiter >= item.Interval * 1000)
+                                {
+                                    hero.Attacker = troy.Owner;
+                                    hero.IncomeDamage += 5; // todo: get actuall spell damage
+                                    hero.TroyTicks += 1;
 
-                                        item.TickLimiter = Utils.GameTimeTickCount;
-                                    }
+                                    troy.Limiter = Utils.GameTimeTickCount;
                                 }
 
                                 return;
                             }
                         }
+
+                        // reset damage if walked out of obj
+                        if (hero.TroyTicks > 0)
+                        {
+                            hero.IncomeDamage -= 5;
+                            hero.TroyTicks -= 1;
+
+                            if (hero.TroyTicks == 0)
+                                hero.HitTypes.Clear();
+                        }
                     }
 
-                    if (hero.TroyTicks > 0)
+                    else
                     {
-                        hero.IncomeDamage -= 15;
-                        hero.TroyTicks -= 1;
+                        // reset damage if obj deleted
+                        if (hero.TroyTicks > 0)
+                        {
+                            hero.IncomeDamage -= 5;
+                            hero.TroyTicks -= 1;
 
-                        if (hero.TroyTicks == 0)
-                            hero.HitTypes.Clear();
+                            if (hero.TroyTicks == 0)
+                                hero.HitTypes.Clear();
+                        }
                     }
                 }
             }
-        }       
-    }
+        }        
+           
+   }
 }

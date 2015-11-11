@@ -38,12 +38,12 @@ namespace Activator.Items.Offensives
 
         internal override int DefaultHP
         {
-            get { return 90; }
+            get { return 45; }
         }
 
         internal override MenuType[] Category
         {
-            get { return new[] { MenuType.ActiveCheck, MenuType.SelfLowHP, MenuType.EnemyLowHP }; }
+            get { return new[] { MenuType.EnemyLowHP, MenuType.SelfLowHP }; }
         }
 
         internal override MapType[] Maps
@@ -56,19 +56,28 @@ namespace Activator.Items.Offensives
             if (!Menu.Item("use" + Name).GetValue<bool>() || !IsReady())
                 return;
 
+            foreach (var hero in Activator.Allies())
+            {
+                if (!Parent.Item(Parent.Name + "useon" + hero.Player.NetworkId).GetValue<bool>())
+                    continue;
+
+                if (hero.Player.Distance(Player.ServerPosition) <= Range)
+                {
+                    if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
+                        Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
+                    {
+                        if (hero.IncomeDamage > 0 && hero.Attacker != null &&
+                            hero.Attacker.Distance(hero.Player.ServerPosition) <= 600)
+                            UseItem();
+                    }
+                }
+            }
+
             if (Tar != null)
             {
-                if (!Parent.Item(Parent.Name + "useon" + Tar.Player.NetworkId).GetValue<bool>())
-                    return;
-
                 if (Tar.Player.Health / Tar.Player.MaxHealth * 100 <= Menu.Item("enemylowhp" + Name + "pct").GetValue<Slider>().Value)
                 {
-                    UseItem(Tar.Player.ServerPosition, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
-                }
-
-                if (Player.Health / Player.MaxHealth * 100 <= Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
-                {
-                    UseItem(Tar.Player.ServerPosition, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
+                    UseItem();
                 }
             }
         }

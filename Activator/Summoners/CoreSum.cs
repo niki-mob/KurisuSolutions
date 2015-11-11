@@ -47,8 +47,8 @@ namespace Activator.Summoners
                     Activator.UseAllyMenu = true;
                     Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <=")).SetValue(new Slider(20));
                     Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >=")).SetValue(new Slider(45));
-                    Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }, 1));
                     Menu.AddItem(new MenuItem("use" + Name + "tower", "Include Tower Damage")).SetValue(true);
+                    Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }, 1));
                 }
 
                 if (Name == "summonerboost")
@@ -127,7 +127,10 @@ namespace Activator.Summoners
                     Activator.UseEnemyMenu = true;
                     Menu.AddItem(new MenuItem("a" + Name + "pct", "Exhaust on ally HP %")).SetValue(new Slider(35));
                     Menu.AddItem(new MenuItem("e" + Name + "pct", "Exhaust on enemy HP %")).SetValue(new Slider(35));
-                    Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous")).SetValue(true);
+                    Menu.AddItem(new MenuItem("f" + Name, "Force Exhaust (Dangerous)"))
+                        .SetValue(true).SetTooltip("Will force exhaust dangerous spells ignoring HP% ");
+                    Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Utimates Only)"))
+                        .SetValue(true).SetTooltip("Or spells with \"Force Exhaust\"");
                     Menu.AddItem(new MenuItem("mode" + Name, "Mode: ")).SetValue(new StringList(new[] { "Always", "Combo" }));
                 }
 
@@ -141,7 +144,8 @@ namespace Activator.Summoners
                     Menu.AddItem(new MenuItem("smitesuper", "Smite Epic Camps")).SetValue(true);
                     Menu.AddItem(new MenuItem("smitemode", "Smite Enemies: "))
                         .SetValue(new StringList(new[] { "Killsteal", "Combo", "Nope" }, 1));
-                    Menu.AddItem(new MenuItem("savesmite", "Save a Smite Charge").SetValue(true));
+                    Menu.AddItem(new MenuItem("savesmite", "Save a Smite Charge")
+                        .SetValue(true).SetTooltip("Will only combo smite if Ammo > 1"));
                 }
 
                 if (Name == "summonerteleport")
@@ -174,13 +178,14 @@ namespace Activator.Summoners
         {
             if (!combo || Activator.Origin.Item("usecombo").GetValue<KeyBind>().Active)
             {
-                if (Utils.GameTimeTickCount - Activator.LastUsedTimeStamp > Activator.LastUsedDuration)
+                if (Utils.GameTimeTickCount - Activator.LastUsedTimeStamp > Activator.LastUsedDuration
+                    || Name == "summonerexhaust") // ignore limit
                 {
                     if (Player.GetSpell(Slot).State == SpellState.Ready)
                     {
                         Player.Spellbook.CastSpell(Slot);
                         Activator.LastUsedTimeStamp = Utils.GameTimeTickCount;
-                        Activator.LastUsedDuration = Duration;
+                        Activator.LastUsedDuration = Name == "summonerexhaust" ? 0: Duration;
                     }
                 }
             }
@@ -190,13 +195,14 @@ namespace Activator.Summoners
         {
             if (!combo || Activator.Origin.Item("usecombo").GetValue<KeyBind>().Active)
             {
-                if (Utils.GameTimeTickCount - Activator.LastUsedTimeStamp > Activator.LastUsedDuration)
+                if (Utils.GameTimeTickCount - Activator.LastUsedTimeStamp > Activator.LastUsedDuration
+                    || Name == "summonerexhaust") // ignore limit
                 {
                     if (Player.GetSpell(Slot).State == SpellState.Ready)
                     {
                         Player.Spellbook.CastSpell(Slot, target);
                         Activator.LastUsedTimeStamp = Utils.GameTimeTickCount;
-                        Activator.LastUsedDuration = Duration;
+                        Activator.LastUsedDuration = Name == "summonerexhaust" ? 0 : Duration;
                     }
                 }
             }

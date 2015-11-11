@@ -22,6 +22,7 @@ namespace Activator.Base
         public Obj_AI_Hero Owner;
         public SpellSlot Slot;
         public int Start;
+        public int Limiter;
 
         public Troy(
             Obj_AI_Hero owner, 

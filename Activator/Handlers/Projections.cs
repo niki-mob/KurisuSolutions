@@ -161,21 +161,23 @@ namespace Activator.Handlers
                                                         attacker.GetCustomDamage("lichbane", hero.Player));
 
                                 if (sender.HasBuff("itemstatikshankcharge"))
-                                    dmg += dmg; // double it yolo
+                                    dmg += dmg; // double it yolo (lazy)
                             }
 
                             if (args.SData.Name.ToLower().Contains("critattack"))
-                            {
                                 dmg = dmg * 2;
-                            }
+       
+                            var delay = attacker.AttackCastDelay * 1000;
+                            var distance = (int)(1000 * (attacker.ServerPosition.Distance(hero.Player.ServerPosition) / args.SData.MissileSpeed));
+                            var endtime = delay - 100 + Game.Ping / 2f + distance - (Utils.GameTimeTickCount - LastCastedTimeStamp);
 
-                            Utility.DelayAction.Add(350, () =>
+                            Utility.DelayAction.Add((int)(endtime - (endtime * 0.7)), () =>
                             {
                                 hero.Attacker = attacker;
                                 hero.HitTypes.Add(HitType.AutoAttack);
                                 hero.IncomeDamage += dmg;
 
-                                Utility.DelayAction.Add(150, delegate
+                                Utility.DelayAction.Add((int) endtime + 150, delegate
                                 {
                                     hero.Attacker = null;
                                     hero.IncomeDamage -= dmg;
@@ -195,10 +197,10 @@ namespace Activator.Handlers
                             args.SData.TargettingType == SpellDataTargetType.SelfAoe)
                         {
                             var fromObj = ObjectManager.Get<GameObject>().FirstOrDefault(
-                                x => data.FromObject != null && !x.IsAlly && data.FromObject.Any(y => x.Name.Contains(y)));
+                                x =>
+                                    data.FromObject != null && !x.IsAlly && data.FromObject.Any(y => x.Name.Contains(y)));
 
                             var correctpos = fromObj != null ? fromObj.Position : attacker.ServerPosition;
-
                             if (hero.Player.Distance(correctpos) > data.CastRange)
                                 continue;
 
@@ -243,7 +245,7 @@ namespace Activator.Handlers
                                     hero.HitTypes.Add(HitType.ForceExhaust);
 
                                 // lazy safe reset
-                                Utility.DelayAction.Add(250, () =>
+                                Utility.DelayAction.Add((int) data.Delay + 250, () =>
                                 {
                                     hero.Attacker = null;
                                     hero.IncomeDamage -= dmg;
@@ -345,7 +347,7 @@ namespace Activator.Handlers
                                     if (Activator.Origin.Item(data.SDataName + "forceexhaust").GetValue<bool>())
                                         hero.HitTypes.Add(HitType.ForceExhaust);
 
-                                    Utility.DelayAction.Add(250, () =>
+                                    Utility.DelayAction.Add((int) endtime + 250, () =>
                                     {
                                         hero.Attacker = null;
                                         hero.IncomeDamage -= dmg;
@@ -406,7 +408,7 @@ namespace Activator.Handlers
                                     hero.HitTypes.Add(HitType.ForceExhaust);
 
                                 // lazy reset
-                                Utility.DelayAction.Add(250, () =>
+                                Utility.DelayAction.Add((int) endtime + 250, () =>
                                 {
                                     hero.Attacker = null;
                                     hero.IncomeDamage -= dmg;
@@ -554,7 +556,7 @@ namespace Activator.Handlers
                             hero.HitTypes.Add(HitType.Spell);
                             hero.IncomeDamage += dmg;
 
-                            Utility.DelayAction.Add(250, delegate
+                            Utility.DelayAction.Add(400, delegate
                             {
                                 hero.Attacker = null;
                                 hero.HitTypes.Remove(HitType.Spell);
