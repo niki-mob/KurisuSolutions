@@ -120,6 +120,12 @@ namespace Activator.Handlers
 
         static void Obj_AI_Base_OnHeroCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
+            if (Summoners.smite.EpicMinions.Any(x => sender.CharData.BaseSkinName.StartsWith(x)) || 
+                sender.CharData.BaseSkinName.Contains("Sru_crab"))
+            {
+                return;
+            }
+
             #region Hero
 
             if (sender.IsEnemy && sender.Type == GameObjectType.obj_AI_Hero)
@@ -477,9 +483,6 @@ namespace Activator.Handlers
             {
                 var minion = sender as Obj_AI_Minion;
                 if (minion == null || minion.IsAlly || !minion.IsValid<Obj_AI_Minion>())
-                    return;
-
-                if (minion.Name.ToLower().Contains("crab") || minion.Name.ToLower().Contains("baron"))
                     return;
 
                 foreach (var hero in Activator.Allies())
