@@ -48,7 +48,7 @@ namespace KurisuGraves
                 Smokescreen.SetSkillshot(
                     0.25f, 250f, 1650f, false, SkillshotType.SkillshotCircle);
                 Buckshot.SetSkillshot(
-                    0.25f, (float) (15 * Math.PI / 180), 2000f, false, SkillshotType.SkillshotCone);
+                    0.25f, 70f, 900f, false, SkillshotType.SkillshotLine);
 
                 // On Tick Event
                 Game.OnUpdate += GravesOnUpdate;
@@ -190,10 +190,13 @@ namespace KurisuGraves
             if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed ||
                 Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
             {
-                if (hero.Mana/hero.MaxMana*100 > 65)
+                if (hero.Mana/hero.MaxMana*100 > MainMenu.Item("harasspct").GetValue<Slider>().Value)
                 {
                     if (hero.IsValidTarget() && Buckshot.IsReady())
-                        Buckshot.CastIfHitchanceEquals(hero, HitChance.High);
+                    {
+                        if (MainMenu.Item("harassq").GetValue<bool>())
+                            Buckshot.CastIfHitchanceEquals(hero, HitChance.High);
+                    }
                 }
             }
 
@@ -459,7 +462,7 @@ namespace KurisuGraves
                     new double[] { 200, 320, 440 }[Chargeshot.Level - 1] + 1.2 * Me.FlatPhysicalDamageMod)
                 : 0;
 
-            return qdmg + edmg + wdmg + irdmg + erdmg;
+            return (float) (qdmg + edmg + wdmg + irdmg + erdmg + (Me.GetAutoAttackDamage(target, true) * 2));
         }
 
         // Counts the number of enemy objects in path of player and the spell.
@@ -514,6 +517,12 @@ namespace KurisuGraves
 
             if (MainMenu.Item("ewherecom").GetValue<StringList>().SelectedIndex != 0)
             {
+                return;
+            }
+
+            if (Me.GetAutoAttackDamage(target, true) * 2 >= target.Health)
+            {
+                Quickdraw.Cast(target.ServerPosition);
                 return;
             }
 
@@ -605,36 +614,17 @@ namespace KurisuGraves
         {
             MainMenu = new Menu("Kurisu's Graves", "kgraves", true);
 
-            var tsmenu = new Menu("Selector", "tsmenu");
-            TargetSelector.AddToMenu(tsmenu);
-            MainMenu.AddSubMenu(tsmenu);
-
-            var owmenu = new Menu("Orbwalker", "owmenu");
+            var owmenu = new Menu(":: Orbwalker", "owmenu");
             Orbwalker = new Orbwalking.Orbwalker(owmenu);
             MainMenu.AddSubMenu(owmenu);
 
-            var drmenu = new Menu("Drawings", "drawings");
-            drmenu.AddItem(new MenuItem("drawaa", "Draw AA Range"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Firebrick)));
-            drmenu.AddItem(new MenuItem("drawqrange", "Draw Q Range"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
-            drmenu.AddItem(new MenuItem("drawrrange", "Draw R Range"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Firebrick)));
-            drmenu.AddItem(new MenuItem("drawfill", "Draw R Damage Fill")).SetValue(true);
-            MainMenu.AddSubMenu(drmenu);
-
-            var misc = new Menu("Other/Misc", "misc");
-            misc.AddItem(new MenuItem("shootr", "Shoot R")).SetValue(new KeyBind('T', KeyBindType.Press));
-            misc.AddItem(new MenuItem("fleekey", "Use Flee")).SetValue(new KeyBind(65, KeyBindType.Press));
-            misc.AddItem(new MenuItem("allin", "All In Combo")).SetValue(new KeyBind('G', KeyBindType.Press));
-            MainMenu.AddSubMenu(misc);
-
-            var comenu = new Menu("Combo Settings", "comenu");
+            var comenu = new Menu(":: Graves Settings", "comenu");
+            comenu.AddItem(new MenuItem("harasspct", "Harass Mana %")).SetValue(new Slider(65));
+            comenu.AddItem(new MenuItem("harassq", "Use Q In harass")).SetValue(true);
             comenu.AddItem(new MenuItem("usew", "Use W in combo"))
                 .SetValue(false).SetTooltip("Still working on this logic, I prefer to leave it off.");
             comenu.AddItem(new MenuItem("autosmoke", "Use W on cc'd target")).SetValue(true);
             comenu.AddItem(new MenuItem("usewongap", "Use W on gapclosers")).SetValue(true);
-
             comenu.AddItem(new MenuItem("useecombo", "Use E in combo")).SetValue(true);
             comenu.AddItem(new MenuItem("ewherecom", "Use E to"))
                 .SetValue(new StringList(new[] { "Safe Position", "Game Cursor" }));
@@ -645,6 +635,23 @@ namespace KurisuGraves
             comenu.AddItem(new MenuItem("secure", "Use R secure kill"))
                 .SetValue(true).SetTooltip("Will kill steal without any key press.");
             MainMenu.AddSubMenu(comenu);
+
+
+            var drmenu = new Menu(":: Drawings", "drawings");
+            drmenu.AddItem(new MenuItem("drawaa", "Draw AA Range"))
+                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Firebrick)));
+            drmenu.AddItem(new MenuItem("drawqrange", "Draw Q Range"))
+                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
+            drmenu.AddItem(new MenuItem("drawrrange", "Draw R Range"))
+                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Firebrick)));
+            drmenu.AddItem(new MenuItem("drawfill", "Draw R Damage Fill")).SetValue(true);
+            MainMenu.AddSubMenu(drmenu);
+
+            MainMenu.AddItem(new MenuItem("allin", ":: All In Combo [active]"))
+                .SetValue(new KeyBind('G', KeyBindType.Press)).SetTooltip("(Broken) Dont think graves can animation cancel anymore.");
+            MainMenu.AddItem(new MenuItem("shootr", ":: Shoot R [active]")).SetValue(new KeyBind('T', KeyBindType.Press));
+            MainMenu.AddItem(new MenuItem("fleekey", ":: Use Flee [active]")).SetValue(new KeyBind(65, KeyBindType.Press));
+
 
             MainMenu.AddToMainMenu();
         }
