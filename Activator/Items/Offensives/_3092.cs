@@ -28,7 +28,7 @@ namespace Activator.Items.Offensives
 
         internal override float Range
         {
-            get { return 850f; }
+            get { return 1550f; }
         }
 
         internal override int Duration
@@ -57,24 +57,28 @@ namespace Activator.Items.Offensives
                 return;
 
             foreach (var hero in Activator.Allies())
-            {
-                if (!Parent.Item(Parent.Name + "useon" + hero.Player.NetworkId).GetValue<bool>())
-                    continue;
+           {
+               if (hero.Attacker != null && hero.Attacker.IsValidTarget(900))
+               {
+                   if (!Parent.Item(Parent.Name + "useon" + hero.Attacker.NetworkId).GetValue<bool>())
+                       return;
 
-                if (hero.Player.Distance(Player.ServerPosition) <= Range)
-                {
-                    if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
-                        Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
-                    {
-                        if (hero.IncomeDamage > 0 && hero.Attacker != null &&
-                            hero.Attacker.Distance(hero.Player.ServerPosition) <= 600)
+                   if (hero.Player.Distance(Player.ServerPosition) <= Range)
+                   {
+                       if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
+                           Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
+                       {
                             UseItem();
-                    }
-                }
-            }
+                       }
+                   }
+               }
+           }
 
             if (Tar != null)
             {
+                if (!Parent.Item(Parent.Name + "useon" + Tar.Player.NetworkId).GetValue<bool>())
+                    return;
+
                 if (Tar.Player.Health / Tar.Player.MaxHealth * 100 <= Menu.Item("enemylowhp" + Name + "pct").GetValue<Slider>().Value)
                 {
                     UseItem();
