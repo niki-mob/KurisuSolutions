@@ -161,7 +161,7 @@ namespace Activator.Items
                     .SetTooltip("The Priority " + Name + " Will Have Over Another Item (7 = Highest)");
 
                 if (Category.Any(t => t == MenuType.SelfLowHP) &&
-                   (Name.Contains("Potion") || Name.Contains("Flask") || Name.Contains("Biscuit")))
+                   (Name.Contains("Pot") || Name.Contains("Flask") || Name.Contains("Biscuit")))
                 {
                     Menu.AddItem(new MenuItem("use" + Name + "cbat", "Use Only In Combat"))
                         .SetValue(true).SetTooltip("aka Taking damage from Minions and Heroes");

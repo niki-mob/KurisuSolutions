@@ -8,7 +8,7 @@ namespace Activator.Items.Offensives
     {
         internal override int Id
         {
-            get { return 3184; }
+            get { return 2051; }
         }
 
         internal override int Priority

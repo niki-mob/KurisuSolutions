@@ -38,7 +38,7 @@ namespace Activator.Items.Offensives
 
         internal override int DefaultHP
         {
-            get { return 45; }
+            get { return 55; }
         }
 
         internal override MenuType[] Category

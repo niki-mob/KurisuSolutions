@@ -77,7 +77,6 @@
     <Compile Include="Items\Consumables\_2032.cs" />
     <Compile Include="Items\Consumables\_2033.cs" />
     <Compile Include="Items\Consumables\_2047.cs" />
-    <Compile Include="Items\Offensives\_3023.cs" />
     <Compile Include="Items\Defensives\_3048.cs" />
     <Compile Include="Items\Offensives\_3043.cs" />
     <Compile Include="Items\Offensives\_3050.cs" />
