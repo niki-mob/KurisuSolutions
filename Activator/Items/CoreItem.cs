@@ -36,6 +36,7 @@ namespace Activator.Items
         public Menu Menu { get; private set; }
         public Menu Parent { get { return Menu.Parent; } }
         public Obj_AI_Hero Player { get { return ObjectManager.Player; } }
+
         public Champion Tar
         {
             get
@@ -47,6 +48,7 @@ namespace Activator.Items
             }
         }
         
+        // Item priority, wont add Items to priority list till we need them! (craving :^))
         public static IEnumerable<CoreItem> PriorityList()
         {
             var hpi = from ii in Lists.Items
@@ -56,6 +58,7 @@ namespace Activator.Items
 
             return hpi;
         }
+
 
         public bool IsReady()
         {

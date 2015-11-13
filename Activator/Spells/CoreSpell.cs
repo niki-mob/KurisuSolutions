@@ -87,13 +87,14 @@ namespace Activator.Spells
                 if (Category.Any(t => t == MenuType.SpellShield))
                 {
                     Menu.AddItem(new MenuItem("ss" + Name + "all", "Use on Any Spell")).SetValue(false);
-                    Menu.AddItem(new MenuItem("ss" + Name + "cc", "Use on Crowd Control")).SetValue(false);
+                    Menu.AddItem(new MenuItem("ss" + Name + "cc", "Use on Crowd Control")).SetValue(true);
                 }
 
                 if (Category.Any(t => t == MenuType.Zhonyas))
                 {
-                    Menu.AddItem(new MenuItem("use" + Name + "norm", "Use on Dangerous (Spells)")).SetValue(false);
-                    Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Ultimates Only)")).SetValue(false);
+                    Menu.AddItem(new MenuItem("use" + Name + "norm", "Use on Dangerous (Spells)"))
+                        .SetValue(false).SetTooltip("Not reccomended to enable on spells with long cooldowns.");
+                    Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Ultimates Only)")).SetValue(true);
                 }
 
                 if (Category.Any(t => t == MenuType.ActiveCheck))

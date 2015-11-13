@@ -29,35 +29,6 @@ namespace Activator.Summoners
             get { return 0; }
         }
 
-        internal static readonly string[] SmallMinions =
-        {
-            "SRU_Murkwolf",
-            "SRU_Razorbeak",
-            "SRU_Krug",
-            "SRU_Gromp"
-        };
-
-        internal static readonly string[] EpicMinions =
-        {
-            "SRU_RiftHerald",
-            "TT_Spiderboss8.1",
-            "SRU_Baron",
-            "SRU_Dragon"
-        };
-
-
-        internal static readonly string[] LargeMinions =
-        {
-            "SRU_Blue",
-            "SRU_Red",
-            "TT_NWraith1.1",
-            "TT_NWraith4.1",
-            "TT_NGolem2.1", 
-            "TT_NGolem5.1",
-            "TT_NWolf3.1",
-            "TT_NWolf6.1" 
-        };
-
         internal override string[] ExtraNames
         {
             get
@@ -112,45 +83,36 @@ namespace Activator.Summoners
 
                 if (minion.Distance(Player.ServerPosition) <= 500 + minion.BoundingRadius + Player.BoundingRadius)
                 {
-                    if (LargeMinions.Any(name => minion.Name.StartsWith(name) && !minion.Name.Contains("Mini")))
+                    if (BaseUtils.IsLargeMinion(minion) && Menu.Item("smitelarge").GetValue<bool>())
                     {
-                        if (Menu.Item("smitelarge").GetValue<bool>())
-                        {
-                            if (Menu.Item("smiteskill").GetValue<bool>())
-                                L33TSmite(minion, damage);
+                        if (Menu.Item("smiteskill").GetValue<bool>())
+                            L33TSmite(minion, damage);
 
-                            if (damage >= minion.Health && IsReady())
-                            {
-                                Player.Spellbook.CastSpell(Activator.Smite, minion);
-                            }
+                        if (damage >= minion.Health && IsReady())
+                        {
+                            Player.Spellbook.CastSpell(Activator.Smite, minion);
                         }
                     }
 
-                    if (SmallMinions.Any(name => minion.Name.StartsWith(name) && !minion.Name.Contains("Mini")))
+                    if (BaseUtils.IsSmallMinion(minion) && Menu.Item("smitesmall").GetValue<bool>())
                     {
-                        if (Menu.Item("smitesmall").GetValue<bool>())
-                        {
-                            if (Menu.Item("smiteskill").GetValue<bool>())
-                                L33TSmite(minion, damage);
+                        if (Menu.Item("smiteskill").GetValue<bool>())
+                            L33TSmite(minion, damage);
 
-                            if (damage >= minion.Health && IsReady())
-                            {
-                                Player.Spellbook.CastSpell(Activator.Smite, minion);
-                            }
+                        if (damage >= minion.Health && IsReady())
+                        {
+                            Player.Spellbook.CastSpell(Activator.Smite, minion);
                         }
                     }
 
-                    if (EpicMinions.Any(name => minion.Name.StartsWith(name)))
+                    if (BaseUtils.IsEpicMinion(minion) && Menu.Item("smitesuper").GetValue<bool>())
                     {
-                        if (Menu.Item("smitesuper").GetValue<bool>())
-                        {
-                            if (Menu.Item("smiteskill").GetValue<bool>())
-                                L33TSmite(minion, damage);
+                        if (Menu.Item("smiteskill").GetValue<bool>())
+                            L33TSmite(minion, damage);
 
-                            if (damage >= minion.Health && IsReady())
-                            {
-                                Player.Spellbook.CastSpell(Activator.Smite, minion);
-                            }
+                        if (damage >= minion.Health && IsReady())
+                        {
+                            Player.Spellbook.CastSpell(Activator.Smite, minion);
                         }
                     }
                 }

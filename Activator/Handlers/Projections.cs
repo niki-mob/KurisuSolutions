@@ -42,16 +42,8 @@ namespace Activator.Handlers
 
             foreach (var hero in Activator.Allies())
             {
-                if (!hero.Player.IsValidTarget(float.MaxValue, false) || hero.Player.IsZombie || hero.Immunity)
-                {
-                    hero.Attacker = null;
-                    hero.IncomeDamage = 0;
-                    hero.HitTypes.Clear();
-                    continue;
-                }
-
-                if (hero.IncomeDamage < 12)
-                    hero.IncomeDamage = 0;
+                // reset if needed
+                BaseUtils.ResetIncomeDamage(hero.Player);
 
                 var distance = (1000 * (startPos.Distance(hero.Player.ServerPosition) / data.MissileSpeed));
                 var endtime = -100 + Game.Ping / 2 + distance;
@@ -120,11 +112,8 @@ namespace Activator.Handlers
 
         static void Obj_AI_Base_OnHeroCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (Summoners.smite.EpicMinions.Any(x => sender.CharData.BaseSkinName.StartsWith(x)) || 
-                sender.CharData.BaseSkinName.Contains("Sru_crab"))
-            {
+            if (BaseUtils.IsEpicMinion(sender) || sender.Name.StartsWith("Sru_crab"))
                 return;
-            }
 
             #region Hero
 
@@ -138,13 +127,8 @@ namespace Activator.Handlers
 
                 foreach (var hero in Activator.Allies())
                 {
-                    if (!hero.Player.IsValidTarget(float.MaxValue, false) || hero.Player.IsZombie || hero.Immunity)
-                    {
-                        hero.Attacker = null;
-                        hero.IncomeDamage = 0;
-                        hero.HitTypes.Clear();
-                        continue;
-                    }
+                    // reset if needed
+                    BaseUtils.ResetIncomeDamage(hero.Player);
 
                     #region auto attack
 
@@ -521,13 +505,8 @@ namespace Activator.Handlers
 
                 foreach (var hero in Activator.Allies())
                 {
-                    if (!hero.Player.IsValidTarget(float.MaxValue, false) || hero.Player.IsZombie || hero.Immunity)
-                    {
-                        hero.Attacker = null;
-                        hero.IncomeDamage = 0;
-                        hero.HitTypes.Clear();
-                        continue;
-                    }
+                    // reset if needed
+                    BaseUtils.ResetIncomeDamage(hero.Player);
 
                     foreach (
                         var obj in ObjectManager.Get<GameObject>()
@@ -585,13 +564,8 @@ namespace Activator.Handlers
 
                 foreach (var hero in Activator.Allies())
                 {
-                    if (!hero.Player.IsValidTarget(float.MaxValue, false) || hero.Player.IsZombie || hero.Immunity)
-                    {
-                        hero.Attacker = null;
-                        hero.IncomeDamage = 0;
-                        hero.HitTypes.Clear();
-                        continue;
-                    }
+                    // reset if needed
+                    BaseUtils.ResetIncomeDamage(hero.Player);
 
                     if (args.SData.Name.ToLower() == "heimertyellowbasicattack" ||
                         args.SData.Name.ToLower() == "heimertyellowbasicattack2")
@@ -630,13 +604,8 @@ namespace Activator.Handlers
 
                 foreach (var hero in Activator.Allies())
                 {
-                    if (!hero.Player.IsValidTarget(float.MaxValue, false) || hero.Player.IsZombie || hero.Immunity)
-                    {
-                        hero.Attacker = null;
-                        hero.IncomeDamage = 0;
-                        hero.HitTypes.Clear();
-                        continue;
-                    }
+                    // reset if needed
+                    BaseUtils.ResetIncomeDamage(hero.Player);
 
                     if (args.Target.NetworkId != hero.Player.NetworkId)
                     {

@@ -3,7 +3,7 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	Handlers/Troys.cs
+// Document:	Handlers/Gametroys.cs
 // Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
@@ -17,7 +17,7 @@ using LeagueSharp.Common;
 
 namespace Activator.Handlers
 {
-    public class Troys
+    public class Gametroys
     {
         public static void StartOnUpdate()
         {
@@ -28,7 +28,7 @@ namespace Activator.Handlers
 
         static void GameObject_OnDelete(GameObject obj, EventArgs args)
         {
-            foreach (var troy in Troy.Troys)
+            foreach (var troy in Gametroy.Objects)
             {
                 if (obj.Name.Contains(troy.Name))
                 {
@@ -44,7 +44,7 @@ namespace Activator.Handlers
 
         static void GameObject_OnCreate(GameObject obj, EventArgs args)
         {
-            foreach (var troy in Troy.Troys)
+            foreach (var troy in Gametroy.Objects)
             {
                 if (obj.Name.Contains(troy.Name) && obj.IsValid<GameObject>())
                 {
@@ -59,7 +59,7 @@ namespace Activator.Handlers
 
         static void Game_OnUpdate(EventArgs args)
         {
-            foreach (var troy in Troy.Troys)
+            foreach (var troy in Gametroy.Objects)
             {
                 if (troy.Owner.IsAlly)
                     continue;

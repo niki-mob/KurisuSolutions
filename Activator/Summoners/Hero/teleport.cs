@@ -35,6 +35,8 @@ namespace Activator.Summoners
 
         private static int _lastPing;
         private static Vector3 _lastPingLocation;
+
+        // ping credits to Honda :^)
         private static void Ping(Vector3 pos)
         {
             if (Utils.GameTimeTickCount - _lastPing < 5000)
@@ -56,7 +58,6 @@ namespace Activator.Summoners
         {
             Game.ShowPing(PingCategory.Danger, _lastPingLocation, true);
         }
-
 
         public override void OnTick(EventArgs args)
         {

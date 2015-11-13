@@ -59,9 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\BaseUtils.cs" />
     <Compile Include="Base\Champion.cs" />
     <Compile Include="Data\SmiteData.cs" />
-    <Compile Include="Base\Troy.cs">
+    <Compile Include="Base\Gametroy.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\TroyData.cs">
@@ -69,7 +70,7 @@
     </Compile>
     <Compile Include="Base\Drawings.cs" />
     <Compile Include="Handlers\Projections.cs" />
-    <Compile Include="Handlers\Troys.cs">
+    <Compile Include="Handlers\Gametroys.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Items\Consumables\_2031.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="Items\Offensives\_3748.cs" />
     <Compile Include="Items\Offensives\_3092.cs" />
     <Compile Include="Handlers\Stealth.cs" />
-    <Compile Include="Base\Enumerators.cs" />
+    <Compile Include="Base\Enumerations.cs" />
     <Compile Include="Items\Cleansers\_3137.cs" />
     <Compile Include="Items\Cleansers\_3139.cs" />
     <Compile Include="Items\Cleansers\_3140.cs" />

@@ -72,7 +72,7 @@ namespace Activator.Items.Defensives
 
                 if (hero.HitTypes.Contains(HitType.Stealth))
                 {
-                    UseItem(hero.Player.ServerPosition, Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
+                    UseItem(Menu.Item("mode" + Name).GetValue<StringList>().SelectedIndex == 1);
                 }
             }
         }

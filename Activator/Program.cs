@@ -59,7 +59,7 @@ namespace Activator
                 MapId = (int) Utility.Map.GetMap().Type;
 
                 GetSmiteSlot();
-                GetTroysInGame();
+                GetGameTroysInGame();
                 GetHeroesInGame();
                 GetComboDamage();
                 GetSpellsInGame();
@@ -117,7 +117,7 @@ namespace Activator
                 zmenu.AddItem(new MenuItem("usecombo", "Combo (active)")).SetValue(new KeyBind(32, KeyBindType.Press, true));
 
                 var uumenu = new Menu("Spell Database", "evadem");
-                LoadEvadeMenu(uumenu);
+                LoadSpellMenu(uumenu);
                 zmenu.AddSubMenu(uumenu);
 
                 Origin.AddSubMenu(zmenu);
@@ -133,7 +133,7 @@ namespace Activator
                 Buffs.StartOnUpdate();
 
                 // tracks gameobjects 
-                Troys.StartOnUpdate();
+                Gametroys.StartOnUpdate();
 
                 Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
                 Obj_AI_Base.OnPlaceItemInSlot += Obj_AI_Base_OnPlaceItemInSlot;
@@ -141,10 +141,18 @@ namespace Activator
                 Game.PrintChat("<b>Activator#</b> - Loaded!");
                 Updater.UpdateCheck();
 
+                // init valid auto spells
                 foreach (var autospell in Lists.Spells)
                     if (Player.GetSpellSlot(autospell.Name) != SpellSlot.Unknown)
                         Game.OnUpdate += autospell.OnTick;
 
+                // init valid summoners
+                foreach (var summoner in Lists.Summoners)
+                    if (summoner.Slot != SpellSlot.Unknown ||
+                        summoner.ExtraNames.Any(x => Player.GetSpellSlot(x) != SpellSlot.Unknown))
+                        Game.OnUpdate += summoner.OnTick;
+
+                // find items (if F5)
                 foreach (var item in Lists.Items)
                 {
                     if (!LeagueSharp.Common.Items.HasItem(item.Id)) 
@@ -157,11 +165,6 @@ namespace Activator
                         Game.PrintChat("<b>Activator#</b> - <font color=\"#FFF280\">" + item.Name + "</font> active!");
                     }
                 }
-
-                foreach (var summoner in Lists.Summoners)
-                    if (summoner.Slot != SpellSlot.Unknown ||
-                        summoner.ExtraNames.Any(x => Player.GetSpellSlot(x) != SpellSlot.Unknown))
-                        Game.OnUpdate += summoner.OnTick;
 
                 Utility.DelayAction.Add(3000, CheckEvade);
             }
@@ -229,11 +232,10 @@ namespace Activator
         {
             try
             {
-                if (!summoner.Name.Contains("smite") && 
-                    Player.GetSpellSlot(summoner.Name) != SpellSlot.Unknown)
+                if (summoner.Name.Contains("smite") && SmiteInGame)
                     Lists.Summoners.Add(summoner.CreateMenu(parent));
 
-                if (summoner.Name.Contains("smite") && SmiteInGame)
+                if (!summoner.Name.Contains("smite") && Player.GetSpellSlot(summoner.Name) != SpellSlot.Unknown)
                     Lists.Summoners.Add(summoner.CreateMenu(parent));
             }
 
@@ -288,14 +290,14 @@ namespace Activator
             }
         }
 
-        private static void GetTroysInGame()
+        private static void GetGameTroysInGame()
         {
             foreach (var i in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.Team != Player.Team))
             {
                 foreach (var item in TroyData.Troys.Where(x => x.ChampionName == i.ChampionName))
                 {
                     TroysInGame = true;
-                    Troy.Troys.Add(new Troy(i, item.Slot, item.Name, 0, false));
+                    Gametroy.Objects.Add(new Gametroy(i, item.Slot, item.Name, 0, false));
                 }
             }
         }
@@ -307,6 +309,7 @@ namespace Activator
                 foreach (var item in Data.SpellData.Spells.Where(x => x.ChampionName == i.ChampionName.ToLower()))
                 {
                     Data.SpellData.SomeSpells.Add(item);
+                    // Game.PrintChat("<b>Activator#</b> - <font color=\"#FFF280\">" + item.SDataName + "</font> added!");
                 }
             }
         }
@@ -365,7 +368,7 @@ namespace Activator
             }
         }
 
-        private static void LoadEvadeMenu(Menu parent)
+        private static void LoadSpellMenu(Menu parent)
         {
             foreach (var unit in Heroes.Where(h => h.Player.Team != Player.Team))
             {
@@ -405,8 +408,7 @@ namespace Activator
             if (Menu.GetMenu("Evade", "Evade") != null)
                 Origin.Item("evade").SetValue(true);
 
-            if (Menu.GetMenu("Evade", "Evade") == null && 
-                Menu.GetMenu("ezEvade", "ezEvade") == null)
+            if (Menu.GetMenu("Evade", "Evade") == null &&  Menu.GetMenu("ezEvade", "ezEvade") == null)
                 Origin.Item("evade").SetValue(false);
         }
 
