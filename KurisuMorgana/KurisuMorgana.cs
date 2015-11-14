@@ -110,7 +110,7 @@ namespace KurisuMorgana
             _menu.AddItem(new MenuItem("harasskey", ":: Harass [active]")).SetValue(new KeyBind('C', KeyBindType.Press));
             _menu.AddItem(new MenuItem("combokey", ":: Combo [active]")).SetValue(new KeyBind(32, KeyBindType.Press));
 
-            _menu.AddItem(new MenuItem("farmkey", ":: WaveClear (active)"))
+            _menu.AddItem(new MenuItem("farmkey", ":: WaveClear [active]"))
                 .SetValue(new KeyBind('V', KeyBindType.Press));
 
 
