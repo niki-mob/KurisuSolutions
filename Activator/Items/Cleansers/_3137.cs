@@ -30,7 +30,7 @@ namespace Activator.Items.Cleansers
 
         internal override int Duration
         {
-            get { return 3000; }
+            get { return 1000; }
         }
 
         internal override float Range

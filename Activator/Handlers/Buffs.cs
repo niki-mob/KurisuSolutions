@@ -216,6 +216,7 @@ namespace Activator.Handlers
             foreach (var hero in Activator.Heroes.Where(x => x.Player.NetworkId == player.NetworkId))
             {
                 hero.MikaelsBuffCount = GetAuras(hero.Player, "Mikaels").Count();
+
                 if (hero.MikaelsBuffCount > 0)
                 {
                     foreach (var buff in GetAuras(hero.Player, "Mikaels"))
@@ -257,9 +258,9 @@ namespace Activator.Handlers
         {
             foreach (var hero in Activator.Heroes.Where(x => x.Player.NetworkId == player.NetworkId))
             {
-                hero.MikaelsBuffCount = GetAuras(hero.Player, "Mercurial").Count();
+                hero.MercurialBuffCount = GetAuras(hero.Player, "Mercurial").Count();
 
-                if (hero.MikaelsBuffCount > 0)
+                if (hero.MercurialBuffCount > 0)
                 {
                     foreach (var buff in GetAuras(hero.Player, "Mercurial"))
                     {

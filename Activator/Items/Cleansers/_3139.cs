@@ -30,7 +30,7 @@ namespace Activator.Items.Cleansers
 
         internal override int Duration
         {
-            get { return 3000; }
+            get { return 1000; }
         }
 
         internal override float Range
@@ -50,7 +50,7 @@ namespace Activator.Items.Cleansers
 
         internal override int DefaultHP
         {
-            get { return 5; }
+            get { return 10; }
         }
 
         internal override int DefaultMP
