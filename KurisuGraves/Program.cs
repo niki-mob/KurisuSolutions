@@ -340,18 +340,6 @@ namespace KurisuGraves
             if (Target.IsValidTarget(Chargeshot.Range))
             {
                 var rpred = Prediction.GetPrediction(Target, 0.25f).UnitPosition;
-                if (rpred.Distance(Me.ServerPosition) <= Quickdraw.Range + 200)
-                {
-                    if (Chargeshot.IsReady() && (Quickdraw.IsReady() && Buckshot.IsReady()))
-                    {
-                        if (MainMenu.Item("usercombo").GetValue<bool>())
-                        {
-                            if (CanR(Target) && GetComboDamage(Target) >= Target.Health)
-                                Chargeshot.CastIfHitchanceEquals(Target, HitChance.High);
-                        }
-                    }
-                }
-
                 if (rpred.Distance(Me.ServerPosition) <= Quickdraw.Range * 2)
                 {
                     if (Target.CountAlliesInRange(400) >= 2)
