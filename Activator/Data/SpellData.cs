@@ -33,7 +33,9 @@ namespace Activator.Data
 
         public static List<SpellData> Spells = new List<SpellData>();
         public static List<SpellData> SomeSpells = new List<SpellData>(); 
-        public static Dictionary<SpellDamageDelegate, SpellSlot> DamageLib = new Dictionary<SpellDamageDelegate, SpellSlot>();
+
+        public static Dictionary<SpellDamageDelegate, SpellSlot> DamageLib = 
+            new Dictionary<SpellDamageDelegate, SpellSlot>();
 
         static SpellData()
         {
@@ -2569,6 +2571,28 @@ namespace Activator.Data
 
             Spells.Add(new SpellData
             {
+                SDataName = "kindredq",
+                ChampionName = "kindred",
+                Slot = SpellSlot.Q,
+                CastRange = 350f,
+                Delay = 250f,
+                HitType = new HitType[] { },
+                MissileSpeed = int.MaxValue
+            });
+
+            Spells.Add(new SpellData
+            {
+                SDataName = "kindrede",
+                ChampionName = "kindred",
+                Slot = SpellSlot.E,
+                CastRange = 510f,
+                Delay = 250f,
+                HitType = new HitType[] { },
+                MissileSpeed = 2200
+            });
+
+            Spells.Add(new SpellData
+            {
                 SDataName = "kogmawcausticspittle",
                 ChampionName = "kogmaw",
                 Slot = SpellSlot.Q,
@@ -4963,6 +4987,17 @@ namespace Activator.Data
                 Delay = 450f,
                 HitType = new[] { Base.HitType.Danger, Base.HitType.Ultimate },
                 MissileSpeed = 1250
+            });
+
+            Spells.Add(new SpellData
+            {
+                SDataName = "tahmkenchq",
+                ChampionName = "tahmkench",
+                Slot = SpellSlot.Q,
+                CastRange = 950f,
+                Delay = 250f,
+                HitType = new[] { Base.HitType.CrowdControl },
+                MissileSpeed = 2800
             });
 
             Spells.Add(new SpellData

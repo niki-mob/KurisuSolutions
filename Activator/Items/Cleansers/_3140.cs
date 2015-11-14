@@ -60,11 +60,11 @@ namespace Activator.Items.Cleansers
 
         public override void OnTick(EventArgs args)
         {
+            if (!Menu.Item("use" + Name).GetValue<bool>() || !IsReady())
+                return;
+
             foreach (var hero in Activator.Allies())
             {
-                if (!Menu.Item("use" + Name).GetValue<bool>() || !IsReady())
-                    return;
-
                 if (hero.Player.NetworkId == Player.NetworkId)
                 {
                     if (!Parent.Item(Parent.Name + "useon" + hero.Player.NetworkId).GetValue<bool>())
