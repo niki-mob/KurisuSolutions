@@ -70,7 +70,7 @@ namespace Activator.Base
                         var minion in
                             MinionManager.GetMinions(Activator.Player.Position, 1200f, MinionTypes.All,
                                 MinionTeam.Neutral)
-                                .Where(th => BaseUtils.IsEpicMinion(th) || BaseUtils.IsLargeMinion(th)))
+                                .Where(th => Essentials.IsEpicMinion(th) || Essentials.IsLargeMinion(th)))
                     {
                         if (!minion.IsHPBarRendered)
                         {

@@ -262,7 +262,7 @@ namespace Activator
             {
                 if (entry.Key == Player.ChampionName)
                     foreach (DamageSpell spell in entry.Value)
-                        Data.SpellData.DamageLib.Add(spell.Damage, spell.Slot);
+                        Skilldata.DamageLib.Add(spell.Damage, spell.Slot);
             }
         }
 
@@ -294,7 +294,7 @@ namespace Activator
         {
             foreach (var i in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.Team != Player.Team))
             {
-                foreach (var item in TroyData.Troys.Where(x => x.ChampionName == i.ChampionName))
+                foreach (var item in Gametroydata.Troys.Where(x => x.ChampionName == i.ChampionName))
                 {
                     TroysInGame = true;
                     Gametroy.Objects.Add(new Gametroy(i, item.Slot, item.Name, 0, false));
@@ -306,9 +306,9 @@ namespace Activator
         {
             foreach (var i in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.Team != Player.Team))
             {
-                foreach (var item in Data.SpellData.Spells.Where(x => x.ChampionName == i.ChampionName.ToLower()))
+                foreach (var item in Data.Skilldata.Spells.Where(x => x.ChampionName == i.ChampionName.ToLower()))
                 {
-                    Data.SpellData.SomeSpells.Add(item);
+                    Skilldata.SomeSpells.Add(item);
                     // Game.PrintChat("<b>Activator#</b> - <font color=\"#FFF280\">" + item.SDataName + "</font> added!");
                 }
             }
@@ -375,7 +375,7 @@ namespace Activator
                 var menu = new Menu(unit.Player.ChampionName, unit.Player.NetworkId + "menu");
 
                 // new menu per spell
-                foreach (var entry in Data.SpellData.Spells)
+                foreach (var entry in Data.Skilldata.Spells)
                 {
                     if (entry.ChampionName == unit.Player.ChampionName.ToLower())
                     {
@@ -408,7 +408,7 @@ namespace Activator
             if (Menu.GetMenu("Evade", "Evade") != null)
                 Origin.Item("evade").SetValue(true);
 
-            if (Menu.GetMenu("Evade", "Evade") == null &&  Menu.GetMenu("ezEvade", "ezEvade") == null)
+            if (Menu.GetMenu("Evade", "Evade") == null && Menu.GetMenu("ezEvade", "ezEvade") == null)
                 Origin.Item("evade").SetValue(false);
         }
 

@@ -71,7 +71,7 @@ namespace Activator.Handlers
                         if (troy.Owner == null || troy.Obj == null || !troy.Obj.IsValid)
                             continue;
 
-                        foreach (var item in TroyData.Troys.Where(x => x.Name == troy.Name))
+                        foreach (var item in Gametroydata.Troys.Where(x => x.Name == troy.Name))
                         {
                             if (hero.Player.Distance(troy.Obj.Position, true) > item.Radius * item.Radius)
                                 continue;

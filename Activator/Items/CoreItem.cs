@@ -209,7 +209,7 @@ namespace Activator.Items
                     var ccmenu = new Menu(Name + " Buff Types", Name.ToLower() + "cdeb");
                     var ssmenu = new Menu(Name + " Misc Buffs", Name.ToLower() + "xspe");
 
-                    foreach (var b in Data.BuffData.BuffList.Where(x => x.MenuName != null && (x.Cleanse || x.DoT)))
+                    foreach (var b in Data.Auradata.BuffList.Where(x => x.MenuName != null && (x.Cleanse || x.DoT)))
                     {
                         string xdot = b.DoT && b.Cleanse ? "[Danger]" : (b.DoT ? "[DoT]" : "[Danger]");
 

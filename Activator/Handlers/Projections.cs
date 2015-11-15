@@ -32,7 +32,7 @@ namespace Activator.Handlers
             var startPos = missile.StartPosition.To2D();
             var endPos = missile.EndPosition.To2D();
 
-            var data = Data.SpellData.GetByMissileName(missile.SData.Name.ToLower());
+            var data = Data.Skilldata.GetByMissileName(missile.SData.Name.ToLower());
             if (data == null)
                 return;
 
@@ -43,7 +43,7 @@ namespace Activator.Handlers
             foreach (var hero in Activator.Allies())
             {
                 // reset if needed
-                BaseUtils.ResetIncomeDamage(hero.Player);
+                Essentials.ResetIncomeDamage(hero.Player);
 
                 var distance = (1000 * (startPos.Distance(hero.Player.ServerPosition) / data.MissileSpeed));
                 var endtime = -100 + Game.Ping / 2 + distance;
@@ -112,7 +112,7 @@ namespace Activator.Handlers
 
         static void Obj_AI_Base_OnHeroCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (BaseUtils.IsEpicMinion(sender) || sender.Name.StartsWith("Sru_crab"))
+            if (Essentials.IsEpicMinion(sender) || sender.Name.StartsWith("Sru_crab"))
                 return;
 
             #region Hero
@@ -128,7 +128,7 @@ namespace Activator.Handlers
                 foreach (var hero in Activator.Allies())
                 {
                     // reset if needed
-                    BaseUtils.ResetIncomeDamage(hero.Player);
+                    Essentials.ResetIncomeDamage(hero.Player);
 
                     #region auto attack
 
@@ -179,7 +179,7 @@ namespace Activator.Handlers
 
                     #endregion
 
-                    foreach (var data in Data.SpellData.SomeSpells.Where(x => x.SDataName == args.SData.Name.ToLower()))
+                    foreach (var data in Data.Skilldata.SomeSpells.Where(x => x.SDataName == args.SData.Name.ToLower()))
                     {
                         #region self/selfaoe
 
@@ -306,14 +306,12 @@ namespace Activator.Handlers
                             if (islineskillshot && correctwidth + hero.Player.BoundingRadius + 35 > projdist ||
                                !islineskillshot && hero.Player.Distance(endpos) <= correctwidth + hero.Player.BoundingRadius + 35)
                             {
-                                if (data.Global || Activator.Origin.Item("evade").GetValue<bool>())
+                                if (hero.Player.NetworkId == Activator.Player.NetworkId &&
+                                   (data.Global || Activator.Origin.Item("evade").GetValue<bool>()))
                                 {
-                                    if (hero.Player.NetworkId == Activator.Player.NetworkId)
+                                    if (hero.Player.CanMove && evadetime < endtime)
                                     {
-                                        if (hero.Player.CanMove && evadetime < endtime)
-                                        {
-                                            continue;
-                                        }
+                                        continue;
                                     }
                                 }
 
@@ -506,7 +504,7 @@ namespace Activator.Handlers
                 foreach (var hero in Activator.Allies())
                 {
                     // reset if needed
-                    BaseUtils.ResetIncomeDamage(hero.Player);
+                    Essentials.ResetIncomeDamage(hero.Player);
 
                     foreach (
                         var obj in ObjectManager.Get<GameObject>()
@@ -565,7 +563,7 @@ namespace Activator.Handlers
                 foreach (var hero in Activator.Allies())
                 {
                     // reset if needed
-                    BaseUtils.ResetIncomeDamage(hero.Player);
+                    Essentials.ResetIncomeDamage(hero.Player);
 
                     if (args.SData.Name.ToLower() == "heimertyellowbasicattack" ||
                         args.SData.Name.ToLower() == "heimertyellowbasicattack2")
@@ -605,7 +603,7 @@ namespace Activator.Handlers
                 foreach (var hero in Activator.Allies())
                 {
                     // reset if needed
-                    BaseUtils.ResetIncomeDamage(hero.Player);
+                    Essentials.ResetIncomeDamage(hero.Player);
 
                     if (args.Target.NetworkId != hero.Player.NetworkId)
                     {

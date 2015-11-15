@@ -3,7 +3,7 @@
 // any form or by any means, mechanical, electronical or otherwise, is prohibited
 // without the prior written consent of the copyright owner.
 // 
-// Document:	Base/BaseUtils.cs
+// Document:	Base/Essentials.cs
 // Date:		22/09/2015
 // Author:		Robin Kurisu
 #endregion
@@ -14,7 +14,7 @@ using LeagueSharp.Common;
 
 namespace Activator.Base
 {
-    class BaseUtils
+    class Essentials
     {
         /// <summary>
         /// Returns if the minion is an "Epic" minion (baron, dragon, etc)
