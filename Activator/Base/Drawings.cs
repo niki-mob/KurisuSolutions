@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
-using Activator.Summoners;
 using LeagueSharp;
 using LeagueSharp.Common;
 
@@ -26,6 +25,17 @@ namespace Activator.Base
                             Drawing.DrawText(mpos[0] - 40, mpos[1] + 15, Color.White, "QSSBuffCount: " + hero.QSSBuffCount);
                             Drawing.DrawText(mpos[0] - 40, mpos[1] + 30, Color.White, "QSSHighestBuffTime: " + hero.QSSHighestBuffTime);
                         }
+
+
+                        Drawing.DrawText(200f, 250f, Color.Wheat, "Item Priority (Debug)");
+                        foreach (var item in Items.CoreItem.PriorityList().OrderByDescending(a => a.Priority))
+                        {
+                            for (int i = 0; i < Items.CoreItem.PriorityList().Count(); i++)
+                            {
+                                Drawing.DrawText(200, 265 + 5 * (i * 3), Color.White, item.DisplayName + " : " + item.Priority);
+                            }
+                        }
+
                     }
                 }
 
