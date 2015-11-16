@@ -15,7 +15,7 @@ using System.Reflection;
 using System.Security;
 using System.Security.Permissions;
 
-#region Namespaces © 2015 Kurisu Solutions
+#region Namespaces © 2015
 using LeagueSharp;
 using LeagueSharp.Common;
 using Activator.Base;
@@ -305,13 +305,8 @@ namespace Activator
         private static void GetSpellsInGame()
         {
             foreach (var i in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.Team != Player.Team))
-            {
-                foreach (var item in Data.Skilldata.Spells.Where(x => x.ChampionName == i.ChampionName.ToLower()))
-                {
+                foreach (var item in Skilldata.Spells.Where(x => x.ChampionName == i.ChampionName.ToLower()))
                     Skilldata.SomeSpells.Add(item);
-                    // Game.PrintChat("<b>Activator#</b> - <font color=\"#FFF280\">" + item.SDataName + "</font> added!");
-                }
-            }
         }
 
         public static IEnumerable<Champion> Allies()
@@ -336,12 +331,28 @@ namespace Activator
         {
             var menu = new Menu("Config", parent.Name + "sub");
 
+            var ireset = new MenuItem(parent.Name + "clear", "De-Select [All]");
+            menu.AddItem(ireset).SetValue(false);
+
             foreach (var hero in both ? HeroManager.AllHeroes : enemy ? HeroManager.Enemies : HeroManager.Allies)
             {
                 var side = hero.Team == Player.Team ? "[Ally]" : "[Enemy]";
                 menu.AddItem(new MenuItem(parent.Name + "useon" + hero.NetworkId,
                     "Use for " + hero.ChampionName + " " + side).DontSave()).SetValue(true);
             }
+
+            ireset.ValueChanged += (sender, args) =>
+            {
+                if (args.GetNewValue<bool>())
+                {
+                    foreach (var hero in both 
+                        ? HeroManager.AllHeroes : enemy 
+                        ? HeroManager.Enemies : HeroManager.Allies)
+                        menu.Item(parent.Name + "useon" + hero.NetworkId).SetValue(hero.IsMe);
+
+                    Utility.DelayAction.Add(100, () => ireset.SetValue(false));
+                }
+            };
 
             parent.AddSubMenu(menu);
         }
@@ -354,7 +365,8 @@ namespace Activator
                 return;
             }
 
-            if (hero.ChampionName == "Jayce" || hero.ChampionName == "Udyr")
+            if (hero.ChampionName == "Jayce" || hero.ChampionName == "Udyr" ||
+                hero.ChampionName == "Elise")
             {
                 return;
             }
@@ -375,7 +387,7 @@ namespace Activator
                 var menu = new Menu(unit.Player.ChampionName, unit.Player.NetworkId + "menu");
 
                 // new menu per spell
-                foreach (var entry in Data.Skilldata.Spells)
+                foreach (var entry in Skilldata.Spells)
                 {
                     if (entry.ChampionName == unit.Player.ChampionName.ToLower())
                     {

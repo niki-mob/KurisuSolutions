@@ -31,7 +31,7 @@ namespace Activator.Data
         {
             Troys.Add(new Gametroydata
             {
-                Name = "Nunu_Base_R_Cas",
+                Name = "R_Cas",
                 ChampionName = "Nunu",
                 Radius = 650f,
                 Slot = SpellSlot.R,
@@ -42,7 +42,7 @@ namespace Activator.Data
 
             Troys.Add(new Gametroydata
             {
-                Name = "Ryze_Base_E_mis_bounce",
+                Name = "E_mis_bounce",
                 ChampionName = "Ryze",
                 Radius = 200f,
                 Slot = SpellSlot.E,
@@ -53,7 +53,7 @@ namespace Activator.Data
 
             Troys.Add(new Gametroydata
             {
-                Name = "Ryze_Base_R_E_mis_bounce",
+                Name = "R_E_mis_bounce",
                 ChampionName = "Ryze",
                 Radius = 250f,
                 Slot = SpellSlot.E,
@@ -75,7 +75,7 @@ namespace Activator.Data
 
             Troys.Add(new Gametroydata
             {
-                Name = "Gangplank_Base_R_AoE",
+                Name = "R_AoE",
                 ChampionName = "Gangplank",
                 Radius = 500f,
                 Slot = SpellSlot.R,
@@ -119,13 +119,13 @@ namespace Activator.Data
 
             Troys.Add(new Gametroydata
             {
-                Name = "Elise_Base_W_volatile",
+                Name = "W_volatile",
                 ChampionName = "Elise",
-                Radius =  150f,
+                Radius =  250f,
                 Slot = SpellSlot.W,
                 HitType = new[] { Base.HitType.None },
                 PredictDmg = true,
-                Interval = 1.0
+                Interval = 0.3
             });
 
             Troys.Add(new Gametroydata
@@ -136,7 +136,7 @@ namespace Activator.Data
                 Slot = SpellSlot.E,
                 HitType = new[] { Base.HitType.None },
                 PredictDmg = true,
-                Interval = 1.5
+                Interval = 0.8
             });
 
             Troys.Add(new Gametroydata
@@ -192,7 +192,7 @@ namespace Activator.Data
                 Slot = SpellSlot.Q,
                 HitType = new []{ Base.HitType.None },
                 PredictDmg = true,
-                Interval = 1.0
+                Interval = 0.5
             });
 
             Troys.Add(new Gametroydata
@@ -225,9 +225,9 @@ namespace Activator.Data
 
             Troys.Add(new Gametroydata
             {
-                Name = "caitlyn_Base_yordleTrap_idle",
+                Name = "yordleTrap_idle",
                 ChampionName = "Caitlyn",
-                Radius = 280f,
+                Radius = 265f,
                 Slot = SpellSlot.W,
                 HitType = new[] { Base.HitType.CrowdControl },
                 PredictDmg = false,
@@ -324,7 +324,7 @@ namespace Activator.Data
 
             Troys.Add(new Gametroydata
             {
-                Name = "Soraka_Base_E_rune",
+                Name = "E_rune",
                 ChampionName = "Soraka",
                 Radius = 375f,
                 Slot = SpellSlot.E,

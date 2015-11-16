@@ -26,7 +26,7 @@ namespace Activator.Handlers
         }
 
        internal static void Game_OnUpdate(EventArgs args)
-        {
+       {
             foreach (var hero in Activator.Allies())
             {
                 foreach (var aura in Auradata.BuffList.Where(au => hero.Player.HasBuff(au.Name)))

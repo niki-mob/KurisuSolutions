@@ -339,7 +339,6 @@ namespace Activator.Data
                 CastRange = 625f,
                 Delay = 250f,
                 HitType = new[] { Base.HitType.Danger },
-                MissileName = "",
                 MissileSpeed = int.MaxValue
             });
 
@@ -359,7 +358,7 @@ namespace Activator.Data
                 SDataName = "infernalguardian",
                 ChampionName = "annie",
                 Slot = SpellSlot.R,
-                CastRange = 890f, // 600 + Cast Radius
+                CastRange = 900f, // 600 + Cast Radius
                 Delay = 0f,
                 HitType =
                     new[]
@@ -367,7 +366,6 @@ namespace Activator.Data
                         Base.HitType.Danger, Base.HitType.Ultimate,
                         Base.HitType.CrowdControl
                     },
-                MissileName = "",
                 MissileSpeed = int.MaxValue
             });
 

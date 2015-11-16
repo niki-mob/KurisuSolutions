@@ -38,7 +38,7 @@ namespace Activator.Handlers
 
                     if (troy.Included)
                         troy.Included = false;
-                }             
+                }
             }
         }
 
@@ -73,7 +73,7 @@ namespace Activator.Handlers
 
                         foreach (var item in Gametroydata.Troys.Where(x => x.Name == troy.Name))
                         {
-                            if (hero.Player.Distance(troy.Obj.Position, true) > item.Radius * item.Radius)
+                            if (hero.Player.Distance(troy.Obj.Position) > item.Radius + hero.Player.BoundingRadius)
                                 continue;
 
                             // check delay (e.g fizz bait)
@@ -91,7 +91,6 @@ namespace Activator.Handlers
                                     hero.Attacker = troy.Owner;
                                     hero.IncomeDamage += 5; // todo: get actuall spell damage
                                     hero.TroyTicks += 1;
-
                                     troy.Limiter = Utils.GameTimeTickCount;
                                 }
 
