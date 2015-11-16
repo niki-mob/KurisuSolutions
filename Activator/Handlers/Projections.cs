@@ -112,7 +112,7 @@ namespace Activator.Handlers
 
         static void Obj_AI_Base_OnHeroCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (Essentials.IsEpicMinion(sender) || sender.Name.StartsWith("Sru_crab"))
+            if (Essentials.IsEpicMinion(sender) || sender.Name.StartsWith("Sru_Crab"))
                 return;
 
             #region Hero

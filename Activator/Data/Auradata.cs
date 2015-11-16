@@ -780,7 +780,7 @@ namespace Activator.Data
                 EvadeTimer = 0,
                 QssIgnore = true,
                 Slot = SpellSlot.Unknown,
-                Interval = 1.2
+                Interval = 0.3
             });
 
             BuffList.Add(new Auradata

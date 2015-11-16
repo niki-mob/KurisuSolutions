@@ -39,10 +39,9 @@ namespace Activator.Base
         {
             var name = minion.Name;
             return minion is Obj_AI_Minion && (notMini && !minion.Name.Contains("Mini")) &&
-                   (name.StartsWith("SRU_Blue") || name.StartsWith("SRU_Red") ||
-                    name.StartsWith("TT_NWraith1.1") || name.StartsWith("TT_NWraith4.1") ||
-                        name.StartsWith("TT_NGolem2.1") || name.StartsWith("TT_NGolem5.1") ||
-                            name.StartsWith("TT_NWolf3.1") || name.StartsWith("TT_NWolf6.1"));
+                   (name.StartsWith("SRU_Blue") || name.StartsWith("SRU_Red") || name.StartsWith("TT_NWraith1.1") ||
+                    name.StartsWith("TT_NWraith4.1") || name.StartsWith("TT_NGolem2.1") || name.StartsWith("TT_NGolem5.1") ||
+                    name.StartsWith("TT_NWolf3.1") || name.StartsWith("TT_NWolf6.1"));
         }
 
         /// <summary>
