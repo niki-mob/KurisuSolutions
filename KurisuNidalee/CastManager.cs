@@ -23,7 +23,7 @@ namespace KurisuNidalee
                     if (target.IsChampion() && KN.Root.Item("ndhqcheck").GetValue<bool>())
                     {
                         var qoutput = ES.Spells["Javelin"].GetPrediction(target);
-                        if (qoutput.Hitchance >= (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 2)
+                        if (qoutput.Hitchance >= (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3)
                         {
                             ES.Spells["Javelin"].Cast(qoutput.CastPosition);
                         }
@@ -141,7 +141,7 @@ namespace KurisuNidalee
                         if (KN.Root.Item("ndcwcheck").GetValue<bool>())
                         {
                             var voutout = ES.Spells["Pounce"].GetPrediction(target);
-                            if (voutout.Hitchance >= (HitChance) KN.Root.Item("ndcwch").GetValue<StringList>().SelectedIndex + 2)
+                            if (voutout.Hitchance >= (HitChance) KN.Root.Item("ndcwch").GetValue<StringList>().SelectedIndex + 3)
                             {
                                 ES.Spells["Pounce"].Cast(voutout.CastPosition);
                             }
@@ -180,8 +180,7 @@ namespace KurisuNidalee
                         if (KN.Root.Item("ndcecheck").GetValue<bool>())
                         {
                             var voutout = ES.Spells["Swipe"].GetPrediction(target);
-                            if (voutout.Hitchance >=
-                                (HitChance) KN.Root.Item("ndcech").GetValue<StringList>().SelectedIndex + 2)
+                            if (voutout.Hitchance >= (HitChance) KN.Root.Item("ndcech").GetValue<StringList>().SelectedIndex + 3)
                             {
                                 ES.Spells["Swipe"].Cast(voutout.CastPosition);
                             }
@@ -382,8 +381,7 @@ namespace KurisuNidalee
                                 {
                                     // if we dont meet hitchance on Q target pounce nearest target
                                     var poutput = ES.Spells["Javelin"].GetPrediction(target);
-                                    if (poutput.Hitchance >=
-                                        (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 2))
+                                    if (poutput.Hitchance >= (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
                                     {
                                         ES.Spells["Aspect"].Cast();
                                     }
