@@ -54,7 +54,7 @@ namespace KurisuNidalee
         internal static void AntiGapcloser_OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             var attacker = gapcloser.Sender;
-            if (attacker.IsValidTarget(275f))
+            if (attacker.IsValidTarget(275f) && !Player.UnderTurret(true))
             {
                 if (CatForm())
                 {

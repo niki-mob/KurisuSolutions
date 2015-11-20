@@ -43,6 +43,7 @@ namespace KurisuNidalee
             ndhq.AddItem(new MenuItem("ndhqcheck", "Check Hitchance")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqch", "-> Min Hitchance"))
                 .SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
+            ndhq.AddItem(new MenuItem("qsmcol", "-> Smite Collision")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqco", "Enable in Combo")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqha", "Enable in Harass")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqjg", "Enable in Jungle")).SetValue(true);
@@ -137,11 +138,11 @@ namespace KurisuNidalee
             ccmenu.AddSubMenu(dmenu);
 
             ccmenu.AddItem(new MenuItem("pstyle", ":: Play Style"))
-                .SetValue(new StringList(new[] {"Assassin", "Team Fighter", "Auto"}, 0));
+                .SetValue(new StringList(new[] {"Assassin", "Team Fighter"}, 0));
 
             ccmenu.AddItem(new MenuItem("jgaacount", ":: Jungle AA Weaving"))
                 .SetValue(false).SetTooltip("Require auto attacks before switching to Cougar");
-            ccmenu.AddItem(new MenuItem("aareq", ":: Required auto attack Count")).SetValue(new Slider(2, 1, 5));
+            ccmenu.AddItem(new MenuItem("aareq", "-> Required auto attack Count")).SetValue(new Slider(2, 1, 5));
             ccmenu.AddSubMenu(comenu);
             ccmenu.AddSubMenu(humenu);
 

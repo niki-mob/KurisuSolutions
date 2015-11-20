@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using ES = KurisuNidalee.Essentials;
@@ -23,13 +24,33 @@ namespace KurisuNidalee
                     if (target.IsChampion() && KN.Root.Item("ndhqcheck").GetValue<bool>())
                     {
                         var qoutput = ES.Spells["Javelin"].GetPrediction(target);
-                        if (qoutput.Hitchance >= (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3)
+                        if (qoutput.Hitchance == HitChance.Collision && KN.Root.Item("qsmcol").GetValue<bool>())
+                        {
+                            if (qoutput.CollisionObjects.All(i => i.NetworkId != ES.Player.NetworkId))
+                            {
+                                var obj = qoutput.CollisionObjects.Cast<Obj_AI_Minion>().ToList();
+                                if (obj.Count == 1)
+                                {
+                                    if (obj.Any(
+                                        i => i.Health <= ES.Player.GetSummonerSpellDamage(i, Damage.SummonerSpell.Smite) &&
+                                            ES.Player.Distance(i) < 500 && ES.Player.Spellbook.CastSpell(ES.Smite, obj.First())))
+                                    {
+                                        ES.Spells["Javelin"].Cast(qoutput.CastPosition);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                        else if (qoutput.Hitchance >= (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3)
                         {
                             ES.Spells["Javelin"].Cast(qoutput.CastPosition);
                         }
                     }
+
                     if (!target.IsChampion())
+                    {
                         ES.Spells["Javelin"].Cast(target);
+                    }
                 }
             }
         }
