@@ -4,7 +4,7 @@ using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
-using CM = KurisuNidalee.Combat;
+using CM = KurisuNidalee.CastManager;
 using Color = System.Drawing.Color;
 using ES = KurisuNidalee.Essentials;
 
