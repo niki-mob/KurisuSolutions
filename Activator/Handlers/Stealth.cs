@@ -36,7 +36,7 @@ namespace Activator.Handlers
 
             foreach (var hero in Activator.Allies())
             {
-                if (sender.IsEnemy && sender.Name.Contains("Rengar_Base_R_Alert") || hero.Player.HasBuff("rengarralertsound"))
+                if (sender.IsEnemy && sender.Name.Contains("Rengar_Base_R_Alert"))
                 {
                     if (hero.Player.Distance(sender.Position) <= 1200)
                     {

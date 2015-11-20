@@ -831,10 +831,11 @@ namespace Activator.Data
                 ChampionName = "corki",
                 Slot = SpellSlot.R,
                 CastRange = 1225f,
-                Delay = 250f,
+                Delay = 150f,
                 HitType = new HitType[] { },
                 MissileName = "missilebarragemissile",
-                MissileSpeed = 828
+                ExtraMissileNames = new []{ "missilebarragemissile2"},
+                MissileSpeed = 2000
             });
 
             Spells.Add(new Skilldata

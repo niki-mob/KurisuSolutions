@@ -87,6 +87,9 @@ namespace Activator.Handlers
                     hero.IncomeDamage -= 1;
                     hero.DotTicks -= 1;
                 }
+
+                if (hero.IncomeDamage < 0)
+                    hero.IncomeDamage = 0;
             }
         }
 

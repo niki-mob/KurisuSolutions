@@ -320,7 +320,7 @@ namespace Activator.Handlers
 
                                 var dmg = (int) Math.Abs(attacker.GetSpellDamage(hero.Player, args.SData.Name));
 
-                                Utility.DelayAction.Add((int)(endtime - (endtime * 0.7)), () =>
+                                Utility.DelayAction.Add((int)(endtime - (endtime * 0.3)), () =>
                                 {
                                     hero.Attacker = attacker;
                                     hero.HitTypes.Add(HitType.Spell);
