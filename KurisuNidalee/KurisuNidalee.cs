@@ -128,12 +128,20 @@ namespace KurisuNidalee
             ndcr.AddItem(new MenuItem("ndcrwc", "Enable in WaveClear")).SetValue(false);
 
             comenu.AddSubMenu(ndcr);
-                
-            ccmenu.AddItem(new MenuItem("dp", ":: Draw Q Range")).SetValue(true);
-            ccmenu.AddItem(new MenuItem("qtime", ":: Draw Q Timer")).SetValue(false);
+
+
+            var dmenu = new Menu(":: Draw Settings", "dmenu");              
+            dmenu.AddItem(new MenuItem("dp", "Draw Q Range")).SetValue(true);
+            dmenu.AddItem(new MenuItem("dti",  "Draw Timers")).SetValue(false);
+            dmenu.AddItem(new MenuItem("dt", "Draw Target")).SetValue(true);
+            ccmenu.AddSubMenu(dmenu);
+
             ccmenu.AddItem(new MenuItem("pstyle", ":: Play Style"))
                 .SetValue(new StringList(new[] {"Assassin", "Team Fighter", "Auto"}, 0));
 
+            ccmenu.AddItem(new MenuItem("jgaacount", ":: Jungle AA Weaving"))
+                .SetValue(false).SetTooltip("Require auto attacks before switching to Cougar");
+            ccmenu.AddItem(new MenuItem("aareq", ":: Required auto attack Count")).SetValue(new Slider(2, 1, 5));
             ccmenu.AddSubMenu(comenu);
             ccmenu.AddSubMenu(humenu);
 
@@ -148,13 +156,6 @@ namespace KurisuNidalee
             sset.AddItem(new MenuItem("jgsmitehe", "-> Smite On Hero")).SetValue(true);
             Root.AddSubMenu(sset);
 
-            var jmenu = new Menu(":: Jungling Settings", "jmenu");
-            jmenu.AddItem(new MenuItem("jgsticky", "Sticky Jungling"))
-                .SetValue(true).SetTooltip("Off = Pounces to mouse position.");
-            jmenu.AddItem(new MenuItem("jgaacount", "AA Weaving"))
-                .SetValue(false).SetTooltip("Require 2 auto attacks before switching to Cougar");
-            Root.AddSubMenu(jmenu);
-
             Root.AddToMainMenu();
 
             Game.OnUpdate += Game_OnUpdate;
@@ -164,19 +165,29 @@ namespace KurisuNidalee
 
         static void Drawing_OnDraw(EventArgs args)
         {
-            if (!Root.Item("dp").GetValue<bool>())
+            if (Player.IsDead || !Player.IsValid)
             {
                 return;
             }
 
-            Render.Circle.DrawCircle(ES.Player.Position, !ES.CatForm()
-                ? ES.Spells["Javelin"].Range 
-                : ES.Spells["ExPounce"].Range, Color.FromArgb(155, Color.DeepPink), 4);
-
-            if (!Player.IsDead && Player != null && Root.Item("qtime").GetValue<bool>())
+            if (Root.Item("dti").GetValue<bool>())
             {
                 var pos = Drawing.WorldToScreen(Player.Position);
                 Drawing.DrawText(pos[0] + 100, pos[1] - 135, Color.White, "Q: " + ES.SpellTimer["Javelin"].ToString("F"));
+            }
+
+            if (Root.Item("dt").GetValue<bool>() && Target != null)
+            {
+                if (Root.Item("pstyle").GetValue<StringList>().SelectedIndex == 0)
+                {
+                    Render.Circle.DrawCircle(Target.Position, Target.BoundingRadius, Color.DeepPink, 6);
+                }
+            }
+
+            if (Root.Item("dp").GetValue<bool>())
+            {
+                Render.Circle.DrawCircle(ES.Player.Position, !ES.CatForm()
+                    ? ES.Spells["Javelin"].Range : ES.Spells["ExPounce"].Range, Color.FromArgb(155, Color.DeepPink), 4);
             }
         }
 
@@ -264,6 +275,7 @@ namespace KurisuNidalee
         internal static void Combo()
         {
             var assassin = Root.Item("pstyle").GetValue<StringList>().SelectedIndex == 0;
+
             CM.CastJavelin(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
             CM.CastBushwack(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Bushwhack"].Range, TargetSelector.DamageType.Magical), "co");
             CM.CastTakedown(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Takedown"].Range, TargetSelector.DamageType.Magical), "co");
@@ -274,32 +286,39 @@ namespace KurisuNidalee
 
         internal static void Harass()
         {
-            var assassin = Root.Item("pstyle").GetValue<StringList>().SelectedIndex == 0;
-            CM.CastJavelin(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "ha");
-            CM.CastTakedown(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Takedown"].Range, TargetSelector.DamageType.Magical), "ha");
-            CM.CastSwipe(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Swipe"].Range, TargetSelector.DamageType.Magical), "ha");
-            CM.SwitchForm(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "ha");
+            CM.CastJavelin(TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "ha");
+            CM.CastTakedown(TargetSelector.GetTarget(ES.Spells["Takedown"].Range, TargetSelector.DamageType.Magical), "ha");
+            CM.CastSwipe(TargetSelector.GetTarget(ES.Spells["Swipe"].Range, TargetSelector.DamageType.Magical), "ha");
+            CM.SwitchForm(TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "ha");
         }
 
         internal static void Jungle()
         {
-            foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().Where(x => ES.MinionList.Any(y => x.Name.StartsWith(y))))
+            foreach (
+                var minion in
+                    ObjectManager.Get<Obj_AI_Minion>()
+                        .Where(x => ES.MinionList.Any(y => x.Name.StartsWith(y) || x.IsHunted())))
             {
-                if (minion.IsValidTarget(850) && !minion.Name.Contains("Mini"))
+                if (minion.IsValidTarget(ES.Spells["ExPounce"].Range) &&
+                   (!minion.Name.Contains("Mini") || minion.IsHunted()))
                 {
                     CM.CastJavelin(minion, "jg");
+                    CM.CastPounce(minion, "jg");
                     CM.CastBushwack(minion, "jg");
                     CM.CastTakedown(minion, "jg");
-                    CM.CastPounce(minion, "jg");
                     CM.CastSwipe(minion, "jg");
                     CM.SwitchForm(minion, "jg");
-                    return;
+
+                    if (!minion.IsHunted() && !minion.Name.Contains("Mini"))
+                    {
+                        return;
+                    }
                 }
             }
 
             foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().Where(x => !x.IsMinion))
             {
-                if (minion.IsValidTarget(850))
+                if (minion.IsValidTarget(ES.Spells["ExPounce"].Range))
                 {
                     CM.CastJavelin(minion, "jg");
                     CM.CastBushwack(minion, "jg");
@@ -313,7 +332,7 @@ namespace KurisuNidalee
 
         internal static void WaveClear()
         {
-            foreach (var minion in ES.MinionCache.Values.Where(x => x.IsMinion && x.IsValidTarget(850)))
+            foreach (var minion in ES.MinionCache.Values.Where(x => x.IsMinion && x.IsValidTarget(ES.Spells["ExPounce"].Range)))
             {
                 CM.CastJavelin(minion, "wc");
                 CM.CastBushwack(minion, "wc");

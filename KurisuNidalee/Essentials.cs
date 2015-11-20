@@ -319,7 +319,7 @@ namespace KurisuNidalee
 
                 if (sender.IsMe && args.SData.Name.ToLower() == "bushwhack")
                 {
-                    var wperlevel = new[] { 13, 12, 11, 10, 9 }[Spells["Bushwhack"].Level];
+                    var wperlevel = new[] { 13, 12, 11, 10, 9 }[Spells["Bushwhack"].Level - 1];
                     TimeStamp["Bushwhack"] = Game.Time + (wperlevel + (wperlevel * Player.PercentCooldownMod));
                 }
 
@@ -327,7 +327,6 @@ namespace KurisuNidalee
                 {
                     Counter = 0;
                     TimeStamp["Javelin"] = Game.Time + (6 + (6 * Player.PercentCooldownMod));
-                    Utility.DelayAction.Add(Game.Ping + 200, Orbwalking.ResetAutoAttackTimer);
                 }
 
                 if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar" && CatForm())
