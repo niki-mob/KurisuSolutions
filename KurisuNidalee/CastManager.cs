@@ -56,7 +56,7 @@ namespace KurisuNidalee
         }
 
         // Human W Logic
-        internal static void CastBushwack(Obj_AI_Base target, string mode)
+        internal static void CastBushwhack(Obj_AI_Base target, string mode)
         {           
             // if not harass mode ignore mana check
             if (!ES.CatForm() && (mode != "ha" || ES.Player.ManaPercent > 65))
@@ -66,7 +66,7 @@ namespace KurisuNidalee
 
                 if (target.IsValidTarget(ES.Spells["Bushwhack"].Range))
                 {
-                    // try bushwack prediction
+                    // try bushwhack prediction
                     if (KN.Root.Item("ndhwforce").GetValue<StringList>().SelectedIndex == 0)
                     {
                         if (target.IsChampion())
@@ -75,7 +75,7 @@ namespace KurisuNidalee
                             ES.Spells["Bushwhack"].Cast(target.ServerPosition);
                     }
 
-                    // try bushwack behind target
+                    // try bushwhack behind target
                     if (KN.Root.Item("ndhwforce").GetValue<StringList>().SelectedIndex == 1)
                     {
                         var unitpos = ES.Spells["Bushwhack"].GetPrediction(target).UnitPosition;
@@ -173,7 +173,7 @@ namespace KurisuNidalee
                     else 
                     {
                         // check pouncing near enemies
-                        if (mode == "wc" && KN.Root.Item("ndcwhunt").GetValue<bool>() &&
+                        if (mode == "wc" && KN.Root.Item("ndcwene").GetValue<bool>() &&
                             target.ServerPosition.CountEnemiesInRange(550) > 0)
                             return;
 
