@@ -21,7 +21,7 @@ namespace KurisuNidalee
                 if (target.IsValidTarget(ES.Spells["Javelin"].Range))
                 {
                     // try prediction on champion
-                    if (target.IsChampion() && KN.Root.Item("ndhqcheck").GetValue<bool>())
+                    if (target.IsChampion())
                     {
                         var qoutput = ES.Spells["Javelin"].GetPrediction(target);
                         if (qoutput.Hitchance == HitChance.Collision && KN.Root.Item("qsmcol").GetValue<bool>())
@@ -41,13 +41,17 @@ namespace KurisuNidalee
                                 }
                             }
                         }
-                        else if (qoutput.Hitchance >= (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3)
+                        
+                        if (KN.Root.Item("ndhqcheck").GetValue<bool>())
                         {
-                            ES.Spells["Javelin"].Cast(qoutput.CastPosition);
+                            if (qoutput.Hitchance >= (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3)
+                            {
+                                ES.Spells["Javelin"].Cast(qoutput.CastPosition);
+                            }
                         }
                     }
 
-                    if (!target.IsChampion())
+                    if (!target.IsChampion() || !KN.Root.Item("ndhqcheck").GetValue<bool>())
                     {
                         ES.Spells["Javelin"].Cast(target);
                     }
@@ -261,8 +265,8 @@ namespace KurisuNidalee
                     if (ES.SpellTimer["Bushwhack"].IsReady() && ES.Spells["Bushwhack"].Level > 0 ||
                         ES.SpellTimer["Javelin"].IsReady() && ES.Spells["Javelin"].Level > 0)
                     {
-                        if (ES.SpellTimer["Javelin"].IsReady() && ES.Spells["Aspect"].Cast(target) != Spell.CastStates.Collision || 
-                            ES.SpellTimer["Bushwhack"].IsReady())
+                        if (ES.Spells["Javelin"].Cast(target) != Spell.CastStates.Collision && 
+                            ES.SpellTimer["Javelin"].IsReady() || ES.SpellTimer["Bushwhack"].IsReady())
                         {
                             if (!ES.SpellTimer["Swipe"].IsReady() || !ES.SpellTimer["Takedown"].IsReady())
                             {
