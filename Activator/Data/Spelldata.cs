@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 namespace Activator.Data
 {
-    public class Skilldata
+    public class Spelldata
     {
         public string SDataName { get; set; }
         public string ChampionName { get; set; }
@@ -30,9 +30,9 @@ namespace Activator.Data
         public string[] FromObject { get; set; }
         public HitType[] HitType { get; set; }
 
-        static Skilldata()
+        static Spelldata()
         {
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "aatroxq",
                 ChampionName = "aatrox",
@@ -44,7 +44,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "aatroxw",
                 ChampionName = "aatrox",
@@ -55,7 +55,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "aatroxw2",
                 ChampionName = "aatrox",
@@ -66,7 +66,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "aatroxe",
                 ChampionName = "aatrox",
@@ -78,7 +78,7 @@ namespace Activator.Data
                 MissileSpeed = 1250
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "aatroxr",
                 ChampionName = "aatrox",
@@ -89,7 +89,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ahriorbofdeception",
                 ChampionName = "ahri",
@@ -102,7 +102,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ahrifoxfire",
                 ChampionName = "ahri",
@@ -113,7 +113,7 @@ namespace Activator.Data
                 MissileSpeed = 1800
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ahriseduce",
                 ChampionName = "ahri",
@@ -125,7 +125,7 @@ namespace Activator.Data
                 MissileSpeed = 1550
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ahritumble",
                 ChampionName = "ahri",
@@ -136,7 +136,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "akalimota",
                 ChampionName = "akali",
@@ -147,7 +147,7 @@ namespace Activator.Data
                 MissileSpeed = 1000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "akalismokebomb",
                 ChampionName = "akali",
@@ -158,7 +158,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "akalishadowswipe",
                 ChampionName = "akali",
@@ -169,7 +169,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "akalishadowdance",
                 ChampionName = "akali",
@@ -180,7 +180,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "pulverize",
                 ChampionName = "alistar",
@@ -191,7 +191,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "headbutt",
                 ChampionName = "alistar",
@@ -202,7 +202,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "triumphantroar",
                 ChampionName = "alistar",
@@ -213,7 +213,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "feroucioushowl",
                 ChampionName = "alistar",
@@ -224,7 +224,7 @@ namespace Activator.Data
                 MissileSpeed = 828
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bandagetoss",
                 ChampionName = "amumu",
@@ -236,7 +236,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "auraofdespair",
                 ChampionName = "amumu",
@@ -247,7 +247,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "tantrum",
                 ChampionName = "amumu",
@@ -258,7 +258,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "curseofthesadmummy",
                 ChampionName = "amumu",
@@ -275,7 +275,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "flashfrost",
                 ChampionName = "anivia",
@@ -287,7 +287,7 @@ namespace Activator.Data
                 MissileSpeed = 850
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "crystalize",
                 ChampionName = "anivia",
@@ -298,7 +298,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "frostbite",
                 ChampionName = "anivia",
@@ -309,7 +309,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "glacialstorm",
                 ChampionName = "anivia",
@@ -320,7 +320,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "disintegrate",
                 ChampionName = "annie",
@@ -331,7 +331,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "incinerate",
                 ChampionName = "annie",
@@ -342,7 +342,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "moltenshield",
                 ChampionName = "annie",
@@ -353,7 +353,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "infernalguardian",
                 ChampionName = "annie",
@@ -369,7 +369,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "frostshot",
                 ChampionName = "ashe",
@@ -380,7 +380,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "frostarrow",
                 ChampionName = "ashe",
@@ -391,7 +391,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "volley",
                 ChampionName = "ashe",
@@ -403,7 +403,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ashespiritofthehawk",
                 ChampionName = "ashe",
@@ -414,7 +414,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "enchantedcrystalarrow",
                 ChampionName = "ashe",
@@ -432,7 +432,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "azirq",
                 ChampionName = "azir",
@@ -445,7 +445,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "azirr",
                 ChampionName = "azir",
@@ -461,7 +461,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bardq",
                 ChampionName = "bard",
@@ -473,7 +473,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bardw",
                 ChampionName = "bard",
@@ -484,7 +484,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "barde",
                 ChampionName = "bard",
@@ -495,7 +495,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bardr",
                 ChampionName = "bard",
@@ -507,7 +507,7 @@ namespace Activator.Data
                 MissileSpeed = 2100
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rocketgrabmissile",
                 ChampionName = "blitzcrank",
@@ -518,7 +518,7 @@ namespace Activator.Data
                 MissileSpeed = 1800
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "overdrive",
                 ChampionName = "blitzcrank",
@@ -529,7 +529,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "powerfist",
                 ChampionName = "blitzcrank",
@@ -540,7 +540,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "staticfield",
                 ChampionName = "blitzcrank",
@@ -552,7 +552,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "brandblaze",
                 ChampionName = "brand",
@@ -564,7 +564,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "brandfissure",
                 ChampionName = "brand",
@@ -576,7 +576,7 @@ namespace Activator.Data
                 MissileSpeed = 20
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "brandconflagration",
                 ChampionName = "brand",
@@ -587,7 +587,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "brandwildfire",
                 ChampionName = "brand",
@@ -598,7 +598,7 @@ namespace Activator.Data
                 MissileSpeed = 1000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "braumq",
                 ChampionName = "braum",
@@ -610,7 +610,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "braumqmissle",
                 ChampionName = "braum",
@@ -621,7 +621,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "braumw",
                 ChampionName = "braum",
@@ -632,7 +632,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "braume",
                 ChampionName = "braum",
@@ -643,7 +643,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "braumrwrapper",
                 ChampionName = "braum",
@@ -660,7 +660,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "caitlynpiltoverpeacemaker",
                 ChampionName = "caitlyn",
@@ -672,7 +672,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "caitlynyordletrap",
                 ChampionName = "caitlyn",
@@ -683,7 +683,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "caitlynentrapment",
                 ChampionName = "caitlyn",
@@ -695,7 +695,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "cassiopeianoxiousblast",
                 ChampionName = "cassiopeia",
@@ -707,7 +707,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "cassiopeiamiasma",
                 ChampionName = "cassiopeia",
@@ -718,7 +718,7 @@ namespace Activator.Data
                 MissileSpeed = 2500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "cassiopeiatwinfang",
                 ChampionName = "cassiopeia",
@@ -729,7 +729,7 @@ namespace Activator.Data
                 MissileSpeed = 1900
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "cassiopeiapetrifyinggaze",
                 ChampionName = "cassiopeia",
@@ -746,7 +746,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rupture",
                 ChampionName = "chogath",
@@ -758,7 +758,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "feralscream",
                 ChampionName = "chogath",
@@ -769,7 +769,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vorpalspikes",
                 ChampionName = "chogath",
@@ -780,7 +780,7 @@ namespace Activator.Data
                 MissileSpeed = 347
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "feast",
                 ChampionName = "chogath",
@@ -791,7 +791,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "phosphorusbomb",
                 ChampionName = "corki",
@@ -803,7 +803,7 @@ namespace Activator.Data
                 MissileSpeed = 1125
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "carpetbomb",
                 ChampionName = "corki",
@@ -814,7 +814,7 @@ namespace Activator.Data
                 MissileSpeed = 700
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ggun",
                 ChampionName = "corki",
@@ -825,7 +825,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "missilebarrage",
                 ChampionName = "corki",
@@ -838,7 +838,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dariuscleave",
                 ChampionName = "darius",
@@ -849,7 +849,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dariusnoxiantacticsonh",
                 ChampionName = "darius",
@@ -860,7 +860,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dariusaxegrabcone",
                 ChampionName = "darius",
@@ -872,7 +872,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dariusexecute",
                 ChampionName = "darius",
@@ -883,7 +883,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dianaarc",
                 ChampionName = "diana",
@@ -895,7 +895,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dianaorbs",
                 ChampionName = "diana",
@@ -906,7 +906,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dianavortex",
                 ChampionName = "diana",
@@ -917,7 +917,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dianateleport",
                 ChampionName = "diana",
@@ -928,7 +928,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dravenspinning",
                 ChampionName = "draven",
@@ -939,7 +939,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dravenfury",
                 ChampionName = "draven",
@@ -950,7 +950,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dravendoubleshot",
                 ChampionName = "draven",
@@ -962,7 +962,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dravenrcast",
                 ChampionName = "draven",
@@ -975,7 +975,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "infectedcleavermissilecast",
                 ChampionName = "drmundo",
@@ -987,7 +987,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "burningagony",
                 ChampionName = "drmundo",
@@ -998,7 +998,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "masochism",
                 ChampionName = "drmundo",
@@ -1009,7 +1009,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sadism",
                 ChampionName = "drmundo",
@@ -1020,7 +1020,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ekkoq",
                 ChampionName = "ekko",
@@ -1033,7 +1033,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ekkoeattack",
                 ChampionName = "ekko",
@@ -1044,7 +1044,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-             Spells.Add(new Skilldata
+             Spells.Add(new Spelldata
              {
                  SDataName = "ekkor",
                  ChampionName = "ekko",
@@ -1056,7 +1056,7 @@ namespace Activator.Data
                  MissileSpeed = int.MaxValue
              });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "elisehumanq",
                 ChampionName = "elise",
@@ -1067,7 +1067,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "elisespiderqcast",
                 ChampionName = "elise",
@@ -1078,7 +1078,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "elisehumanw",
                 ChampionName = "elise",
@@ -1089,7 +1089,7 @@ namespace Activator.Data
                 MissileSpeed = 5000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "elisespiderw",
                 ChampionName = "elise",
@@ -1100,7 +1100,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "elisehumane",
                 ChampionName = "elise",
@@ -1112,7 +1112,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "elisespidereinitial",
                 ChampionName = "elise",
@@ -1123,7 +1123,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "elisespideredescent",
                 ChampionName = "elise",
@@ -1134,7 +1134,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "eliser",
                 ChampionName = "elise",
@@ -1145,7 +1145,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "elisespiderr",
                 ChampionName = "elise",
@@ -1156,7 +1156,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "evelynnq",
                 ChampionName = "evelynn",
@@ -1167,7 +1167,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "evelynnw",
                 ChampionName = "evelynn",
@@ -1178,7 +1178,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "evelynne",
                 ChampionName = "evelynn",
@@ -1189,7 +1189,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "evelynnr",
                 ChampionName = "evelynn",
@@ -1206,7 +1206,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ezrealmysticshot",
                 ChampionName = "ezreal",
@@ -1219,7 +1219,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ezrealessenceflux",
                 ChampionName = "ezreal",
@@ -1231,7 +1231,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ezrealessencemissle",
                 ChampionName = "ezreal",
@@ -1242,7 +1242,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ezrealarcaneshift",
                 ChampionName = "ezreal",
@@ -1253,7 +1253,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ezrealtrueshotbarrage",
                 ChampionName = "ezreal",
@@ -1266,7 +1266,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "terrify",
                 ChampionName = "fiddlesticks",
@@ -1277,7 +1277,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "drain",
                 ChampionName = "fiddlesticks",
@@ -1288,7 +1288,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fiddlesticksdarkwind",
                 ChampionName = "fiddlesticks",
@@ -1299,7 +1299,7 @@ namespace Activator.Data
                 MissileSpeed = 1100
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "crowstorm",
                 ChampionName = "fiddlesticks",
@@ -1310,7 +1310,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fioraq",
                 ChampionName = "fiora",
@@ -1321,7 +1321,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fioraw",
                 ChampionName = "fiora",
@@ -1332,7 +1332,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fiorae",
                 ChampionName = "fiora",
@@ -1343,7 +1343,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fiorar",
                 ChampionName = "fiora",
@@ -1354,7 +1354,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fizzpiercingstrike",
                 ChampionName = "fizz",
@@ -1365,7 +1365,7 @@ namespace Activator.Data
                 MissileSpeed = 1900
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fizzseastonepassive",
                 ChampionName = "fizz",
@@ -1376,7 +1376,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fizzjump",
                 ChampionName = "fizz",
@@ -1387,7 +1387,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fizzjumpbuffer",
                 ChampionName = "fizz",
@@ -1398,7 +1398,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fizzjumptwo",
                 ChampionName = "fizz",
@@ -1409,7 +1409,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue 
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fizzmarinerdoom",
                 ChampionName = "fizz",
@@ -1421,7 +1421,7 @@ namespace Activator.Data
                 MissileSpeed = 1350
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "galioresolutesmite",
                 ChampionName = "galio",
@@ -1433,7 +1433,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "galiobulwark",
                 ChampionName = "galio",
@@ -1444,7 +1444,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "galiorighteousgust",
                 ChampionName = "galio",
@@ -1456,7 +1456,7 @@ namespace Activator.Data
                 MissileSpeed = 1300
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "galioidolofdurand",
                 ChampionName = "galio",
@@ -1473,7 +1473,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gangplankqwrapper",
                 ChampionName = "gangplank",
@@ -1484,7 +1484,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gangplankqproceed",
                 ChampionName = "gangplank",
@@ -1495,7 +1495,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gangplankw",
                 ChampionName = "gangplank",
@@ -1506,7 +1506,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gangplanke",
                 ChampionName = "gangplank",
@@ -1517,7 +1517,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gangplankr",
                 ChampionName = "gangplank",
@@ -1529,7 +1529,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "garenq",
                 ChampionName = "garen",
@@ -1540,7 +1540,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "garenqattack",
                 ChampionName = "garen",
@@ -1552,7 +1552,7 @@ namespace Activator.Data
             });
 
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gnarq",
                 ChampionName = "gnar",
@@ -1566,7 +1566,7 @@ namespace Activator.Data
             });
 
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gnarbigq",
                 ChampionName = "gnar",
@@ -1578,7 +1578,7 @@ namespace Activator.Data
                 MissileName = "gnarbigqmissile"
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gnarbigw",
                 ChampionName = "gnar",
@@ -1589,7 +1589,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gnarult",
                 ChampionName = "gnar",
@@ -1606,7 +1606,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "garenw",
                 ChampionName = "garen",
@@ -1617,7 +1617,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "garene",
                 ChampionName = "garen",
@@ -1628,7 +1628,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "garenr",
                 ChampionName = "garen",
@@ -1639,7 +1639,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gragasq",
                 ChampionName = "gragas",
@@ -1651,7 +1651,7 @@ namespace Activator.Data
                 MissileSpeed = 1000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gragasqtoggle",
                 ChampionName = "gragas",
@@ -1662,7 +1662,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gragasw",
                 ChampionName = "gragas",
@@ -1673,7 +1673,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gragase",
                 ChampionName = "gragas",
@@ -1685,7 +1685,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gragasr",
                 ChampionName = "gragas",
@@ -1697,7 +1697,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gravesclustershot",
                 ChampionName = "graves",
@@ -1709,7 +1709,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gravessmokegrenade",
                 ChampionName = "graves",
@@ -1720,7 +1720,7 @@ namespace Activator.Data
                 MissileSpeed = 1650
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gravessmokegrenadeboom",
                 ChampionName = "graves",
@@ -1731,7 +1731,7 @@ namespace Activator.Data
                 MissileSpeed = 1350
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "gravesmove",
                 ChampionName = "graves",
@@ -1742,7 +1742,7 @@ namespace Activator.Data
                 MissileSpeed = 1000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "graveschargeshot",
                 ChampionName = "graves",
@@ -1754,7 +1754,7 @@ namespace Activator.Data
                 MissileSpeed = 2100
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "hecarimrapidslash",
                 ChampionName = "hecarim",
@@ -1765,7 +1765,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "hecarimw",
                 ChampionName = "hecarim",
@@ -1776,7 +1776,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "hecarimramp",
                 ChampionName = "hecarim",
@@ -1787,7 +1787,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "hecarimult",
                 ChampionName = "hecarim",
@@ -1803,7 +1803,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "heimerdingerturretenergyblast",
                 ChampionName = "heimerdinger",
@@ -1814,7 +1814,7 @@ namespace Activator.Data
                 MissileSpeed = 1650
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "heimerdingerturretbigenergyblast",
                 ChampionName = "heimerdinger",
@@ -1825,7 +1825,7 @@ namespace Activator.Data
                 MissileSpeed = 1650
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "heimerdingerw",
                 ChampionName = "heimerdinger",
@@ -1836,7 +1836,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "heimerdingere",
                 ChampionName = "heimerdinger",
@@ -1848,7 +1848,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "heimerdingerr",
                 ChampionName = "heimerdinger",
@@ -1859,7 +1859,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "heimerdingereult",
                 ChampionName = "heimerdinger",
@@ -1870,7 +1870,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ireliagatotsu",
                 ChampionName = "irelia",
@@ -1881,7 +1881,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ireliahitenstyle",
                 ChampionName = "irelia",
@@ -1892,7 +1892,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ireliaequilibriumstrike",
                 ChampionName = "irelia",
@@ -1903,7 +1903,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ireliatranscendentblades",
                 ChampionName = "irelia",
@@ -1915,7 +1915,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "howlinggalespell",
                 ChampionName = "janna",
@@ -1927,7 +1927,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sowthewind",
                 ChampionName = "janna",
@@ -1938,7 +1938,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "eyeofthestorm",
                 ChampionName = "janna",
@@ -1949,7 +1949,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "reapthewhirlwind",
                 ChampionName = "janna",
@@ -1960,7 +1960,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jarvanivdragonstrike",
                 ChampionName = "jarvaniv",
@@ -1972,7 +1972,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jarvanivgoldenaegis",
                 ChampionName = "jarvaniv",
@@ -1983,7 +1983,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jarvanivdemacianstandard",
                 ChampionName = "jarvaniv",
@@ -1995,7 +1995,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jarvanivcataclysm",
                 ChampionName = "jarvaniv",
@@ -2006,7 +2006,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jaxleapstrike",
                 ChampionName = "jax",
@@ -2017,7 +2017,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jaxempowertwo",
                 ChampionName = "jax",
@@ -2028,7 +2028,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jaxrelentlessasssault",
                 ChampionName = "jax",
@@ -2039,7 +2039,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jaycetotheskies",
                 ChampionName = "jayce",
@@ -2050,7 +2050,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jayceshockblast",
                 ChampionName = "jayce",
@@ -2062,7 +2062,7 @@ namespace Activator.Data
                 MissileSpeed = 2350
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jaycestaticfield",
                 ChampionName = "jayce",
@@ -2073,7 +2073,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jaycehypercharge",
                 ChampionName = "jayce",
@@ -2084,7 +2084,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jaycethunderingblow",
                 ChampionName = "jayce",
@@ -2095,7 +2095,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jayceaccelerationgate",
                 ChampionName = "jayce",
@@ -2106,7 +2106,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jaycestancehtg",
                 ChampionName = "jayce",
@@ -2117,7 +2117,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jaycestancegth",
                 ChampionName = "jayce",
@@ -2128,7 +2128,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jinxq",
                 ChampionName = "jinx",
@@ -2139,7 +2139,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jinxw",
                 ChampionName = "jinx",
@@ -2147,11 +2147,11 @@ namespace Activator.Data
                 CastRange = 1550f,
                 Delay = 600f,
                 HitType = new[] { Base.HitType.CrowdControl },
-                MissileName = "jinxwmis",
+                MissileName = "jinxwmissile",
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jinxe",
                 ChampionName = "jinx",
@@ -2162,7 +2162,7 @@ namespace Activator.Data
                 MissileSpeed = 1000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jinxr",
                 ChampionName = "jinx",
@@ -2176,7 +2176,7 @@ namespace Activator.Data
                 MissileSpeed = 1700
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "karmaq",
                 ChampionName = "karma",
@@ -2188,7 +2188,7 @@ namespace Activator.Data
                 MissileSpeed = 1800
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "karmaspiritbind",
                 ChampionName = "karma",
@@ -2199,7 +2199,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "karmasolkimshield",
                 ChampionName = "karma",
@@ -2210,7 +2210,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "karmamantra",
                 ChampionName = "karma",
@@ -2221,7 +2221,7 @@ namespace Activator.Data
                 MissileSpeed = 1300
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "laywaste",
                 ChampionName = "karthus",
@@ -2236,7 +2236,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "wallofpain",
                 ChampionName = "karthus",
@@ -2247,7 +2247,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "defile",
                 ChampionName = "karthus",
@@ -2258,7 +2258,7 @@ namespace Activator.Data
                 MissileSpeed = 1000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fallenone",
                 ChampionName = "karthus",
@@ -2270,7 +2270,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nulllance",
                 ChampionName = "kassadin",
@@ -2281,7 +2281,7 @@ namespace Activator.Data
                 MissileSpeed = 1900
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "netherblade",
                 ChampionName = "kassadin",
@@ -2292,7 +2292,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "forcepulse",
                 ChampionName = "kassadin",
@@ -2303,7 +2303,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "riftwalk",
                 ChampionName = "kassadin",
@@ -2315,7 +2315,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "katarinaq",
                 ChampionName = "katarina",
@@ -2326,7 +2326,7 @@ namespace Activator.Data
                 MissileSpeed = 1800
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "katarinaw",
                 ChampionName = "katarina",
@@ -2337,7 +2337,7 @@ namespace Activator.Data
                 MissileSpeed = 1800
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "katarinae",
                 ChampionName = "katarina",
@@ -2348,7 +2348,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "katarinar",
                 ChampionName = "katarina",
@@ -2359,7 +2359,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "judicatorreckoning",
                 ChampionName = "kayle",
@@ -2370,7 +2370,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "judicatordevineblessing",
                 ChampionName = "kayle",
@@ -2381,7 +2381,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "judicatorrighteousfury",
                 ChampionName = "kayle",
@@ -2392,7 +2392,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "judicatorintervention",
                 ChampionName = "kayle",
@@ -2403,7 +2403,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kennenshurikenhurlmissile1",
                 ChampionName = "kennen",
@@ -2415,7 +2415,7 @@ namespace Activator.Data
                 MissileSpeed = 1700
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kennenbringthelight",
                 ChampionName = "kennen",
@@ -2426,7 +2426,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kennenlightningrush",
                 ChampionName = "kennen",
@@ -2437,7 +2437,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kennenshurikenstorm",
                 ChampionName = "kennen",
@@ -2448,7 +2448,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "khazixq",
                 ChampionName = "khazix",
@@ -2459,7 +2459,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "khazixqlong",
                 ChampionName = "khazix",
@@ -2470,7 +2470,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "khazixw",
                 ChampionName = "khazix",
@@ -2482,7 +2482,7 @@ namespace Activator.Data
                 MissileSpeed = 81700
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "khazixwlong",
                 ChampionName = "khazix",
@@ -2493,7 +2493,7 @@ namespace Activator.Data
                 MissileSpeed = 1700
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "khazixe",
                 ChampionName = "khazix",
@@ -2505,7 +2505,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "khazixelong",
                 ChampionName = "khazix",
@@ -2516,7 +2516,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "khazixr",
                 ChampionName = "khazix",
@@ -2527,7 +2527,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "khazixrlong",
                 ChampionName = "khazix",
@@ -2538,7 +2538,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kindredq",
                 ChampionName = "kindred",
@@ -2549,7 +2549,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kindrede",
                 ChampionName = "kindred",
@@ -2560,7 +2560,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kogmawcausticspittle",
                 ChampionName = "kogmaw",
@@ -2571,7 +2571,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kogmawbioarcanbarrage",
                 ChampionName = "kogmaw",
@@ -2582,7 +2582,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kogmawvoidooze",
                 ChampionName = "kogmaw",
@@ -2594,7 +2594,7 @@ namespace Activator.Data
                 MissileSpeed = 1250
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kogmawlivingartillery",
                 ChampionName = "kogmaw",
@@ -2606,7 +2606,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leblancchaosorb",
                 ChampionName = "leblanc",
@@ -2617,7 +2617,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leblancslide",
                 ChampionName = "leblanc",
@@ -2629,7 +2629,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leblacslidereturn",
                 ChampionName = "leblanc",
@@ -2640,7 +2640,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leblancsoulshackle",
                 ChampionName = "leblanc",
@@ -2652,7 +2652,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leblancchaosorbm",
                 ChampionName = "leblanc",
@@ -2663,7 +2663,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leblancslidem",
                 ChampionName = "leblanc",
@@ -2675,7 +2675,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leblancslidereturnm",
                 ChampionName = "leblanc",
@@ -2686,7 +2686,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leblancsoulshacklem",
                 ChampionName = "leblanc",
@@ -2698,7 +2698,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "blindmonkqone",
                 ChampionName = "leesin",
@@ -2710,7 +2710,7 @@ namespace Activator.Data
                 MissileSpeed = 1800
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "blindmonkqtwo",
                 ChampionName = "leesin",
@@ -2721,7 +2721,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "blindmonkwone",
                 ChampionName = "leesin",
@@ -2732,7 +2732,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "blindmonkwtwo",
                 ChampionName = "leesin",
@@ -2743,7 +2743,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "blindmonkeone",
                 ChampionName = "leesin",
@@ -2754,7 +2754,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "blindmonketwo",
                 ChampionName = "leesin",
@@ -2765,7 +2765,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "blindmonkrkick",
                 ChampionName = "leesin",
@@ -2781,7 +2781,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leonashieldofdaybreak",
                 ChampionName = "leona",
@@ -2792,7 +2792,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leonasolarbarrier",
                 ChampionName = "leona",
@@ -2803,7 +2803,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leonazenithblade",
                 ChampionName = "leona",
@@ -2815,7 +2815,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "leonasolarflare",
                 ChampionName = "leona",
@@ -2827,7 +2827,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "lissandraq",
                 ChampionName = "lissandra",
@@ -2839,7 +2839,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "lissandraw",
                 ChampionName = "lissandra",
@@ -2850,7 +2850,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "lissandrae",
                 ChampionName = "lissandra",
@@ -2862,7 +2862,7 @@ namespace Activator.Data
                 MissileSpeed = 850
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "lissandrar",
                 ChampionName = "lissandra",
@@ -2873,7 +2873,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "lucianq",
                 ChampionName = "lucian",
@@ -2885,7 +2885,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "lucianw",
                 ChampionName = "lucian",
@@ -2897,7 +2897,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "luciane",
                 ChampionName = "lucian",
@@ -2908,7 +2908,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "lucianr",
                 ChampionName = "lucian",
@@ -2921,7 +2921,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "luluq",
                 ChampionName = "lulu",
@@ -2933,7 +2933,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "luluw",
                 ChampionName = "lulu",
@@ -2944,7 +2944,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "lulue",
                 ChampionName = "lulu",
@@ -2955,7 +2955,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "lulur",
                 ChampionName = "lulu",
@@ -2966,7 +2966,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "luxlightbinding",
                 ChampionName = "lux",
@@ -2978,7 +2978,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "luxprismaticwave",
                 ChampionName = "lux",
@@ -2989,7 +2989,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "luxlightstrikekugel",
                 ChampionName = "lux",
@@ -3001,7 +3001,7 @@ namespace Activator.Data
                 MissileSpeed = 1300
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "luxlightstriketoggle",
                 ChampionName = "lux",
@@ -3012,7 +3012,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "luxmalicecannon",
                 ChampionName = "lux",
@@ -3024,7 +3024,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kalistamysticshot",
                 ChampionName = "kalista",
@@ -3037,7 +3037,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kalistaw",
                 ChampionName = "kalista",
@@ -3048,7 +3048,7 @@ namespace Activator.Data
                 MissileSpeed = 200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "kalistaexpungewrapper",
                 ChampionName = "kalista",
@@ -3059,7 +3059,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "seismicshard",
                 ChampionName = "malphite",
@@ -3070,7 +3070,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "obduracy",
                 ChampionName = "malphite",
@@ -3081,7 +3081,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "landslide",
                 ChampionName = "malphite",
@@ -3092,7 +3092,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ufslash",
                 ChampionName = "malphite",
@@ -3109,7 +3109,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "alzaharcallofthevoid",
                 ChampionName = "malzahar",
@@ -3121,7 +3121,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "alzaharnullzone",
                 ChampionName = "malzahar",
@@ -3132,7 +3132,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "alzaharmaleficvisions",
                 ChampionName = "malzahar",
@@ -3143,7 +3143,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "alzaharnethergrasp",
                 ChampionName = "malzahar",
@@ -3159,7 +3159,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "maokaitrunkline",
                 ChampionName = "maokai",
@@ -3170,7 +3170,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "maokaiunstablegrowth",
                 ChampionName = "maokai",
@@ -3181,7 +3181,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "maokaisapling2",
                 ChampionName = "maokai",
@@ -3192,7 +3192,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "maokaidrain3",
                 ChampionName = "maokai",
@@ -3203,7 +3203,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "alphastrike",
                 ChampionName = "masteryi",
@@ -3214,7 +3214,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "meditate",
                 ChampionName = "masteryi",
@@ -3225,7 +3225,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "wujustyle",
                 ChampionName = "masteryi",
@@ -3236,7 +3236,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "highlander",
                 ChampionName = "masteryi",
@@ -3247,7 +3247,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "missfortunericochetshot",
                 ChampionName = "missfortune",
@@ -3258,7 +3258,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "missfortuneviciousstrikes",
                 ChampionName = "missfortune",
@@ -3269,7 +3269,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "missfortunescattershot",
                 ChampionName = "missfortune",
@@ -3280,7 +3280,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "missfortunebullettime",
                 ChampionName = "missfortune",
@@ -3291,7 +3291,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "monkeykingdoubleattack",
                 ChampionName = "monkeyking",
@@ -3302,7 +3302,7 @@ namespace Activator.Data
                 MissileSpeed = 20
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "monkeykingdecoy",
                 ChampionName = "monkeyking",
@@ -3313,7 +3313,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "monkeykingdecoyswipe",
                 ChampionName = "monkeyking",
@@ -3324,7 +3324,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "monkeykingnimbus",
                 ChampionName = "monkeyking",
@@ -3335,7 +3335,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "monkeykingspintowin",
                 ChampionName = "monkeyking",
@@ -3351,7 +3351,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "monkeykingspintowinleave",
                 ChampionName = "monkeyking",
@@ -3362,7 +3362,7 @@ namespace Activator.Data
                 MissileSpeed = 700
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "mordekaisermaceofspades",
                 ChampionName = "mordekaiser",
@@ -3373,7 +3373,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "mordekaisercreepindeathcast",
                 ChampionName = "mordekaiser",
@@ -3384,7 +3384,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "mordekaisersyphoneofdestruction",
                 ChampionName = "mordekaiser",
@@ -3395,7 +3395,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "mordekaiserchildrenofthegrave",
                 ChampionName = "mordekaiser",
@@ -3406,7 +3406,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "darkbindingmissile",
                 ChampionName = "morgana",
@@ -3418,7 +3418,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "tormentedsoil",
                 ChampionName = "morgana",
@@ -3429,7 +3429,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "blackshield",
                 ChampionName = "morgana",
@@ -3440,7 +3440,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "soulshackles",
                 ChampionName = "morgana",
@@ -3451,7 +3451,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "namiq",
                 ChampionName = "nami",
@@ -3463,7 +3463,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "namiw",
                 ChampionName = "nami",
@@ -3474,7 +3474,7 @@ namespace Activator.Data
                 MissileSpeed = 1100
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "namie",
                 ChampionName = "nami",
@@ -3485,7 +3485,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "namir",
                 ChampionName = "nami",
@@ -3497,7 +3497,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nasusq",
                 ChampionName = "nasus",
@@ -3508,7 +3508,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nasusw",
                 ChampionName = "nasus",
@@ -3519,7 +3519,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nasuse",
                 ChampionName = "nasus",
@@ -3530,7 +3530,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nasusr",
                 ChampionName = "nasus",
@@ -3541,7 +3541,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nautilusanchordrag",
                 ChampionName = "nautilus",
@@ -3553,7 +3553,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nautiluspiercinggaze",
                 ChampionName = "nautilus",
@@ -3564,7 +3564,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nautilussplashzone",
                 ChampionName = "nautilus",
@@ -3575,7 +3575,7 @@ namespace Activator.Data
                 MissileSpeed = 1300
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nautilusgandline",
                 ChampionName = "nautilus",
@@ -3586,7 +3586,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "javelintoss",
                 ChampionName = "nidalee",
@@ -3598,7 +3598,7 @@ namespace Activator.Data
                 MissileSpeed = 1300
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "takedown",
                 ChampionName = "nidalee",
@@ -3609,7 +3609,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bushwhack",
                 ChampionName = "nidalee",
@@ -3620,7 +3620,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "pounce",
                 ChampionName = "nidalee",
@@ -3631,7 +3631,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "primalsurge",
                 ChampionName = "nidalee",
@@ -3642,7 +3642,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "swipe",
                 ChampionName = "nidalee",
@@ -3653,7 +3653,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "aspectofthecougar",
                 ChampionName = "nidalee",
@@ -3664,7 +3664,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nocturneduskbringer",
                 ChampionName = "nocturne",
@@ -3675,7 +3675,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nocturneshroudofdarkness",
                 ChampionName = "nocturne",
@@ -3686,7 +3686,7 @@ namespace Activator.Data
                 MissileSpeed = 500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nocturneunspeakablehorror",
                 ChampionName = "nocturne",
@@ -3697,7 +3697,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "nocturneparanoia",
                 ChampionName = "nocturne",
@@ -3709,7 +3709,7 @@ namespace Activator.Data
                 MissileSpeed = 500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "consume",
                 ChampionName = "nunu",
@@ -3720,7 +3720,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bloodboil",
                 ChampionName = "nunu",
@@ -3731,7 +3731,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "iceblast",
                 ChampionName = "nunu",
@@ -3742,7 +3742,7 @@ namespace Activator.Data
                 MissileSpeed = 1000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "absolutezero",
                 ChampionName = "nunu",
@@ -3753,7 +3753,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "olafaxethrowcast",
                 ChampionName = "olaf",
@@ -3765,7 +3765,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "olaffrenziedstrikes",
                 ChampionName = "olaf",
@@ -3776,7 +3776,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "olafrecklessstrike",
                 ChampionName = "olaf",
@@ -3787,7 +3787,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "olafragnarok",
                 ChampionName = "olaf",
@@ -3798,7 +3798,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "orianaizunacommand",
                 ChampionName = "orianna",
@@ -3811,7 +3811,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "orianadissonancecommand",
                 ChampionName = "orianna",
@@ -3824,7 +3824,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "orianaredactcommand",
                 ChampionName = "orianna",
@@ -3837,7 +3837,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "orianadetonatecommand",
                 ChampionName = "orianna",
@@ -3855,7 +3855,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "pantheonq",
                 ChampionName = "pantheon",
@@ -3866,7 +3866,7 @@ namespace Activator.Data
                 MissileSpeed = 1900
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "pantheonw",
                 ChampionName = "pantheon",
@@ -3877,7 +3877,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "pantheone",
                 ChampionName = "pantheon",
@@ -3888,7 +3888,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "pantheonrjump",
                 ChampionName = "pantheon",
@@ -3899,7 +3899,7 @@ namespace Activator.Data
                 MissileSpeed = 3000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "pantheonrfall",
                 ChampionName = "pantheon",
@@ -3910,7 +3910,7 @@ namespace Activator.Data
                 MissileSpeed = 3000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "poppydevastatingblow",
                 ChampionName = "poppy",
@@ -3921,7 +3921,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "poppyparagonofdemacia",
                 ChampionName = "poppy",
@@ -3932,7 +3932,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "poppyheroiccharge",
                 ChampionName = "poppy",
@@ -3943,7 +3943,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "poppydiplomaticimmunity",
                 ChampionName = "poppy",
@@ -3954,7 +3954,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "quinnq",
                 ChampionName = "quinn",
@@ -3966,7 +3966,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "quinnw",
                 ChampionName = "quinn",
@@ -3977,7 +3977,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "quinne",
                 ChampionName = "quinn",
@@ -3988,7 +3988,7 @@ namespace Activator.Data
                 MissileSpeed = 775
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "quinnr",
                 ChampionName = "quinn",
@@ -3999,7 +3999,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "quinnrfinale",
                 ChampionName = "quinn",
@@ -4010,7 +4010,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "powerball",
                 ChampionName = "rammus",
@@ -4021,7 +4021,7 @@ namespace Activator.Data
                 MissileSpeed = 775
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "defensiveballcurl",
                 ChampionName = "rammus",
@@ -4032,7 +4032,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "puncturingtaunt",
                 ChampionName = "rammus",
@@ -4043,7 +4043,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "tremors2",
                 ChampionName = "rammus",
@@ -4054,7 +4054,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "renektoncleave",
                 ChampionName = "renekton",
@@ -4065,7 +4065,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "renektonpreexecute",
                 ChampionName = "renekton",
@@ -4076,7 +4076,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "renektonsliceanddice",
                 ChampionName = "renekton",
@@ -4087,7 +4087,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "renektonreignofthetyrant",
                 ChampionName = "renekton",
@@ -4098,7 +4098,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rengarq",
                 ChampionName = "rengar",
@@ -4109,7 +4109,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rengarw",
                 ChampionName = "rengar",
@@ -4120,7 +4120,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rengare",
                 ChampionName = "rengar",
@@ -4132,7 +4132,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rengarr",
                 ChampionName = "rengar",
@@ -4143,7 +4143,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "reksaiq",
                 ChampionName = "reksai",
@@ -4154,7 +4154,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "reksaiqburrowed",
                 ChampionName = "reksai",
@@ -4166,7 +4166,7 @@ namespace Activator.Data
                 MissileSpeed = 1950
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "reksaiw",
                 ChampionName = "reksai",
@@ -4177,7 +4177,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "reksaiwburrowed",
                 ChampionName = "reksai",
@@ -4188,7 +4188,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "reksaie",
                 ChampionName = "reksai",
@@ -4199,7 +4199,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "reksaieburrowed",
                 ChampionName = "reksai",
@@ -4210,7 +4210,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "reksair",
                 ChampionName = "reksai",
@@ -4221,7 +4221,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "riventricleave",
                 ChampionName = "riven",
@@ -4232,7 +4232,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rivenmartyr",
                 ChampionName = "riven",
@@ -4243,7 +4243,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rivenfeint",
                 ChampionName = "riven",
@@ -4254,7 +4254,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rivenfengshuiengine",
                 ChampionName = "riven",
@@ -4265,7 +4265,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rivenizunablade",
                 ChampionName = "riven",
@@ -4278,7 +4278,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rumbleflamethrower",
                 ChampionName = "rumble",
@@ -4289,7 +4289,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rumbleshield",
                 ChampionName = "rumble",
@@ -4300,7 +4300,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rumbegrenade",
                 ChampionName = "rumble",
@@ -4311,7 +4311,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "rumblecarpetbomb",
                 ChampionName = "rumble",
@@ -4322,7 +4322,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ryzeq",
                 ChampionName = "ryze",
@@ -4333,7 +4333,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ryzew",
                 ChampionName = "ryze",
@@ -4344,7 +4344,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ryzee",
                 ChampionName = "ryze",
@@ -4355,7 +4355,7 @@ namespace Activator.Data
                 MissileSpeed = 1000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ryzer",
                 ChampionName = "ryze",
@@ -4366,7 +4366,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sejuaniarcticassault",
                 ChampionName = "sejuani",
@@ -4378,7 +4378,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sejuaninorthernwinds",
                 ChampionName = "sejuani",
@@ -4389,7 +4389,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sejuaniwintersclaw",
                 ChampionName = "sejuani",
@@ -4400,7 +4400,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sejuaniglacialprisoncast",
                 ChampionName = "sejuani",
@@ -4417,7 +4417,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "deceive",
                 ChampionName = "shaco",
@@ -4428,7 +4428,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "jackinthebox",
                 ChampionName = "shaco",
@@ -4439,7 +4439,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "twoshivpoison",
                 ChampionName = "shaco",
@@ -4450,7 +4450,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "hallucinatefull",
                 ChampionName = "shaco",
@@ -4461,7 +4461,7 @@ namespace Activator.Data
                 MissileSpeed = 395
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shenvorpalstar",
                 ChampionName = "shen",
@@ -4472,7 +4472,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shenfeint",
                 ChampionName = "shen",
@@ -4483,7 +4483,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shenshadowdash",
                 ChampionName = "shen",
@@ -4495,7 +4495,7 @@ namespace Activator.Data
                 MissileSpeed = 1250
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shenstandunited",
                 ChampionName = "shen",
@@ -4506,7 +4506,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shyvanadoubleattack",
                 ChampionName = "shyvana",
@@ -4517,7 +4517,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shyvanadoubleattackdragon",
                 ChampionName = "shyvana",
@@ -4528,7 +4528,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shyvanaimmolationauraqw",
                 ChampionName = "shyvana",
@@ -4539,7 +4539,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shyvanaimmolateddragon",
                 ChampionName = "shyvana",
@@ -4550,7 +4550,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shyvanafireball",
                 ChampionName = "shyvana",
@@ -4562,7 +4562,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shyvanafireballdragon2",
                 ChampionName = "shyvana",
@@ -4573,7 +4573,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shyvanatransformcast",
                 ChampionName = "shyvana",
@@ -4590,7 +4590,7 @@ namespace Activator.Data
                 MissileSpeed = 1100
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "poisentrail",
                 ChampionName = "singed",
@@ -4601,7 +4601,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "megaadhesive",
                 ChampionName = "singed",
@@ -4612,7 +4612,7 @@ namespace Activator.Data
                 MissileSpeed = 700
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fling",
                 ChampionName = "singed",
@@ -4623,7 +4623,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "insanitypotion",
                 ChampionName = "singed",
@@ -4634,7 +4634,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sionq",
                 ChampionName = "sion",
@@ -4645,7 +4645,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sionw",
                 ChampionName = "sion",
@@ -4656,7 +4656,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sione",
                 ChampionName = "sion",
@@ -4668,7 +4668,7 @@ namespace Activator.Data
                 MissileSpeed = 1800
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sionr",
                 ChampionName = "sion",
@@ -4680,7 +4680,7 @@ namespace Activator.Data
                 MissileSpeed = 500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sivirq",
                 ChampionName = "sivir",
@@ -4693,7 +4693,7 @@ namespace Activator.Data
                 MissileSpeed = 1350
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sivirw",
                 ChampionName = "sivir",
@@ -4704,7 +4704,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sivire",
                 ChampionName = "sivir",
@@ -4715,7 +4715,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sivirr",
                 ChampionName = "sivir",
@@ -4726,7 +4726,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "skarnervirulentslash",
                 ChampionName = "skarner",
@@ -4737,7 +4737,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "skarnerexoskeleton",
                 ChampionName = "skarner",
@@ -4748,7 +4748,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "skarnerfracture",
                 ChampionName = "skarner",
@@ -4760,7 +4760,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "skarnerimpale",
                 ChampionName = "skarner",
@@ -4771,7 +4771,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sonaq",
                 ChampionName = "sona",
@@ -4782,7 +4782,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sonaw",
                 ChampionName = "sona",
@@ -4793,7 +4793,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sonae",
                 ChampionName = "sona",
@@ -4804,7 +4804,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sonar",
                 ChampionName = "sona",
@@ -4821,7 +4821,7 @@ namespace Activator.Data
                 MissileSpeed = 2400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sorakaq",
                 ChampionName = "soraka",
@@ -4833,7 +4833,7 @@ namespace Activator.Data
                 MissileSpeed = 1100
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sorakaw",
                 ChampionName = "soraka",
@@ -4844,7 +4844,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sorakae",
                 ChampionName = "soraka",
@@ -4855,7 +4855,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "sorakar",
                 ChampionName = "soraka",
@@ -4866,7 +4866,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "swaindecrepify",
                 ChampionName = "swain",
@@ -4877,7 +4877,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "swainshadowgrasp",
                 ChampionName = "swain",
@@ -4889,7 +4889,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue 
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "swaintorment",
                 ChampionName = "swain",
@@ -4900,7 +4900,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "swainmetamorphism",
                 ChampionName = "swain",
@@ -4911,7 +4911,7 @@ namespace Activator.Data
                 MissileSpeed = 950
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "syndraq",
                 ChampionName = "syndra",
@@ -4923,7 +4923,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "syndrawcast",
                 ChampionName = "syndra",
@@ -4935,7 +4935,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "syndrae",
                 ChampionName = "syndra",
@@ -4947,7 +4947,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "syndrar",
                 ChampionName = "syndra",
@@ -4958,7 +4958,7 @@ namespace Activator.Data
                 MissileSpeed = 1250
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "tahmkenchq",
                 ChampionName = "tahmkench",
@@ -4969,7 +4969,7 @@ namespace Activator.Data
                 MissileSpeed = 2800
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "talonnoxiandiplomacy",
                 ChampionName = "talon",
@@ -4980,7 +4980,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "talonrake",
                 ChampionName = "talon",
@@ -4992,7 +4992,7 @@ namespace Activator.Data
                 MissileSpeed = 2300
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "taloncutthroat",
                 ChampionName = "talon",
@@ -5003,7 +5003,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "talonshadowassault",
                 ChampionName = "talon",
@@ -5014,7 +5014,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "imbue",
                 ChampionName = "taric",
@@ -5025,7 +5025,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "shatter",
                 ChampionName = "taric",
@@ -5036,7 +5036,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "dazzle",
                 ChampionName = "taric",
@@ -5047,7 +5047,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "tarichammersmash",
                 ChampionName = "taric",
@@ -5058,7 +5058,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "blindingdart",
                 ChampionName = "teemo",
@@ -5069,7 +5069,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "movequick",
                 ChampionName = "teemo",
@@ -5080,7 +5080,7 @@ namespace Activator.Data
                 MissileSpeed = 943
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "toxicshot",
                 ChampionName = "teemo",
@@ -5091,7 +5091,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bantamtrap",
                 ChampionName = "teemo",
@@ -5102,7 +5102,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "threshq",
                 ChampionName = "thresh",
@@ -5114,7 +5114,7 @@ namespace Activator.Data
                 MissileSpeed = 1900
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "threshw",
                 ChampionName = "thresh",
@@ -5125,7 +5125,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "threshe",
                 ChampionName = "thresh",
@@ -5137,7 +5137,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "threshrpenta",
                 ChampionName = "thresh",
@@ -5148,7 +5148,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "tristanaq",
                 ChampionName = "tristana",
@@ -5159,7 +5159,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "tristanaw",
                 ChampionName = "tristana",
@@ -5170,7 +5170,7 @@ namespace Activator.Data
                 MissileSpeed = 1150
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "tristanae",
                 ChampionName = "tristana",
@@ -5181,7 +5181,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "tristanar",
                 ChampionName = "tristana",
@@ -5192,7 +5192,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "trundletrollsmash",
                 ChampionName = "trundle",
@@ -5203,7 +5203,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "trundledesecrate",
                 ChampionName = "trundle",
@@ -5214,7 +5214,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "trundlecircle",
                 ChampionName = "trundle",
@@ -5225,7 +5225,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "trundlepain",
                 ChampionName = "trundle",
@@ -5236,7 +5236,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bloodlust",
                 ChampionName = "tryndamere",
@@ -5247,7 +5247,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "mockingshout",
                 ChampionName = "tryndamere",
@@ -5258,7 +5258,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "slashcast",
                 ChampionName = "tryndamere",
@@ -5270,7 +5270,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "undyingrage",
                 ChampionName = "tryndamere",
@@ -5281,7 +5281,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "hideinshadows",
                 ChampionName = "twich",
@@ -5292,7 +5292,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "twitchvenomcask",
                 ChampionName = "twich",
@@ -5304,7 +5304,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "twitchvenomcaskmissle",
                 ChampionName = "twich",
@@ -5315,7 +5315,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "expunge",
                 ChampionName = "twich",
@@ -5326,7 +5326,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "fullautomatic",
                 ChampionName = "twich",
@@ -5337,7 +5337,7 @@ namespace Activator.Data
                 MissileSpeed = 500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "wildcards",
                 ChampionName = "twistedfate",
@@ -5349,7 +5349,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "pickacard",
                 ChampionName = "twistedfate",
@@ -5360,7 +5360,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "goldcardpreattack",
                 ChampionName = "twistedfate",
@@ -5371,7 +5371,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "redcardpreattack",
                 ChampionName = "twistedfate",
@@ -5382,7 +5382,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bluecardpreattack",
                 ChampionName = "twistedfate",
@@ -5393,7 +5393,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "cardmasterstack",
                 ChampionName = "twistedfate",
@@ -5404,7 +5404,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "destiny",
                 ChampionName = "twistedfate",
@@ -5415,7 +5415,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "udyrtigerstance",
                 ChampionName = "udyr",
@@ -5426,7 +5426,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "udyrturtlestance",
                 ChampionName = "udyr",
@@ -5437,7 +5437,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "udyrbearstanceattack",
                 ChampionName = "udyr",
@@ -5448,7 +5448,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "udyrphoenixstance",
                 ChampionName = "udyr",
@@ -5459,7 +5459,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "urgotheatseekinglineqqmissile",
                 ChampionName = "urgot",
@@ -5470,7 +5470,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "urgotheatseekingmissile",
                 ChampionName = "urgot",
@@ -5481,7 +5481,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "urgotterrorcapacitoractive2",
                 ChampionName = "urgot",
@@ -5492,7 +5492,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "urgotplasmagrenade",
                 ChampionName = "urgot",
@@ -5504,7 +5504,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "urgotplasmagrenadeboom",
                 ChampionName = "urgot",
@@ -5515,7 +5515,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "urgotswap2",
                 ChampionName = "urgot",
@@ -5526,7 +5526,7 @@ namespace Activator.Data
                 MissileSpeed = 1800
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "varusq",
                 ChampionName = "varus",
@@ -5538,7 +5538,7 @@ namespace Activator.Data
                 MissileSpeed = 1900
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "varusw",
                 ChampionName = "varus",
@@ -5549,7 +5549,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "varuse",
                 ChampionName = "varus",
@@ -5561,7 +5561,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "varusr",
                 ChampionName = "varus",
@@ -5578,7 +5578,7 @@ namespace Activator.Data
                 MissileSpeed = 1950
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vaynetumble",
                 ChampionName = "vayne",
@@ -5589,7 +5589,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vaynesilverbolts",
                 ChampionName = "vayne",
@@ -5600,7 +5600,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vaynecondemnmissile",
                 ChampionName = "vayne",
@@ -5611,7 +5611,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vayneinquisition",
                 ChampionName = "vayne",
@@ -5622,7 +5622,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "veigarbalefulstrike",
                 ChampionName = "veigar",
@@ -5634,7 +5634,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "veigardarkmatter",
                 ChampionName = "veigar",
@@ -5646,7 +5646,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "veigareventhorizon",
                 ChampionName = "veigar",
@@ -5658,7 +5658,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "veigarprimordialburst",
                 ChampionName = "veigar",
@@ -5669,7 +5669,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "velkozq",
                 ChampionName = "velkoz",
@@ -5681,7 +5681,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "velkozqmissle",
                 ChampionName = "velkoz",
@@ -5692,7 +5692,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "velkozqplitactive",
                 ChampionName = "velkoz",
@@ -5703,7 +5703,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "velkozw",
                 ChampionName = "velkoz",
@@ -5715,7 +5715,7 @@ namespace Activator.Data
                 MissileSpeed = 1200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "velkoze",
                 ChampionName = "velkoz",
@@ -5727,7 +5727,7 @@ namespace Activator.Data
                 MissileSpeed = 1700
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "velkozr",
                 ChampionName = "velkoz",
@@ -5738,7 +5738,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "viq",
                 ChampionName = "vi",
@@ -5749,7 +5749,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "viw",
                 ChampionName = "vi",
@@ -5760,7 +5760,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vie",
                 ChampionName = "vi",
@@ -5771,7 +5771,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vir",
                 ChampionName = "vi",
@@ -5782,7 +5782,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "viktorpowertransfer",
                 ChampionName = "viktor",
@@ -5793,7 +5793,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "viktorgravitonfield",
                 ChampionName = "viktor",
@@ -5804,7 +5804,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "viktordeathray",
                 ChampionName = "viktor",
@@ -5816,7 +5816,7 @@ namespace Activator.Data
                 MissileSpeed = 1210
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "viktorchaosstorm",
                 ChampionName = "viktor",
@@ -5832,7 +5832,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vladimirtransfusion",
                 ChampionName = "vladimir",
@@ -5843,7 +5843,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vladimirsanguinepool",
                 ChampionName = "vladimir",
@@ -5854,7 +5854,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vladimirtidesofblood",
                 ChampionName = "vladimir",
@@ -5865,7 +5865,7 @@ namespace Activator.Data
                 MissileSpeed = 1100
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "vladimirhemoplague",
                 ChampionName = "vladimir",
@@ -5876,7 +5876,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "volibearq",
                 ChampionName = "volibear",
@@ -5887,7 +5887,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "volibearw",
                 ChampionName = "volibear",
@@ -5898,7 +5898,7 @@ namespace Activator.Data
                 MissileSpeed = 1450
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "volibeare",
                 ChampionName = "volibear",
@@ -5909,7 +5909,7 @@ namespace Activator.Data
                 MissileSpeed = 825
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "volibearr",
                 ChampionName = "volibear",
@@ -5920,7 +5920,7 @@ namespace Activator.Data
                 MissileSpeed = 825
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "hungeringstrike",
                 ChampionName = "warwick",
@@ -5931,7 +5931,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "hunterscall",
                 ChampionName = "warwick",
@@ -5942,7 +5942,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "bloodscent",
                 ChampionName = "warwick",
@@ -5953,7 +5953,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "infiniteduress",
                 ChampionName = "warwick",
@@ -5969,7 +5969,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
             
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "xeratharcanopulsechargeup",
                 ChampionName = "xerath",
@@ -5980,7 +5980,7 @@ namespace Activator.Data
                 MissileSpeed = 500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "xeratharcanebarrage2",
                 ChampionName = "xerath",
@@ -5992,7 +5992,7 @@ namespace Activator.Data
                 MissileSpeed = 20
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "xerathmagespear",
                 ChampionName = "xerath",
@@ -6004,7 +6004,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "xerathlocusofpower2",
                 ChampionName = "xerath",
@@ -6015,7 +6015,7 @@ namespace Activator.Data
                 MissileSpeed = 500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "xenzhaothrust3",
                 ChampionName = "xinzhao",
@@ -6026,7 +6026,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "xenzhaobattlecry",
                 ChampionName = "xinzhao",
@@ -6037,7 +6037,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "xenzhaosweep",
                 ChampionName = "xinzhao",
@@ -6048,7 +6048,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "xenzhaoparry",
                 ChampionName = "xinzhao",
@@ -6064,7 +6064,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yasuoqw",
                 ChampionName = "yasuo",
@@ -6075,7 +6075,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yasuoq2w",
                 ChampionName = "yasuo",
@@ -6086,7 +6086,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yasuoq3",
                 ChampionName = "yasuo",
@@ -6098,7 +6098,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yasuowmovingwall",
                 ChampionName = "yasuo",
@@ -6109,7 +6109,7 @@ namespace Activator.Data
                 MissileSpeed = 500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yasuodashwrapper",
                 ChampionName = "yasuo",
@@ -6120,7 +6120,7 @@ namespace Activator.Data
                 MissileSpeed = 20
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yasuorknockupcombow",
                 ChampionName = "yasuo",
@@ -6131,7 +6131,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yorickspectral",
                 ChampionName = "yorick",
@@ -6142,7 +6142,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yorickdecayed",
                 ChampionName = "yorick",
@@ -6153,7 +6153,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yorickravenous",
                 ChampionName = "yorick",
@@ -6164,7 +6164,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "yorickreviveally",
                 ChampionName = "yorick",
@@ -6175,7 +6175,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zacq",
                 ChampionName = "zac",
@@ -6187,7 +6187,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zacw",
                 ChampionName = "zac",
@@ -6198,7 +6198,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zace",
                 ChampionName = "zac",
@@ -6209,7 +6209,7 @@ namespace Activator.Data
                 MissileSpeed = 1500
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zacr",
                 ChampionName = "zac",
@@ -6220,7 +6220,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zedq",
                 ChampionName = "zed",
@@ -6234,7 +6234,7 @@ namespace Activator.Data
                 MissileSpeed = 1700
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zedw",
                 ChampionName = "zed",
@@ -6245,7 +6245,7 @@ namespace Activator.Data
                 MissileSpeed = 1600
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zede",
                 ChampionName = "zed",
@@ -6256,7 +6256,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zedr",
                 ChampionName = "zed",
@@ -6267,7 +6267,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ziggsq",
                 ChampionName = "ziggs",
@@ -6280,7 +6280,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ziggsw",
                 ChampionName = "ziggs",
@@ -6292,7 +6292,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ziggswtoggle",
                 ChampionName = "ziggs",
@@ -6303,7 +6303,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ziggse",
                 ChampionName = "ziggs",
@@ -6315,7 +6315,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ziggse2",
                 ChampionName = "ziggs",
@@ -6326,7 +6326,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "ziggsr",
                 ChampionName = "ziggs",
@@ -6338,7 +6338,7 @@ namespace Activator.Data
                 MissileSpeed = 1750
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zileanq",
                 ChampionName = "zilean",
@@ -6350,7 +6350,7 @@ namespace Activator.Data
                 MissileSpeed = 2000
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zileanw",
                 ChampionName = "zilean",
@@ -6361,7 +6361,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zileane",
                 ChampionName = "zilean",
@@ -6372,7 +6372,7 @@ namespace Activator.Data
                 MissileSpeed = 1100
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zileanr",
                 ChampionName = "zilean",
@@ -6383,7 +6383,7 @@ namespace Activator.Data
                 MissileSpeed = int.MaxValue
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zyraqfissure",
                 ChampionName = "zyra",
@@ -6395,7 +6395,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zyraseed",
                 ChampionName = "zyra",
@@ -6406,7 +6406,7 @@ namespace Activator.Data
                 MissileSpeed = 2200
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zyragraspingroots",
                 ChampionName = "zyra",
@@ -6418,7 +6418,7 @@ namespace Activator.Data
                 MissileSpeed = 1400
             });
 
-            Spells.Add(new Skilldata
+            Spells.Add(new Spelldata
             {
                 SDataName = "zyrabramblezone",
                 ChampionName = "zyra",
@@ -6435,13 +6435,13 @@ namespace Activator.Data
             });
         }
 
-        public static List<Skilldata> Spells = new List<Skilldata>();
-        public static List<Skilldata> SomeSpells = new List<Skilldata>();
+        public static List<Spelldata> Spells = new List<Spelldata>();
+        public static List<Spelldata> SomeSpells = new List<Spelldata>();
 
         public static Dictionary<SpellDamageDelegate, SpellSlot> DamageLib = 
             new Dictionary<SpellDamageDelegate, SpellSlot>();
 
-        public static Skilldata GetByMissileName(string missilename)
+        public static Spelldata GetByMissileName(string missilename)
         {
             foreach (var sdata in Spells)
             {

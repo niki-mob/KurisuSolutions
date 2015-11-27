@@ -70,7 +70,7 @@ namespace Activator.Handlers
 
                 foreach (var hero in Activator.Heroes.Where(h => h.Player.Distance(attacker) <= 1200))
                 {
-                    if (Data.Skilldata.Spells.Any(x => args.SData.Name.ToLower() == x.SDataName && x.HitType.Contains(HitType.Stealth)))
+                    if (Data.Spelldata.Spells.Any(x => args.SData.Name.ToLower() == x.SDataName && x.HitType.Contains(HitType.Stealth)))
                     {
                         hero.HitTypes.Add(HitType.Stealth);
                         Utility.DelayAction.Add(200, () => hero.HitTypes.Remove(HitType.Stealth));

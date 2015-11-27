@@ -23,7 +23,7 @@ namespace Activator.Spells.Shields
 
         internal override MenuType[] Category
         {
-            get { return new[] { MenuType.SelfMuchHP, MenuType.Zhonyas }; }
+            get { return new[] { MenuType.SelfMuchHP, MenuType.Zhonyas, MenuType.SpellShield }; }
         }
 
         internal override int DefaultHP
@@ -50,13 +50,21 @@ namespace Activator.Spells.Shields
                 {
                     if (hero.IncomeDamage/hero.Player.MaxHealth*100 >=
                         Menu.Item("selfmuchhp" + Name + "pct").GetValue<Slider>().Value)
-                    {
                         if (hero.Attacker != null)
                             UseSpellTowards(hero.Attacker.ServerPosition);
-                    }
+
+                    if (Menu.Item("ss" + Name + "all").GetValue<bool>())
+                        if (hero.IncomeDamage > 0 && hero.HitTypes.Contains(HitType.Spell))
+                            if (hero.Attacker != null)
+                                UseSpellTowards(hero.Attacker.ServerPosition);
 
                     if (Menu.Item("use" + Name + "norm").GetValue<bool>())
                         if (hero.IncomeDamage > 0 && hero.HitTypes.Contains(HitType.Danger))
+                            if (hero.Attacker != null)
+                                UseSpellTowards(hero.Attacker.ServerPosition);
+
+                    if (Menu.Item("ss" + Name + "cc").GetValue<bool>())
+                        if (hero.IncomeDamage > 0 && hero.HitTypes.Contains(HitType.CrowdControl))
                             if (hero.Attacker != null)
                                 UseSpellTowards(hero.Attacker.ServerPosition);
 

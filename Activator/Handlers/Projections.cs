@@ -32,7 +32,7 @@ namespace Activator.Handlers
             var startPos = missile.StartPosition.To2D();
             var endPos = missile.EndPosition.To2D();
 
-            var data = Data.Skilldata.GetByMissileName(missile.SData.Name.ToLower());
+            var data = Data.Spelldata.GetByMissileName(missile.SData.Name.ToLower());
             if (data == null)
                 return;
 
@@ -179,7 +179,7 @@ namespace Activator.Handlers
 
                     #endregion
 
-                    foreach (var data in Data.Skilldata.SomeSpells.Where(x => x.SDataName == args.SData.Name.ToLower()))
+                    foreach (var data in Data.Spelldata.SomeSpells.Where(x => x.SDataName == args.SData.Name.ToLower()))
                     {
                         #region self/selfaoe
 

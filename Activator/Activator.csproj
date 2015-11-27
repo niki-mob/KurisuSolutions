@@ -115,7 +115,7 @@
     <Compile Include="Items\Offensives\_3800.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\Skilldata.cs" />
+    <Compile Include="Data\Spelldata.cs" />
     <Compile Include="Data\Auradata.cs" />
     <Compile Include="Handlers\Buffs.cs" />
     <Compile Include="Spells\Evaders\alphastrike.cs" />

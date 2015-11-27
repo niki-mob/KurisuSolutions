@@ -262,7 +262,7 @@ namespace Activator
             {
                 if (entry.Key == Player.ChampionName)
                     foreach (DamageSpell spell in entry.Value)
-                        Skilldata.DamageLib.Add(spell.Damage, spell.Slot);
+                        Spelldata.DamageLib.Add(spell.Damage, spell.Slot);
             }
         }
 
@@ -305,8 +305,8 @@ namespace Activator
         private static void GetSpellsInGame()
         {
             foreach (var i in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.Team != Player.Team))
-                foreach (var item in Skilldata.Spells.Where(x => x.ChampionName == i.ChampionName.ToLower()))
-                    Skilldata.SomeSpells.Add(item);
+                foreach (var item in Spelldata.Spells.Where(x => x.ChampionName == i.ChampionName.ToLower()))
+                    Spelldata.SomeSpells.Add(item);
         }
 
         public static IEnumerable<Champion> Allies()
@@ -387,7 +387,7 @@ namespace Activator
                 var menu = new Menu(unit.Player.ChampionName, unit.Player.NetworkId + "menu");
 
                 // new menu per spell
-                foreach (var entry in Skilldata.Spells)
+                foreach (var entry in Spelldata.Spells)
                 {
                     if (entry.ChampionName == unit.Player.ChampionName.ToLower())
                     {
