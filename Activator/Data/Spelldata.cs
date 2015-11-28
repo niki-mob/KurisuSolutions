@@ -4838,7 +4838,7 @@ namespace Activator.Data
                 SDataName = "sorakaw",
                 ChampionName = "soraka",
                 Slot = SpellSlot.W,
-                CastRange = 750f,
+                CastRange = 0f,
                 Delay = 250f,
                 HitType = new HitType[] { },
                 MissileSpeed = int.MaxValue
@@ -4860,7 +4860,7 @@ namespace Activator.Data
                 SDataName = "sorakar",
                 ChampionName = "soraka",
                 Slot = SpellSlot.R,
-                CastRange = 25000f,
+                CastRange = 0f,
                 Delay = 250f,
                 HitType = new HitType[] { },
                 MissileSpeed = int.MaxValue
@@ -4905,10 +4905,10 @@ namespace Activator.Data
                 SDataName = "swainmetamorphism",
                 ChampionName = "swain",
                 Slot = SpellSlot.R,
-                CastRange = 700f,
+                CastRange = 0f,
                 Delay = 250f,
                 HitType = new HitType[] { },
-                MissileSpeed = 950
+                MissileSpeed = 1950
             });
 
             Spells.Add(new Spelldata
@@ -5019,7 +5019,7 @@ namespace Activator.Data
                 SDataName = "imbue",
                 ChampionName = "taric",
                 Slot = SpellSlot.Q,
-                CastRange = 750f,
+                CastRange = 0f,
                 Delay = 250f,
                 HitType = new HitType[] { },
                 MissileSpeed = 1200
@@ -5096,7 +5096,7 @@ namespace Activator.Data
                 SDataName = "bantamtrap",
                 ChampionName = "teemo",
                 Slot = SpellSlot.R,
-                CastRange = 230f,
+                CastRange = 0f,
                 Delay = 0f,
                 HitType = new HitType[] { },
                 MissileSpeed = 1500
@@ -5119,7 +5119,7 @@ namespace Activator.Data
                 SDataName = "threshw",
                 ChampionName = "thresh",
                 Slot = SpellSlot.W,
-                CastRange = 950f,
+                CastRange = 0f,
                 Delay = 250f,
                 HitType = new HitType[] { },
                 MissileSpeed = int.MaxValue
@@ -5331,7 +5331,7 @@ namespace Activator.Data
                 SDataName = "fullautomatic",
                 ChampionName = "twich",
                 Slot = SpellSlot.R,
-                CastRange = 850f,
+                CastRange = 0f,
                 Delay = 250f,
                 HitType = new HitType[] { },
                 MissileSpeed = 500
@@ -5409,7 +5409,7 @@ namespace Activator.Data
                 SDataName = "destiny",
                 ChampionName = "twistedfate",
                 Slot = SpellSlot.R,
-                CastRange = 5250f,
+                CastRange = 0f,
                 Delay = 250f,
                 HitType = new HitType[] { },
                 MissileSpeed = int.MaxValue
@@ -5674,33 +5674,23 @@ namespace Activator.Data
                 SDataName = "velkozq",
                 ChampionName = "velkoz",
                 Slot = SpellSlot.Q,
-                CastRange = 1050f,
-                Delay = 300f,
+                CastRange = 1250f,
+                Delay = 100f,
                 HitType = new[] { Base.HitType.CrowdControl },
                 MissileName = "velkozqmissile",
-                MissileSpeed = 1200
+                MissileSpeed = 1300
             });
 
             Spells.Add(new Spelldata
             {
-                SDataName = "velkozqmissle",
-                ChampionName = "velkoz",
-                Slot = SpellSlot.Q,
-                CastRange = 1050f,
-                Delay = 250f,
-                HitType = new[] { Base.HitType.CrowdControl },
-                MissileSpeed = 1200
-            });
-
-            Spells.Add(new Spelldata
-            {
-                SDataName = "velkozqplitactive",
+                SDataName = "velkozqsplitactivate",
                 ChampionName = "velkoz",
                 Slot = SpellSlot.Q,
                 CastRange = 1050f,
                 Delay = 0f,
                 HitType = new[] { Base.HitType.CrowdControl, Base.HitType.Danger },
-                MissileSpeed = 1200
+                MissileName = "velkozqmissilesplit",
+                MissileSpeed = 2100
             });
 
             Spells.Add(new Spelldata
@@ -5712,7 +5702,7 @@ namespace Activator.Data
                 Delay = 0f,
                 HitType = new HitType[] { },
                 MissileName = "velkozwmissile",
-                MissileSpeed = 1200
+                MissileSpeed = 1700
             });
 
             Spells.Add(new Spelldata
@@ -5720,11 +5710,11 @@ namespace Activator.Data
                 SDataName = "velkoze",
                 ChampionName = "velkoz",
                 Slot = SpellSlot.E,
-                CastRange = 850f,
+                CastRange = 950f,
                 Delay = 0f,
                 HitType = new[] { Base.HitType.CrowdControl },
                 MissileName = "velkozemissile",
-                MissileSpeed = 1700
+                MissileSpeed = 1500
             });
 
             Spells.Add(new Spelldata
