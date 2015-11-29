@@ -208,7 +208,7 @@ namespace KurisuRiven
         private static Obj_AI_Hero riventarget()
         {
             var cursortarg = HeroManager.Enemies
-                .Where(x => x.Distance(player.ServerPosition) <= 1800)
+                .Where(x => x.Distance(Game.CursorPos) <= 600 && x.Distance(player.ServerPosition) <= 1800)
                 .OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault(x => x.IsValidTarget());
 
             var closetarg = HeroManager.Enemies
@@ -487,17 +487,17 @@ namespace KurisuRiven
         #region Riven : Some Dash
         private static bool canburst(bool shy = false)
         {
+            if (shy && menulist("multib") != 0)
+            {
+                return true;
+            }
+
             if (riventarget() == null || !r.IsReady() && !uo)
             {
                 return false;
             }
 
             if (IsLethal(riventarget()) && menulist("multib") == 0)
-            {
-                return true;
-            }
-
-            if (shy && menulist("multib") != 0)
             {
                 return true;
             }
@@ -1136,6 +1136,50 @@ namespace KurisuRiven
 
                 switch (args.SData.Name)
                 {
+                    case "ItemTiamatCleave":
+                    case "ItemTitanicHydraCleave":
+                        lasthd = Utils.GameTimeTickCount;
+                        didhd = true;
+                        canws = true;
+                        canhd = false;
+
+                        if (menulist("wsmode") == 1)
+                        {
+                            if (menu.Item("combokey").GetValue<KeyBind>().Active)
+                            {
+                                if (canburst())
+                                {
+                                    if (riventarget().IsValidTarget() && !riventarget().IsZombie)
+                                    {
+                                        Utility.DelayAction.Add(100 + Game.Ping,
+                                            () => r.Cast(r.CastIfHitchanceEquals(riventarget(), HitChance.Medium)));
+                                    }
+                                }
+                            }
+
+                            if (menu.Item("shycombo").GetValue<KeyBind>().Active)
+                            {                              
+                                if (canburst(true))
+                                {
+                                    if (riventarget().IsValidTarget() && !riventarget().IsZombie)
+                                    {
+                                        Utility.DelayAction.Add(100 + Game.Ping,
+                                            () => r.CastIfHitchanceEquals(riventarget(), HitChance.Medium));
+                                    }
+                                }
+                            }
+                        }
+
+                        if (menulist("emode") == 1 && Utils.GameTimeTickCount - laste >= 1500)
+                        {
+                            if (menu.Item("combokey").GetValue<KeyBind>().Active && !uo)
+                            {
+                                checkr();
+                                Utility.DelayAction.Add(100 + Game.Ping, () => q.Cast(Game.CursorPos));
+                            }
+                        }
+
+                        break;
                     case "RivenTriCleave":
                         cc += 1;
                         didaa = false;
@@ -1252,50 +1296,6 @@ namespace KurisuRiven
 
                         if (q.IsReady() && riventarget().IsValidTarget())
                             q.Cast(riventarget().ServerPosition);
-
-                        break;
-                    case "ItemTiamatCleave":
-                    case "ItemTitanicHydraCleave":  
-                        lasthd = Utils.GameTimeTickCount;
-                        didhd = true;
-                        canws = true;
-                        canhd = false;
-
-                        if (menulist("wsmode") == 1 && uo && canws)
-                        {
-                            if (menu.Item("combokey").GetValue<KeyBind>().Active)
-                            {
-                                if (canburst())
-                                {
-                                    if (riventarget().IsValidTarget() && !riventarget().IsZombie)
-                                    {
-                                        Utility.DelayAction.Add(120 - Game.Ping,
-                                            () => r.Cast(r.CastIfHitchanceEquals(riventarget(), HitChance.Medium)));
-                                    }
-                                }
-                            }
-
-                            if (menu.Item("shycombo").GetValue<KeyBind>().Active)
-                            {
-                                if (canburst(true))
-                                {
-                                    if (riventarget().IsValidTarget() && !riventarget().IsZombie)
-                                    {
-                                        Utility.DelayAction.Add(120 - Game.Ping,
-                                            () => r.Cast(r.CastIfHitchanceEquals(riventarget(), HitChance.Medium)));
-                                    }
-                                }
-                            }
-                        }
-
-                        if (menulist("emode") == 1 && Utils.GameTimeTickCount - laste >= 1500)
-                        {
-                            if (menu.Item("combokey").GetValue<KeyBind>().Active && !uo)
-                            {
-                                checkr();
-                                Utility.DelayAction.Add(100 - Game.Ping, () => q.Cast(Game.CursorPos));
-                            }
-                        }
 
                         break;
                     default:
@@ -1556,7 +1556,7 @@ namespace KurisuRiven
                 canaa = true;
             }
 
-            if (dide && Utils.GameTimeTickCount - laste >= 300)
+            if (dide && Utils.GameTimeTickCount - laste >= 500)
             {
                 dide = false;
                 canmv = true;
