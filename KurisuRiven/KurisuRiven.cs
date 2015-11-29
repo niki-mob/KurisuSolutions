@@ -208,12 +208,12 @@ namespace KurisuRiven
         private static Obj_AI_Hero riventarget()
         {
             var cursortarg = HeroManager.Enemies
-                .Where(x => x.Distance(Game.CursorPos) <= 375 &&  x.Distance(player.ServerPosition) <= 1200)
-                .OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault(x => x.IsEnemy);
+                .Where(x => x.Distance(player.ServerPosition) <= 1800)
+                .OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault(x => x.IsValidTarget());
 
             var closetarg = HeroManager.Enemies
                 .Where(x => x.Distance(player.ServerPosition) <= 1200)
-                .OrderBy(x => x.Distance(player.ServerPosition)).FirstOrDefault(x => x.IsEnemy);
+                .OrderBy(x => x.Distance(player.ServerPosition)).FirstOrDefault(x => x.IsValidTarget());
 
             return _sh ?? cursortarg ?? closetarg;
         }
@@ -297,8 +297,8 @@ namespace KurisuRiven
             wrange = uo ? w.Range + 25 : w.Range;
 
             // move behind me
-            if (qtarg != player && qtarg.IsFacing(player) && qtarg.Distance(player.ServerPosition) < truerange + 120)
-                movepos = player.ServerPosition + (player.ServerPosition - qtarg.ServerPosition).Normalized() * 24;
+            if (qtarg != player && qtarg.Distance(player.ServerPosition) < r.Range)
+                movepos = player.Position.Extend(Game.CursorPos, player.Distance(Game.CursorPos) + 500);
 
             // move to game cursor pos
             if (qtarg == player)
@@ -556,14 +556,15 @@ namespace KurisuRiven
             // ignite ->
             TryIgnote(target);
 
-            var oo = e.IsReady() ? e.Range + w.Range + 170 : w.Range + e.Range + 50;
+            var oo = e.IsReady() && q.IsReady() ? e.Range + w.Range + q.Range/2 : truerange + 100;
 
-            if (e.IsReady() && cane && player.Health / player.MaxHealth * 100 <= menuslide("vhealth") || 
-                e.IsReady() && cane && target.Distance(player.ServerPosition) <= 
-                e.Range + w.Range - 25 && target.Distance(player.ServerPosition) > truerange ||
-                e.IsReady() && uo && cane && target.Distance(player.ServerPosition) > truerange + 50)
+            if (e.IsReady() && (target.Distance(player.ServerPosition) <= e.Range + w.Range + 25 || 
+                uo && target.Distance(player.ServerPosition) > truerange + 100) &&
+               
+                (player.Health / player.MaxHealth * 100 <= menuslide("vhealth") || 
+                 target.Distance(player.ServerPosition) > truerange))
             {
-                if (menubool("usecomboe"))
+                if (menubool("usecomboe") && cane)
                     e.Cast(target.ServerPosition);
 
                 if (target.Distance(player.ServerPosition) <= e.Range + w.Range)
@@ -589,37 +590,40 @@ namespace KurisuRiven
                 }
             }
 
-            if (w.IsReady() && canw && menubool("usecombow") && target.Distance(player.ServerPosition) <= w.Range)
+            if (w.IsReady() && menubool("usecombow") && target.Distance(player.ServerPosition) <= truerange + 150)
             {
-                useinventoryitems(target);
-                checkr();
-
-                if (menulist("emode") == 1)
+                if (target.Distance(player.ServerPosition) <= w.Range && canw)
                 {
-                    if (canhd && hashd && !canburst())
+                    useinventoryitems(target);
+                    checkr();
+
+                    if (menulist("emode") == 1)
                     {
-                        Items.UseItem(3077);
-                        Items.UseItem(3074);
-                        if (menubool("usecombow"))
-                            Utility.DelayAction.Add(250, () => w.Cast());
+                        if (canhd && hashd && !canburst())
+                        {
+                            Items.UseItem(3077);
+                            Items.UseItem(3074);
+                            if (menubool("usecombow"))
+                                Utility.DelayAction.Add(250, () => w.Cast());
+                        }
+
+                        else
+                        {
+                            checkr();
+                            if (menubool("usecombow"))
+                                w.Cast();
+                        }
                     }
 
-                    else
+                    if (menulist("emode") == 0)
                     {
-                        checkr();
                         if (menubool("usecombow"))
                             w.Cast();
                     }
                 }
-
-                if (menulist("emode") == 0)
-                {
-                    if (menubool("usecombow"))
-                        w.Cast();
-                }
             }
 
-            else if (q.IsReady() && target.Distance(player.ServerPosition) <= q.Range + 25)
+            else if (q.IsReady() && target.Distance(player.ServerPosition) <= truerange + 100)
             {
                 useinventoryitems(target);
                 checkr();
@@ -638,7 +642,9 @@ namespace KurisuRiven
                     }
                 }
 
-                if (canq) q.Cast(target.ServerPosition);
+                if (canq && qtarg != null && 
+                    qtarg.NetworkId == target.NetworkId) 
+                    q.Cast(target.ServerPosition);
             }
 
             else if (target.Distance(player.ServerPosition) > oo)
@@ -1305,12 +1311,15 @@ namespace KurisuRiven
                                     Utility.DelayAction.Add(
                                         90 + (int) (player.AttackDelay * 100) + Game.Ping / 2, delegate
                                         {
-                                            if (Items.CanUseItem(3077))
-                                                Items.UseItem(3077);
-                                            if (Items.CanUseItem(3074))
-                                                Items.UseItem(3074);
-                                            if (Items.CanUseItem(3748))
-                                                Items.UseItem(3748);
+                                            if (qtarg != null && qtarg.NetworkId == riventarget().NetworkId)
+                                            {
+                                                if (Items.CanUseItem(3077))
+                                                    Items.UseItem(3077);
+                                                if (Items.CanUseItem(3074))
+                                                    Items.UseItem(3074);
+                                                if (Items.CanUseItem(3748))
+                                                    Items.UseItem(3748);
+                                            }
                                         });
                                 }
 
@@ -1320,12 +1329,15 @@ namespace KurisuRiven
                                     Utility.DelayAction.Add(
                                         90 + (int) (player.AttackDelay * 100) + Game.Ping / 2, delegate
                                         {
-                                            if (Items.CanUseItem(3077))
-                                                Items.UseItem(3077);
-                                            if (Items.CanUseItem(3074))
-                                                Items.UseItem(3074);
-                                            if (Items.CanUseItem(3748))
-                                                Items.UseItem(3748);
+                                            if (qtarg != null && qtarg.NetworkId == riventarget().NetworkId)
+                                            {
+                                                if (Items.CanUseItem(3077))
+                                                    Items.UseItem(3077);
+                                                if (Items.CanUseItem(3074))
+                                                    Items.UseItem(3074);
+                                                if (Items.CanUseItem(3748))
+                                                    Items.UseItem(3748);
+                                            }
                                         });
                                 }
                             }
