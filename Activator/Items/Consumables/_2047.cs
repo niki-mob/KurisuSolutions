@@ -24,7 +24,7 @@ namespace Activator.Items.Consumables
 
         internal override int Duration
         {
-            get { return 100; }
+            get { return 101; }
         }
 
         internal override int Priority

@@ -28,7 +28,7 @@ namespace Activator.Items.Consumables
 
         internal override int Duration
         {
-            get { return 100; }
+            get { return 101; }
         }
 
         internal override float Range
@@ -48,7 +48,7 @@ namespace Activator.Items.Consumables
 
         internal override int DefaultHP
         {
-            get { return 45; }
+            get { return 65; }
         }
 
         internal override int DefaultMP

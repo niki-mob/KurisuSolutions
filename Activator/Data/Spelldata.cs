@@ -1917,6 +1917,53 @@ namespace Activator.Data
 
             Spells.Add(new Spelldata
             {
+                SDataName = "illaoiq",
+                ChampionName = "illaoi",
+                Slot = SpellSlot.Q,
+                CastRange = 950f,
+                Delay = 250f,
+                HitType = new[] { Base.HitType.Danger },
+                MissileName = "illaoiemis",
+                MissileSpeed = int.MaxValue
+            });
+
+            Spells.Add(new Spelldata
+            {
+                SDataName = "illaoiw",
+                ChampionName = "illaoi",
+                Slot = SpellSlot.W,
+                CastRange = 365f,
+                Delay = 250f,
+                HitType = new HitType[] { },
+                MissileName = "illaoiemis",
+                MissileSpeed = int.MaxValue
+            });
+
+            Spells.Add(new Spelldata
+            {
+                SDataName = "illaoie",
+                ChampionName = "illaoi",
+                Slot = SpellSlot.E,
+                CastRange = 950f,
+                Delay = 250f,
+                HitType = new HitType[] { },
+                MissileName = "illaoiemis",
+                MissileSpeed = 1900
+            });
+
+            Spells.Add(new Spelldata
+            {
+                SDataName = "illaoir",
+                ChampionName = "illaoi",
+                Slot = SpellSlot.R,
+                CastRange = 450f,
+                Delay = 500f,
+                HitType = new[] { Base.HitType.Ultimate, Base.HitType.Danger,  },
+                MissileSpeed = int.MaxValue
+            });
+
+            Spells.Add(new Spelldata
+            {
                 SDataName = "howlinggalespell",
                 ChampionName = "janna",
                 Slot = SpellSlot.Q,

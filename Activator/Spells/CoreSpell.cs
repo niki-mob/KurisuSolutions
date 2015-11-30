@@ -67,7 +67,7 @@ namespace Activator.Spells
 
                 if (Category.Any(t => t == MenuType.SelfMuchHP))
                     Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))
-                        .SetValue(new Slider(55))
+                        .SetValue(new Slider(25))
                         .SetTooltip("Will Use " + Name + " When the Hero's Income Damage % > Value");
 
                 if (Category.Any(t => t == MenuType.SelfLowMP))
@@ -93,7 +93,7 @@ namespace Activator.Spells
                 if (Category.Any(t => t == MenuType.Zhonyas))
                 {
                     Menu.AddItem(new MenuItem("use" + Name + "norm", "Use on Dangerous (Spells)"))
-                        .SetValue(false).SetTooltip("Not reccomended to enable on spells with long cooldowns.");
+                        .SetTooltip("Not recommended to enable on spells with long cooldowns.").SetValue(false);
                     Menu.AddItem(new MenuItem("use" + Name + "ulti", "Use on Dangerous (Ultimates Only)")).SetValue(true);
                 }
 

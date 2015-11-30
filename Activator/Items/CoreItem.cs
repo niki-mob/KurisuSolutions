@@ -176,12 +176,12 @@ namespace Activator.Items
 
                 if (Category.Any(t => t == MenuType.SelfLowHP))
                     Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
-                        .SetValue(new Slider(DefaultHP < 50 || DefaultHP >= 90 ? (Name == "Botrk" ? 75 : 35) : 55))
+                        .SetValue(new Slider(DefaultHP <= 35 || DefaultHP >= 90 ? (Name == "Botrk" ? 75 : 35) : 55))
                         .SetTooltip("Will Use " + Name + " When the Income Damage + Hero's HP % < Value");
 
                 if (Category.Any(t => t == MenuType.SelfMuchHP))
                     Menu.AddItem(new MenuItem("selfmuchhp" + Name + "pct", "Use on Hero Dmg Dealt % >="))
-                        .SetValue(new Slider(DefaultHP > 45 ? 55 : DefaultHP < 35 ? 45 : 40))
+                        .SetValue(new Slider(Duration == 101 ? 30 : 45))
                         .SetTooltip("Will Use " + Name + " When the Hero's Income Damage % > Value");
 
                 if (Category.Any(t => t == MenuType.SelfLowMP))
