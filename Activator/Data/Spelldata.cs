@@ -1935,7 +1935,6 @@ namespace Activator.Data
                 CastRange = 365f,
                 Delay = 250f,
                 HitType = new HitType[] { },
-                MissileName = "illaoiemis",
                 MissileSpeed = int.MaxValue
             });
 
