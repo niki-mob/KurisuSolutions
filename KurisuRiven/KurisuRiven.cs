@@ -232,6 +232,50 @@ namespace KurisuRiven
                     cane = true;
                     canw = true;
                     canws = true;
+
+                    if (menu.Item("combokey").GetValue<KeyBind>().Active ||
+                              menu.Item("shycombo").GetValue<KeyBind>().Active)
+                    {
+                        if (canburst() || menulist("emode") == 0 && !canburst() ||
+                            menu.Item("shycombo").GetValue<KeyBind>().Active)
+                        {
+                            if (qtarg != null && qtarg.NetworkId == riventarget().NetworkId)
+                            {
+                                if (Items.CanUseItem(3077))
+                                    Items.UseItem(3077);
+                                if (Items.CanUseItem(3074))
+                                    Items.UseItem(3074);
+                                if (Items.CanUseItem(3748))
+                                    Items.UseItem(3748);
+                            }
+                        }
+
+                        else if (!menubool("usecombow") || !menubool("usecomboe"))
+                        {
+                            if (qtarg != null && qtarg.NetworkId == riventarget().NetworkId)
+                            {
+                                if (Items.CanUseItem(3077))
+                                    Items.UseItem(3077);
+                                if (Items.CanUseItem(3074))
+                                    Items.UseItem(3074);
+                                if (Items.CanUseItem(3748))
+                                    Items.UseItem(3748);
+                            }
+                        }
+                    }
+
+                    else if (menu.Item("clearkey").GetValue<KeyBind>().Active)
+                    {
+                        if (qtarg.IsValid<Obj_AI_Base>() && !qtarg.Name.StartsWith("Minion"))
+                        {
+                            if (Items.CanUseItem(3077))
+                                Items.UseItem(3077);
+                            if (Items.CanUseItem(3074))
+                                Items.UseItem(3074);
+                            if (Items.CanUseItem(3748))
+                                Items.UseItem(3748);
+                        }
+                    }
                 }
             };
         }
@@ -784,8 +828,9 @@ namespace KurisuRiven
                     // only kill or killsteal etc ->
                     if (r.GetDamage(t) >= t.Health && canws)
                     {
-                        if (r.GetPrediction(t, true).Hitchance == HitChance.VeryHigh)
-                            r.Cast(r.GetPrediction(t, true).CastPosition);
+                        var p = r.GetPrediction(t, true, -1f, new[] {CollisionableObjects.YasuoWall});
+                        if (p.Hitchance == HitChance.VeryHigh)
+                            r.Cast(p.CastPosition);
                     }
                 }
 
@@ -803,8 +848,9 @@ namespace KurisuRiven
 
                         if (r.GetDamage(riventarget()) / riventarget().MaxHealth * 100 >= 50)
                         {
-                            if (r.GetPrediction(riventarget(), true).Hitchance >= HitChance.Medium && canws)
-                                r.Cast(r.GetPrediction(riventarget(), true).CastPosition);
+                            var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
+                            if (p.Hitchance >= HitChance.Medium && canws)
+                                r.Cast(p.CastPosition);
                         }
 
                         if (q.IsReady() && cc <= 2)
@@ -817,8 +863,9 @@ namespace KurisuRiven
                             {
                                 if (riventarget().Distance(player.ServerPosition) <= truerange + q.Range)
                                 {
-                                    if (r.GetPrediction(riventarget(), true).Hitchance >= HitChance.High && canws)
-                                        r.Cast(r.GetPrediction(riventarget(), true).CastPosition);
+                                    var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
+                                    if (p.Hitchance >= HitChance.High && canws)
+                                        r.Cast(p.CastPosition);
                                 }
                             }
                         }
@@ -1173,15 +1220,11 @@ namespace KurisuRiven
                         break;
                     case "RivenTriCleave":
                         cc += 1;
+                        didq = true;
+                        canmv = false;
                         didaa = false;
                         lastq = Utils.GameTimeTickCount;
                         canq = false;
-
-                        Utility.DelayAction.Add(50 + Game.Ping / 2, () =>
-                        {
-                            canmv = false;
-                            didq = true;
-                        });
 
                         Utility.DelayAction.Add(new[] {280 - Game.Ping, 300 - Game.Ping, 380 - Game.Ping}[cc - 1], () =>
                         {
@@ -1199,17 +1242,19 @@ namespace KurisuRiven
                         if (!uo) ssfl = false;
                         break;
                     case "RivenMartyr":
+                        canmv = false;
                         didw = true;
                         lastw = Utils.GameTimeTickCount;
                         canw = false;
-                        Utility.DelayAction.Add(140 - Game.Ping, () => Game.SendEmote(Emote.Dance));
+
                         break;
-                    case "RivenFeint":
+                    case "RivenFeint":  
+                        canmv = false;
                         dide = true;
                         didaa = false;
                         laste = Utils.GameTimeTickCount;
                         cane = false;
-                        Utility.DelayAction.Add(140 - Game.Ping, () => Game.SendEmote(Emote.Dance));
+
                         if (menu.Item("fleekey").GetValue<KeyBind>().Active)
                         {
                             if (uo && r.IsReady() && cc == 2 && q.IsReady())
@@ -1239,7 +1284,7 @@ namespace KurisuRiven
                         break;
                     case "RivenFengShuiEngine":
                         ssfl = true;
-                        Utility.DelayAction.Add(140 - Game.Ping, () => Game.SendEmote(Emote.Dance));
+
                         if (riventarget() != null && canburst(true))
                         {
                             if (!flash.IsReady() || menulist("multib") == 2)
@@ -1286,68 +1331,6 @@ namespace KurisuRiven
                         if (q.IsReady() && riventarget().IsValidTarget())
                             q.Cast(riventarget().ServerPosition);
 
-                        break;
-                    default:
-                        if (args.SData.Name.ToLower().Contains("attack"))
-                        {
-                            if (menu.Item("combokey").GetValue<KeyBind>().Active || 
-                                menu.Item("shycombo").GetValue<KeyBind>().Active)
-                            {
-                                if (canburst() || menulist("emode") == 0 && !canburst() ||
-                                    menu.Item("shycombo").GetValue<KeyBind>().Active)
-                                {
-                                    // delay till after aa
-                                    Utility.DelayAction.Add(
-                                        90 + (int) (player.AttackDelay * 100) + Game.Ping / 2, delegate
-                                        {
-                                            if (qtarg != null && qtarg.NetworkId == riventarget().NetworkId)
-                                            {
-                                                if (Items.CanUseItem(3077))
-                                                    Items.UseItem(3077);
-                                                if (Items.CanUseItem(3074))
-                                                    Items.UseItem(3074);
-                                                if (Items.CanUseItem(3748))
-                                                    Items.UseItem(3748);
-                                            }
-                                        });
-                                }
-
-                                else if (!menubool("usecombow") || !menubool("usecomboe"))
-                                {
-                                    // delay till after aa
-                                    Utility.DelayAction.Add(
-                                        90 + (int) (player.AttackDelay * 100) + Game.Ping / 2, delegate
-                                        {
-                                            if (qtarg != null && qtarg.NetworkId == riventarget().NetworkId)
-                                            {
-                                                if (Items.CanUseItem(3077))
-                                                    Items.UseItem(3077);
-                                                if (Items.CanUseItem(3074))
-                                                    Items.UseItem(3074);
-                                                if (Items.CanUseItem(3748))
-                                                    Items.UseItem(3748);
-                                            }
-                                        });
-                                }
-                            }
-
-                            else if (menu.Item("clearkey").GetValue<KeyBind>().Active)
-                            {
-                                if (qtarg.IsValid<Obj_AI_Base>() && !qtarg.Name.StartsWith("Minion"))
-                                {
-                                    Utility.DelayAction.Add(
-                                        90 + (int) (player.AttackDelay*100) + Game.Ping/2, delegate
-                                        {
-                                            if (Items.CanUseItem(3077))
-                                                Items.UseItem(3077);
-                                            if (Items.CanUseItem(3074))
-                                                Items.UseItem(3074);
-                                            if (Items.CanUseItem(3748))
-                                                Items.UseItem(3748);
-                                        });
-                                }
-                            }
-                        }
                         break;
                 }
 
@@ -1479,7 +1462,7 @@ namespace KurisuRiven
                     }
                 }
 
-                if (uo && menubool("keepr"))
+                if (r.IsReady() && uo && menubool("keepr"))
                 {
                     if (player.GetBuff("RivenFengShuiEngine").EndTime - Game.Time <= 0.25f)
                     {
@@ -1487,7 +1470,7 @@ namespace KurisuRiven
                             r.CastIfHitchanceEquals(riventarget(), HitChance.High);
                         else
                         {
-                            if (e.IsReady())
+                            if (e.IsReady() && uo)
                                 e.Cast(Game.CursorPos);
 
                             r.Cast(Game.CursorPos);
@@ -1535,8 +1518,12 @@ namespace KurisuRiven
             if (didhd && canhd && Utils.GameTimeTickCount - lasthd >= 250)
                 didhd = false;
 
-            if (didq && Utils.GameTimeTickCount - lastq >=  500)
+            if (didq && Utils.GameTimeTickCount - lastq >= 500)
+            {
                 didq = false;
+                canmv = true;
+                canaa = true;
+            }
 
             if (didw && Utils.GameTimeTickCount - lastw >= 266)
             {
@@ -1545,7 +1532,7 @@ namespace KurisuRiven
                 canaa = true;
             }
 
-            if (dide && Utils.GameTimeTickCount - laste >= 450)
+            if (dide && Utils.GameTimeTickCount - laste >= 300)
             {
                 dide = false;
                 canmv = true;
@@ -1565,7 +1552,7 @@ namespace KurisuRiven
                 Utils.GameTimeTickCount - lastaa >= 1000)
                 canaa = true;
 
-            if (!canmv && !(didq || didw || dide || didws || didhd || didhs) && 
+            if (!canmv && !(didq || didw || dide || didws || didhd || didhs) &&
                 Utils.GameTimeTickCount - lastaa >= 1100)
                 canmv = true;
         }
