@@ -160,7 +160,7 @@ namespace KurisuRiven
                     q.SetSkillshot(0.25f, 100f, 2200f, false, SkillshotType.SkillshotCircle);
 
                     r = new Spell(SpellSlot.R, 900f);
-                    r.SetSkillshot(0.25f, (float) (45 * 0.5), 1600f, false, SkillshotType.SkillshotCircle);
+                    r.SetSkillshot(0.25f, (float) ((15 * 3) * Math.PI / 180), 1600f, false, SkillshotType.SkillshotCone);
 
                     flash = player.GetSpellSlot("summonerflash");
                     OnDoCast();
@@ -1199,14 +1199,12 @@ namespace KurisuRiven
                         if (!uo) ssfl = false;
                         break;
                     case "RivenMartyr":
-                        canmv = false;
                         didw = true;
                         lastw = Utils.GameTimeTickCount;
                         canw = false;
                         Utility.DelayAction.Add(140 - Game.Ping, () => Game.SendEmote(Emote.Dance));
                         break;
                     case "RivenFeint":
-                        canmv = false;
                         dide = true;
                         didaa = false;
                         laste = Utils.GameTimeTickCount;
@@ -1547,7 +1545,7 @@ namespace KurisuRiven
                 canaa = true;
             }
 
-            if (dide && Utils.GameTimeTickCount - laste >= 350)
+            if (dide && Utils.GameTimeTickCount - laste >= 450)
             {
                 dide = false;
                 canmv = true;
