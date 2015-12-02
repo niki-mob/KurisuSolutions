@@ -6,7 +6,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using CM = KurisuNidalee.CastManager;
 using Color = System.Drawing.Color;
-using ES = KurisuNidalee.Essentials;
+using ES = KurisuNidalee.KurisuLib;
 
 namespace KurisuNidalee
 {
@@ -136,10 +136,13 @@ namespace KurisuNidalee
             ccmenu.AddSubMenu(dmenu);
 
             ccmenu.AddItem(new MenuItem("jgaacount", ":: Jungle AA Weaving"))
-                .SetValue(false).SetTooltip("Require auto attacks before switching to Cougar");
+                .SetValue(new KeyBind('H', KeyBindType.Toggle))
+                .SetTooltip("Require auto attacks before switching to Cougar").Permashow();
             ccmenu.AddItem(new MenuItem("aareq", "-> Required auto attack Count")).SetValue(new Slider(2, 1, 5));
+            ccmenu.AddItem(new MenuItem("kitejg", ":: Kite in Jungle")).SetTooltip("Try kiting with pounce.")
+                .SetValue(false);
             ccmenu.AddItem(new MenuItem("pstyle", ":: Play Style"))
-                .SetValue(new StringList(new[] {"Assassin", "Team Fighter"}, 0));
+                .SetValue(new StringList(new[] {"Assassin", "Team Fighter"}, 1));
 
             ccmenu.AddItem(new MenuItem("alvl6", ":: Auto Level Ultimate")).SetValue(true);
 
@@ -170,6 +173,7 @@ namespace KurisuNidalee
 
             Game.OnUpdate += Game_OnUpdate;
             Drawing.OnDraw += Drawing_OnDraw;
+
             Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
             Game.PrintChat("<b><font color=\"#FF33D6\">Kurisu's Nidalee</font></b> - Loaded!");
         }
@@ -208,24 +212,8 @@ namespace KurisuNidalee
             {
                 var pos = Drawing.WorldToScreen(Player.Position);
 
-                if (ES.CatForm())
-                {
-                    Drawing.DrawText(pos[0] + 100, pos[1] - 135, Color.White,
-                        "Q: " + ES.SpellTimer["Javelin"].ToString("F"));
-                    Drawing.DrawText(pos[0] + 100, pos[1] - 115, Color.White,
-                        "W: " + ES.SpellTimer["Bushwhack"].ToString("F"));
-                    Drawing.DrawText(pos[0] + 100, pos[1] - 95, Color.White,
-                        "E: " + ES.SpellTimer["Primalsurge"].ToString("F"));
-                }
-                else
-                {
-                    Drawing.DrawText(pos[0] + 100, pos[1] - 135, Color.White,
-                        "Q: " + ES.SpellTimer["Takedown"].ToString("F"));
-                    Drawing.DrawText(pos[0] + 100, pos[1] - 115, Color.White,
-                        "W: " + ES.SpellTimer["Pounce"].ToString("F"));
-                    Drawing.DrawText(pos[0] + 100, pos[1] - 95, Color.White,
-                        "E: " + ES.SpellTimer["Swipe"].ToString("F"));
-                }
+                Drawing.DrawText(pos[0] + 100, pos[1] - 135, Color.White,
+                    "Q: " + ES.SpellTimer["Javelin"].ToString("F"));             
             }
 
             if (Root.Item("dt").GetValue<bool>() && Target != null)
@@ -240,6 +228,19 @@ namespace KurisuNidalee
             {
                 Render.Circle.DrawCircle(ES.Player.Position, !ES.CatForm()
                     ? ES.Spells["Javelin"].Range : ES.Spells["ExPounce"].Range, Color.FromArgb(155, Color.DeepPink), 4);
+            }
+
+
+            foreach (
+                var mob in
+                    ObjectManager.Get<Obj_AI_Minion>()
+                        .Where(
+                            x =>
+                                x.IsValidTarget(900) && !x.Name.Contains("Mini") &&
+                                ES.LargeList.Any(y => x.Name.StartsWith(y))))
+            {
+                Render.Circle.DrawCircle(mob.Position, mob.BoundingRadius + Player.BoundingRadius + 35,
+                    Color.FromArgb(155, Color.White), 4);
             }
         }
 
@@ -302,8 +303,7 @@ namespace KurisuNidalee
                 if (Root.Item("flee").GetValue<KeyBind>().Active && ES.CatForm())
                     return;
 
-                if (Player.Mana/Player.MaxMana*100 < 
-                    Root.Item("ndhemana").GetValue<Slider>().Value)
+                if (Player.Mana/Player.MaxMana*100 <  Root.Item("ndhemana").GetValue<Slider>().Value)
                     return;
 
                 if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None && ES.CatForm() || !ES.CatForm())
@@ -353,14 +353,20 @@ namespace KurisuNidalee
                     ObjectManager.Get<Obj_AI_Minion>()
                         .Where(x => ES.MinionList.Any(y => x.Name.StartsWith(y) || x.IsHunted())))
             {
-                if (minion.IsValidTarget(ES.Spells["ExPounce"].Range) &&
-                   (!minion.Name.Contains("Mini") || minion.IsHunted()))
+                if (minion.IsValidTarget(ES.Spells["ExPounce"].Range) && (!minion.Name.Contains("Mini") || minion.IsHunted()))
                 {
                     CM.CastJavelin(minion, "jg");
                     CM.CastPounce(minion, "jg");
                     CM.CastBushwhack(minion, "jg");
                     CM.CastTakedown(minion, "jg");
                     CM.CastSwipe(minion, "jg");
+
+                    if (minion.PasiveRooted() && Root.Item("jgaacount").GetValue<KeyBind>().Active && 
+                        Player.Distance(minion.ServerPosition) > 450)
+                    {
+                        return;
+                    }
+
                     CM.SwitchForm(minion, "jg");
 
                     if (!minion.IsHunted() && !minion.Name.Contains("Mini"))
@@ -372,7 +378,7 @@ namespace KurisuNidalee
 
             foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().Where(x => !x.IsMinion))
             {
-                if (minion.IsValidTarget(ES.Spells["ExPounce"].Range))
+                if (minion.IsValidTarget(ES.Spells["Pounce"].Range + 250))
                 {
                     CM.CastJavelin(minion, "jg");
                     CM.CastBushwhack(minion, "jg");

@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Essentials.cs" />
+    <Compile Include="KurisuLib.cs" />
     <Compile Include="KurisuNidalee.cs" />
     <Compile Include="CastManager.cs" />
     <Compile Include="Program.cs" />

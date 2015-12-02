@@ -9,7 +9,7 @@ using KN = KurisuNidalee.KurisuNidalee;
 
 namespace KurisuNidalee
 {
-    internal static class Essentials
+    internal static class KurisuLib
     {
         internal static int Counter;
         internal static int MissileCount;
@@ -17,10 +17,13 @@ namespace KurisuNidalee
         internal static AttackableUnit LastUnit;
         internal static SpellSlot Smite;
         internal static bool SmiteInGame;
-        internal static Obj_AI_Hero Player = ObjectManager.Player;
-        internal static Dictionary<int, Obj_AI_Base> MinionCache = new Dictionary<int, Obj_AI_Base>(); 
 
-        static Essentials()
+
+        internal static Obj_AI_Hero Player = ObjectManager.Player;
+        internal static Dictionary<int, Obj_AI_Base> MinionCache = new Dictionary<int, Obj_AI_Base>();
+        internal static Dictionary<int, Obj_AI_Minion> ActiveHunts = new Dictionary<int, Obj_AI_Minion>(); 
+
+        static KurisuLib()
         {
             SetSpells();
             GetSmiteSlot();
@@ -147,6 +150,16 @@ namespace KurisuNidalee
         internal static bool IsHunted(this Obj_AI_Base unit)
         {
             return unit.HasBuff("nidaleepassivehunted");
+        }
+
+        /// <summary>
+        /// Returns true if the unit is rooted (Prowl passive)
+        /// </summary>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        internal static bool PasiveRooted(this Obj_AI_Base unit)
+        {
+            return unit is Obj_AI_Minion && unit.HasBuff("nidaleepassivemonsterroot");
         }
 
         /// <summary>
@@ -308,7 +321,6 @@ namespace KurisuNidalee
                         TimeStamp["Pounce"] = Game.Time + 1.5f;
                     else
                         TimeStamp["Pounce"] = Game.Time + (5 + (5 * Player.PercentCooldownMod));
-
                 }
 
                 if (sender.IsMe && args.SData.Name.ToLower() == "swipe")
@@ -395,7 +407,7 @@ namespace KurisuNidalee
         {
             // summoners rift
             "SRU_Razorbeak", "SRU_Krug", "Sru_Crab", "SRU_Baron", "SRU_Dragon",
-            "SRU_Blue", "SRU_Red", "SRU_Murkwolf", "SRU_Gromp", 
+            "SRU_Blue", "SRU_Red", "SRU_Murkwolf", "SRU_Gromp", "SRU_RiftHerald",
             
             // twisted treeline
             "TT_NGolem5.1", "TT_NGolem2.1", "TT_NWolf6.1", "TT_NWolf3.1",
