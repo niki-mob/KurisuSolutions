@@ -160,7 +160,7 @@ namespace KurisuRiven
                     q.SetSkillshot(0.25f, 100f, 2200f, false, SkillshotType.SkillshotCircle);
 
                     r = new Spell(SpellSlot.R, 900f);
-                    r.SetSkillshot(0.25f, (float) ((15 * 3) * Math.PI / 180), 1600f, false, SkillshotType.SkillshotCone);
+                    r.SetSkillshot(0.25f, (float)(45 * 0.5), 1600f, false, SkillshotType.SkillshotCircle);
 
                     flash = player.GetSpellSlot("summonerflash");
                     OnDoCast();
@@ -239,27 +239,33 @@ namespace KurisuRiven
                         if (canburst() || menulist("emode") == 0 && !canburst() ||
                             menu.Item("shycombo").GetValue<KeyBind>().Active)
                         {
-                            if (qtarg != null && qtarg.NetworkId == riventarget().NetworkId)
+                            if (qtarg != null && riventarget() != null)
                             {
-                                if (Items.CanUseItem(3077))
-                                    Items.UseItem(3077);
-                                if (Items.CanUseItem(3074))
-                                    Items.UseItem(3074);
-                                if (Items.CanUseItem(3748))
-                                    Items.UseItem(3748);
+                                if (qtarg.NetworkId == riventarget().NetworkId)
+                                {
+                                    if (Items.CanUseItem(3077))
+                                        Items.UseItem(3077);
+                                    if (Items.CanUseItem(3074))
+                                        Items.UseItem(3074);
+                                    if (Items.CanUseItem(3748))
+                                        Items.UseItem(3748);
+                                }
                             }
                         }
 
                         else if (!menubool("usecombow") || !menubool("usecomboe"))
                         {
-                            if (qtarg != null && qtarg.NetworkId == riventarget().NetworkId)
+                            if (qtarg != null && riventarget() != null)
                             {
-                                if (Items.CanUseItem(3077))
-                                    Items.UseItem(3077);
-                                if (Items.CanUseItem(3074))
-                                    Items.UseItem(3074);
-                                if (Items.CanUseItem(3748))
-                                    Items.UseItem(3748);
+                                if (qtarg.NetworkId == riventarget().NetworkId)
+                                {
+                                    if (Items.CanUseItem(3077))
+                                        Items.UseItem(3077);
+                                    if (Items.CanUseItem(3074))
+                                        Items.UseItem(3074);
+                                    if (Items.CanUseItem(3748))
+                                        Items.UseItem(3748);
+                                }
                             }
                         }
                     }
@@ -369,12 +375,12 @@ namespace KurisuRiven
                 SomeDash(riventarget());
 
                 if (q.IsReady() && riventarget().Distance(player.ServerPosition) <= truerange + 100)
-                {
-                    useinventoryitems(riventarget());
+                {                
                     checkr();
 
                     if (canq && !canhd)
                     {
+                        useinventoryitems(riventarget());
                         if (Utils.GameTimeTickCount - lastw >= 350)
                         {
                             q.Cast(riventarget().ServerPosition);
@@ -1166,7 +1172,20 @@ namespace KurisuRiven
                     cane = false;
                     canws = false;
                     lastaa = Utils.GameTimeTickCount;
+                }
+
+                if (args.SData.IsAutoAttack())
+                {
                     qtarg = (Obj_AI_Base) args.Target;
+                    if (menu.Item("shycombo").GetValue<KeyBind>().Active)
+                    {
+                        if (Items.CanUseItem(3077))
+                            Items.UseItem(3077);
+                        if (Items.CanUseItem(3074))
+                            Items.UseItem(3074);
+                        if (Items.CanUseItem(3748))
+                            Items.UseItem(3748);
+                    }
                 }
 
                 if (args.SData.Name.ToLower().Contains("ward"))
