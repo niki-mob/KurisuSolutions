@@ -148,9 +148,10 @@ namespace KurisuRiven
             {
                 try
                 {
-                    if (player.ChampionName != "Riven") 
+                    if (player.ChampionName != "Riven")
+                    {
                         return;
-                    TargetSelector.CustomTS = true;
+                    }
 
                     w = new Spell(SpellSlot.W, 250f);
                     e = new Spell(SpellSlot.E, 270f);
@@ -248,7 +249,7 @@ namespace KurisuRiven
 
             // hydra check
             hashd = Items.HasItem(3077) || Items.HasItem(3074) || Items.HasItem(3748);
-            canhd = canmv && (Items.CanUseItem(3077) || Items.CanUseItem(3074) || Items.CanUseItem(3748));
+            canhd = Items.CanUseItem(3077) || Items.CanUseItem(3074) || Items.CanUseItem(3748);
 
             // my radius
             truerange = player.AttackRange + player.Distance(player.BBox.Minimum) + 1;
@@ -257,17 +258,7 @@ namespace KurisuRiven
             if (!qtarg.IsValidTarget(truerange + 100))
                  qtarg = player;
 
-            if (riventarget().IsValidTarget())
-            {
-                if (menu.Item("combokey").GetValue<KeyBind>().Active ||
-                    menu.Item("harasskey").GetValue<KeyBind>().Active ||
-                    menu.Item("shycombo").GetValue<KeyBind>().Active)
-                {
-                    orbwalker.ForceTarget(riventarget());
-                }
-            }
-
-            else
+            if (!riventarget().IsValidTarget())
                 _sh = null;
 
             if (!canmv && didq)
@@ -338,14 +329,9 @@ namespace KurisuRiven
                     useinventoryitems(riventarget());
                     checkr();
 
-                    if (canhd)
+                    if (canq && !canhd)
                     {
-                        return;
-                    }
-
-                    if (canq)
-                    {
-                        if (Utils.GameTimeTickCount - lastw >= 370)
+                        if (Utils.GameTimeTickCount - lastw >= 350)
                         {
                             q.Cast(riventarget().ServerPosition);
                         }
@@ -487,9 +473,12 @@ namespace KurisuRiven
         #region Riven : Some Dash
         private static bool canburst(bool shy = false)
         {
-            if (shy && menulist("multib") != 0)
+            if (shy && r.IsReady() && (flash.IsReady() || menulist("multib") == 2))
             {
-                return true;
+                if (riventarget() != null && menulist("multib") != 0)
+                {
+                    return true;
+                }
             }
 
             if (riventarget() == null || !r.IsReady() && !uo)
@@ -558,7 +547,9 @@ namespace KurisuRiven
 
             var oo = e.IsReady() && q.IsReady() ? e.Range + w.Range + q.Range/2 : truerange + 100;
 
-            if (e.IsReady() && (target.Distance(player.ServerPosition) <= e.Range + w.Range + 25 || 
+            if (e.IsReady() && 
+
+               (target.Distance(player.ServerPosition) <= e.Range + w.Range + 25 || 
                 uo && target.Distance(player.ServerPosition) > truerange + 100) &&
                
                 (player.Health / player.MaxHealth * 100 <= menuslide("vhealth") || 
@@ -1143,7 +1134,7 @@ namespace KurisuRiven
                         canws = true;
                         canhd = false;
 
-                        if (menulist("wsmode") == 1)
+                        if (menulist("wsmode") == 1 || menu.Item("shycombo").GetValue<KeyBind>().Active)
                         {
                             if (menu.Item("combokey").GetValue<KeyBind>().Active)
                             {
@@ -1290,7 +1281,7 @@ namespace KurisuRiven
                         ssfl = false;
                         didws = true;
                         canws = false;
-                        Utility.DelayAction.Add(140 - Game.Ping, () => Game.SendEmote(Emote.Dance));
+
                         if (w.IsReady() && riventarget().IsValidTarget(wrange))
                             w.Cast();
 
@@ -1546,7 +1537,7 @@ namespace KurisuRiven
             if (didhd && canhd && Utils.GameTimeTickCount - lasthd >= 250)
                 didhd = false;
 
-            if (didq && Utils.GameTimeTickCount - lastq >= 1000)
+            if (didq && Utils.GameTimeTickCount - lastq >=  500)
                 didq = false;
 
             if (didw && Utils.GameTimeTickCount - lastw >= 266)
@@ -1556,7 +1547,7 @@ namespace KurisuRiven
                 canaa = true;
             }
 
-            if (dide && Utils.GameTimeTickCount - laste >= 500)
+            if (dide && Utils.GameTimeTickCount - laste >= 350)
             {
                 dide = false;
                 canmv = true;
