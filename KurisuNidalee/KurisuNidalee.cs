@@ -18,7 +18,13 @@ namespace KurisuNidalee
         internal static Obj_AI_Hero Player = ObjectManager.Player;
 
         internal KurisuNidalee()
-        {
+        {                                     
+            //  _____ _   _     _         
+            // |   | |_|_| |___| |___ ___ 
+            // | | | | | . | .'| | -_| -_|
+            // |_|___|_|___|__,|_|___|___|
+            // Kurisu Nidalee 2015
+                           
             CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
         }
 
@@ -72,7 +78,6 @@ namespace KurisuNidalee
             humenu.AddSubMenu(ndhe);
 
             var ndhr = new Menu("(R) Aspect of the Cougar", "ndhr");
-            ndhr.AddItem(new MenuItem("ndhrwh", "Switch When")).SetValue(new StringList(new[] { "Auto", "Hunted Only", "Always" }));
             ndhr.AddItem(new MenuItem("ndhrco", "Enable in Combo")).SetValue(true);
             ndhr.AddItem(new MenuItem("ndhrcreq", "-> Require Swipe/Takedown")).SetValue(true);
             ndhr.AddItem(new MenuItem("ndhrha", "Enable in Harass")).SetValue(true);
@@ -120,7 +125,6 @@ namespace KurisuNidalee
             comenu.AddSubMenu(ndce);
 
             var ndcr = new Menu("(R) Aspect of the Cougar", "ndcr");
-            ndcr.AddItem(new MenuItem("ndcrwh", "Switch When")).SetValue(new StringList(new[] { "Auto", "Q Ready", "Out of Range" }));
             ndcr.AddItem(new MenuItem("ndcrco", "Enable in Combo")).SetValue(true);
             ndcr.AddItem(new MenuItem("ndcrha", "Enable in Harass")).SetValue(true);
             ndcr.AddItem(new MenuItem("ndcrjg", "Enable in Jungle")).SetValue(true);
@@ -130,17 +134,23 @@ namespace KurisuNidalee
 
 
             var dmenu = new Menu(":: Draw Settings", "dmenu");              
-            dmenu.AddItem(new MenuItem("dp", "Draw Q Range")).SetValue(true);
-            dmenu.AddItem(new MenuItem("dti",  "Draw Timers")).SetValue(false);
-            dmenu.AddItem(new MenuItem("dt", "Draw Target")).SetValue(true);
+            dmenu.AddItem(new MenuItem("dp", ":: Draw Q Range")).SetValue(true);
+            dmenu.AddItem(new MenuItem("dti",  ":: Draw Q Timer")).SetValue(false);
+            dmenu.AddItem(new MenuItem("dt", ":: Draw Target")).SetValue(true);
+            dmenu.AddItem(new MenuItem("drawroot", ":: Draw Root Timer (Jungle)")).SetValue(true);
             ccmenu.AddSubMenu(dmenu);
 
-            ccmenu.AddItem(new MenuItem("jgaacount", ":: Jungle AA Weaving"))
+            var xmenu = new Menu(":: Misc Settings", "xmenu");           
+            xmenu.AddItem(new MenuItem("spcol", ":: Switch to Cougar if Spear Collision (Jungle)")).SetValue(false);
+            xmenu.AddItem(new MenuItem("jgaacount", ":: AA Weaving (Jungle)"))
                 .SetValue(new KeyBind('H', KeyBindType.Toggle))
                 .SetTooltip("Require auto attacks before switching to Cougar").Permashow();
-            ccmenu.AddItem(new MenuItem("aareq", "-> Required auto attack Count")).SetValue(new Slider(2, 1, 5));
-            ccmenu.AddItem(new MenuItem("kitejg", ":: Kite in Jungle")).SetTooltip("Try kiting with pounce.")
+            xmenu.AddItem(new MenuItem("aareq", "-> Required auto attack Count (Jungle)")).SetValue(new Slider(2, 1, 5));
+            xmenu.AddItem(new MenuItem("kitejg", ":: Pounce Away (Jungle)")).SetTooltip("Try kiting with pounce.")
                 .SetValue(false);
+            ccmenu.AddSubMenu(xmenu);
+
+
             ccmenu.AddItem(new MenuItem("pstyle", ":: Play Style"))
                 .SetValue(new StringList(new[] {"Assassin", "Team Fighter"}, 1));
 
@@ -153,8 +163,8 @@ namespace KurisuNidalee
             Root.AddSubMenu(ccmenu);
 
             var sset = new Menu(":: Smite Settings", "sset");
-            sset.AddItem(new MenuItem("jgsmite", "Enable Smite")).SetValue(true);
-            sset.AddItem(new MenuItem("jgsmitetd", "Takedown + Smite")).SetValue(true);
+            sset.AddItem(new MenuItem("jgsmite", ":: Enable Smite")).SetValue(true);
+            sset.AddItem(new MenuItem("jgsmitetd", ":: Takedown + Smite")).SetValue(true);
             sset.AddItem(new MenuItem("jgsmiteep", "-> Smite Epic")).SetValue(true);
             sset.AddItem(new MenuItem("jgsmitebg", "-> Smite Large")).SetValue(true);
             sset.AddItem(new MenuItem("jgsmitesm", "-> Smite Small")).SetValue(false);
@@ -206,6 +216,17 @@ namespace KurisuNidalee
             if (Player.IsDead || !Player.IsValid)
             {
                 return;
+            }
+
+            foreach (var unit in ObjectManager.Get<Obj_AI_Minion>().Where(x => x.IsValidTarget(900) && x.PassiveRooted()))
+            {
+                var b = unit.GetBuff("NidaleePassiveMonsterRoot");
+                if (b.Caster.IsMe && b.EndTime - Game.Time > 0)
+                {
+                    var tpos = Drawing.WorldToScreen(unit.Position);
+                    Drawing.DrawText(tpos[0], tpos[1], Color.DeepPink,
+                        "ROOTED " + (b.EndTime - Game.Time).ToString("F"));
+                }               
             }
 
             if (Root.Item("dti").GetValue<bool>())
@@ -330,12 +351,16 @@ namespace KurisuNidalee
         {
             var assassin = Root.Item("pstyle").GetValue<StringList>().SelectedIndex == 0;
 
-            CM.CastJavelin(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
+            if (!Player.IsWindingUp)
+            {
+                CM.CastJavelin(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
+                CM.SwitchForm(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
+            }
+
             CM.CastBushwhack(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Bushwhack"].Range, TargetSelector.DamageType.Magical), "co");
             CM.CastTakedown(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Takedown"].Range, TargetSelector.DamageType.Magical), "co");
             CM.CastPounce(assassin ? Target : TargetSelector.GetTarget(ES.Spells["ExPounce"].Range, TargetSelector.DamageType.Magical), "co");
             CM.CastSwipe(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Swipe"].Range, TargetSelector.DamageType.Magical), "co");
-            CM.SwitchForm(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
         }
 
         internal static void Harass()
@@ -361,7 +386,7 @@ namespace KurisuNidalee
                     CM.CastTakedown(minion, "jg");
                     CM.CastSwipe(minion, "jg");
 
-                    if (minion.PasiveRooted() && Root.Item("jgaacount").GetValue<KeyBind>().Active && 
+                    if (minion.PassiveRooted() && Root.Item("jgaacount").GetValue<KeyBind>().Active && 
                         Player.Distance(minion.ServerPosition) > 450)
                     {
                         return;

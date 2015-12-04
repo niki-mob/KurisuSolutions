@@ -157,7 +157,7 @@ namespace KurisuNidalee
         /// </summary>
         /// <param name="unit"></param>
         /// <returns></returns>
-        internal static bool PasiveRooted(this Obj_AI_Base unit)
+        internal static bool PassiveRooted(this Obj_AI_Base unit)
         {
             return unit is Obj_AI_Minion && unit.HasBuff("nidaleepassivemonsterroot");
         }

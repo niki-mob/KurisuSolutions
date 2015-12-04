@@ -321,129 +321,112 @@ namespace KurisuNidalee
                     }
                 }
 
-                // pounce only hunted
-                if (KN.Root.Item("ndhrwh").GetValue<StringList>().SelectedIndex == 1)
+                if (mode == "wc")
                 {
-                    if (target.IsValidTarget(KL.Spells["ExPounce"].Range) && target.IsHunted())
+                    if (target.IsValidTarget(375) && target.IsMinion)
+                    {
                         KL.Spells["Aspect"].Cast();
+                        return;
+                    }
                 }
 
-                // pounce always any condition
-                if (KN.Root.Item("ndhrwh").GetValue<StringList>().SelectedIndex == 2)
+                if (target.IsHunted())
                 {
-                    if (mode == "wc")
+                    // force switch no swipe/takedown req
+                    if (!KN.Root.Item("ndhrcreq").GetValue<bool>() && mode == "co" ||
+                        !KN.Root.Item("ndhrjreq").GetValue<bool>() && mode == "jg")
                     {
-                        if (target.IsValidTarget(375) && target.IsMinion)
-                        {
-                            KL.Spells["Aspect"].Cast();
-                            return;
-                        }
+                        KL.Spells["Aspect"].Cast();
+                        return;
                     }
 
-                    if (target.IsValidTarget(KL.Spells["ExPounce"].Range) && target.IsHunted())
-                        KL.Spells["Aspect"].Cast();
-
-                    if (target.IsValidTarget(KL.Spells["Pounce"].Range) && !target.IsHunted())
-                        KL.Spells["Aspect"].Cast();
+                    // or check if pounce timer is ready before switch
+                    if (KL.Spells["Aspect"].IsReady() && target.IsValidTarget(KL.Spells["ExPounce"].Range))
+                    {
+                        // dont pounce if swipe or takedown isn't ready
+                        if ((KL.SpellTimer["Takedown"].IsReady() || KL.SpellTimer["Swipe"].IsReady()) &&
+                            KL.SpellTimer["Pounce"].IsReady(1))
+                            KL.Spells["Aspect"].Cast();
+                    }
                 }
-
-                // pounce with my recommended condition
-                if (KN.Root.Item("ndhrwh").GetValue<StringList>().SelectedIndex == 0)
+                else
                 {
-                    if (mode == "wc")
+                    // check if in pounce range oops.
+                    if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 100)
                     {
-                        if (target.IsValidTarget(375) && target.IsMinion)
+                        if (target.IsValidTarget(KL.Spells["Pounce"].Range + 100))
                         {
-                            KL.Spells["Aspect"].Cast();
-                            return;
-                        }
-                    }
-
-                    if (target.IsHunted())
-                    {
-                        // force switch no swipe/takedown req
-                        if (!KN.Root.Item("ndhrcreq").GetValue<bool>() && mode == "co" ||
-                            !KN.Root.Item("ndhrjreq").GetValue<bool>() && mode == "jg")
-                        {
-                            KL.Spells["Aspect"].Cast();
-                            return;
-                        }
-
-                        // or check if pounce timer is ready before switch
-                        if (KL.Spells["Aspect"].IsReady() && target.IsValidTarget(KL.Spells["ExPounce"].Range))
-                        {
-                            // dont pounce if swipe or takedown isn't ready
-                            if (KL.SpellTimer["Takedown"].IsReady() || KL.SpellTimer["Swipe"].IsReady() ||
-                                KL.SpellTimer["Bushwhack"].IsReady() && mode == "jg")
-                                KL.Spells["Aspect"].Cast();
-                        }
-                    }
-                    else
-                    {
-                        // check if in pounce range oops.
-                        if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 100)
-                        {
-                            if (target.IsValidTarget(KL.Spells["Pounce"].Range + 100))
+                            if (mode != "jg")
                             {
-                                if (mode != "jg")
+                                // switch to cougar if can kill target
+                                if (KL.CatDamage(target) >= target.Health)
                                 {
-                                    // switch to cougar if can kill target
-                                    if (KL.CatDamage(target) >= target.Health)
+                                    if (mode == "co" && target.IsValidTarget(KL.Spells["Pounce"].Range))
+                                        KL.Spells["Aspect"].Cast();
+                                }
+
+                                // switch if Q disabled in menu
+                                if (!KN.Root.Item("ndhq" + mode).GetValue<bool>() ||
+
+                                    // or Q is not learned
+                                    KL.NotLearned(KL.Spells["Javelin"]) ||
+
+                                    // delay the cast .5 seconds
+                                    Utils.GameTimeTickCount - (int) (KL.TimeStamp["Javelin"] * 1000) +
+                                    ((6 + (6 * KL.Player.PercentCooldownMod)) * 1000) >= 500 &&
+
+                                    // if Q is not ready in 2 seconds
+                                    !KL.SpellTimer["Javelin"].IsReady(2))
+                                {
+                                    KL.Spells["Aspect"].Cast();
+                                }
+                            }
+                            else
+                            {
+                                if (KL.Spells["Javelin"].Cast(target) == Spell.CastStates.Collision && KN.Root.Item("spcol").GetValue<bool>())
+                                {
+                                    if (!KL.SpellTimer["Bushwhack"].IsReady() || KL.NotLearned(KL.Spells["Bushwhack"]))
                                     {
-                                        if (mode == "co" && target.IsValidTarget(KL.Spells["Pounce"].Range))
+                                        if (KL.Spells["Aspect"].IsReady())
                                             KL.Spells["Aspect"].Cast();
                                     }
+                                }
+                            }
+                        }
+                    }
 
-                                    // switch if Q disabled in menu
-                                    if (!KN.Root.Item("ndhq" + mode).GetValue<bool>() ||
-
-                                        // or Q is not learned
-                                        KL.NotLearned(KL.Spells["Javelin"]) ||
-
-                                        // delay the cast .5 seconds
-                                        Utils.GameTimeTickCount - (int) (KL.TimeStamp["Javelin"] * 1000) +
-                                        ((6 + (6 * KL.Player.PercentCooldownMod)) * 1000) >= 500 &&
-
-                                        // if Q is not ready in 2 seconds
-                                        !KL.SpellTimer["Javelin"].IsReady(2))
-                                    {
+                    if (KN.Target.IsValidTarget(KL.Spells["Javelin"].Range) && target.IsChampion())
+                    {
+                        if (KL.SpellTimer["Javelin"].IsReady())
+                        {
+                            // check if in pounce range.
+                            if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 25)
+                            {
+                                // if we dont meet hitchance on Q target pounce nearest target
+                                var poutput = KL.Spells["Javelin"].GetPrediction(target);
+                                if (poutput.Hitchance >= (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                                {
+                                    if (KL.Spells["Aspect"].IsReady())
                                         KL.Spells["Aspect"].Cast();
-                                    }
                                 }
                             }
                         }
 
-                        if (KN.Target.IsValidTarget(KL.Spells["Javelin"].Range) && target.IsChampion())
+                        if (KN.Target.IsHunted() && KN.Target.Distance(KL.Player.ServerPosition) >
+                            KL.Spells["ExPounce"].Range + 100)
                         {
-                            if (KL.SpellTimer["Javelin"].IsReady())
+                            if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 25)
                             {
-                                // check if in pounce range.
-                                if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 25)
-                                {
-                                    // if we dont meet hitchance on Q target pounce nearest target
-                                    var poutput = KL.Spells["Javelin"].GetPrediction(target);
-                                    if (poutput.Hitchance >= (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
-                                    {
-                                        KL.Spells["Aspect"].Cast();
-                                    }
-                                }
-                            }
-
-                            if (KN.Target.IsHunted() && KN.Target.Distance(KL.Player.ServerPosition) >
-                                KL.Spells["ExPounce"].Range + 100)
-                            {
-                                if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 25)
-                                {
+                                if (KL.Spells["Aspect"].IsReady())
                                     KL.Spells["Aspect"].Cast();
-                                }
                             }
+                        }
 
-                            if (!KL.SpellTimer["Javelin"].IsReady())
+                        if (!KL.SpellTimer["Javelin"].IsReady())
+                        {
+                            if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 125)
                             {
-                                if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 125)
-                                {
-                                    KL.Spells["Aspect"].Cast();
-                                }
+                                KL.Spells["Aspect"].Cast();
                             }
                         }
                     }
