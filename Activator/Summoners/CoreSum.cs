@@ -83,7 +83,6 @@ namespace Activator.Summoners
                 if (Name == "summonerdot")
                 {
                     Activator.UseEnemyMenu = true;
-                    Menu.AddItem(new MenuItem("ignotet", "Ignite Under Turret")).SetValue(true);
 
                     switch (Player.ChampionName)
                     {
@@ -101,7 +100,8 @@ namespace Activator.Summoners
                             break;
                     }
 
-                    Menu.AddItem(new MenuItem("ignoteo", "Check Overkill (Combo)")).SetValue(false);
+                    Menu.AddItem(new MenuItem("itu", "Dont Ignite Near Turret")).SetValue(true);
+                    Menu.AddItem(new MenuItem("igtu", "-> Ignore after Level")).SetValue(new Slider(11, 1, 18));
                     Menu.AddItem(new MenuItem("mode" + Name, "Mode: "))
                         .SetValue(new StringList(new[] { "Killsteal", "Combo" }, 1));
                 }

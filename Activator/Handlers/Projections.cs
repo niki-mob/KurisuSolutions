@@ -125,13 +125,8 @@ namespace Activator.Handlers
                 if (attacker == null || attacker.IsAlly || !attacker.IsValid<Obj_AI_Hero>())
                     return;
 
-                var data = Data.Spelldata.SomeSpells.Find(x => x.SDataName == args.SData.Name.ToLower());
-                if (data == null)
-                    return;
-
                 foreach (var hero in Activator.Allies())
                 {
-                    // reset if needed
                     Essentials.ResetIncomeDamage(hero.Player);
 
                     #region auto attack
@@ -182,6 +177,10 @@ namespace Activator.Handlers
                     }
 
                     #endregion
+
+                    var data = Data.Spelldata.SomeSpells.Find(x => x.SDataName == args.SData.Name.ToLower());
+                    if (data == null)
+                        return;
 
                     #region self/selfaoe
 

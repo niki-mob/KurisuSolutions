@@ -40,10 +40,11 @@ namespace Activator
         internal static SpellSlot Smite;
         internal static bool SmiteInGame;
         internal static bool TroysInGame;
+        internal static bool UseEnemyMenu, UseAllyMenu;
 
-        public static bool UseEnemyMenu, UseAllyMenu;
         public static System.Version Version;
         public static List<Champion> Heroes = new List<Champion>();
+        public static List<Obj_AI_Turret> Turrets = new List<Obj_AI_Turret>(); 
 
         private static void Main(string[] args)
         {
@@ -58,6 +59,7 @@ namespace Activator
                 Player = ObjectManager.Player;
                 MapId = (int) Utility.Map.GetMap().Type;
 
+                GetTurrets();
                 GetSmiteSlot();
                 GetGameTroysInGame();
                 GetHeroesInGame();
@@ -254,6 +256,12 @@ namespace Activator
                     .FindAll(t => t.IsClass && t.Namespace == "Activator." + nspace &&
                                   t.Name != "CoreItem" && t.Name != "CoreSpell" && t.Name != "CoreSum" &&
                                  !t.Name.Contains("c__") && !t.Name.Contains("<>c")); // kek
+        }
+
+        private static void GetTurrets()
+        {
+            foreach (var t in ObjectManager.Get<Obj_AI_Turret>().Where(i => i.IsValid))
+                Turrets.Add(t);
         }
 
         private static void GetComboDamage()
