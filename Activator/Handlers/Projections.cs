@@ -287,21 +287,18 @@ namespace Activator.Handlers
                         var distance = (int)(1000 * (startpos.Distance(hero.Player.ServerPosition) / data.MissileSpeed));
                         var endtime = data.Delay - 100 + Game.Ping / 2f + distance - (Utils.GameTimeTickCount - LastCastedTimeStamp);
 
+                        var iscone = args.SData.TargettingType == SpellDataTargetType.Cone;
                         var direction = (args.End.To2D() - startpos.To2D()).Normalized();
                         var endpos = startpos.To2D() + direction * startpos.To2D().Distance(args.End.To2D());
 
                         if (startpos.To2D().Distance(endpos) > data.CastRange)
                             endpos = startpos.To2D() + direction * data.CastRange;
 
-                        var iscone = args.SData.TargettingType == SpellDataTargetType.Cone;
+                        if (startpos.To2D().Distance(endpos) < data.CastRange && iscone)
+                            endpos = startpos.To2D() + direction * data.CastRange;
+
                         var proj = hero.Player.ServerPosition.To2D().ProjectOn(startpos.To2D(), endpos);
                         var projdist = hero.Player.ServerPosition.To2D().Distance(proj.SegmentPoint);
-
-                        if (Activator.Origin.Item("acdebug").GetValue<bool>())
-                        {
-                            Game.ShowPing(PingCategory.AssistMe, startpos);
-                            Game.ShowPing(PingCategory.AssistMe, endpos);
-                        }
 
                         int evadetime = 0;
 
