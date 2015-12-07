@@ -269,11 +269,24 @@ namespace Activator.Handlers
                                         !x.IsAlly && data.FromObject != null &&
                                         data.FromObject.Any(y => x.Name.Contains(y)));
 
-                        var islineskillshot = args.SData.TargettingType == SpellDataTargetType.Cone || args.SData.LineWidth > 0;
+                        var islineskillshot = args.SData.TargettingType == SpellDataTargetType.Cone ||
+                                              args.SData.LineWidth > 0;
+
                         var startpos = fromObj != null ? fromObj.Position : attacker.ServerPosition;
 
-                        var correctwidth = islineskillshot && args.SData.TargettingType != SpellDataTargetType.Cone
-                            ? args.SData.LineWidth : (args.SData.CastRadius < 1 ? args.SData.CastRadiusSecondary : args.SData.CastRadius);
+                        var correctwidth = 0f;
+
+                        if (args.SData.CastRadius > 0) 
+                            correctwidth = args.SData.CastRadius;
+
+                        if (args.SData.CastRadius < 1 && args.SData.CastRadiusSecondary > 0)
+                            correctwidth = args.SData.CastRadiusSecondary;
+
+                        if (args.SData.CastRadiusSecondary < 1 && args.SData.CastRangeDisplayOverride > 0)
+                            correctwidth = args.SData.CastRangeDisplayOverride;
+
+                        if (islineskillshot && args.SData.TargettingType != SpellDataTargetType.Cone)
+                            correctwidth = args.SData.LineWidth;
 
                         if (data.SDataName == "azirq")
                         {
@@ -304,12 +317,14 @@ namespace Activator.Handlers
 
                         if (islineskillshot)
                             evadetime = (int)(1000 * (correctwidth - projdist + hero.Player.BoundingRadius) / hero.Player.MoveSpeed);
+
                         if (!islineskillshot)
                             evadetime = (int)(1000 * (correctwidth - hero.Player.Distance(startpos) + hero.Player.BoundingRadius) /hero.Player.MoveSpeed);
 
-                        if (!iscone && islineskillshot && correctwidth + hero.Player.BoundingRadius + 35 > projdist ||
-                           (!islineskillshot || iscone) && hero.Player.Distance(endpos) <= correctwidth + hero.Player.BoundingRadius + 35)
+                        if ((!islineskillshot || iscone) && hero.Player.Distance(endpos) <= correctwidth + hero.Player.BoundingRadius + 35 ||
+                            islineskillshot && correctwidth + hero.Player.BoundingRadius + 35 > projdist)
                         {
+                            
                             if (hero.Player.NetworkId == Activator.Player.NetworkId &&
                                 (data.Global || Activator.Origin.Item("evade").GetValue<bool>()))
                             {

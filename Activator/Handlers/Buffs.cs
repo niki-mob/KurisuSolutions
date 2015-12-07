@@ -32,6 +32,15 @@ namespace Activator.Handlers
                 var aura = Auradata.BuffList.Find(au => hero.Player.HasBuff(au.Name));
                 if (aura == null)
                 {
+                    if (hero.DotTicks > 0)
+                    {
+                        hero.IncomeDamage -= 1;
+                        hero.DotTicks -= 1;
+                    }
+
+                    if (hero.IncomeDamage < 0)
+                        hero.IncomeDamage = 0;
+
                     return;
                 }
 
@@ -81,19 +90,7 @@ namespace Activator.Handlers
                             }
                         }
                     }
-
-                    return;
-                }
-                
-
-                if (hero.DotTicks > 0)
-                {
-                    hero.IncomeDamage -= 1;
-                    hero.DotTicks -= 1;
-                }
-
-                if (hero.IncomeDamage < 0)
-                    hero.IncomeDamage = 0;
+                }            
             }
         }
 
