@@ -7,6 +7,8 @@ using LeagueSharp.Common;
 
 namespace KurisuSivir
 {
+    using LeagueSharp;
+
     class Program
     {
         static void Main(string[] args)
