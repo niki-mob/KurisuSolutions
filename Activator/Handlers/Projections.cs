@@ -293,9 +293,9 @@ namespace Activator.Handlers
                         if (startpos.To2D().Distance(endpos) > data.CastRange)
                             endpos = startpos.To2D() + direction * data.CastRange;
 
+                        var iscone = args.SData.TargettingType == SpellDataTargetType.Cone;
                         var proj = hero.Player.ServerPosition.To2D().ProjectOn(startpos.To2D(), endpos);
                         var projdist = hero.Player.ServerPosition.To2D().Distance(proj.SegmentPoint);
-                        int evadetime;
 
                         if (Activator.Origin.Item("acdebug").GetValue<bool>())
                         {
@@ -303,15 +303,15 @@ namespace Activator.Handlers
                             Game.ShowPing(PingCategory.AssistMe, endpos);
                         }
 
-                        if (islineskillshot)
-                            evadetime = (int)(1000 * (correctwidth - projdist + hero.Player.BoundingRadius) /
-                                                hero.Player.MoveSpeed);
-                        else
-                            evadetime = (int)(1000 * (correctwidth - hero.Player.Distance(startpos) + hero.Player.BoundingRadius) /
-                                                hero.Player.MoveSpeed);
+                        int evadetime = 0;
 
-                        if (islineskillshot && correctwidth + hero.Player.BoundingRadius + 35 > projdist ||
-                            !islineskillshot && hero.Player.Distance(endpos) <= correctwidth + hero.Player.BoundingRadius + 35)
+                        if (islineskillshot)
+                            evadetime = (int)(1000 * (correctwidth - projdist + hero.Player.BoundingRadius) / hero.Player.MoveSpeed);
+                        if (!islineskillshot)
+                            evadetime = (int)(1000 * (correctwidth - hero.Player.Distance(startpos) + hero.Player.BoundingRadius) /hero.Player.MoveSpeed);
+
+                        if (!iscone && islineskillshot && correctwidth + hero.Player.BoundingRadius + 35 > projdist ||
+                           (!islineskillshot || iscone) && hero.Player.Distance(endpos) <= correctwidth + hero.Player.BoundingRadius + 35)
                         {
                             if (hero.Player.NetworkId == Activator.Player.NetworkId &&
                                 (data.Global || Activator.Origin.Item("evade").GetValue<bool>()))
