@@ -7,8 +7,6 @@ using LeagueSharp.Common;
 
 namespace KurisuSivir
 {
-    using LeagueSharp;
-
     class Program
     {
         static void Main(string[] args)
@@ -18,11 +16,6 @@ namespace KurisuSivir
 
         static void Game_OnGameLoad(EventArgs args)
         {
-            if (ObjectManager.Player.ChampionName != "Sivir")
-            {
-                return;
-            }
-
             new KurisuSivir();
         }
     }
