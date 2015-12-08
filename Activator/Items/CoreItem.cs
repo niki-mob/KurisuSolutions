@@ -59,7 +59,6 @@ namespace Activator.Items
             return hpi;
         }
 
-
         public bool IsReady()
         {
             return LeagueSharp.Common.Items.CanUseItem(Id);

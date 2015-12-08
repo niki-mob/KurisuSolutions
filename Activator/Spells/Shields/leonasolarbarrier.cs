@@ -23,7 +23,7 @@ namespace Activator.Spells.Shields
 
         internal override MenuType[] Category
         {
-            get { return new[] { MenuType.SelfMuchHP, MenuType.SelfMinMP }; }
+            get { return new[] { MenuType.SelfLowHP, MenuType.SelfMuchHP, MenuType.SelfMinMP }; }
         }
 
         internal override int DefaultHP
@@ -56,6 +56,13 @@ namespace Activator.Spells.Shields
                         Menu.Item("selfmuchhp" + Name + "pct").GetValue<Slider>().Value)
                         UseSpell();
 
+                    if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
+                        Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
+                    {
+                        if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >=
+                            Menu.Item("selflowhp" + Name + "th").GetValue<Slider>().Value || hero.MinionDamage > hero.Player.Health)
+                            UseSpell();
+                    }
                 }
             }
         }

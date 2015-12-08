@@ -3064,7 +3064,7 @@ namespace Activator.Data
                 ChampionName = "lux",
                 Slot = SpellSlot.R,
                 CastRange = 3340f,
-                Delay = 1750f,
+                Delay = 1000f,
                 HitType = new[] { Base.HitType.Danger, Base.HitType.Ultimate },
                 MissileName = "luxmalicecannonmis",
                 MissileSpeed = int.MaxValue

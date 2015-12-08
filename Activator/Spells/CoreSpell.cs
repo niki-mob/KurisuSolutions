@@ -55,10 +55,10 @@ namespace Activator.Spells
                 if (Category.Any(t => t == MenuType.SlowRemoval))
                     Menu.AddItem(new MenuItem("use" + Name + "sr", "Use on Slows")).SetValue(true);
 
-                if (Category.Any(t => t == MenuType.EnemyLowHP))
+                if (Category.Any(t => t == MenuType.EnemyLowHP)) 
                     Menu.AddItem(new MenuItem("enemylowhp" + Name + "pct", "Use on Enemy HP % <="))
                         .SetValue(new Slider(DefaultHP))
-                        .SetTooltip("Will Use " + Name + " on Enemy if Their HP % < Value"); 
+                        .SetTooltip("Will Use " + Name + " on Enemy if Their HP % < Value");
 
                 if (Category.Any(t => t == MenuType.SelfLowHP))
                     Menu.AddItem(new MenuItem("selflowhp" + Name + "pct", "Use on Hero HP % <="))
@@ -74,15 +74,20 @@ namespace Activator.Spells
                     Menu.AddItem(new MenuItem("selflowmp" + Name + "pct", "Use on Hero Mana % <="))
                         .SetValue(new Slider(DefaultMP));
 
+                if (Category.Any(t => t == MenuType.SelfLowHP))
+                    Menu.AddItem(new MenuItem("selflowhp" + Name + "th", "Minimum Dmg Dealt %"))
+                        .SetValue(new Slider(5))
+                        .SetTooltip("The Minimum Percentage of Damage to Trigger");
+
                 if (Category.Any(t => t == MenuType.SelfCount))
                     Menu.AddItem(new MenuItem("selfcount" + Name, "Use on # Near Hero >="))
                         .SetValue(new Slider(3, 1, 5));
 
                 if (Category.Any(t => t == MenuType.SelfMinMP))
-                    Menu.AddItem(new MenuItem("selfminmp" + Name + "pct", "Minimum Mana/Energy % <=")).SetValue(new Slider(40));
+                    Menu.AddItem(new MenuItem("selfminmp" + Name + "pct", "Minimum Mana/Energy %")).SetValue(new Slider(40));
 
                 if (Category.Any(t => t == MenuType.SelfMinHP))
-                    Menu.AddItem(new MenuItem("selfminhp" + Name + "pct", "Minimum HP % <=")).SetValue(new Slider(40));
+                    Menu.AddItem(new MenuItem("selfminhp" + Name + "pct", "Minimum HP %")).SetValue(new Slider(40));
 
                 if (Category.Any(t => t == MenuType.SpellShield))
                 {

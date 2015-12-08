@@ -339,7 +339,7 @@ namespace Activator
         {
             var menu = new Menu("Config", parent.Name + "sub");
 
-            var ireset = new MenuItem(parent.Name + "clear", "De-Select [All]");
+            var ireset = new MenuItem(parent.Name + "clear", "Deselect [All]");
             menu.AddItem(ireset).SetValue(false);
 
             foreach (var hero in both ? HeroManager.AllHeroes : enemy ? HeroManager.Enemies : HeroManager.Allies)

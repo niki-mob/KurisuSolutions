@@ -63,7 +63,8 @@ namespace Activator.Spells.Shields
                     if (hero.Player.Health / hero.Player.MaxHealth * 100 <=
                         Menu.Item("selflowhp" + Name + "pct").GetValue<Slider>().Value)
                     {
-                        if (hero.IncomeDamage > 0 || hero.MinionDamage > hero.Player.Health)
+                        if (hero.IncomeDamage / hero.Player.MaxHealth * 100 >=
+                            Menu.Item("selflowhp" + Name + "th").GetValue<Slider>().Value || hero.MinionDamage > hero.Player.Health)
                             UseSpellOn(hero.Player);
                     }
                 }

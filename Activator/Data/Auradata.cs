@@ -347,7 +347,7 @@ namespace Activator.Data
                 Cleanse = false,
                 CleanseTimer = 0,
                 Slot = SpellSlot.E,
-                Interval = 0.8
+                Interval = 0.5
             });
 
             BuffList.Add(new Auradata
@@ -359,7 +359,7 @@ namespace Activator.Data
                 Cleanse = false,
                 CleanseTimer = 0,
                 Slot = SpellSlot.R,
-                Interval = 1.0
+                Interval = 0.5
             });
 
             BuffList.Add(new Auradata
