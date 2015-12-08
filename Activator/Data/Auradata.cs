@@ -518,9 +518,9 @@ namespace Activator.Data
 
             BuffList.Add(new Auradata
             {
-                Champion = "Bruam",
-                Name = "bruammark",
-                MenuName = "Bruam Passive",
+                Champion = "Braum",
+                Name = "braummark",
+                MenuName = "Braum Passive",
                 Evade = false,
                 DoT = false,
                 EvadeTimer = 0,

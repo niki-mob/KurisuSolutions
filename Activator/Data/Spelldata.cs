@@ -1800,6 +1800,14 @@ namespace Activator.Data
                         Base.HitType.Danger, Base.HitType.Ultimate,
                         Base.HitType.CrowdControl
                     },
+
+                MissileName = "hecarimultmissileskn4c",
+                ExtraMissileNames =
+                    new[]
+                    {
+                        "hecarimultmissileskn4r1", "hecarimultmissileskn4r2", "hecarimultmissileskn411",
+                        "hecarimultmissileskn412"
+                    },
                 MissileSpeed = 1200
             });
 
@@ -2455,7 +2463,7 @@ namespace Activator.Data
                 ChampionName = "kennen",
                 Slot = SpellSlot.Q,
                 CastRange = 1175f,
-                Delay = 180f,
+                Delay = 250f,
                 HitType = new HitType[] { },
                 MissileName = "kennenshurikenhurlmissile1",
                 MissileSpeed = 1700
@@ -4175,6 +4183,7 @@ namespace Activator.Data
                 Delay = 250f,
                 HitType = new[] { Base.HitType.CrowdControl },
                 MissileName = "rengarefinal",
+                ExtraMissileNames = new [] { "rengarefinalmax" },
                 MissileSpeed = 1500
             });
 
@@ -5849,6 +5858,7 @@ namespace Activator.Data
                 Delay = 250f,
                 HitType = new[] { Base.HitType.Danger },
                 MissileName = "viktordeathraymis",
+                ExtraMissileNames = new[] { "viktoreaugmissile", },
                 MissileSpeed = 1210
             });
 
@@ -5857,8 +5867,8 @@ namespace Activator.Data
                 SDataName = "viktorchaosstorm",
                 ChampionName = "viktor",
                 Slot = SpellSlot.R,
-                CastRange = 700f,
-                Delay = 350f,
+                CastRange = 710f,
+                Delay = 250f,
                 HitType =
                     new[]
                     {

@@ -75,6 +75,17 @@ namespace Activator.Data
 
             Troys.Add(new Gametroydata
             {
+                Name = "W_AoE",
+                ChampionName = "Hecarim",
+                Radius = 500f,
+                Slot = SpellSlot.W,
+                HitType = new[] { Base.HitType.None },
+                PredictDmg = true,
+                Interval = .75
+            });
+
+            Troys.Add(new Gametroydata
+            {
                 Name = "R_AoE",
                 ChampionName = "Gangplank",
                 Radius = 500f,
@@ -137,6 +148,29 @@ namespace Activator.Data
                 HitType = new[] { Base.HitType.None },
                 PredictDmg = true,
                 Interval = 0.8
+            });
+
+            Troys.Add(new Gametroydata
+            {
+                Name = "lr_buf",
+                ChampionName = "Kennen",
+                Radius = 250f,
+                Slot = SpellSlot.E,
+                HitType = new[] { Base.HitType.None },
+                PredictDmg = true,
+                Interval = 0.8
+            });
+
+            Troys.Add(new Gametroydata
+            {
+                Name = "ss_aoe",
+                ChampionName = "Kennen",
+                Radius = 500f,
+                Slot = SpellSlot.R,
+                DelayFromStart = 1500,
+                HitType = new[] { Base.HitType.Danger, Base.HitType.Ultimate },
+                PredictDmg = true,
+                Interval = 0.5
             });
 
             Troys.Add(new Gametroydata
@@ -208,11 +242,10 @@ namespace Activator.Data
 
             Troys.Add(new Gametroydata
             {
-                Name = "Crowstorm",
+                Name = "CrowStorm",
                 ChampionName = "FiddleSticks",
                 Radius = 450f,
                 Slot = SpellSlot.R,
-                DelayFromStart = 500,
                 HitType =
                     new[]
                     {
