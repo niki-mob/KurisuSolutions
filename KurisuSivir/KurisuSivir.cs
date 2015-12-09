@@ -24,6 +24,11 @@ namespace KurisuSivir
 
         public KurisuSivir()
         {
+            if (ObjectManager.Player.ChampionName != "Sivir")
+            {
+                return;
+            }
+
             Q = new Spell(SpellSlot.Q, 1250);
             Q.SetSkillshot(0.25f, 90f, 1350f, false, SkillshotType.SkillshotLine);
 
