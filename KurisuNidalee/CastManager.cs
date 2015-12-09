@@ -32,8 +32,10 @@ namespace KurisuNidalee
                                 if (obj.Count == 1)
                                 {
                                     if (obj.Any(
-                                        i => i.Health <= KL.Player.GetSummonerSpellDamage(i, Damage.SummonerSpell.Smite) &&
-                                            KL.Player.Distance(i) < 500 && KL.Player.Spellbook.CastSpell(KL.Smite, obj.First())))
+                                        i =>
+                                            i.Health <= KL.Player.GetSummonerSpellDamage(i, Damage.SummonerSpell.Smite) &&
+                                            KL.Player.Distance(i) < 500 &&
+                                            KL.Player.Spellbook.CastSpell(KL.Smite, obj.First())))
                                     {
                                         KL.Spells["Javelin"].Cast(qoutput.CastPosition);
                                         return;
@@ -41,23 +43,31 @@ namespace KurisuNidalee
                                 }
                             }
                         }
-                        
+
                         if (KN.Root.Item("ndhqcheck").GetValue<bool>())
                         {
-                            if (qoutput.Hitchance >= (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3)
+                            if (qoutput.Hitchance >=
+                                (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3)
                             {
                                 KL.Spells["Javelin"].Cast(qoutput.CastPosition);
                             }
                         }
-                    }
-
-                    if (!target.IsChampion() && !target.PassiveRooted()|| !KN.Root.Item("ndhqcheck").GetValue<bool>())
-                    {
-                        if (KL.Spells["Javelin"].Cast(target) != Spell.CastStates.Collision)
+                        else
                         {
-                            KL.Spells["Javelin"].Cast(target.ServerPosition);
+                            KL.Spells["Javelin"].Cast(target);
                         }
                     }
+                    else
+                    {
+                        if (!target.PassiveRooted())
+                        {
+                            if (KL.Spells["Javelin"].Cast(target) != Spell.CastStates.Collision)
+                            {
+                                KL.Spells["Javelin"].Cast(target.ServerPosition);
+                            }
+                        }
+                    }
+
                 }
             }
         }

@@ -182,18 +182,6 @@ namespace KurisuNidalee
         }
 
         /// <summary>
-        /// Returns true if a target is immobile.
-        /// </summary>
-        /// <param name="unit"></param>
-        /// <returns></returns>
-        internal static bool Immobile(Obj_AI_Hero unit)
-        {
-            return unit.HasBuffOfType(BuffType.Charm) || unit.HasBuffOfType(BuffType.Stun) ||
-                   unit.HasBuffOfType(BuffType.Knockup) || unit.HasBuffOfType(BuffType.Snare) ||
-                   unit.HasBuffOfType(BuffType.Taunt) || unit.HasBuffOfType(BuffType.Suppression);
-        }
-
-        /// <summary>
         /// Returns the available cougar damage dealt to the target
         /// </summary>
         /// <param name="target"></param>
