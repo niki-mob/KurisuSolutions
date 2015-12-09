@@ -275,17 +275,6 @@ namespace KurisuNidalee
                 return;
             }
 
-            foreach (var unit in ObjectManager.Get<Obj_AI_Minion>().Where(x => x.IsValidTarget(900) && x.PassiveRooted()))
-            {
-                var b = unit.GetBuff("NidaleePassiveMonsterRoot");
-                if (b.Caster.IsMe && b.EndTime - Game.Time > 0)
-                {
-                    var tpos = Drawing.WorldToScreen(unit.Position);
-                    Drawing.DrawText(tpos[0], tpos[1], Color.DeepPink,
-                        "ROOTED " + (b.EndTime - Game.Time).ToString("F"));
-                }               
-            }
-
             if (Root.Item("dti").GetValue<bool>())
             {
                 var pos = Drawing.WorldToScreen(Player.Position);

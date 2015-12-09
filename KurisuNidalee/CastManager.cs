@@ -51,7 +51,7 @@ namespace KurisuNidalee
                         }
                     }
 
-                    if (!target.IsChampion() || !KN.Root.Item("ndhqcheck").GetValue<bool>())
+                    if (!target.IsChampion() && !target.PassiveRooted()|| !KN.Root.Item("ndhqcheck").GetValue<bool>())
                     {
                         if (KL.Spells["Javelin"].Cast(target) != Spell.CastStates.Collision)
                         {
@@ -142,7 +142,8 @@ namespace KurisuNidalee
                     !target.IsHunted() && mode == "co" && !KN.Root.Item("ndcwdistco").GetValue<bool>())
                 {
                     if (KN.Root.Item("kitejg").GetValue<bool>() && mode == "jg" &&
-                        target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range - 50)
+                        target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range - 50 && 
+                        target.Distance(Game.CursorPos) > 375)
                     {
                         KL.Spells["Pounce"].Cast(Game.CursorPos);
                         return;
