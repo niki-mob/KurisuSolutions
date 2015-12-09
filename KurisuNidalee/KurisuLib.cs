@@ -169,7 +169,7 @@ namespace KurisuNidalee
         /// <returns></returns>
         internal static bool NotLearned(Spell spell)
         {
-            return Player.Spellbook.GetSpell(spell.Slot).State == (SpellState) 12;
+            return Player.Spellbook.GetSpell(spell.Slot).State == SpellState.NotLearned;
         }
 
         /// <summary>
@@ -178,7 +178,7 @@ namespace KurisuNidalee
         /// <returns></returns>
         internal static bool CatForm()
         {
-            return Player.Spellbook.GetSpell(SpellSlot.Q).Name != "JavelinToss";
+            return Player.CharData.BaseSkinName != "Nidalee";
         }
 
         /// <summary>

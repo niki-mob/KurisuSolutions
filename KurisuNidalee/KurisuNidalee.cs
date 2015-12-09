@@ -6,7 +6,7 @@ using LeagueSharp.Common;
 using SharpDX;
 using CM = KurisuNidalee.CastManager;
 using Color = System.Drawing.Color;
-using ES = KurisuNidalee.KurisuLib;
+using KL = KurisuNidalee.KurisuLib;
 
 namespace KurisuNidalee
 {
@@ -18,13 +18,7 @@ namespace KurisuNidalee
         internal static Obj_AI_Hero Player = ObjectManager.Player;
 
         internal KurisuNidalee()
-        {                                     
-            //  _____ _   _     _         
-            // |   | |_|_| |___| |___ ___ 
-            // | | | | | . | .'| | -_| -_|
-            // |_|___|_|___|__,|_|___|___|
-            // Kurisu Nidalee 2015
-                           
+        {                                                             
             CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
         }
 
@@ -33,6 +27,7 @@ namespace KurisuNidalee
             if (Player.ChampionName != "Nidalee")
                 return;
 
+            #region Root Menu
             Root = new Menu("Kurisu's Nidalee", "nidalee", true);
 
             var orbm = new Menu(":: Orbwalker", "orbm");
@@ -46,22 +41,20 @@ namespace KurisuNidalee
             var ndhq = new Menu("(Q)  Javelin", "ndhq");
             ndhq.AddItem(new MenuItem("ndhqcheck", "Check Hitchance")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqch", "-> Min Hitchance"))
-                .SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
+                .SetValue(new StringList(new[] {"Low", "Medium", "High", "Very High"}, 2));
             ndhq.AddItem(new MenuItem("qsmcol", "-> Smite Collision")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqco", "Enable in Combo")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqha", "Enable in Harass")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqjg", "Enable in Jungle")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqwc", "Enable in WaveClear")).SetValue(false);
-            ndhq.AddItem(new MenuItem("ndhqimm", "-> Auto (Q) Immobile")).SetValue(true);
-            ndhq.AddItem(new MenuItem("ndhqgap", "-> Auto (Q) Gapclosers")).SetValue(true);
             humenu.AddSubMenu(ndhq);
 
             var ndhw = new Menu("(W) Bushwhack", "ndhw");
             ndhw.AddItem(new MenuItem("ndhwco", "Enable in Combo")).SetValue(true);
             ndhw.AddItem(new MenuItem("ndhwjg", "Enable in Jungle")).SetValue(true);
             ndhw.AddItem(new MenuItem("ndhwwc", "Enable in WaveClear")).SetValue(false);
-            ndhw.AddItem(new MenuItem("ndhwforce", "Location")).SetValue(new StringList(new[] { "Prediction", "Behind Target" }));
-            ndhw.AddItem(new MenuItem("ndhwimm", "->  Auto (W) Immobile Targets")).SetValue(true);
+            ndhw.AddItem(new MenuItem("ndhwforce", "Location"))
+                .SetValue(new StringList(new[] {"Prediction", "Behind Target"}));
             humenu.AddSubMenu(ndhw);
 
             var ndhe = new Menu("(E)  Primal Surge", "ndhe");
@@ -71,8 +64,10 @@ namespace KurisuNidalee
 
             foreach (var hero in HeroManager.Allies)
             {
-                ndhe.AddItem(new MenuItem("x" + hero.ChampionName, "Heal on " + hero.ChampionName)).SetValue(hero.IsMe);
-                ndhe.AddItem(new MenuItem("z" + hero.ChampionName, hero.ChampionName + " below Pct% ")).SetValue(new Slider(66, 1, 99));
+                ndhe.AddItem(new MenuItem("x" + hero.ChampionName, "Heal on " + hero.ChampionName))
+                    .SetValue(hero.IsMe);
+                ndhe.AddItem(new MenuItem("z" + hero.ChampionName, hero.ChampionName + " below Pct% "))
+                    .SetValue(new Slider(66, 1, 99));
             }
 
             humenu.AddSubMenu(ndhe);
@@ -84,7 +79,7 @@ namespace KurisuNidalee
             ndhr.AddItem(new MenuItem("ndhrjg", "Enable in Jungle")).SetValue(true);
             ndhr.AddItem(new MenuItem("ndhrjreq", "-> Require Swipe/Takedown")).SetValue(true);
             ndhr.AddItem(new MenuItem("ndhrwc", "Enable in WaveClear")).SetValue(false);
-            ndhr.AddItem(new MenuItem("ndhrgap", "-> Auto (R) Enemy Gapclosers")).SetValue(true);
+            ndhr.AddItem(new MenuItem("ndhrgap", ":: Auto (R) Enemy Gapclosers")).SetValue(true);
             humenu.AddSubMenu(ndhr);
 
             var comenu = new Menu(":: Cougar Settings", "comenu");
@@ -94,13 +89,13 @@ namespace KurisuNidalee
             ndcq.AddItem(new MenuItem("ndcqha", "Enable in Harass")).SetValue(true);
             ndcq.AddItem(new MenuItem("ndcqjg", "Enable in Jungle")).SetValue(true);
             ndcq.AddItem(new MenuItem("ndcqwc", "Enable in WaveClear")).SetValue(true);
-            ndcq.AddItem(new MenuItem("ndcqgap", "-> Auto (Q) Enemy Gapclosers")).SetValue(true);
+            ndcq.AddItem(new MenuItem("ndcqgap", ":: Auto (Q) Enemy Gapclosers")).SetValue(true);
             comenu.AddSubMenu(ndcq);
 
             var ndcw = new Menu("(W) Pounce", "ndcw");
             ndcw.AddItem(new MenuItem("ndcwcheck", "Check Hitchance")).SetValue(false);
             ndcw.AddItem(new MenuItem("ndcwch", "-> Min Hitchance"))
-                .SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
+                .SetValue(new StringList(new[] {"Low", "Medium", "High", "Very High"}, 2));
             ndcw.AddItem(new MenuItem("ndcwco", "Enable in Combo")).SetValue(true);
             ndcw.AddItem(new MenuItem("ndcwhunt", "-> Ignore Checks if Hunted")).SetValue(false);
             ndcw.AddItem(new MenuItem("ndcwdistco", "-> Pounce Only if > AARange")).SetValue(true);
@@ -115,13 +110,12 @@ namespace KurisuNidalee
 
             ndce.AddItem(new MenuItem("ndcecheck", "Check Hitchance")).SetValue(false);
             ndce.AddItem(new MenuItem("ndcech", "-> Min Hitchance"))
-                .SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
+                .SetValue(new StringList(new[] {"Low", "Medium", "High", "Very High"}, 2));
             ndce.AddItem(new MenuItem("ndceco", "Enable in Combo")).SetValue(true);
             ndce.AddItem(new MenuItem("ndceha", "Enable in Harass")).SetValue(true);
             ndce.AddItem(new MenuItem("ndcejg", "Enable in Jungle")).SetValue(true);
             ndce.AddItem(new MenuItem("ndcewc", "Enable in WaveClear")).SetValue(true);
-            ndce.AddItem(new MenuItem("ndcenum", "-> Minimum Minions Hit")).SetValue(new Slider(3, 1, 5));
-            ndce.AddItem(new MenuItem("ndcegap", "-> Auto (E) Enemy Gapclosers")).SetValue(true);
+            ndce.AddItem(new MenuItem("ndcenum", "-> Minimum Minions Hit")).SetValue(new Slider(3, 1, 5));           
             comenu.AddSubMenu(ndce);
 
             var ndcr = new Menu("(R) Aspect of the Cougar", "ndcr");
@@ -133,32 +127,48 @@ namespace KurisuNidalee
             comenu.AddSubMenu(ndcr);
 
 
-            var dmenu = new Menu(":: Draw Settings", "dmenu");              
+            var dmenu = new Menu(":: Draw Settings", "dmenu");
             dmenu.AddItem(new MenuItem("dp", ":: Draw Q Range")).SetValue(true);
-            dmenu.AddItem(new MenuItem("dti",  ":: Draw Q Timer")).SetValue(false);
+            dmenu.AddItem(new MenuItem("dti", ":: Draw Q Timer")).SetValue(false);
             dmenu.AddItem(new MenuItem("dt", ":: Draw Target")).SetValue(true);
             dmenu.AddItem(new MenuItem("drawroot", ":: Draw Root Timer (Jungle)")).SetValue(true);
             ccmenu.AddSubMenu(dmenu);
 
-            var xmenu = new Menu(":: Misc Settings", "xmenu");           
+            var xmenu = new Menu(":: Jungle Settings", "xmenu");
             xmenu.AddItem(new MenuItem("spcol", ":: Switch to Cougar if Spear Collision (Jungle)")).SetValue(false);
             xmenu.AddItem(new MenuItem("jgaacount", ":: AA Weaving (Jungle)"))
                 .SetValue(new KeyBind('H', KeyBindType.Toggle))
                 .SetTooltip("Require auto attacks before switching to Cougar").Permashow();
-            xmenu.AddItem(new MenuItem("aareq", "-> Required auto attack Count (Jungle)")).SetValue(new Slider(2, 1, 5));
+            xmenu.AddItem(new MenuItem("aareq", "-> Required auto attack Count (Jungle)"))
+                .SetValue(new Slider(2, 1, 5));
             xmenu.AddItem(new MenuItem("kitejg", ":: Pounce Away (Jungle)")).SetTooltip("Try kiting with pounce.")
                 .SetValue(false);
             ccmenu.AddSubMenu(xmenu);
 
+            var aamenu = new Menu(":: Automatic Settings", "aamenu");
+            aamenu.AddItem(new MenuItem("alvl6", ":: Auto (R) Level Up")).SetValue(true);
+            aamenu.AddItem(new MenuItem("ndcegap", ":: Auto (E) Swipe Gapclosers")).SetValue(true);
+            aamenu.AddItem(new MenuItem("ndhqgap", ":: Auto (Q) Javelin Gapclosers")).SetValue(true);
+
+            aamenu.AddItem(new MenuItem("ndhqimm", ":: Auto (Q) Javelin Immobile")).SetValue(true);
+            foreach (var ene in HeroManager.Enemies)
+            {
+                aamenu.AddItem(new MenuItem("autoq" + ene.ChampionName, "-> " + ene.ChampionName)).SetValue(false);
+            }
+
+            aamenu.AddItem(new MenuItem("ndhwimm", ":: Auto (W) Bushwhack Immobile")).SetValue(true);
+            foreach (var ene in HeroManager.Enemies)
+            {
+                aamenu.AddItem(new MenuItem("autow" + ene.ChampionName, "-> " + ene.ChampionName)).SetValue(false);
+            }
 
             ccmenu.AddItem(new MenuItem("pstyle", ":: Play Style"))
                 .SetValue(new StringList(new[] {"Assassin", "Team Fighter"}, 1));
 
-            ccmenu.AddItem(new MenuItem("alvl6", ":: Auto Level Ultimate")).SetValue(true);
-
 
             ccmenu.AddSubMenu(comenu);
             ccmenu.AddSubMenu(humenu);
+            ccmenu.AddSubMenu(aamenu);
 
             Root.AddSubMenu(ccmenu);
 
@@ -173,7 +183,8 @@ namespace KurisuNidalee
 
 
             Root.AddItem(new MenuItem("usecombo", ":: Combo [active]")).SetValue(new KeyBind(32, KeyBindType.Press));
-            Root.AddItem(new MenuItem("useharass", ":: Harass [active]")).SetValue(new KeyBind('C', KeyBindType.Press));
+            Root.AddItem(new MenuItem("useharass", ":: Harass [active]"))
+                .SetValue(new KeyBind('C', KeyBindType.Press));
             Root.AddItem(new MenuItem("usefarm", ":: Wave/Junge Clear [active]"))
                 .SetValue(new KeyBind('V', KeyBindType.Press));
             Root.AddItem(new MenuItem("flee", ":: Flee/Walljumper [active]"))
@@ -181,13 +192,56 @@ namespace KurisuNidalee
 
             Root.AddToMainMenu();
 
-            Game.OnUpdate += Game_OnUpdate;
-            Drawing.OnDraw += Drawing_OnDraw;
+            #endregion
 
-            Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
+            Game.OnUpdate += Game_OnUpdate;
             Game.PrintChat("<b><font color=\"#FF33D6\">Kurisu's Nidalee</font></b> - Loaded!");
+
+            Drawing.OnDraw += Drawing_OnDraw;
+            Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
+            Obj_AI_Base.OnBuffAdd += Obj_AI_Base_OnBuffAdd;
         }
 
+        static void Obj_AI_Base_OnBuffAdd(Obj_AI_Base sender, Obj_AI_BaseBuffAddEventArgs args)
+        {
+            var hero = sender as Obj_AI_Hero;
+            if (hero != null && hero.IsEnemy && KL.SpellTimer["Javelin"].IsReady() && Root.Item("ndhqimm").GetValue<bool>())
+            {
+                if (Root.Item("autoq" + hero.ChampionName).GetValue<bool>() && hero.IsValidTarget(KL.Spells["Javelin"].Range))
+                {
+                    if (args.Buff.Type == BuffType.Stun || args.Buff.Type == BuffType.Snare ||
+                        args.Buff.Type == BuffType.Taunt || args.Buff.Type == BuffType.Knockback)
+                    {
+                        if (!KL.CatForm())
+                        {
+                            KL.Spells["Javelin"].Cast(hero);
+                            KL.Spells["Javelin"].CastIfHitchanceEquals(hero, HitChance.Immobile);
+                        }
+                        else
+                        {
+                            if (KL.Spells["Aspect"].IsReady() &&
+                                KL.Spells["Javelin"].Cast(hero) == Spell.CastStates.Collision)
+                                KL.Spells["Aspect"].Cast();
+                        }
+                    }
+                }
+            }
+
+            if (hero != null && hero.IsEnemy && KL.SpellTimer["Bushwhack"].IsReady() && Root.Item("ndhwimm").GetValue<bool>())
+            {
+                if (Root.Item("autow" + hero.ChampionName).GetValue<bool>() && hero.IsValidTarget(KL.Spells["Bushwhack"].Range))
+                {
+                    if (args.Buff.Type == BuffType.Stun || args.Buff.Type == BuffType.Snare ||
+                        args.Buff.Type == BuffType.Taunt || args.Buff.Type == BuffType.Knockback)
+                    {
+                        KL.Spells["Bushwhack"].Cast(hero);
+                        KL.Spells["Bushwhack"].CastIfHitchanceEquals(hero, HitChance.Immobile);
+                    }
+                }
+            }
+        }
+
+        #region OnLevelUp
         static void Obj_AI_Base_OnLevelUp(Obj_AI_Base sender, EventArgs args)
         {
             var hero = sender as Obj_AI_Hero;
@@ -211,6 +265,9 @@ namespace KurisuNidalee
             }
         }
 
+        #endregion
+
+        #region OnDraw
         static void Drawing_OnDraw(EventArgs args)
         {
             if (Player.IsDead || !Player.IsValid)
@@ -234,7 +291,7 @@ namespace KurisuNidalee
                 var pos = Drawing.WorldToScreen(Player.Position);
 
                 Drawing.DrawText(pos[0] + 100, pos[1] - 135, Color.White,
-                    "Q: " + ES.SpellTimer["Javelin"].ToString("F"));             
+                    "Q: " + KL.SpellTimer["Javelin"].ToString("F"));             
             }
 
             if (Root.Item("dt").GetValue<bool>() && Target != null)
@@ -247,27 +304,18 @@ namespace KurisuNidalee
 
             if (Root.Item("dp").GetValue<bool>())
             {
-                Render.Circle.DrawCircle(ES.Player.Position, !ES.CatForm()
-                    ? ES.Spells["Javelin"].Range : ES.Spells["ExPounce"].Range, Color.FromArgb(155, Color.DeepPink), 4);
-            }
-
-
-            foreach (
-                var mob in
-                    ObjectManager.Get<Obj_AI_Minion>()
-                        .Where(
-                            x =>
-                                x.IsValidTarget(900) && !x.Name.Contains("Mini") &&
-                                ES.LargeList.Any(y => x.Name.StartsWith(y))))
-            {
-                Render.Circle.DrawCircle(mob.Position, mob.BoundingRadius + Player.BoundingRadius + 35,
-                    Color.FromArgb(155, Color.White), 4);
+                Render.Circle.DrawCircle(KL.Player.Position, !KL.CatForm()
+                    ? KL.Spells["Javelin"].Range : KL.Spells["ExPounce"].Range, Color.FromArgb(155, Color.DeepPink), 4);
             }
         }
 
+        #endregion
+
         internal static void Game_OnUpdate(EventArgs args)
         {
-            Target = TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical);
+            Target = TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical);
+
+            #region Active Modes
 
             if (Root.Item("usecombo").GetValue<KeyBind>().Active)
             {
@@ -286,65 +334,49 @@ namespace KurisuNidalee
             }
 
             if (Root.Item("flee").GetValue<KeyBind>().Active)
+            {
                 Flee();
-
-            // auto bushwhack on immobile
-            if (Root.Item("ndhwimm").GetValue<bool>() && !ES.CatForm() && ES.SpellTimer["Bushwhack"].IsReady())
-            {
-                foreach (var unit in HeroManager.Enemies.Where(h => h.IsValidTarget(ES.Spells["Bushwhack"].Range)))
-                {
-                    ES.Spells["Bushwhack"].CastIfHitchanceEquals(unit, HitChance.Immobile);
-
-                    if (ES.Immobile(unit))
-                        ES.Spells["Bushwhack"].Cast(unit);
-                }
             }
 
-            // auto javelin on immobile
-            if (Root.Item("ndhqimm").GetValue<bool>() && !ES.CatForm() && ES.SpellTimer["Javelin"].IsReady())
-            {
-                foreach (var unit in HeroManager.Enemies.Where(h => h.IsValidTarget(ES.Spells["Javelin"].Range)))
-                {
-                    ES.Spells["Javelin"].CastIfHitchanceEquals(unit, HitChance.Immobile);
+            #endregion
 
-                    if (ES.Immobile(unit))
-                        ES.Spells["Javelin"].Cast(unit);
-                }
-            }
+            #region Auto Heal
 
             // auto heal on ally hero
-            if (Root.Item("ndheon").GetValue<bool>() && ES.SpellTimer["Primalsurge"].IsReady())
+            if (Root.Item("ndheon").GetValue<bool>() && KL.SpellTimer["Primalsurge"].IsReady())
             {
-                if (ES.NotLearned(ES.Spells["Primalsurge"]))
-                    return;
-
-                if (Player.Spellbook.IsChanneling || Player.IsRecalling())
-                    return;
-
-                if (Root.Item("flee").GetValue<KeyBind>().Active && ES.CatForm())
-                    return;
-
-                if (Player.Mana/Player.MaxMana*100 <  Root.Item("ndhemana").GetValue<Slider>().Value)
-                    return;
-
-                if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None && ES.CatForm() || !ES.CatForm())
+                if (!KL.NotLearned(KL.Spells["Primalsurge"]))
                 {
-                    foreach (
-                        var hero in
-                            HeroManager.Allies.Where(
-                                h => Root.Item("x" + h.ChampionName).GetValue<bool>() &&
-                                     h.IsValidTarget(ES.Spells["Primalsurge"].Range, false) &&
-                                     h.Health / h.MaxHealth * 100 <
-                                     Root.Item("z" + h.ChampionName).GetValue<Slider>().Value))
+                    if (!Player.Spellbook.IsChanneling && !Player.IsRecalling())
                     {
-                        if (ES.CatForm() == false)
-                            ES.Spells["Primalsurge"].CastOnUnit(hero);
+                        if (Root.Item("flee").GetValue<KeyBind>().Active && KL.CatForm())
+                            return;
 
-                        if (ES.CatForm() && Root.Item("ndhesw").GetValue<bool>() && ES.Spells["Aspect"].IsReady())
-                            ES.Spells["Aspect"].Cast();
+                        if (Player.Mana / Player.MaxMana * 100 < Root.Item("ndhemana").GetValue<Slider>().Value)
+                            return;
+
+                        if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None || !KL.CatForm())
+                        {
+                            foreach (
+                                var hero in
+                                    HeroManager.Allies.Where(
+                                        h => Root.Item("x" + h.ChampionName).GetValue<bool>() &&
+                                             h.IsValidTarget(KL.Spells["Primalsurge"].Range, false) &&
+                                             h.Health / h.MaxHealth * 100 < Root.Item("z" + h.ChampionName).GetValue<Slider>().Value))
+                            {
+                                if (KL.CatForm() == false)
+                                    KL.Spells["Primalsurge"].CastOnUnit(hero);
+
+                                if (KL.CatForm() && Root.Item("ndhesw").GetValue<bool>() &&
+                                    KL.Spells["Aspect"].IsReady())
+                                    KL.Spells["Aspect"].Cast();
+                            }
+                        }
                     }
                 }
             }
+
+            #endregion
         }
 
         internal static void Combo()
@@ -353,22 +385,22 @@ namespace KurisuNidalee
 
             if (!Player.IsWindingUp)
             {
-                CM.CastJavelin(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
-                CM.SwitchForm(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
+                CM.CastJavelin(assassin ? Target : TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
+                CM.SwitchForm(assassin ? Target : TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
             }
 
-            CM.CastBushwhack(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Bushwhack"].Range, TargetSelector.DamageType.Magical), "co");
-            CM.CastTakedown(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Takedown"].Range, TargetSelector.DamageType.Magical), "co");
-            CM.CastPounce(assassin ? Target : TargetSelector.GetTarget(ES.Spells["ExPounce"].Range, TargetSelector.DamageType.Magical), "co");
-            CM.CastSwipe(assassin ? Target : TargetSelector.GetTarget(ES.Spells["Swipe"].Range, TargetSelector.DamageType.Magical), "co");
+            CM.CastBushwhack(assassin ? Target : TargetSelector.GetTarget(KL.Spells["Bushwhack"].Range, TargetSelector.DamageType.Magical), "co");
+            CM.CastTakedown(assassin ? Target : TargetSelector.GetTarget(KL.Spells["Takedown"].Range, TargetSelector.DamageType.Magical), "co");
+            CM.CastPounce(assassin ? Target : TargetSelector.GetTarget(KL.Spells["ExPounce"].Range, TargetSelector.DamageType.Magical), "co");
+            CM.CastSwipe(assassin ? Target : TargetSelector.GetTarget(KL.Spells["Swipe"].Range, TargetSelector.DamageType.Magical), "co");
         }
 
         internal static void Harass()
         {
-            CM.CastJavelin(TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "ha");
-            CM.CastTakedown(TargetSelector.GetTarget(ES.Spells["Takedown"].Range, TargetSelector.DamageType.Magical), "ha");
-            CM.CastSwipe(TargetSelector.GetTarget(ES.Spells["Swipe"].Range, TargetSelector.DamageType.Magical), "ha");
-            CM.SwitchForm(TargetSelector.GetTarget(ES.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "ha");
+            CM.CastJavelin(TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "ha");
+            CM.CastTakedown(TargetSelector.GetTarget(KL.Spells["Takedown"].Range, TargetSelector.DamageType.Magical), "ha");
+            CM.CastSwipe(TargetSelector.GetTarget(KL.Spells["Swipe"].Range, TargetSelector.DamageType.Magical), "ha");
+            CM.SwitchForm(TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "ha");
         }
 
         internal static void Jungle()
@@ -376,9 +408,9 @@ namespace KurisuNidalee
             foreach (
                 var minion in
                     ObjectManager.Get<Obj_AI_Minion>()
-                        .Where(x => ES.MinionList.Any(y => x.Name.StartsWith(y) || x.IsHunted())))
+                        .Where(x => KL.MinionList.Any(y => x.Name.StartsWith(y) || x.IsHunted())))
             {
-                if (minion.IsValidTarget(ES.Spells["ExPounce"].Range) && (!minion.Name.Contains("Mini") || minion.IsHunted()))
+                if (minion.IsValidTarget(KL.Spells["ExPounce"].Range) && (!minion.Name.Contains("Mini") || minion.IsHunted()))
                 {
                     CM.CastJavelin(minion, "jg");
                     CM.CastPounce(minion, "jg");
@@ -403,7 +435,7 @@ namespace KurisuNidalee
 
             foreach (var minion in ObjectManager.Get<Obj_AI_Minion>().Where(x => !x.IsMinion))
             {
-                if (minion.IsValidTarget(ES.Spells["Pounce"].Range + 250))
+                if (minion.IsValidTarget(KL.Spells["Pounce"].Range + 250))
                 {
                     CM.CastJavelin(minion, "jg");
                     CM.CastBushwhack(minion, "jg");
@@ -417,7 +449,7 @@ namespace KurisuNidalee
 
         internal static void WaveClear()
         {
-            foreach (var minion in ES.MinionCache.Values.Where(x => x.IsMinion && x.IsValidTarget(ES.Spells["ExPounce"].Range)))
+            foreach (var minion in KL.MinionCache.Values.Where(x => x.IsMinion && x.IsValidTarget(KL.Spells["ExPounce"].Range)))
             {
                 CM.CastJavelin(minion, "wc");
                 CM.CastBushwhack(minion, "wc");
@@ -431,16 +463,16 @@ namespace KurisuNidalee
 
         internal static void Flee()
         {
-            if (!ES.CatForm() && ES.Spells["Aspect"].IsReady())
+            if (!KL.CatForm() && KL.Spells["Aspect"].IsReady())
             {
-                if (ES.SpellTimer["Pounce"].IsReady())
-                    ES.Spells["Aspect"].Cast();
+                if (KL.SpellTimer["Pounce"].IsReady())
+                    KL.Spells["Aspect"].Cast();
             }
 
-            var wallCheck = ES.GetFirstWallPoint(ES.Player.Position, Game.CursorPos);
+            var wallCheck = KL.GetFirstWallPoint(KL.Player.Position, Game.CursorPos);
 
             if (wallCheck != null)
-                wallCheck = ES.GetFirstWallPoint((Vector3) wallCheck, Game.CursorPos, 5);
+                wallCheck = KL.GetFirstWallPoint((Vector3) wallCheck, Game.CursorPos, 5);
 
             var movePosition = wallCheck != null ? (Vector3) wallCheck : Game.CursorPos;
 
@@ -451,7 +483,7 @@ namespace KurisuNidalee
 
             var wallJumpPossible = false;
 
-            if (ES.CatForm() && ES.SpellTimer["Pounce"].IsReady() && wallCheck != null)
+            if (KL.CatForm() && KL.SpellTimer["Pounce"].IsReady() && wallCheck != null)
             {
                 var wallPosition = movePosition;
 
@@ -481,28 +513,28 @@ namespace KurisuNidalee
                     if (currentStep == 0)
                     {
                         currentStep = step;
-                        checkPoint = wallPosition + ES.Spells["Pounce"].Range * direction.To3D();
+                        checkPoint = wallPosition + KL.Spells["Pounce"].Range * direction.To3D();
                     }
 
                     else
-                        checkPoint = wallPosition + ES.Spells["Pounce"].Range * direction.Rotated(currentAngle).To3D();
+                        checkPoint = wallPosition + KL.Spells["Pounce"].Range * direction.Rotated(currentAngle).To3D();
 
                     if (checkPoint.IsWall()) 
                         continue;
 
-                    wallCheck = ES.GetFirstWallPoint(checkPoint, wallPosition);
+                    wallCheck = KL.GetFirstWallPoint(checkPoint, wallPosition);
 
                     if (wallCheck == null) 
                         continue;
 
-                    var wallPositionOpposite =  (Vector3) ES.GetFirstWallPoint((Vector3)wallCheck, wallPosition, 5);
+                    var wallPositionOpposite =  (Vector3) KL.GetFirstWallPoint((Vector3)wallCheck, wallPosition, 5);
 
-                    if (ES.Player.GetPath(wallPositionOpposite).ToList().To2D().PathLength() -
-                        ES.Player.Distance(wallPositionOpposite) > 200)
+                    if (KL.Player.GetPath(wallPositionOpposite).ToList().To2D().PathLength() -
+                        KL.Player.Distance(wallPositionOpposite) > 200)
                     {
-                        if (ES.Player.Distance(wallPositionOpposite) < ES.Spells["Pounce"].Range - ES.Player.BoundingRadius / 2)
+                        if (KL.Player.Distance(wallPositionOpposite) < KL.Spells["Pounce"].Range - KL.Player.BoundingRadius / 2)
                         {
-                            ES.Spells["Pounce"].Cast(wallPositionOpposite);
+                            KL.Spells["Pounce"].Cast(wallPositionOpposite);
                             jumpTriggered = true;
                             break;
                         }
@@ -524,8 +556,8 @@ namespace KurisuNidalee
             else
             {
                 Orbwalking.Orbwalk(target, Game.CursorPos, 90f, 0f, false, false);
-                if (ES.CatForm() && ES.SpellTimer["Pounce"].IsReady())
-                    ES.Spells["Pounce"].Cast(Game.CursorPos);
+                if (KL.CatForm() && KL.SpellTimer["Pounce"].IsReady())
+                    KL.Spells["Pounce"].Cast(Game.CursorPos);
             }
         }
     }
