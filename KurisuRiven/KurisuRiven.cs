@@ -285,7 +285,7 @@ namespace KurisuRiven
 
         #region Riven: OnUpdate
 
-        private static bool isteamfight;
+        private static bool isteamfightkappa;
         private static void Game_OnUpdate(EventArgs args)
         {
             // harass active
@@ -416,7 +416,7 @@ namespace KurisuRiven
                 Flee();
 
             Windslash();
-            isteamfight = player.CountAlliesInRange(1500) >= 2 && player.CountEnemiesInRange(1550) >= 2;
+            isteamfightkappa = player.CountAlliesInRange(1500) >= 2 && player.CountEnemiesInRange(1250) > 2;
         }
 
         #endregion
@@ -711,7 +711,7 @@ namespace KurisuRiven
 
                     if (menubool("usecombow"))
                     {
-                        if (!isteamfight || menubool("w" + target.ChampionName))
+                        if (!isteamfightkappa || menubool("w" + target.ChampionName))
                         {
                             w.Cast();
                         }
@@ -914,7 +914,7 @@ namespace KurisuRiven
                             var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
                             if (p.Hitchance >= HitChance.Medium && canws)
                             {
-                                if (!isteamfight || menubool("r" + riventarget().ChampionName))
+                                if (!isteamfightkappa || menubool("r" + riventarget().ChampionName))
                                 {
                                     r.Cast(p.CastPosition);
                                     Console.WriteLine("D2");
@@ -935,7 +935,7 @@ namespace KurisuRiven
                                     var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
                                     if (p.Hitchance >= HitChance.High && canws)
                                     {
-                                        if (!isteamfight || menubool("r" + riventarget().ChampionName))
+                                        if (!isteamfightkappa || menubool("r" + riventarget().ChampionName))
                                         {
                                             r.Cast(p.CastPosition);
                                             Console.WriteLine("D3");
@@ -1442,7 +1442,7 @@ namespace KurisuRiven
                     {
                         if (!gapcloser.Sender.ServerPosition.UnderTurret(true))
                         {
-                            if (!isteamfight || menubool("w" + gapcloser.Sender.ChampionName))
+                            if (!isteamfightkappa || menubool("w" + gapcloser.Sender.ChampionName))
                             {
                                 w.Cast();
                             }

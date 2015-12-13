@@ -514,6 +514,12 @@ namespace KurisuRiven
             bool useFixedDistance = true,
             bool randomizeMinDistance = true)
         {
+            
+            if (Utils.GameTimeTickCount - LastMoveCommandT < (20 + Math.Min(45, Game.Ping)) && !overrideTimer)
+            {
+                return;
+            }
+
             var playerPosition = Player.ServerPosition;
             if (playerPosition.Distance(position, true) < holdAreaRadius * holdAreaRadius)
             {
