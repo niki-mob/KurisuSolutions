@@ -221,6 +221,18 @@ namespace KurisuRiven
             return _sh ?? cursortarg ?? closetarg;
         }
 
+        private static bool wrektAny()
+        {
+            return menu.SubMenu("combo").SubMenu("rivenw").SubMenu("req").Items.Any(i => i.GetValue<bool>()) &&
+                 player.GetEnemiesInRange(1250).Any(ez => menu.Item("w" + ez.ChampionName).GetValue<bool>());
+        }
+
+        private static bool rrektAny()
+        {
+            return menu.SubMenu("combo").SubMenu("rivenr2").SubMenu("req2").Items.Any(i => i.GetValue<bool>()) &&
+                 player.GetEnemiesInRange(1250).Any(ez => menu.Item("r" + ez.ChampionName).GetValue<bool>());
+        }
+
         #region Riven: OnDoCast
         private static void OnDoCast()
         {
@@ -253,7 +265,7 @@ namespace KurisuRiven
                         }
                     }
 
-                    else if (menu.Item("clearkey").GetValue<KeyBind>().Active)
+                    else if (menu.Item("clearkey").GetValue<KeyBind>().Active && !player.UnderTurret(true))
                     {
                         if (qtarg.IsValid<Obj_AI_Base>() && !qtarg.Name.StartsWith("Minion"))
                         {
@@ -416,7 +428,9 @@ namespace KurisuRiven
                 Flee();
 
             Windslash();
-            isteamfightkappa = player.CountAlliesInRange(1500) >= 2 && player.CountEnemiesInRange(1250) > 2;
+
+            isteamfightkappa = player.CountAlliesInRange(1500) > 1 && player.CountEnemiesInRange(1350) > 2 ||
+                               player.CountEnemiesInRange(1200) > 2;
         }
 
         #endregion
@@ -469,7 +483,7 @@ namespace KurisuRiven
 
             var rmenu = new Menu("R1 Settings", "rivenr");
             rmenu.AddItem(new MenuItem("useignote", "Combo with Ignite")).SetValue(true);
-            rmenu.AddItem(new MenuItem("user", "Use in Combo")).SetValue(new KeyBind('H', KeyBindType.Toggle, true)).Permashow();
+            rmenu.AddItem(new MenuItem("user", "Use R1 in Combo")).SetValue(new KeyBind('H', KeyBindType.Toggle, true)).Permashow();
             rmenu.AddItem(new MenuItem("multib", "Shy Burst")).SetValue(new StringList(new[] { "Can Burst Target", "Always", "Dont Flash" }, 1));
             rmenu.AddItem(new MenuItem("overk", "Dont use if target HP % <=")).SetValue(new Slider(25, 1, 99));
             rmenu.AddItem(new MenuItem("userq", "Use only if Q Count <=")).SetValue(new Slider(2, 1, 3));
@@ -482,7 +496,7 @@ namespace KurisuRiven
                 newmenu2.AddItem(new MenuItem("r" + hero.ChampionName, hero.ChampionName)).SetValue(false).DontSave();
             r2menu.AddSubMenu(newmenu2);
 
-            r2menu.AddItem(new MenuItem("usews", "Use in Combo")).SetValue(true);
+            r2menu.AddItem(new MenuItem("usews", "Use R2 in Combo")).SetValue(true);
             r2menu.AddItem(new MenuItem("overaa", "Dont use if target will die in AA")).SetValue(new Slider(2, 1, 6));
             r2menu.AddItem(new MenuItem("wsmode", "Use When")).SetValue(new StringList(new[] { "Kill Only", "Max Damage" }, 1));
             r2menu.AddItem(new MenuItem("keepr", "Use Before Expiry")).SetValue(true);
@@ -502,7 +516,7 @@ namespace KurisuRiven
                 newmenu.AddItem(new MenuItem("w" + hero.ChampionName, hero.ChampionName)).SetValue(false).DontSave();
             wmenu.AddSubMenu(newmenu);
 
-            wmenu.AddItem(new MenuItem("usecombow", "Use in Combo")).SetValue(true);
+            wmenu.AddItem(new MenuItem("usecombow", "Use W in Combo")).SetValue(true);
             wmenu.AddItem(new MenuItem("wint", "Use on Interrupt")).SetValue(true);
             wmenu.AddItem(new MenuItem("wgap", "Use on Gapcloser")).SetValue(true);
             combo.AddSubMenu(wmenu);
@@ -711,7 +725,7 @@ namespace KurisuRiven
 
                     if (menubool("usecombow"))
                     {
-                        if (!isteamfightkappa || menubool("w" + target.ChampionName))
+                        if (!isteamfightkappa || menubool("w" + target.ChampionName) || isteamfightkappa && !wrektAny())
                         {
                             w.Cast();
                         }
@@ -882,7 +896,7 @@ namespace KurisuRiven
 
                     if (player.GetAutoAttackDamage(t, true) * menuslide("overaa") >= t.Health &&
                        (Orbwalking.InAutoAttackRange(t) && player.CountEnemiesInRange(r.Range) > 1) && 
-                        player.HealthPercent > 50) 
+                        player.HealthPercent > 65) 
                         return;
 
                     // only kill or killsteal etc ->
@@ -914,7 +928,7 @@ namespace KurisuRiven
                             var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
                             if (p.Hitchance >= HitChance.Medium && canws)
                             {
-                                if (!isteamfightkappa || menubool("r" + riventarget().ChampionName))
+                                if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || isteamfightkappa && !rrektAny())
                                 {
                                     r.Cast(p.CastPosition);
                                     Console.WriteLine("D2");
@@ -935,7 +949,7 @@ namespace KurisuRiven
                                     var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
                                     if (p.Hitchance >= HitChance.High && canws)
                                     {
-                                        if (!isteamfightkappa || menubool("r" + riventarget().ChampionName))
+                                        if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || isteamfightkappa && !rrektAny())
                                         {
                                             r.Cast(p.CastPosition);
                                             Console.WriteLine("D3");
@@ -1247,7 +1261,7 @@ namespace KurisuRiven
                     }
                 }
 
-                if (!didq && args.SData.IsAutoAttack())
+                if (args.SData.IsAutoAttack())
                 {
                     qtarg = (Obj_AI_Base) args.Target;
                 }
@@ -1313,7 +1327,6 @@ namespace KurisuRiven
                         canq = false;
                         canmv = false;  
                
-
                         var dd = new[] {280 - Game.Ping, 290 - Game.Ping, 380 - Game.Ping};
                         Utility.DelayAction.Add(dd[cc - 1], () =>
                         {
@@ -1442,7 +1455,7 @@ namespace KurisuRiven
                     {
                         if (!gapcloser.Sender.ServerPosition.UnderTurret(true))
                         {
-                            if (!isteamfightkappa || menubool("w" + gapcloser.Sender.ChampionName))
+                            if (!isteamfightkappa || menubool("w" + gapcloser.Sender.ChampionName) || isteamfightkappa && !wrektAny())
                             {
                                 w.Cast();
                             }
