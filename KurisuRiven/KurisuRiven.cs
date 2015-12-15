@@ -1349,9 +1349,9 @@ namespace KurisuRiven
                         lastw = Utils.GameTimeTickCount;
                         canw = false;
 
-                        if (riventarget().IsValidTarget(500) && q.IsReady() &&
-                            menu.Item("combokey").GetValue<KeyBind>().Active)
-                            Utility.DelayAction.Add(100, () => q.Cast(riventarget().ServerPosition));
+                        //if (riventarget().IsValidTarget(500) && q.IsReady() &&
+                        //    menu.Item("combokey").GetValue<KeyBind>().Active)
+                        //    Utility.DelayAction.Add(100, () => q.Cast(riventarget().ServerPosition));
 
                         break;
                     case "RivenFeint":

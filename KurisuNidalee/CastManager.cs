@@ -24,50 +24,39 @@ namespace KurisuNidalee
                     if (target.IsChampion())
                     {
                         var qoutput = KL.Spells["Javelin"].GetPrediction(target);
-                        if (qoutput.Hitchance == HitChance.Collision && KN.Root.Item("qsmcol").GetValue<bool>())
+                        if (qoutput.Hitchance == HitChance.Collision && KL.Smite.IsReady())
                         {
-                            if (qoutput.CollisionObjects.All(i => i.NetworkId != KL.Player.NetworkId))
+                            if (KN.Root.Item("qsmcol").GetValue<bool>() && target.Health <= KL.CatDamage(target)*3)
                             {
-                                var obj = qoutput.CollisionObjects.Cast<Obj_AI_Minion>().ToList();
-                                if (obj.Count == 1)
+                                if (qoutput.CollisionObjects.All(i => i.NetworkId != KL.Player.NetworkId))
                                 {
-                                    if (obj.Any(
-                                        i =>
-                                            i.Health <= KL.Player.GetSummonerSpellDamage(i, Damage.SummonerSpell.Smite) &&
-                                            KL.Player.Distance(i) < 500 &&
-                                            KL.Player.Spellbook.CastSpell(KL.Smite, obj.First())))
+                                    var obj = qoutput.CollisionObjects.Cast<Obj_AI_Minion>().ToList();
+                                    if (obj.Count == 1)
                                     {
-                                        KL.Spells["Javelin"].Cast(qoutput.CastPosition);
-                                        return;
+                                        if (obj.Any(
+                                            i =>
+                                                i.Health <= KL.Player.GetSummonerSpellDamage(i, Damage.SummonerSpell.Smite) &&
+                                                KL.Player.Distance(i) < 500 && KL.Player.Spellbook.CastSpell(KL.Smite, obj.First())))
+                                        {
+                                            KL.Spells["Javelin"].Cast(qoutput.CastPosition);
+                                            return;
+                                        }
                                     }
                                 }
                             }
                         }
 
-                        if (KN.Root.Item("ndhqcheck").GetValue<bool>())
-                        {
-                            if (qoutput.Hitchance >=
-                                (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3)
-                            {
-                                KL.Spells["Javelin"].Cast(qoutput.CastPosition);
-                            }
-                        }
-                        else
-                        {
+                        if (KN.Root.Item("ndhqcheck").GetValue<bool>() &&
+                            qoutput.Hitchance >= (HitChance) KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3)
+                            KL.Spells["Javelin"].Cast(qoutput.CastPosition);
+
+                        if (!KN.Root.Item("ndhqcheck").GetValue<bool>())
                             KL.Spells["Javelin"].Cast(target);
-                        }
                     }
                     else
                     {
-                        if (!target.PassiveRooted())
-                        {
-                            if (KL.Spells["Javelin"].Cast(target) != Spell.CastStates.Collision)
-                            {
-                                KL.Spells["Javelin"].Cast(target.ServerPosition);
-                            }
-                        }
+                        KL.Spells["Javelin"].Cast(target);
                     }
-
                 }
             }
         }
@@ -152,8 +141,8 @@ namespace KurisuNidalee
                     !target.IsHunted() && mode == "co" && !KN.Root.Item("ndcwdistco").GetValue<bool>())
                 {
                     if (KN.Root.Item("kitejg").GetValue<bool>() && mode == "jg" &&
-                        target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range - 50 && 
-                        target.Distance(Game.CursorPos) > 375)
+                        target.Distance(Game.CursorPos) > 700 && 
+                        target.Distance(KL.Player.ServerPosition) <= 300)
                     {
                         KL.Spells["Pounce"].Cast(Game.CursorPos);
                         return;
@@ -350,6 +339,10 @@ namespace KurisuNidalee
                         KL.Spells["Aspect"].Cast();
                         return;
                     }
+
+                    if (target.Distance(KL.Player) > KL.Spells["Takedown"].Range + 50 &&
+                        KL.NotLearned(KL.Spells["Pounce"]))
+                        return;
 
                     // or check if pounce timer is ready before switch
                     if (KL.Spells["Aspect"].IsReady() && target.IsValidTarget(KL.Spells["ExPounce"].Range))

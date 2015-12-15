@@ -17,11 +17,7 @@ namespace KurisuNidalee
         internal static AttackableUnit LastUnit;
         internal static SpellSlot Smite;
         internal static bool SmiteInGame;
-
-
         internal static Obj_AI_Hero Player = ObjectManager.Player;
-        internal static Dictionary<int, Obj_AI_Base> MinionCache = new Dictionary<int, Obj_AI_Base>();
-        internal static Dictionary<int, Obj_AI_Minion> ActiveHunts = new Dictionary<int, Obj_AI_Minion>(); 
 
         static KurisuLib()
         {
@@ -35,10 +31,6 @@ namespace KurisuNidalee
             // Orbwalk shit
             Orbwalking.AfterAttack += Orbwalking_AfterAttack;
             Orbwalking.BeforeAttack += Orbwalking_BeforeAttack;
-
-            // Minion Handelr
-            GameObject.OnCreate += MinionOnCreate;
-            GameObject.OnDelete += MinionOnDelete;
 
             // Missile Handler
             GameObject.OnCreate += MissileClient_OnCreate;
@@ -111,14 +103,9 @@ namespace KurisuNidalee
         /// <param name="args"></param>
         internal static void Orbwalking_BeforeAttack(Orbwalking.BeforeAttackEventArgs args)
         {
-            if (KN.Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.LaneClear)
+            if (KN.Root.Item("usefarm").GetValue<KeyBind>().Active)
             {
-                Obj_AI_Minion mob = null;
-
-                if (MinionList.Any(x => args.Target.Name.StartsWith(x) && !args.Target.Name.Contains("Mini")))
-                    mob = (Obj_AI_Minion) args.Target;
-
-                if (args.Target.Name.Contains("Mini") && mob.IsValidTarget(450))
+                if (args.Target.Name.Contains("Mini") && KN.m)
                     args.Process = false;
             }
         }
@@ -159,7 +146,7 @@ namespace KurisuNidalee
         /// <returns></returns>
         internal static bool PassiveRooted(this Obj_AI_Base unit)
         {
-            return unit is Obj_AI_Minion && unit.HasBuff("nidaleepassivemonsterroot");
+            return unit.IsValid<Obj_AI_Minion>() && unit.HasBuff("nidaleepassivemonsterroot");
         }
 
         /// <summary>
@@ -201,33 +188,55 @@ namespace KurisuNidalee
         }
 
         /// <summary>
-        /// Minion Handler OnCreate
+        /// Returns if the minion is all three types (epic, large, or small jungle creep)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        internal static void MinionOnCreate(GameObject sender, EventArgs args)
+        /// <param name="minion"></param>
+        /// <returns></returns>
+        public static bool IsJungleMinion(Obj_AI_Base minion)
         {
-            var unit = sender as Obj_AI_Minion;
-            if (unit.IsValid<Obj_AI_Minion>() && !unit.IsAlly)
-            {
-                if (!MinionCache.ContainsKey(unit.NetworkId))
-                     MinionCache.Add(unit.NetworkId, unit);
-            }
+            return IsEpicMinion(minion) || IsLargeMinion(minion) || IsEpicMinion(minion);
         }
 
         /// <summary>
-        /// Minion Handler OnDelete
+        /// Returns if the minion is an "Epic" minion (baron, dragon, etc)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        internal static  void MinionOnDelete(GameObject sender, EventArgs args)
+        /// <param name="minion">The minion. </param>
+        /// <returns></returns>
+        public static bool IsEpicMinion(Obj_AI_Base minion)
         {
-            var unit = sender as Obj_AI_Minion;
-            if (unit != null)
-            {
-                if (MinionCache.ContainsKey(unit.NetworkId))
-                    MinionCache.Remove(unit.NetworkId);
-            }
+            var name = minion.Name;
+            return minion is Obj_AI_Minion &&
+                  (name.StartsWith("SRU_Baron") || name.StartsWith("SRU_Dragon") ||
+                   name.StartsWith("SRU_RiftHerald") || name.StartsWith("TT_Spiderboss"));
+        }
+
+        /// <summary>
+        /// Returns if the minion is a "Large" minion (Red Buff, Blue Buff, etc)
+        /// </summary>
+        /// <param name="minion">The minion. </param>
+        /// <param name="notMini">Check if is mini. </param>
+        /// <returns></returns>
+        public static bool IsLargeMinion(Obj_AI_Base minion, bool notMini = true)
+        {
+            var name = minion.Name;
+            return minion is Obj_AI_Minion && (notMini && !minion.Name.Contains("Mini")) &&
+                   (name.StartsWith("SRU_Blue") || name.StartsWith("SRU_Red") || name.StartsWith("TT_NWraith1.1") ||
+                    name.StartsWith("TT_NWraith4.1") || name.StartsWith("TT_NGolem2.1") || name.StartsWith("TT_NGolem5.1") ||
+                    name.StartsWith("TT_NWolf3.1") || name.StartsWith("TT_NWolf6.1"));
+        }
+
+        /// <summary>
+        /// Returns if the minion is a "Small" minion (Razorbeak, Krug, etc)
+        /// </summary>
+        /// <param name="minion">The minion. </param>
+        /// <param name="notMini">Check if is mini. </param>
+        /// <returns></returns>
+        public static bool IsSmallMinion(Obj_AI_Base minion, bool notMini = true)
+        {
+            var name = minion.Name;
+            return minion is Obj_AI_Minion && (notMini && !minion.Name.Contains("Mini")) &&
+                  (name.StartsWith("SRU_Murkwolf") || name.StartsWith("SRU_Razorbeak") ||
+                   name.StartsWith("SRU_Gromp") || name.StartsWith("SRU_Krug"));
         }
 
         /// <summary>
@@ -235,7 +244,11 @@ namespace KurisuNidalee
         /// </summary>
         internal static void CastSmartSwipe()
         {
-            var minionpositions = MinionCache.Values.Select(x => x.Position.To2D()).ToList();
+            var minionpositions =
+                MinionManager.GetMinions(Player.ServerPosition, 500f, MinionTypes.All, MinionTeam.NotAllyForEnemy)
+                    .Select(x => x.Position.To2D())
+                    .ToList();
+
             var swipelocation = MinionManager.GetBestCircularFarmLocation(minionpositions, 275f, 375f);
 
             if (swipelocation.MinionsHit >= KurisuNidalee.Root.Item("ndcenum").GetValue<Slider>().Value)
@@ -261,6 +274,7 @@ namespace KurisuNidalee
                 Console.WriteLine("KL: SetSpellsException (" + e.Message + ")");
             }
         }
+
 
         /// <summary>
         /// Updates the spell timers on update.
