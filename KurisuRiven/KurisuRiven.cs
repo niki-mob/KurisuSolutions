@@ -279,7 +279,7 @@ namespace KurisuRiven
                     }
                 }
 
-                if (!didq && sender.IsMe && args.SData.IsAutoAttack())
+                if (sender.IsMe && args.SData.IsAutoAttack())
                 {
                     didaa = false;
                     canmv = true;
@@ -486,19 +486,20 @@ namespace KurisuRiven
             rmenu.AddItem(new MenuItem("useignote", "Combo with Ignite")).SetValue(true);
             rmenu.AddItem(new MenuItem("user", "Use R1 in Combo")).SetValue(new KeyBind('H', KeyBindType.Toggle, true)).Permashow();
             rmenu.AddItem(new MenuItem("multib", "Shy Burst")).SetValue(new StringList(new[] { "Can Burst Target", "Always", "Dont Flash" }, 1));
-            rmenu.AddItem(new MenuItem("overk", "Dont use if target HP % <=")).SetValue(new Slider(25, 1, 99));
+            rmenu.AddItem(new MenuItem("overk", "Dont R1 if target HP % <=")).SetValue(new Slider(25, 1, 99));
             rmenu.AddItem(new MenuItem("userq", "Use only if Q Count <=")).SetValue(new Slider(2, 1, 3));
             rmenu.AddItem(new MenuItem("ultwhen", "Use When")).SetValue(new StringList(new[] { "Normal Kill", "Hard Kill", "Always" }, 2));
             combo.AddSubMenu(rmenu);
 
             var r2menu = new Menu("R2 Settings", "rivenr2");
-            var newmenu2 = new Menu("Team Fight Required", "req2").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
+            var newmenu2 = new Menu("Required Targets (Teamfights)", "req2").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
             foreach (var hero in HeroManager.Enemies)
-                newmenu2.AddItem(new MenuItem("r" + hero.ChampionName, hero.ChampionName)).SetValue(false).DontSave();
+                newmenu2.AddItem(new MenuItem("r" + hero.ChampionName, hero.ChampionName))
+                    .SetValue(false).SetTooltip("Only R2 if it will hit " + hero.ChampionName).DontSave();
             r2menu.AddSubMenu(newmenu2);
 
             r2menu.AddItem(new MenuItem("usews", "Use R2 in Combo")).SetValue(true);
-            r2menu.AddItem(new MenuItem("overaa", "Dont use if target will die in AA")).SetValue(new Slider(2, 1, 6));
+            r2menu.AddItem(new MenuItem("overaa", "Dont R2 if target will die in AA")).SetValue(new Slider(2, 1, 6));
             r2menu.AddItem(new MenuItem("wsmode", "Use When")).SetValue(new StringList(new[] { "Kill Only", "Max Damage" }, 1));
             r2menu.AddItem(new MenuItem("keepr", "Use Before Expiry")).SetValue(true);
             combo.AddSubMenu(r2menu);
@@ -512,9 +513,10 @@ namespace KurisuRiven
             combo.AddSubMenu(qmenu);
 
             var wmenu = new Menu("W  Settings", "rivenw");
-            var newmenu = new Menu("Team Fight Required", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
+            var newmenu = new Menu("Requires Targets (Teamfights)", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
             foreach (var hero in HeroManager.Enemies)
-                newmenu.AddItem(new MenuItem("w" + hero.ChampionName, hero.ChampionName)).SetValue(false).DontSave();
+                newmenu.AddItem(new MenuItem("w" + hero.ChampionName, hero.ChampionName))
+                    .SetValue(false).SetTooltip("Only W if it will hit " + hero.ChampionName).DontSave();
             wmenu.AddSubMenu(newmenu);
 
             wmenu.AddItem(new MenuItem("usecombow", "Use W in Combo")).SetValue(true);
@@ -524,7 +526,7 @@ namespace KurisuRiven
 
             var emenu = new Menu("E   Settings", "rivene");
             emenu.AddItem(new MenuItem("usecomboe", "Use E in Combo")).SetValue(true);
-            emenu.AddItem(new MenuItem("vhealth", "Use E if HP% <=")).SetValue(new Slider(40));
+            emenu.AddItem(new MenuItem("vhealth", "Use E if HP% <=")).SetValue(new Slider(60));
             combo.AddSubMenu(emenu);
 
             menu.AddSubMenu(combo);
@@ -1150,7 +1152,7 @@ namespace KurisuRiven
                             !menu.Item("combokey").GetValue<KeyBind>().Active &&
                             !menu.Item("shycombo").GetValue<KeyBind>().Active)
                         {
-                            if (qtarg.IsValid<Obj_AI_Hero>())
+                            if (qtarg.IsValid<Obj_AI_Hero>() && !qtarg.UnderTurret(true))
                                 q.Cast(qtarg.ServerPosition);
                         }
 
