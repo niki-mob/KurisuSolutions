@@ -159,9 +159,9 @@ namespace KurisuRiven
                     q = new Spell(SpellSlot.Q, 260f);
                     q.SetSkillshot(0.25f, 100f, 2200f, false, SkillshotType.SkillshotCircle);
 
-                    r = new Spell(SpellSlot.R, 900f);
-                    r.SetSkillshot(0.25f, (float)(45 * 0.5), 1600f, false, SkillshotType.SkillshotCircle);
-
+                    r = new Spell(SpellSlot.R, 900f);  
+                    r.SetSkillshot(0.25f, 240f, 1600f, false, SkillshotType.SkillshotCircle);   
+                
                     TargetSelector.CustomTS = true;
 
                     flash = player.GetSpellSlot("summonerflash");
@@ -451,7 +451,8 @@ namespace KurisuRiven
             keybinds.AddItem(new MenuItem("fleekey", "Flee")).SetValue(new KeyBind(65, KeyBindType.Press));
             keybinds.AddItem(new MenuItem("shycombo", "Shy Burst")).SetValue(new KeyBind('T', KeyBindType.Press));
 
-            var mitem = new MenuItem("semiqlane", "Semi-Q Minion/Turret (Hold)");
+            var mitem = new MenuItem("semiqlane", "Semi-Q Minion/Turret (Hold)")
+                .SetTooltip("Hold this and Right click. Sould not be bound to orbwalking keys.");
             mitem.ValueChanged += (sender, args) =>
             {
                 if (menu.Item("Farm").GetValue<KeyBind>().Key == args.GetNewValue<KeyBind>().Key ||
@@ -467,7 +468,7 @@ namespace KurisuRiven
             };
 
             keybinds.AddItem(mitem).SetValue(new KeyBind(71, KeyBindType.Press));
-            keybinds.AddItem(new MenuItem("semiq", "Use Semi-Q Harass/Jungle")).SetValue(true);
+            keybinds.AddItem(new MenuItem("semiq", "Auto Q Harass/Jungle")).SetValue(true);
             menu.AddSubMenu(keybinds);
 
             var drMenu = new Menu("Drawings", "drawings");
@@ -1272,7 +1273,6 @@ namespace KurisuRiven
                 switch (args.SData.Name)
                 {
                     case "ItemTiamatCleave":
-                    //case "ItemTitanicHydraCleave":
                         lasthd = Utils.GameTimeTickCount;
                         didhd = true;
                         canws = true;
@@ -1282,7 +1282,7 @@ namespace KurisuRiven
                         {
                             if (menu.Item("combokey").GetValue<KeyBind>().Active)
                             {
-                                if (canburst())
+                                if (canburst() && uo)
                                 {
                                     if (riventarget().IsValidTarget() && !riventarget().IsZombie)
                                     {
@@ -1301,9 +1301,9 @@ namespace KurisuRiven
 
                             if (menu.Item("shycombo").GetValue<KeyBind>().Active)
                             {                              
-                                if (riventarget().IsValidTarget() && !riventarget().IsZombie && uo)
+                                if (riventarget().IsValidTarget() && !riventarget().IsZombie)
                                 {
-                                    if (shy())
+                                    if (shy() && uo)
                                     {
                                         Utility.DelayAction.Add(200 - Game.Ping,
                                             () =>
