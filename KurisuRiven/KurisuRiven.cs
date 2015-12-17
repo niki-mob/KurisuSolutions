@@ -246,7 +246,7 @@ namespace KurisuRiven
                         {
                             if (player.Health / player.MaxHealth * 100 <= menuslide("vhealth"))
                             {
-                                if (menubool("usecomboe"))
+                                if (menubool("usecomboe") && cane)
                                     e.Cast(riventarget().ServerPosition);
                             }
                         }
