@@ -6,10 +6,13 @@ namespace KurisuRiven
 {
     internal static class Program
     {
-        public static System.Version Version;   
         private static void Main(string[] args)
         {
-            Version = Assembly.GetExecutingAssembly().GetName().Version;
+            CustomEvents.Game.OnGameLoad += Game_OnGameLoad;
+        }
+
+        private static void Game_OnGameLoad(EventArgs args)
+        {
             new KurisuRiven();
         }
     }
