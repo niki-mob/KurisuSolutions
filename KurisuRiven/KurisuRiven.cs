@@ -192,7 +192,7 @@ namespace KurisuRiven
                 .OrderBy(x => x.Distance(Game.CursorPos)).FirstOrDefault(x => x.IsValidTarget());
 
             var closetarg = HeroManager.Enemies
-                .Where(x => x.Distance(player.ServerPosition) <= 1200)
+                .Where(x => x.Distance(player.ServerPosition) <= e.Range + 100)
                 .OrderBy(x => x.Distance(player.ServerPosition)).FirstOrDefault(x => x.IsValidTarget());
 
             return _sh ?? cursortarg ?? closetarg;
@@ -227,7 +227,11 @@ namespace KurisuRiven
                                     e.Cast(riventarget().ServerPosition);
                             }
                         }
+                    }
 
+                    if (menu.Item("combokey").GetValue<KeyBind>().Active ||
+                        menu.Item("shycombo").GetValue<KeyBind>().Active)
+                    {
                         if (qtarg != null && riventarget() != null)
                         {
                             if (qtarg.NetworkId == riventarget().NetworkId)
@@ -450,7 +454,7 @@ namespace KurisuRiven
             combo.AddSubMenu(rmenu);
 
             var r2menu = new Menu("R2 Settings", "rivenr2");
-            var newmenu2 = new Menu("Required Targets (Teamfights)", "req2").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
+            var newmenu2 = new Menu("Required Targets", "req2").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
             foreach (var hero in HeroManager.Enemies)
                 newmenu2.AddItem(new MenuItem("r" + hero.ChampionName, hero.ChampionName))
                     .SetValue(false).SetTooltip("Only R2 if it will hit " + hero.ChampionName).DontSave();
@@ -471,7 +475,7 @@ namespace KurisuRiven
             combo.AddSubMenu(qmenu);
 
             var wmenu = new Menu("W  Settings", "rivenw");
-            var newmenu = new Menu("Requires Targets (Teamfights)", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
+            var newmenu = new Menu("Requires Targets", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
             foreach (var hero in HeroManager.Enemies)
                 newmenu.AddItem(new MenuItem("w" + hero.ChampionName, hero.ChampionName))
                     .SetValue(false).SetTooltip("Only W if it will hit " + hero.ChampionName).DontSave();
@@ -1323,10 +1327,6 @@ namespace KurisuRiven
                         didw = true;
                         lastw = Utils.GameTimeTickCount;
                         canw = false;
-
-                        //if (riventarget().IsValidTarget(500) && q.IsReady() &&
-                        //    menu.Item("combokey").GetValue<KeyBind>().Active)
-                        //    Utility.DelayAction.Add(100, () => q.Cast(riventarget().ServerPosition));
 
                         break;
                     case "RivenFeint":
