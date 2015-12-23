@@ -1261,7 +1261,7 @@ namespace KurisuRiven
                                         if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) ||
                                              isteamfightkappa && !rrektAny())
                                         {
-                                            Utility.DelayAction.Add(200 - Game.Ping,
+                                            Utility.DelayAction.Add(100 - Game.Ping/2,
                                                 () =>
                                                 {
                                                     if (riventarget().HasBuffOfType(BuffType.Stun))
@@ -1281,7 +1281,7 @@ namespace KurisuRiven
                                 {
                                     if (shy() && uo)
                                     {
-                                        Utility.DelayAction.Add(200 - Game.Ping,
+                                        Utility.DelayAction.Add(100 - Game.Ping/2,
                                             () =>
                                             {
                                                 if (riventarget().HasBuffOfType(BuffType.Stun))
