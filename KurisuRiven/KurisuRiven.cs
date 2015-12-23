@@ -1340,7 +1340,11 @@ namespace KurisuRiven
                         {
                             if (uo && r.IsReady() && cc == 2 && q.IsReady())
                             {
-                                r.Cast(Game.CursorPos);
+                                var btarg = TargetSelector.GetTarget(r.Range, TargetSelector.DamageType.Physical);
+                                if (btarg.IsValidTarget())
+                                    r.CastIfHitchanceEquals(btarg, HitChance.Medium);
+                                else
+                                    r.Cast(Game.CursorPos);
                             }
                         }
 
