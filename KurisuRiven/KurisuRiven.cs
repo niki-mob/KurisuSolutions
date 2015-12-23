@@ -374,7 +374,7 @@ namespace KurisuRiven
                     {   
                         checkr();
 
-                        if (!hashd && uo)
+                        if (!hashd && uo && !riventarget().HasBuff("kindredrnodeathbuff"))
                         {
                             if (riventarget().HasBuffOfType(BuffType.Stun))
                                 r.Cast(riventarget().ServerPosition);
@@ -864,14 +864,12 @@ namespace KurisuRiven
                         player.HealthPercent > 65) 
                         return;
 
-                    // only kill or killsteal etc ->
-                    if (r.GetDamage(t) >= t.Health && canws)
+                    if (r.GetDamage(t) >= t.Health)
                     {
                         var p = r.GetPrediction(t, true, -1f, new[] {CollisionableObjects.YasuoWall});
-                        if (p.Hitchance == HitChance.VeryHigh)
+                        if (p.Hitchance == HitChance.VeryHigh && canws && !t.HasBuff("kindredrnodeathbuff"))
                         {
                             r.Cast(p.CastPosition);
-                            Console.WriteLine("D1");
                         }
                     }
                 }
@@ -891,12 +889,12 @@ namespace KurisuRiven
                         if (r.GetDamage(riventarget()) / riventarget().MaxHealth * 100 >= 50)
                         {
                             var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
-                            if (p.Hitchance >= HitChance.Medium && canws)
+                            if (p.Hitchance >= HitChance.Medium && canws && !riventarget().HasBuff("kindredrnodeathbuff"))
                             {
-                                if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || isteamfightkappa && !rrektAny())
+                                if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) ||
+                                     isteamfightkappa && !rrektAny())
                                 {
                                     r.Cast(p.CastPosition);
-                                    Console.WriteLine("D2");
                                 }
                             }
                         }
@@ -912,12 +910,12 @@ namespace KurisuRiven
                                 if (riventarget().Distance(player.ServerPosition) <= truerange + q.Range)
                                 {
                                     var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
-                                    if (p.Hitchance >= HitChance.High && canws)
+                                    if (p.Hitchance >= HitChance.High && canws && !riventarget().HasBuff("kindredrnodeathbuff"))
                                     {
-                                        if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || isteamfightkappa && !rrektAny())
+                                        if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || 
+                                             isteamfightkappa && !rrektAny())
                                         {
                                             r.Cast(p.CastPosition);
-                                            Console.WriteLine("D3");
                                         }
                                     }
                                 }
@@ -1258,7 +1256,7 @@ namespace KurisuRiven
                             {
                                 if (canburst() && uo)
                                 {
-                                    if (riventarget().IsValidTarget() && !riventarget().IsZombie)
+                                    if (riventarget().IsValidTarget() && !riventarget().IsZombie && !riventarget().HasBuff("kindredrnodeathbuff"))
                                     {
                                         if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) ||
                                              isteamfightkappa && !rrektAny())
@@ -1271,8 +1269,6 @@ namespace KurisuRiven
 
                                                     if (!riventarget().HasBuffOfType(BuffType.Stun))
                                                         r.Cast(r.CastIfHitchanceEquals(riventarget(), HitChance.Medium));
-
-                                                    Console.WriteLine("D4");
                                                 });
                                         }
                                     }
@@ -1280,8 +1276,8 @@ namespace KurisuRiven
                             }
 
                             if (menu.Item("shycombo").GetValue<KeyBind>().Active)
-                            {                              
-                                if (riventarget().IsValidTarget() && !riventarget().IsZombie)
+                            {
+                                if (riventarget().IsValidTarget() && !riventarget().IsZombie && !riventarget().HasBuff("kindredrnodeathbuff"))
                                 {
                                     if (shy() && uo)
                                     {
@@ -1484,15 +1480,16 @@ namespace KurisuRiven
                 {
                     if (player.GetBuff("RivenFengShuiEngine").EndTime - Game.Time <= 0.25f)
                     {
-                        if (riventarget().IsValidTarget(r.Range))
-                            r.CastIfHitchanceEquals(riventarget(), HitChance.High);
-                        else
+                        if (!riventarget().IsValidTarget(r.Range) || riventarget().HasBuff("kindredrnodeathbuff"))
                         {
                             if (e.IsReady() && uo)
                                 e.Cast(Game.CursorPos);
 
                             r.Cast(Game.CursorPos);
                         }
+
+                        if (riventarget().IsValidTarget(r.Range) && !riventarget().HasBuff("kindredrnodeathbuff"))
+                            r.CastIfHitchanceEquals(riventarget(), HitChance.High);
                     }
                 }
 
