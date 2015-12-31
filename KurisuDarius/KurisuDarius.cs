@@ -33,9 +33,30 @@ namespace KurisuDarius
 
                 // On Spell Cast Event
                 Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
+                CustomEvents.Unit.OnDash += Unit_OnDash;
 
                 // Interrupter
                 Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
+            }
+        }
+
+        internal static void Unit_OnDash(Obj_AI_Base sender, Dash.DashItem args)
+        {
+            if (!Config.Item("useeflee").GetValue<bool>())
+            {
+                return;
+            }
+
+            var hero = sender as Obj_AI_Hero;
+            if (hero != null && hero.IsEnemy && hero.Distance(args.EndPos) < KL.Player.Distance(args.EndPos))
+            {
+                if (hero.IsValidTarget(KL.Spellbook["E"].Range))
+                {
+                    if (KL.Spellbook["E"].IsReady())
+                    {
+                        KL.Spellbook["E"].Cast(args.EndPos);
+                    }
+                }
             }
         }
 
@@ -75,10 +96,7 @@ namespace KurisuDarius
             }
         }
 
-        internal static float RModifier
-        {
-            get { return Config.Item("rmodi").GetValue<Slider>().Value; }
-        }
+        internal static float RModifier => Config.Item("rmodi").GetValue<Slider>().Value;
 
         internal static float MordeShield(Obj_AI_Hero unit)
         {
@@ -118,7 +136,7 @@ namespace KurisuDarius
                     if (unit.CountEnemiesInRange(1200) <= 1 && Config.Item("ksr1").GetValue<bool>())
                     {
                         if (KL.RDmg(unit, PassiveCount(unit)) + RModifier + 
-                            KL.Hemorrhage(unit, PassiveCount(unit)) >= unit.Health + MordeShield(unit))
+                            KL.Hemorrhage(unit, PassiveCount(unit) - 1) >= unit.Health + MordeShield(unit))
                         {
                             if (!TargetSelector.IsInvulnerable(unit, TargetSelector.DamageType.True))
                             {
@@ -140,15 +158,15 @@ namespace KurisuDarius
                 }
             }
 
-            switch (Orbwalker.ActiveMode)
+            if (Config.Item("useca").GetValue<KeyBind>().Active)
             {
-                case Orbwalking.OrbwalkingMode.Combo:
-                    Combo(Config.Item("useq").GetValue<bool>(), Config.Item("usew").GetValue<bool>(),
-                          Config.Item("usee").GetValue<bool>(), Config.Item("user").GetValue<bool>());
-                    break;
-                case Orbwalking.OrbwalkingMode.Mixed:
-                    Harass();
-                    break;
+                Combo(Config.Item("useq").GetValue<bool>(), Config.Item("usew").GetValue<bool>(),
+                    Config.Item("usee").GetValue<bool>(), Config.Item("user").GetValue<bool>());
+            }
+
+            if (Config.Item("useha").GetValue<KeyBind>().Active)
+            {
+                Harass();
             }
 
             if (Config.Item("caste").GetValue<KeyBind>().Active)
@@ -363,47 +381,52 @@ namespace KurisuDarius
         {
             Config = new Menu("Kurisu's Darius", "darius", true);
 
-            var rmenu = new Menu("Ultimate", "rmenu");
-            rmenu.AddItem(new MenuItem("user", "Use R in combo")).SetValue(true);
-            rmenu.AddItem(new MenuItem("ksr", "Use R auto (no key)")).SetValue(true);
-            rmenu.AddItem(new MenuItem("ksr1", "Use R early if target will bleed to death (1v1)")).SetValue(false);
-            //rmenu.AddItem(new MenuItem("userlast", "Use R before buff expiry"))
-            //    .SetValue(true)
-            //    .SetTooltip("After a successful ult, will not waste R if buff will Expire");
-            rmenu.AddItem(new MenuItem("rmodi", "Adjust R damage"))
-                .SetValue(new Slider(0, -250, 250))
-                .SetTooltip("Lower it if the target is living with a slither of health.");
-            Config.AddSubMenu(rmenu);
-
-            var drmenu = new Menu("Drawings", "drawings");
-            drmenu.AddItem(new MenuItem("drawe", "Draw E"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
-            drmenu.AddItem(new MenuItem("drawq", "Draw Q"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
-            drmenu.AddItem(new MenuItem("drawr", "Draw R"))
-                .SetValue(new Circle(true, System.Drawing.Color.FromArgb(150, System.Drawing.Color.DarkRed)));
-            drmenu.AddItem(new MenuItem("drawfill", "Draw R Damage Fill")).SetValue(true);
-            drmenu.AddItem(new MenuItem("drawstack", "Draw Stack Count")).SetValue(true);
-            Config.AddSubMenu(drmenu);
-
-            var omenu = new Menu("Orbwalker", "omenu");
+            var omenu = new Menu(":: Orbwalker", "omenu");
             Orbwalker = new Orbwalking.Orbwalker(omenu);
             Config.AddSubMenu(omenu);
 
-            var cmenu = new Menu("Combo Config", "cmenu");
-            cmenu.AddItem(new MenuItem("iiii", "Use Hydra/Tiamat/Titanic")).SetValue(true);
-            cmenu.AddItem(new MenuItem("usee", "Use E in combo")).SetValue(true);
-            cmenu.AddItem(new MenuItem("caste", "Cast assisted E").SetValue(new KeyBind('E', KeyBindType.Press)));
-            cmenu.AddItem(new MenuItem("useeint", "Interrupt spells with E")).SetValue(true);
-            //cmenu.AddItem(new MenuItem("useeflee", "Auto E fleeing targets"))
+            var drmenu = new Menu(":: Draw Settings", "drawings");
+            drmenu.AddItem(new MenuItem("drawe", ":: Draw E"))
+                .SetValue(new Circle(false, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
+            drmenu.AddItem(new MenuItem("drawq", ":: Draw Q"))
+                .SetValue(new Circle(false, System.Drawing.Color.FromArgb(150, System.Drawing.Color.Red)));
+            drmenu.AddItem(new MenuItem("drawr", ":: Draw R"))
+                .SetValue(new Circle(false, System.Drawing.Color.FromArgb(150, System.Drawing.Color.White)));
+            drmenu.AddItem(new MenuItem("drawfill", ":: Draw R Damage Fill")).SetValue(true);
+            drmenu.AddItem(new MenuItem("drawstack", ":: Draw Stack Count")).SetValue(true);
+            Config.AddSubMenu(drmenu);
+
+            var rmenu = new Menu(":: Ultimate Settings ", "rmenu");
+            rmenu.AddItem(new MenuItem("user", ":: Use R in combo")).SetValue(true);
+            rmenu.AddItem(new MenuItem("ksr", ":: Use R auto (no key)")).SetValue(true);
+            rmenu.AddItem(new MenuItem("ksr1", ":: Use R early (1v1)"))
+                .SetValue(false)
+                .SetTooltip("Use early if target will bleed to death");
+            //rmenu.AddItem(new MenuItem("userlast", "Use R before buff expiry"))
             //    .SetValue(true)
-            //    .SetTooltip("Will pull targets in who use a spell to flee.");
-            cmenu.AddItem(new MenuItem("useq", "Use Q in combo")).SetValue(true);
-            cmenu.AddItem(new MenuItem("harassq", "Use Q in harass")).SetValue(true);
-            cmenu.AddItem(new MenuItem("usew", "Use W after attack")).SetValue(true);
-            cmenu.AddItem(new MenuItem("wwww", "Use W on slowed targets")).SetValue(true);
+            //    .SetTooltip("After a successful ult, will not waste R if buff will Expire");
+            rmenu.AddItem(new MenuItem("rmodi", ":: Adjust R damage"))
+                .SetValue(new Slider(0, -250, 250))
+                .SetTooltip("Lower it if the target is living with a slither of health.");
+            Config.AddSubMenu(rmenu);   
+
+            var cmenu = new Menu(":: Darius Settings", "cmenu");
+            cmenu.AddItem(new MenuItem("iiii", ":: Hydra/Tiamat/Titanic")).SetValue(true);
+            cmenu.AddItem(new MenuItem("usee", ":: Use E in combo")).SetValue(true);
+            cmenu.AddItem(new MenuItem("useq", ":: Use Q in combo")).SetValue(true);
+            cmenu.AddItem(new MenuItem("harassq", ":: Use Q in harass")).SetValue(true);
+            cmenu.AddItem(new MenuItem("usew", ":: Use W after attack")).SetValue(true);
+            cmenu.AddItem(new MenuItem("wwww", ":: Use W on slowed targets")).SetValue(true);
+            cmenu.AddItem(new MenuItem("useeint", ":: Auto E interrupt")).SetValue(true);
+            cmenu.AddItem(new MenuItem("useeflee", ":: Auto E fleeing targets"))
+                .SetValue(true)
+                .SetTooltip("Will pull targets in who use a spell to flee.");
             Config.AddSubMenu(cmenu);
-          
+
+            Config.AddItem(new MenuItem("useca", ":: Combo [active]")).SetValue(new KeyBind(32, KeyBindType.Press));
+            Config.AddItem(new MenuItem("useha", ":: Harass [active]")).SetValue(new KeyBind('C', KeyBindType.Press));
+            Config.AddItem(new MenuItem("caste", ":: Cast Assisted E [semi]")).SetValue(new KeyBind('T', KeyBindType.Press));
+
             Config.AddToMainMenu();
         }
     }
