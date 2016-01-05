@@ -193,7 +193,6 @@ namespace KurisuNidalee
             Game.PrintChat("<b><font color=\"#FF33D6\">Kurisu's Nidalee</font></b> - Loaded!");
 
             Drawing.OnDraw += Drawing_OnDraw;
-            Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
             Obj_AI_Base.OnBuffAdd += Obj_AI_Base_OnBuffAdd;
         }
 
@@ -238,33 +237,7 @@ namespace KurisuNidalee
         }
 
         #endregion
-
-        #region OnLevelUp
-        static void Obj_AI_Base_OnLevelUp(Obj_AI_Base sender, EventArgs args)
-        {
-            var hero = sender as Obj_AI_Hero;
-            if (hero != null && hero.IsMe)
-            {
-                switch (hero.Level)
-                {
-                    case 6:
-                        Utility.DelayAction.Add(70 + Math.Min(60, Game.Ping),
-                            () => { Player.Spellbook.LevelSpell(SpellSlot.R); });
-                        break;
-                    case 11:
-                        Utility.DelayAction.Add(70 + Math.Min(60, Game.Ping),
-                            () => { Player.Spellbook.LevelSpell(SpellSlot.R); });
-                        break;
-                    case 16:
-                        Utility.DelayAction.Add(70 + Math.Min(60, Game.Ping),
-                            () => { Player.Spellbook.LevelSpell(SpellSlot.R); });
-                        break;
-                }
-            }
-        }
-
-        #endregion
-
+        
         #region OnDraw
         static void Drawing_OnDraw(EventArgs args)
         {
