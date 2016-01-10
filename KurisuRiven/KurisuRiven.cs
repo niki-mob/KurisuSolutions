@@ -375,24 +375,26 @@ namespace KurisuRiven
                 if (riventarget().IsValidTarget())
                 {
                     SomeDash(riventarget());
-                    
+
                     if (w.IsReady() && riventarget().Distance(player.ServerPosition) <= w.Range + 50)
                     {
                         checkr();
 
-                        if (Items.UseItem(3077))
-                        {
-                            w.Cast();
-                        }
- 
-                        if (Items.UseItem(3074))
+                        if (!Items.HasItem(3074) &&
+                            !Items.HasItem(3077))
                         {
                             w.Cast();
                         }
 
-                        if (!Items.HasItem(3074) && !Items.HasItem(3077))
+                        if (canhd)
                         {
-                            w.Cast();
+                            Items.UseItem(3077);
+                            Items.UseItem(3074);
+                        }
+
+                        else
+                        {
+                            Utility.DelayAction.Add(20, () => w.Cast());
                         }
                     }
 
@@ -401,7 +403,7 @@ namespace KurisuRiven
                         checkr();
                         TryIgnote(riventarget());
 
-                        if (canq && !canhd)
+                        if (canq && !canhd && Utils.GameTimeTickCount - lasthd >= 300)
                         {
                             if (Utils.GameTimeTickCount - lastw >= 300 + Game.Ping)
                             {
@@ -471,7 +473,7 @@ namespace KurisuRiven
             combo.AddSubMenu(qmenu);
 
             var wmenu = new Menu("W Settings", "rivenw");
-            var newmenu = new Menu("Requires Targets", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
+            var newmenu = new Menu("Requires Targets", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
             foreach (var hero in HeroManager.Enemies)
                 newmenu.AddItem(new MenuItem("w" + hero.ChampionName, hero.ChampionName))
                     .SetValue(false).SetTooltip("Only W if it will hit " + hero.ChampionName).DontSave();
@@ -494,11 +496,11 @@ namespace KurisuRiven
             rmenu.AddItem(new MenuItem("overk", "Dont R1 if target HP % <=")).SetValue(new Slider(25, 1, 99));
             rmenu.AddItem(new MenuItem("userq", "Use only if Q Count <=")).SetValue(new Slider(2, 1, 3));
             rmenu.AddItem(new MenuItem("multib", "Burst: ")).SetValue(new StringList(new[] { "Damage Check", "Always" }, 1));
-            rmenu.AddItem(new MenuItem("flashb", "Burst: Flash in Burst")).SetValue(true);
+            rmenu.AddItem(new MenuItem("flashb", "Burst: Flash in Burst")).SetValue(true).SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
             combo.AddSubMenu(rmenu);
 
             var r2menu = new Menu("R2 Settings", "rivenr2");
-            var newmenu2 = new Menu("Required Targets", "req2").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
+            var newmenu2 = new Menu("Required Targets", "req2").SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
             foreach (var hero in HeroManager.Enemies)
                 newmenu2.AddItem(new MenuItem("r" + hero.ChampionName, hero.ChampionName))
                     .SetValue(false).SetTooltip("Only R2 if it will hit " + hero.ChampionName).DontSave();
