@@ -217,6 +217,21 @@ namespace KurisuRiven
             {
                 if (sender.IsMe && args.SData.IsAutoAttack())
                 {
+                    if (menu.Item("shycombo").GetValue<KeyBind>().Active)
+                    {
+                        if (riventarget().IsValidTarget() && !riventarget().IsZombie && !riventarget().HasBuff("kindredrnodeathbuff"))
+                        {
+                            if (shy() && uo)
+                            {
+                                if (riventarget().HasBuffOfType(BuffType.Stun))
+                                    r.Cast(riventarget().ServerPosition);
+
+                                if (!riventarget().HasBuffOfType(BuffType.Stun))
+                                    r.CastIfHitchanceEquals(riventarget(), HitChance.Medium);
+                            }
+                        }
+                    }
+
                     if (menu.Item("combokey").GetValue<KeyBind>().Active)
                     {
                         if (riventarget().IsValidTarget(e.Range + 200))
@@ -229,8 +244,7 @@ namespace KurisuRiven
                         }
                     }
 
-                    if (menu.Item("combokey").GetValue<KeyBind>().Active ||
-                        menu.Item("shycombo").GetValue<KeyBind>().Active)
+                    if (menu.Item("combokey").GetValue<KeyBind>().Active)
                     {
                         if (qtarg != null && riventarget() != null)
                         {
@@ -270,7 +284,6 @@ namespace KurisuRiven
                     canw = true;
                     canws = true;
                 }
-
             };
         }
 
@@ -366,22 +379,27 @@ namespace KurisuRiven
                     if (w.IsReady() && r.IsReady() && riventarget().Distance(player.ServerPosition) <= w.Range + 50)
                     {
                         checkr();
-                        w.Cast();
-                        TryIgnote(riventarget());
+
+                        if (Items.UseItem(3077))
+                        {
+                            Utility.DelayAction.Add(160 - Game.Ping, () => w.Cast());
+                        }
+ 
+                        if (Items.UseItem(3074))
+                        {
+                            Utility.DelayAction.Add(160 - Game.Ping, () => w.Cast());
+                        }
+
+                        if (!Items.HasItem(3074) && !Items.HasItem(3077))
+                        {
+                            w.Cast();
+                        }
                     }
 
                     else if (q.IsReady() && riventarget().Distance(player.ServerPosition) <= truerange + 100)
-                    {   
+                    {
                         checkr();
-
-                        if (!hashd && uo && !riventarget().HasBuff("kindredrnodeathbuff"))
-                        {
-                            if (riventarget().HasBuffOfType(BuffType.Stun))
-                                r.Cast(riventarget().ServerPosition);
-
-                            if (!riventarget().HasBuffOfType(BuffType.Stun))
-                                r.Cast(r.CastIfHitchanceEquals(riventarget(), HitChance.Medium));
-                        }
+                        TryIgnote(riventarget());
 
                         if (canq && !canhd)
                         {
@@ -429,7 +447,7 @@ namespace KurisuRiven
             keybinds.AddItem(new MenuItem("harasskey", "Harass")).SetValue(new KeyBind(67, KeyBindType.Press));
             keybinds.AddItem(new MenuItem("clearkey", "Jungle/Laneclear")).SetValue(new KeyBind(86, KeyBindType.Press));
             keybinds.AddItem(new MenuItem("fleekey", "Flee")).SetValue(new KeyBind(65, KeyBindType.Press));
-            keybinds.AddItem(new MenuItem("shycombo", "Shy Burst")).SetValue(new KeyBind('T', KeyBindType.Press));
+            keybinds.AddItem(new MenuItem("shycombo", "Burst Combo")).SetValue(new KeyBind('T', KeyBindType.Press));
             keybinds.AddItem(new MenuItem("semiq", "Auto Q Harass/Jungle")).SetValue(true);
             menu.AddSubMenu(keybinds);
 
@@ -444,13 +462,39 @@ namespace KurisuRiven
 
             var combo = new Menu("Combo", "combo");
 
+            var qmenu = new Menu("Q  Settings", "rivenq");
+            qmenu.AddItem(new MenuItem("wq3", "Ward + Q3 (Flee)")).SetValue(true);
+            qmenu.AddItem(new MenuItem("qint", "Interrupt with 3rd Q")).SetValue(true);
+            qmenu.AddItem(new MenuItem("keepq", "Use Q Before Expiry")).SetValue(true);
+            qmenu.AddItem(new MenuItem("usegap", "Gapclose with Q")).SetValue(true);
+            qmenu.AddItem(new MenuItem("gaptimez", "Gapclose Q Delay (ms)")).SetValue(new Slider(115, 0, 200));
+            combo.AddSubMenu(qmenu);
+
+            var wmenu = new Menu("W Settings", "rivenw");
+            var newmenu = new Menu("Requires Targets", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
+            foreach (var hero in HeroManager.Enemies)
+                newmenu.AddItem(new MenuItem("w" + hero.ChampionName, hero.ChampionName))
+                    .SetValue(false).SetTooltip("Only W if it will hit " + hero.ChampionName).DontSave();
+            wmenu.AddSubMenu(newmenu);
+
+            wmenu.AddItem(new MenuItem("usecombow", "Use W in Combo")).SetValue(true);
+            wmenu.AddItem(new MenuItem("wint", "Use on Interrupt")).SetValue(true);
+            wmenu.AddItem(new MenuItem("wgap", "Use on Gapcloser")).SetValue(true);
+            combo.AddSubMenu(wmenu);
+
+            var emenu = new Menu("E  Settings", "rivene");
+            emenu.AddItem(new MenuItem("usecomboe", "Use E in Combo")).SetValue(true);
+            emenu.AddItem(new MenuItem("vhealth", "Use E if HP% <=")).SetValue(new Slider(60));
+            combo.AddSubMenu(emenu);
+
             var rmenu = new Menu("R1 Settings", "rivenr");
             rmenu.AddItem(new MenuItem("useignote", "Combo with Ignite")).SetValue(true);
             rmenu.AddItem(new MenuItem("user", "Use R1 in Combo")).SetValue(new KeyBind('H', KeyBindType.Toggle, true)).Permashow();
             rmenu.AddItem(new MenuItem("ultwhen", "Use R1 when")).SetValue(new StringList(new[] { "Normal Kill", "Hard Kill", "Always" }, 2));
             rmenu.AddItem(new MenuItem("overk", "Dont R1 if target HP % <=")).SetValue(new Slider(25, 1, 99));
             rmenu.AddItem(new MenuItem("userq", "Use only if Q Count <=")).SetValue(new Slider(2, 1, 3));
-            rmenu.AddItem(new MenuItem("multib", "Shy Burst")).SetValue(new StringList(new[] { "Can Burst/Kill", "Always", "Dont Flash" }, 1));
+            rmenu.AddItem(new MenuItem("flashb", "Flash in Burst")).SetValue(true);
+            rmenu.AddItem(new MenuItem("multib", "Burst?")).SetValue(new StringList(new[] { "Damage Check", "Always" }, 1));
             combo.AddSubMenu(rmenu);
 
             var r2menu = new Menu("R2 Settings", "rivenr2");
@@ -465,31 +509,6 @@ namespace KurisuRiven
             r2menu.AddItem(new MenuItem("wsmode", "Use R2 when")).SetValue(new StringList(new[] { "Kill Only", "Max Damage" }, 1));
             r2menu.AddItem(new MenuItem("keepr", "Use R2 Before Expiry")).SetValue(true);
             combo.AddSubMenu(r2menu);
-
-            var qmenu = new Menu("Q   Settings", "rivenq");
-            qmenu.AddItem(new MenuItem("wq3", "Ward + Q3 (Flee)")).SetValue(true);
-            qmenu.AddItem(new MenuItem("qint", "Interrupt with 3rd Q")).SetValue(true);
-            qmenu.AddItem(new MenuItem("keepq", "Use Q Before Expiry")).SetValue(true);
-            qmenu.AddItem(new MenuItem("usegap", "Gapclose with Q")).SetValue(true);
-            qmenu.AddItem(new MenuItem("gaptimez", "Gapclose Q Delay (ms)")).SetValue(new Slider(115, 0, 200));
-            combo.AddSubMenu(qmenu);
-
-            var wmenu = new Menu("W  Settings", "rivenw");
-            var newmenu = new Menu("Requires Targets", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.MediumSpringGreen);
-            foreach (var hero in HeroManager.Enemies)
-                newmenu.AddItem(new MenuItem("w" + hero.ChampionName, hero.ChampionName))
-                    .SetValue(false).SetTooltip("Only W if it will hit " + hero.ChampionName).DontSave();
-            wmenu.AddSubMenu(newmenu);
-
-            wmenu.AddItem(new MenuItem("usecombow", "Use W in Combo")).SetValue(true);
-            wmenu.AddItem(new MenuItem("wint", "Use on Interrupt")).SetValue(true);
-            wmenu.AddItem(new MenuItem("wgap", "Use on Gapcloser")).SetValue(true);
-            combo.AddSubMenu(wmenu);
-
-            var emenu = new Menu("E   Settings", "rivene");
-            emenu.AddItem(new MenuItem("usecomboe", "Use E in Combo")).SetValue(true);
-            emenu.AddItem(new MenuItem("vhealth", "Use E if HP% <=")).SetValue(new Slider(60));
-            combo.AddSubMenu(emenu);
 
             menu.AddSubMenu(combo);
 
@@ -553,7 +572,7 @@ namespace KurisuRiven
         {
             if (riventarget() != null && (canburst() || shy()))
             {
-                if (!flash.IsReady() || menulist("multib") == 2)
+                if (!flash.IsReady() || !menubool("flashb"))
                     return;
 
                 if (menu.Item("shycombo").GetValue<KeyBind>().Active)
@@ -592,7 +611,7 @@ namespace KurisuRiven
                 !target.IsValid<Obj_AI_Hero>() || uo)
                 return;
 
-            if (riventarget() == null ||!r.IsReady())
+            if (riventarget() == null || !r.IsReady())
                 return;
 
             if (flash.IsReady() &&  w.IsReady() && (canburst() || shy()) && menulist("multib") != 2)
@@ -1271,25 +1290,6 @@ namespace KurisuRiven
                                                         r.Cast(r.CastIfHitchanceEquals(riventarget(), HitChance.Medium));
                                                 });
                                         }
-                                    }
-                                }
-                            }
-
-                            if (menu.Item("shycombo").GetValue<KeyBind>().Active)
-                            {
-                                if (riventarget().IsValidTarget() && !riventarget().IsZombie && !riventarget().HasBuff("kindredrnodeathbuff"))
-                                {
-                                    if (shy() && uo)
-                                    {
-                                        Utility.DelayAction.Add(100 - Game.Ping/2,
-                                            () =>
-                                            {
-                                                if (riventarget().HasBuffOfType(BuffType.Stun))
-                                                    r.Cast(riventarget().ServerPosition);
-
-                                                if (!riventarget().HasBuffOfType(BuffType.Stun))
-                                                    r.Cast(r.CastIfHitchanceEquals(riventarget(), HitChance.Medium));
-                                            });
                                     }
                                 }
                             }
