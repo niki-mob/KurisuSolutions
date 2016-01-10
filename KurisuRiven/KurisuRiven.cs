@@ -376,18 +376,18 @@ namespace KurisuRiven
                 {
                     SomeDash(riventarget());
                     
-                    if (w.IsReady() && r.IsReady() && riventarget().Distance(player.ServerPosition) <= w.Range + 50)
+                    if (w.IsReady() && riventarget().Distance(player.ServerPosition) <= w.Range + 50)
                     {
                         checkr();
 
                         if (Items.UseItem(3077))
                         {
-                            Utility.DelayAction.Add(160 - Game.Ping, () => w.Cast());
+                            w.Cast();
                         }
  
                         if (Items.UseItem(3074))
                         {
-                            Utility.DelayAction.Add(160 - Game.Ping, () => w.Cast());
+                            w.Cast();
                         }
 
                         if (!Items.HasItem(3074) && !Items.HasItem(3077))
@@ -493,8 +493,8 @@ namespace KurisuRiven
             rmenu.AddItem(new MenuItem("ultwhen", "Use R1 when")).SetValue(new StringList(new[] { "Normal Kill", "Hard Kill", "Always" }, 2));
             rmenu.AddItem(new MenuItem("overk", "Dont R1 if target HP % <=")).SetValue(new Slider(25, 1, 99));
             rmenu.AddItem(new MenuItem("userq", "Use only if Q Count <=")).SetValue(new Slider(2, 1, 3));
-            rmenu.AddItem(new MenuItem("flashb", "Flash in Burst")).SetValue(true);
-            rmenu.AddItem(new MenuItem("multib", "Burst?")).SetValue(new StringList(new[] { "Damage Check", "Always" }, 1));
+            rmenu.AddItem(new MenuItem("multib", "Burst: ")).SetValue(new StringList(new[] { "Damage Check", "Always" }, 1));
+            rmenu.AddItem(new MenuItem("flashb", "Burst: Flash in Burst")).SetValue(true);
             combo.AddSubMenu(rmenu);
 
             var r2menu = new Menu("R2 Settings", "rivenr2");
@@ -1719,7 +1719,7 @@ namespace KurisuRiven
 
                     if (menu.Item("drawburst").GetValue<Circle>().Active && (canburst() || shy()) && riventarget().IsValidTarget())
                     {
-                        var xrange = menulist("multib") != 2 && flash.IsReady() ? 300 : 0;
+                        var xrange = menubool("flashb") && flash.IsReady() ? 255 : 0;
                         Render.Circle.DrawCircle(riventarget().Position, e.Range + w.Range - 25 + xrange,
                             menu.Item("drawburst").GetValue<Circle>().Color, menu.Item("linewidth").GetValue<Slider>().Value);
                     }
