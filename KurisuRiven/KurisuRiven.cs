@@ -1174,6 +1174,12 @@ namespace KurisuRiven
                 return;
             }
 
+            if (menu.Item("shycombo").GetValue<KeyBind>().Active)
+            {
+                r.Cast();
+                return;
+            }
+
             var targets = HeroManager.Enemies.Where(ene => ene.IsValidTarget(r.Range));
             var heroes = targets as IList<Obj_AI_Hero> ?? targets.ToList();
 
