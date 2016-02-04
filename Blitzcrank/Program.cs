@@ -376,7 +376,7 @@ namespace Blitzcrank
             if (useq && Q.IsReady())
             {
                 var QT = HeroManager.Enemies.FirstOrDefault(x => Q.GetDamage(x) > x.Health);
-                if (QT.IsValidTarget())
+                if (QT.IsValidTarget(Q.Range))
                 {
                     var poutput = Q.GetPrediction(QT); // prediction output
                     if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2)
@@ -392,7 +392,7 @@ namespace Blitzcrank
             if (user && R.IsReady())
             {
                 var RT = HeroManager.Enemies.FirstOrDefault(x => R.GetDamage(x) > x.Health);
-                if (RT.IsValidTarget() && !RT.IsZombie)
+                if (RT.IsValidTarget(R.Range) && !RT.IsZombie)
                 {
                     if (!TargetSelector.IsInvulnerable(RT, TargetSelector.DamageType.Magical))
                     {
