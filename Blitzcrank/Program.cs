@@ -157,6 +157,16 @@ namespace Blitzcrank
                     {
                         if (HeroManager.Allies.Any(x => x.IsValidTarget(1000, false) && !x.IsMe))
                         {
+                            if (Player.HasBuff("talentreaperdisplay"))
+                            {
+                                var b = Player.GetBuff("talentreaperdisplay");
+                                if (b.Count > 0)
+                                {
+                                    args.Process = true;
+                                    return;
+                                }
+                            }
+
                             args.Process = false;
                         }
                     }
@@ -207,7 +217,7 @@ namespace Blitzcrank
             var hero = sender as Obj_AI_Hero;
             if (hero != null && hero.IsEnemy && Q.IsReady() && Root.Item("useqcombo").GetValue<bool>())
             {
-                if (hero.IsValidTarget(Q.Range))
+                if (hero.IsValidTarget(Q.Range) && hero.Health > Q.GetDamage(hero))
                 {
                     if (!Root.Item("blq" + hero.ChampionName).GetValue<bool>() &&
                          Root.Item("auq" + hero.ChampionName).GetValue<bool>())
