@@ -155,9 +155,9 @@ namespace Tristana
 
                 if (ET.IsValidTarget() && !ET.IsZombie)
                 {
-                    TargetSelector.SetTarget(ET);
-                    if (Orbwalking.InAutoAttackRange(ET))
+                    if (Root.Item("usecombo").GetValue<KeyBind>().Active)
                     {
+                        TargetSelector.SetTarget(ET);
                         Orbwalker.ForceTarget(ET);
                     }
                 }
