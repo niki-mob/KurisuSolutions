@@ -25,6 +25,7 @@ namespace KurisuNidalee
 
         internal static void Game_OnGameLoad(EventArgs args)
         {
+            Player = ObjectManager.Player;
             if (Player.ChampionName != "Nidalee")
                 return;
 
