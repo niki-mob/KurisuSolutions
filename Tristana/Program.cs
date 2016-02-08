@@ -157,8 +157,11 @@ namespace Tristana
                 {
                     if (Root.Item("usecombo").GetValue<KeyBind>().Active)
                     {
-                        TargetSelector.SetTarget(ET);
-                        Orbwalker.ForceTarget(ET);
+                        if (Orbwalking.InAutoAttackRange(ET))
+                        {
+                            TargetSelector.SetTarget(ET);
+                            Orbwalker.ForceTarget(ET);
+                        }
                     }
                 }
             }
