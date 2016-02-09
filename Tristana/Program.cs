@@ -99,6 +99,7 @@ namespace Tristana
 
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += Game_OnUpdate;
+            GameObject.OnCreate += GameObject_OnCreate;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
 
@@ -113,6 +114,28 @@ namespace Tristana
             {
                 Game.PrintChat("<font color=\"#FFF280\">Wooa</font>! you aren't using any activator. " +
                                "How about trying <b>Activator#</b> :^)");
+            }
+        }
+
+        private static void GameObject_OnCreate(GameObject sender, EventArgs args)
+        {
+            if (!R.IsReady() || !Root.Item("gap").GetValue<bool>())
+            {
+                return;
+            }
+
+            var rango = HeroManager.Enemies.FirstOrDefault(x => x.ChampionName.Equals("Rengar"));
+            if (rango != null && sender.Name.Equals("Rengar_LeapSound.troy"))
+            {
+                if (Orbwalking.InAutoAttackRange(rango))
+                    R.CastOnUnit(rango);
+            }
+
+            var khazo = HeroManager.Enemies.FirstOrDefault(x => x.ChampionName.Equals("Khazix"));
+            if (khazo != null && sender.Name.Equals("Khazix_Base_E_Tar.troy"))
+            {
+                if (Orbwalking.InAutoAttackRange(khazo))
+                    R.CastOnUnit(khazo);
             }
         }
 
@@ -264,7 +287,7 @@ namespace Tristana
         private static void AntiGapcloser_OnEnemyGapcloser(ActiveGapcloser gapcloser)
         {
             var sender = gapcloser.Sender;
-            if (sender.IsEnemy && sender.IsValidTarget(250f))
+            if (sender.IsValidTarget(250f))
             {
                 if (Root.Item("gap").GetValue<bool>())
                 {
@@ -278,7 +301,7 @@ namespace Tristana
 
         private static void Interrupter2_OnInterruptableTarget(Obj_AI_Hero sender, Interrupter2.InterruptableTargetEventArgs args)
         {
-            if (sender.IsEnemy && sender.IsValidTarget(R.Range))
+            if (sender.IsValidTarget() && Orbwalking.InAutoAttackRange(sender))
             {
                 if (Root.Item("interrupt").GetValue<bool>())
                 {
@@ -299,12 +322,14 @@ namespace Tristana
 
             if (Root.Item("drawe").GetValue<bool>())
             {
-                Render.Circle.DrawCircle(Player.Position, Player.AttackRange + 65, E.IsReady() ? System.Drawing.Color.LawnGreen : System.Drawing.Color.Red, 2);
+                Render.Circle.DrawCircle(Player.Position, Player.AttackRange + 65,
+                    E.IsReady() ? System.Drawing.Color.LawnGreen : System.Drawing.Color.Red, 2);
             }
 
             if (Root.Item("draww").GetValue<bool>())
             {
-                Render.Circle.DrawCircle(Player.Position, W.Range, W.IsReady() ? System.Drawing.Color.LawnGreen : System.Drawing.Color.Red, 2);
+                Render.Circle.DrawCircle(Player.Position, W.Range,
+                    W.IsReady() ? System.Drawing.Color.LawnGreen : System.Drawing.Color.Red, 2);
             }
         }
     }
