@@ -31,7 +31,7 @@ namespace Blitzcrank
 
             Rand = new Random();
             Q = new Spell(SpellSlot.Q, 950f);
-            Q.SetSkillshot(0.25f, 72f, 1800f, true, SkillshotType.SkillshotLine);
+            Q.SetSkillshot(0.25f, 70f, 1800f, true, SkillshotType.SkillshotLine);
 
             W = new Spell(SpellSlot.W);
             E = new Spell(SpellSlot.E, 155f);
