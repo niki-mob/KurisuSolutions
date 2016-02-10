@@ -99,7 +99,7 @@ namespace Tristana
 
             Drawing.OnDraw += Drawing_OnDraw;
             Game.OnUpdate += Game_OnUpdate;
-            GameObject.OnCreate += GameObject_OnCreate;
+            // GameObject.OnCreate += GameObject_OnCreate;
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
             AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;
 
