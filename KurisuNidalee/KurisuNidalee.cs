@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Security.AccessControl;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
@@ -42,8 +43,6 @@ namespace KurisuNidalee
 
             var ndhq = new Menu("(Q)  Javelin", "ndhq");
             ndhq.AddItem(new MenuItem("ndhqcheck", "Check Hitchance")).SetValue(true);
-            ndhq.AddItem(new MenuItem("ndhqch", "-> Min Hitchance"))
-                .SetValue(new StringList(new[] {"Low", "Medium", "High", "Very High"}, 2));
             ndhq.AddItem(new MenuItem("qsmcol", "-> Smite Collision")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqco", "Enable in Combo")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqha", "Enable in Harass")).SetValue(true);
@@ -177,7 +176,6 @@ namespace KurisuNidalee
             sset.AddItem(new MenuItem("jgsmitehe", "-> Smite On Hero")).SetValue(true);
             Root.AddSubMenu(sset);
 
-
             Root.AddItem(new MenuItem("usecombo", ":: Combo [active]")).SetValue(new KeyBind(32, KeyBindType.Press));
             Root.AddItem(new MenuItem("useharass", ":: Harass [active]"))
                 .SetValue(new KeyBind('C', KeyBindType.Press));
@@ -186,7 +184,41 @@ namespace KurisuNidalee
             Root.AddItem(new MenuItem("flee", ":: Flee/Walljumper [active]"))
                 .SetValue(new KeyBind('A', KeyBindType.Press));
 
+
+            var zzz = new MenuItem("ppred", ":: Prediction");
+
+            Root.AddItem(zzz).SetValue(new StringList(new[] {"Common", "OKTW", "SPrediction"}));
+            Root.AddItem(new MenuItem("ndhqch", "-> Min Hitchance"))
+                .SetValue(new StringList(new[] {"Low", "Medium", "High", "Very High"}, 2));
+
+            Root.AddItem(new MenuItem("bbb", "F5 Reload Required!"))
+                .Show(false).SetFontStyle(FontStyle.Bold, SharpDX.Color.DeepPink);
+
+            zzz.ValueChanged += (sender, eventArgs) =>
+            {
+                Root.Item("bbb").Show(eventArgs.GetNewValue<StringList>().SelectedIndex == 2);
+                if (eventArgs.GetNewValue<StringList>().SelectedIndex == 2)
+                {
+                    Root.Item("ndhqch").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
+                }
+            };
+
+
             Root.AddToMainMenu();
+
+            Utility.DelayAction.Add(100, () =>
+            {
+                if (Root.Item("ppred").GetValue<StringList>().SelectedValue == "SPrediction")
+                {
+                    SPrediction.Prediction.Initialize(Root);
+
+                    // Change menu name
+                    if (Root.SubMenu("SPRED") != null)
+                    {
+                        Root.SubMenu("SPRED").DisplayName = ":: SPrediction";
+                    }
+                }
+            });
 
             #endregion
 
