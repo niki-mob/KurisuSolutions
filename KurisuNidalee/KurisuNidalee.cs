@@ -43,7 +43,8 @@ namespace KurisuNidalee
 
             var ndhq = new Menu("(Q)  Javelin", "ndhq");
             ndhq.AddItem(new MenuItem("ndhqcheck", "Check Hitchance")).SetValue(true);
-            ndhq.AddItem(new MenuItem("qsmcol", "-> Smite Collision")).SetValue(true);
+            ndhq.AddItem(new MenuItem("qsmcol", "-> Smite Collision"))
+                .SetValue(false).SetTooltip("Optimized but still may decrease performance.");
             ndhq.AddItem(new MenuItem("ndhqco", "Enable in Combo")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqha", "Enable in Harass")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqjg", "Enable in Jungle")).SetValue(true);
@@ -130,35 +131,34 @@ namespace KurisuNidalee
 
 
             var dmenu = new Menu(":: Draw Settings", "dmenu");
-            dmenu.AddItem(new MenuItem("dp", ":: Draw Q Range")).SetValue(true);
-            dmenu.AddItem(new MenuItem("dti", ":: Draw Q Timer")).SetValue(false);
-            dmenu.AddItem(new MenuItem("dt", ":: Draw Target")).SetValue(true);
+            dmenu.AddItem(new MenuItem("dp", ":: Draw Javelin Range")).SetValue(false);
+            dmenu.AddItem(new MenuItem("dti", ":: Draw Javelin Timer")).SetValue(false);
+            dmenu.AddItem(new MenuItem("dz", ":: Draw Pounce Range (Hunted)")).SetValue(false);
+            dmenu.AddItem(new MenuItem("dt", ":: Draw Target")).SetValue(false);
             ccmenu.AddSubMenu(dmenu);
 
             var xmenu = new Menu(":: Jungle Settings", "xmenu");
-            xmenu.AddItem(new MenuItem("spcol", ":: Switch to Cougar if Spear Collision (Jungle)")).SetValue(false);
-            xmenu.AddItem(new MenuItem("jgaacount", ":: AA Weaving (Jungle)"))
+            xmenu.AddItem(new MenuItem("spcol", ":: Switch to Cougar if Spear Collision [jungle]")).SetValue(false);
+            xmenu.AddItem(new MenuItem("jgaacount", ":: AA Weaving jungle] [beta]"))
                 .SetValue(new KeyBind('H', KeyBindType.Toggle))
                 .SetTooltip("Require auto attacks before switching to Cougar").Permashow();
-            xmenu.AddItem(new MenuItem("aareq", "-> Required auto attack Count (Jungle)"))
+            xmenu.AddItem(new MenuItem("aareq", "-> Required auto attack Count [jungle]"))
                 .SetValue(new Slider(2, 1, 5));
-            xmenu.AddItem(new MenuItem("kitejg", ":: Pounce Away (Jungle)")).SetTooltip("Try kiting with pounce.")
+            xmenu.AddItem(new MenuItem("kitejg", ":: Pounce Away [jungle]")).SetTooltip("Try kiting with pounce.")
                 .SetValue(false);
             ccmenu.AddSubMenu(xmenu);
 
             var aamenu = new Menu(":: Automatic Settings", "aamenu");
-            aamenu.AddItem(new MenuItem("alvl6", ":: Auto (R) Level Up")).SetValue(true);
-            aamenu.AddItem(new MenuItem("ndhqimm", ":: Auto (Q) Javelin Immobile")).SetValue(true);
-            aamenu.AddItem(new MenuItem("ndhwimm", ":: Auto (W) Bushwhack Immobile")).SetValue(true);
-            aamenu.AddItem(new MenuItem("ndhrgap", ":: Auto (R) Enemy Gapclosers")).SetValue(true);
+            aamenu.AddItem(new MenuItem("alvl6", ":: Auto (R) Level Up")).SetValue(false);
+            aamenu.AddItem(new MenuItem("ndhqimm", ":: Auto (Q) Javelin Immobile")).SetValue(false);
+            aamenu.AddItem(new MenuItem("ndhwimm", ":: Auto (W) Bushwhack Immobile")).SetValue(false);
+            aamenu.AddItem(new MenuItem("ndhrgap", ":: Auto (R) Enemy Gapclosers")).SetValue(false);
             aamenu.AddItem(new MenuItem("ndcegap", ":: Auto (E) Swipe Gapclosers")).SetValue(true);
             aamenu.AddItem(new MenuItem("ndhqgap", ":: Auto (Q) Javelin Gapclosers")).SetValue(true);
             aamenu.AddItem(new MenuItem("ndcqgap", ":: Auto (Q) Takedown Gapclosers")).SetValue(true);
 
-
-
             ccmenu.AddItem(new MenuItem("pstyle", ":: Play Style"))
-                .SetValue(new StringList(new[] {"Assassin", "Team Fighter"}, 1));
+                .SetValue(new StringList(new[] {"Single Target", "Multi-Target"}, 1));
 
 
             ccmenu.AddSubMenu(comenu);
@@ -168,11 +168,11 @@ namespace KurisuNidalee
             Root.AddSubMenu(ccmenu);
 
             var sset = new Menu(":: Smite Settings", "sset");
-            sset.AddItem(new MenuItem("jgsmite", ":: Enable Smite")).SetValue(true);
+            sset.AddItem(new MenuItem("jgsmite", ":: Enable Smite")).SetValue(false);
             sset.AddItem(new MenuItem("jgsmitetd", ":: Takedown + Smite")).SetValue(true);
             sset.AddItem(new MenuItem("jgsmiteep", "-> Smite Epic")).SetValue(true);
             sset.AddItem(new MenuItem("jgsmitebg", "-> Smite Large")).SetValue(true);
-            sset.AddItem(new MenuItem("jgsmitesm", "-> Smite Small")).SetValue(false);
+            sset.AddItem(new MenuItem("jgsmitesm", "-> Smite Small")).SetValue(true);
             sset.AddItem(new MenuItem("jgsmitehe", "-> Smite On Hero")).SetValue(true);
             Root.AddSubMenu(sset);
 
@@ -181,6 +181,8 @@ namespace KurisuNidalee
                 .SetValue(new KeyBind('C', KeyBindType.Press));
             Root.AddItem(new MenuItem("usefarm", ":: Wave/Junge Clear [active]"))
                 .SetValue(new KeyBind('V', KeyBindType.Press));
+            Root.AddItem(new MenuItem("usecombo2", ":: Tripple AA [beta]"))
+                .SetValue(new KeyBind('Z', KeyBindType.Press));
             Root.AddItem(new MenuItem("flee", ":: Flee/Walljumper [active]"))
                 .SetValue(new KeyBind('A', KeyBindType.Press));
 
@@ -227,6 +229,31 @@ namespace KurisuNidalee
 
             Drawing.OnDraw += Drawing_OnDraw;
             Obj_AI_Base.OnBuffAdd += Obj_AI_Base_OnBuffAdd;
+            Obj_AI_Base.OnDoCast += Obj_AI_Base_OnDoCast;
+        }
+
+        private static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (sender.IsMe && args.SData.IsAutoAttack())
+            {
+                if (Root.Item("usecombo2").GetValue<KeyBind>().Active)
+                {
+                    if (KL.CatForm() && KL.Spells["Aspect"].IsReady() && KL.SpellTimer["Javelin"].IsReady())
+                    {
+                        KL.Spells["Takedown"].Cast();
+
+                        if (Player.HasBuff("Takedown"))
+                        {
+                            KL.Spells["Aspect"].Cast();
+                        }
+                    }
+
+                    if (KL.SpellTimer["Javelin"].IsReady() && !KL.CatForm() && Utils.GameTimeTickCount - KL.LastBite <= 1500)
+                    {
+                        KL.Spells["Javelin"].Cast(args.Target.Position);
+                    }
+                }
+            }
         }
 
         #region OnBuffAdd
@@ -307,10 +334,14 @@ namespace KurisuNidalee
                 }
             }
 
-            if (Root.Item("dp").GetValue<bool>())
+            if (Root.Item("dp").GetValue<bool>() && !KL.CatForm())
             {
-                Render.Circle.DrawCircle(KL.Player.Position, !KL.CatForm()
-                    ? KL.Spells["Javelin"].Range : KL.Spells["ExPounce"].Range, Color.FromArgb(155, Color.DeepPink), 4);
+                Render.Circle.DrawCircle(KL.Player.Position, KL.Spells["Javelin"].Range, Color.FromArgb(155, Color.DeepPink), 4);
+            }
+
+            if (Root.Item("dz").GetValue<bool>() && KL.CatForm())
+            {
+                Render.Circle.DrawCircle(KL.Player.Position, KL.Spells["ExPounce"].Range, Color.FromArgb(155, Color.DeepPink), 4);
             }
         }
 
@@ -391,7 +422,7 @@ namespace KurisuNidalee
                                 if (KL.CatForm() == false)
                                     KL.Spells["Primalsurge"].CastOnUnit(hero);
 
-                                if (KL.CatForm() && Root.Item("ndhesw").GetValue<bool>() &&
+                                if (KL.CatForm() && Root.Item("ndhesw").GetValue<bool>() && KL.SpellTimer["Primalsurge"].IsReady() &&
                                     KL.Spells["Aspect"].IsReady())
                                     KL.Spells["Aspect"].Cast();
                             }
@@ -401,6 +432,43 @@ namespace KurisuNidalee
             }
 
             #endregion
+
+            if (Root.Item("usecombo2").GetValue<KeyBind>().Active)
+            {
+                var any =
+                    ObjectManager.Get<Obj_AI_Base>()
+                        .Where(x => x.Distance(Player.ServerPosition) <= 600 && x.IsEnemy && x.IsHPBarRendered)
+                        .OrderByDescending(x => x.MaxHealth)
+                        .FirstOrDefault();
+
+                Orb(any);
+                if (any != null)
+                {
+                    if (KL.Spells["Takedown"].Level > 0 && KL.SpellTimer["Takedown"].IsReady() && !KL.CatForm())
+                    {
+                        if (KL.Spells["Aspect"].IsReady())
+                        {
+                            KL.Spells["Aspect"].Cast();
+                        }
+                    }
+
+                    if (KL.Spells["Javelin"].Level > 0 && !KL.SpellTimer["Javelin"].IsReady())
+                    {
+                        if (KL.Spells["Aspect"].IsReady())
+                        {
+                            KL.Spells["Aspect"].Cast();
+                        }
+                    }
+                }
+            }
+        }
+
+        internal static void Orb(Obj_AI_Base target)
+        {
+            if (target != null && target.IsHPBarRendered && target.IsEnemy)
+            {
+                Orbwalking.Orbwalk(target, Game.CursorPos, 300f);
+            }
         }
 
         internal static void Combo()

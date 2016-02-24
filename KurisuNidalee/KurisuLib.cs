@@ -14,6 +14,7 @@ namespace KurisuNidalee
         internal static int Counter;
         internal static int MissileCount;
         internal static int LastAttack;
+        internal static int LastBite;
         internal static AttackableUnit LastUnit;
         internal static SpellSlot Smite;
         internal static bool SmiteInGame;
@@ -346,10 +347,19 @@ namespace KurisuNidalee
                 if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar" && CatForm())
                 {                    
                     Counter = 0;
+                    Orbwalking.ResetAutoAttackTimer();
+                }
+
+                if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar" && !CatForm())
+                {
+                    Orbwalking.ResetAutoAttackTimer();
                 }
 
                 if (sender.IsMe && args.SData.IsAutoAttack() && Player.HasBuff("Takedown", true))
+                {
+                    LastBite = Utils.GameTimeTickCount;
                     TimeStamp["Takedown"] = Game.Time + (5 + (5 * Player.PercentCooldownMod));
+                }
             }
 
             catch (Exception e)

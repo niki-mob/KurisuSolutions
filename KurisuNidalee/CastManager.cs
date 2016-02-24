@@ -183,8 +183,7 @@ namespace KurisuNidalee
                     !target.IsHunted() && mode == "co" && !KN.Root.Item("ndcwdistco").GetValue<bool>())
                 {
                     if (KN.Root.Item("kitejg").GetValue<bool>() && mode == "jg" &&
-                        target.Distance(Game.CursorPos) > 700 && 
-                        target.Distance(KL.Player.ServerPosition) <= 300)
+                        target.Distance(Game.CursorPos) > 600 && target.Distance(KL.Player.ServerPosition) <= 300)
                     {
                         KL.Spells["Pounce"].Cast(Game.CursorPos);
                         return;
@@ -296,7 +295,7 @@ namespace KurisuNidalee
 
                 // dont switch if have Q buff and near target
                 if (KL.SpellTimer["Takedown"].IsReady() && KL.Player.HasBuff("Takedown") &&
-                    target.Distance(KL.Player.ServerPosition) <= KL.Spells["Takedown"].Range + 45f)
+                    target.Distance(KL.Player.ServerPosition) <= KL.Spells["Takedown"].Range + 65f)
                 {
                     return;
                 }
@@ -317,21 +316,23 @@ namespace KurisuNidalee
                     if (KL.SpellTimer["Bushwhack"].IsReady() && KL.Spells["Bushwhack"].Level > 0 ||
                         KL.SpellTimer["Javelin"].IsReady() && KL.Spells["Javelin"].Level > 0)
                     {
-                        if (KL.Spells["Javelin"].Cast(target) != Spell.CastStates.Collision && 
-                            KL.SpellTimer["Javelin"].IsReady() || KL.SpellTimer["Bushwhack"].IsReady())
+                        if ((!KL.SpellTimer["Pounce"].IsReady(2) || KL.Spells["Pounce"].Level == 0) &&
+                            (!KL.SpellTimer["Swipe"].IsReady() || KL.Spells["Swipe"].Level == 0) && 
+                            (!KL.SpellTimer["Takedown"].IsReady() || KL.Spells["Takedown"].Level == 0) || 
+                            !(KL.Player.Distance(target.ServerPosition) <= 355) || !KN.Root.Item("jgaacount").GetValue<KeyBind>().Active)
                         {
-                            if (!KL.SpellTimer["Swipe"].IsReady() || !KL.SpellTimer["Takedown"].IsReady() ||
-                                KL.Player.Distance(target.ServerPosition) > 355)
+                            if (KL.Spells["Javelin"].Cast(target) != Spell.CastStates.Collision &&
+                                KL.SpellTimer["Javelin"].IsReady() || KL.SpellTimer["Bushwhack"].IsReady())
                             {
                                 KL.Spells["Aspect"].Cast();
                             }
-                        }
+                        }                      
                     }
                 }
                 else
                 {
                     // change to human if out of pounce range and can die
-                    if (!KL.SpellTimer["Pounce"].IsReady() && target.Distance(KL.Player.ServerPosition) <= 525)
+                    if (!KL.SpellTimer["Pounce"].IsReady(3) && target.Distance(KL.Player.ServerPosition) <= 525)
                     {
                         if (target.Distance(KL.Player.ServerPosition) > radius)
                         {
@@ -429,13 +430,18 @@ namespace KurisuNidalee
                             }
                             else
                             {
-                                if (KL.Spells["Javelin"].Cast(target) == Spell.CastStates.Collision && KN.Root.Item("spcol").GetValue<bool>())
+                                if (KL.Spells["Javelin"].Cast(target) == Spell.CastStates.Collision &&
+                                    KN.Root.Item("spcol").GetValue<bool>())
                                 {
-                                    if (!KL.SpellTimer["Bushwhack"].IsReady() || KL.NotLearned(KL.Spells["Bushwhack"]))
-                                    {
-                                        if (KL.Spells["Aspect"].IsReady())
-                                            KL.Spells["Aspect"].Cast();
-                                    }
+                                    if (KL.Spells["Aspect"].IsReady())
+                                        KL.Spells["Aspect"].Cast();
+                                }
+
+                                if ((!KL.SpellTimer["Bushwhack"].IsReady() || KL.NotLearned(KL.Spells["Bushwhack"])) &&
+                                    (!KL.SpellTimer["Javelin"].IsReady(3) || KL.NotLearned(KL.Spells["Javelin"])))
+                                {
+                                    if (KL.Spells["Aspect"].IsReady())
+                                        KL.Spells["Aspect"].Cast();
                                 }
                             }
                         }
