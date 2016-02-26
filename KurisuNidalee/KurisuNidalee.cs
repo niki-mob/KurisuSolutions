@@ -248,9 +248,12 @@ namespace KurisuNidalee
                         }
                     }
 
-                    if (KL.SpellTimer["Javelin"].IsReady() && !KL.CatForm() && Utils.GameTimeTickCount - KL.LastBite <= 1500)
+                    if (!KL.CatForm() && KL.SpellTimer["Javelin"].IsReady())
                     {
-                        KL.Spells["Javelin"].Cast(args.Target.Position);
+                        if (Utils.GameTimeTickCount - KL.LastBite <= 1200 || KL.SpellTimer["Javelin"].IsReady())
+                        {
+                            KL.Spells["Javelin"].Cast(args.Target.Position);
+                        }
                     }
                 }
             }
@@ -396,39 +399,42 @@ namespace KurisuNidalee
             #region Auto Heal
 
             // auto heal on ally hero
-            if (Root.Item("ndheon").GetValue<bool>() && KL.SpellTimer["Primalsurge"].IsReady())
+            if (KL.CanUse(KL.Spells["Primalsurge"], true, "on"))
             {
-                if (!KL.NotLearned(KL.Spells["Primalsurge"]))
+                if (!Player.Spellbook.IsChanneling && !Player.IsRecalling())
                 {
-                    if (!Player.Spellbook.IsChanneling && !Player.IsRecalling())
+                    if (Root.Item("flee").GetValue<KeyBind>().Active && KL.CatForm())
+                        return;
+
+                    if (!KL.CatForm())
                     {
-                        if (Root.Item("flee").GetValue<KeyBind>().Active && KL.CatForm())
-                            return;
-
-                        if (Player.Mana / Player.MaxMana * 100 < Root.Item("ndhemana").GetValue<Slider>().Value)
-                            return;
-
-                        if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None || !KL.CatForm())
+                        foreach (
+                            var hero in
+                                HeroManager.Allies.Where(
+                                    h => Root.Item("xx" + h.ChampionName).GetValue<bool>() &&
+                                            h.IsValidTarget(KL.Spells["Primalsurge"].Range, false) &&
+                                            h.Health / h.MaxHealth * 100 <
+                                            Root.Item("zz" + h.ChampionName).GetValue<Slider>().Value)
+                                    .OrderBy(x => x.HealthPercent))
                         {
-                            foreach (
-                                var hero in
-                                    HeroManager.Allies.Where(
-                                        h => Root.Item("xx" + h.ChampionName).GetValue<bool>() &&
-                                             h.IsValidTarget(KL.Spells["Primalsurge"].Range, false) &&
-                                             h.Health / h.MaxHealth * 100 <
-                                             Root.Item("zz" + h.ChampionName).GetValue<Slider>().Value)
-                                        .OrderBy(x => x.HealthPercent))
+                            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None ||
+                                hero.Health / hero.MaxHealth * 100 <= 20 || !KL.CatForm())
                             {
+                                if (Player.Mana / Player.MaxMana * 100 < Root.Item("ndhemana").GetValue<Slider>().Value &&
+                                  !(hero.Health / hero.MaxHealth * 100 <= 20))
+                                    return;
+
                                 if (KL.CatForm() == false)
                                     KL.Spells["Primalsurge"].CastOnUnit(hero);
 
-                                if (KL.CatForm() && Root.Item("ndhesw").GetValue<bool>() && KL.SpellTimer["Primalsurge"].IsReady() &&
+                                if (KL.CatForm() && Root.Item("ndhesw").GetValue<bool>() &&
+                                    KL.SpellTimer["Primalsurge"].IsReady() &&
                                     KL.Spells["Aspect"].IsReady())
                                     KL.Spells["Aspect"].Cast();
                             }
                         }
                     }
-                }
+                }            
             }
 
             #endregion
@@ -441,9 +447,40 @@ namespace KurisuNidalee
                         .OrderByDescending(x => x.MaxHealth)
                         .FirstOrDefault();
 
+
                 Orb(any);
                 if (any != null)
                 {
+
+                    if (Utils.GameTimeTickCount - KL.LastR >= 500 - Game.Ping)
+                    {
+                        if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") && KL.CanUse(KL.Spells["Swipe"], false, "jg"))
+                        {
+                            if (KL.CatForm() && any.IsValidTarget(KL.Spells["Swipe"].Range))
+                            {
+                                KL.Spells["Swipe"].Cast(any.ServerPosition);
+                            }
+                        }
+
+                        if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") &&
+                            KL.CanUse(KL.Spells["Bushwhack"], false, "jg"))
+                        {
+                            if (!KL.CatForm() && any.IsValidTarget(KL.Spells["Bushwhack"].Range))
+                            {
+                                KL.Spells["Bushwhack"].Cast(any.ServerPosition);
+                            }
+                        }
+
+                        if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") && KL.CanUse(KL.Spells["Pounce"], false, "jg"))
+                        {
+                            var r = any.IsHunted() ? KL.Spells["ExPounce"].Range : KL.Spells["Pounce"].Range;
+                            if (KL.CatForm() && any.IsValidTarget(r))
+                            {
+                                KL.Spells["Pounce"].Cast(any.ServerPosition);
+                            }
+                        }
+                    }
+
                     if (KL.Spells["Takedown"].Level > 0 && KL.SpellTimer["Takedown"].IsReady() && !KL.CatForm())
                     {
                         if (KL.Spells["Aspect"].IsReady())
@@ -452,7 +489,7 @@ namespace KurisuNidalee
                         }
                     }
 
-                    if (KL.Spells["Javelin"].Level > 0 && !KL.SpellTimer["Javelin"].IsReady())
+                    if (KL.Spells["Javelin"].Level > 0 && !KL.SpellTimer["Javelin"].IsReady() && !KL.CatForm())
                     {
                         if (KL.Spells["Aspect"].IsReady())
                         {

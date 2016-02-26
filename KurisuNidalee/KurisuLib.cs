@@ -14,7 +14,7 @@ namespace KurisuNidalee
         internal static int Counter;
         internal static int MissileCount;
         internal static int LastAttack;
-        internal static int LastBite;
+        internal static int LastBite, LastR;
         internal static AttackableUnit LastUnit;
         internal static SpellSlot Smite;
         internal static bool SmiteInGame;
@@ -151,13 +151,32 @@ namespace KurisuNidalee
         }
 
         /// <summary>
-        /// Returns true if a spell is not learned.
+        /// Returns when Nidalee can properly use a spell.
         /// </summary>
         /// <param name="spell"></param>
+        /// <param name="human"></param>
+        /// <param name="mode"></param>
         /// <returns></returns>
-        internal static bool NotLearned(Spell spell)
+        internal static bool CanUse(Spell spell, bool human, string mode)
         {
-            return Player.Spellbook.GetSpell(spell.Slot).State == SpellState.NotLearned;
+            var p = human ? "h" : "c";
+            var enabled = KN.Root.Item("nd" + p + spell.Slot.ToString().ToLower() + mode).GetValue<bool>();
+            var learned = !(spell.Level <= 0 || Player.Spellbook.GetSpell(spell.Slot).State == SpellState.NotLearned);
+
+            var n = (human && spell.Slot == SpellSlot.Q)
+                ? "Javelin"
+                : (human && spell.Slot == SpellSlot.W
+                    ? "Bushwhack"
+                    : human && spell.Slot == SpellSlot.E
+                        ? "Primalsurge"
+                        : (!human && spell.Slot == SpellSlot.Q
+                            ? "Takedown"
+                            : (!human && spell.Slot == SpellSlot.W
+                                ? "Pounce"
+                                : (!human && spell.Slot == SpellSlot.E 
+                                    ? "Swipe" : "Aspect"))));
+
+            return enabled && learned && SpellTimer[n].IsReady();
         }
 
         /// <summary>
@@ -342,6 +361,11 @@ namespace KurisuNidalee
                 {
                     Counter = 0;
                     TimeStamp["Javelin"] = Game.Time + (6 + (6 * Player.PercentCooldownMod));
+                }
+
+                if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar")
+                {
+                    LastR = Utils.GameTimeTickCount;
                 }
 
                 if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar" && CatForm())
