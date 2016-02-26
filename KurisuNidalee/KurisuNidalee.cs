@@ -406,34 +406,31 @@ namespace KurisuNidalee
                     if (Root.Item("flee").GetValue<KeyBind>().Active && KL.CatForm())
                         return;
 
-                    if (!KL.CatForm())
+                    foreach (
+                        var hero in
+                            HeroManager.Allies.Where(
+                                h => Root.Item("xx" + h.ChampionName).GetValue<bool>() &&
+                                        h.IsValidTarget(KL.Spells["Primalsurge"].Range, false) &&
+                                        h.Health / h.MaxHealth * 100 <
+                                        Root.Item("zz" + h.ChampionName).GetValue<Slider>().Value)
+                                .OrderBy(x => x.HealthPercent))
                     {
-                        foreach (
-                            var hero in
-                                HeroManager.Allies.Where(
-                                    h => Root.Item("xx" + h.ChampionName).GetValue<bool>() &&
-                                            h.IsValidTarget(KL.Spells["Primalsurge"].Range, false) &&
-                                            h.Health / h.MaxHealth * 100 <
-                                            Root.Item("zz" + h.ChampionName).GetValue<Slider>().Value)
-                                    .OrderBy(x => x.HealthPercent))
+                        if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None ||
+                            hero.Health / hero.MaxHealth * 100 <= 20 || !KL.CatForm())
                         {
-                            if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None ||
-                                hero.Health / hero.MaxHealth * 100 <= 20 || !KL.CatForm())
-                            {
-                                if (Player.Mana / Player.MaxMana * 100 < Root.Item("ndhemana").GetValue<Slider>().Value &&
-                                  !(hero.Health / hero.MaxHealth * 100 <= 20))
-                                    return;
+                            if (Player.Mana / Player.MaxMana * 100 < Root.Item("ndhemana").GetValue<Slider>().Value &&
+                                !(hero.Health / hero.MaxHealth * 100 <= 20))
+                                return;
 
-                                if (KL.CatForm() == false)
-                                    KL.Spells["Primalsurge"].CastOnUnit(hero);
+                            if (KL.CatForm() == false)
+                                KL.Spells["Primalsurge"].CastOnUnit(hero);
 
-                                if (KL.CatForm() && Root.Item("ndhesw").GetValue<bool>() &&
-                                    KL.SpellTimer["Primalsurge"].IsReady() &&
-                                    KL.Spells["Aspect"].IsReady())
-                                    KL.Spells["Aspect"].Cast();
-                            }
+                            if (KL.CatForm() && Root.Item("ndhesw").GetValue<bool>() &&
+                                KL.SpellTimer["Primalsurge"].IsReady() &&
+                                KL.Spells["Aspect"].IsReady())
+                                KL.Spells["Aspect"].Cast();
                         }
-                    }
+                    }             
                 }            
             }
 
