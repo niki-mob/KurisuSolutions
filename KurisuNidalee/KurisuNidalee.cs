@@ -203,6 +203,11 @@ namespace KurisuNidalee
                 {
                     Root.Item("ndhqch").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
                 }
+
+                if (eventArgs.GetNewValue<StringList>().SelectedIndex == 0 || eventArgs.GetNewValue<StringList>().SelectedIndex == 1)
+                {
+                    Root.Item("ndhqch").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 3));
+                }
             };
 
 
