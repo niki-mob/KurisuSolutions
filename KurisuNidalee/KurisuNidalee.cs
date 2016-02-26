@@ -442,16 +442,17 @@ namespace KurisuNidalee
             if (Root.Item("usecombo2").GetValue<KeyBind>().Active)
             {
                 var any =
-                    ObjectManager.Get<Obj_AI_Base>()
-                        .Where(x => x.Distance(Player.ServerPosition) <= 600 && x.IsEnemy && x.IsHPBarRendered)
+                    ObjectManager.Get<Obj_AI_Minion>()
+                        .Where(
+                            x =>
+                                x.Distance(Player.ServerPosition) <= 600 && x.IsEnemy && x.IsHPBarRendered &&
+                                !MinionManager.IsWard(x))
                         .OrderByDescending(x => x.MaxHealth)
                         .FirstOrDefault();
-
 
                 Orb(any);
                 if (any != null)
                 {
-
                     if (Utils.GameTimeTickCount - KL.LastR >= 500 - Game.Ping)
                     {
                         if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") && KL.CanUse(KL.Spells["Swipe"], false, "jg"))
