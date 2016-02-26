@@ -379,6 +379,67 @@ namespace KurisuNidalee
 
             #region Active Modes
 
+            if (Root.Item("usecombo2").GetValue<KeyBind>().Active)
+            {
+                var any =
+                    ObjectManager.Get<Obj_AI_Minion>()
+                        .Where(
+                            x =>
+                                x.Distance(Player.ServerPosition) <= 600 && x.IsEnemy && x.IsHPBarRendered &&
+                                !MinionManager.IsWard(x))
+                        .OrderByDescending(x => x.MaxHealth)
+                        .FirstOrDefault();
+
+                Orb(any);
+                if (any != null)
+                {
+                    if (Utils.GameTimeTickCount - KL.LastR >= 500 - Game.Ping)
+                    {
+                        if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") && KL.CanUse(KL.Spells["Swipe"], false, "jg"))
+                        {
+                            if (KL.CatForm() && any.IsValidTarget(KL.Spells["Swipe"].Range))
+                            {
+                                KL.Spells["Swipe"].Cast(any.ServerPosition);
+                            }
+                        }
+
+                        if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") &&
+                            KL.CanUse(KL.Spells["Bushwhack"], false, "jg"))
+                        {
+                            if (!KL.CatForm() && any.IsValidTarget(KL.Spells["Bushwhack"].Range))
+                            {
+                                KL.Spells["Bushwhack"].Cast(any.ServerPosition);
+                            }
+                        }
+
+                        if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") && KL.CanUse(KL.Spells["Pounce"], false, "jg"))
+                        {
+                            var r = any.IsHunted() ? KL.Spells["ExPounce"].Range : KL.Spells["Pounce"].Range;
+                            if (KL.CatForm() && any.IsValidTarget(r))
+                            {
+                                KL.Spells["Pounce"].Cast(any.ServerPosition);
+                            }
+                        }
+                    }
+
+                    if (KL.Spells["Takedown"].Level > 0 && KL.SpellTimer["Takedown"].IsReady() && !KL.CatForm())
+                    {
+                        if (KL.Spells["Aspect"].IsReady())
+                        {
+                            KL.Spells["Aspect"].Cast();
+                        }
+                    }
+
+                    if (KL.Spells["Javelin"].Level > 0 && !KL.SpellTimer["Javelin"].IsReady() && !KL.CatForm())
+                    {
+                        if (KL.Spells["Aspect"].IsReady())
+                        {
+                            KL.Spells["Aspect"].Cast();
+                        }
+                    }
+                }
+            }
+
             if (Root.Item("usecombo").GetValue<KeyBind>().Active)
             {
                 Combo();
@@ -440,67 +501,6 @@ namespace KurisuNidalee
             }
 
             #endregion
-
-            if (Root.Item("usecombo2").GetValue<KeyBind>().Active)
-            {
-                var any =
-                    ObjectManager.Get<Obj_AI_Minion>()
-                        .Where(
-                            x =>
-                                x.Distance(Player.ServerPosition) <= 600 && x.IsEnemy && x.IsHPBarRendered &&
-                                !MinionManager.IsWard(x))
-                        .OrderByDescending(x => x.MaxHealth)
-                        .FirstOrDefault();
-
-                Orb(any);
-                if (any != null)
-                {
-                    if (Utils.GameTimeTickCount - KL.LastR >= 500 - Game.Ping)
-                    {
-                        if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") && KL.CanUse(KL.Spells["Swipe"], false, "jg"))
-                        {
-                            if (KL.CatForm() && any.IsValidTarget(KL.Spells["Swipe"].Range))
-                            {
-                                KL.Spells["Swipe"].Cast(any.ServerPosition);
-                            }
-                        }
-
-                        if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") &&
-                            KL.CanUse(KL.Spells["Bushwhack"], false, "jg"))
-                        {
-                            if (!KL.CatForm() && any.IsValidTarget(KL.Spells["Bushwhack"].Range))
-                            {
-                                KL.Spells["Bushwhack"].Cast(any.ServerPosition);
-                            }
-                        }
-
-                        if (!KL.CanUse(KL.Spells["Javelin"], true, "jg") && KL.CanUse(KL.Spells["Pounce"], false, "jg"))
-                        {
-                            var r = any.IsHunted() ? KL.Spells["ExPounce"].Range : KL.Spells["Pounce"].Range;
-                            if (KL.CatForm() && any.IsValidTarget(r))
-                            {
-                                KL.Spells["Pounce"].Cast(any.ServerPosition);
-                            }
-                        }
-                    }
-
-                    if (KL.Spells["Takedown"].Level > 0 && KL.SpellTimer["Takedown"].IsReady() && !KL.CatForm())
-                    {
-                        if (KL.Spells["Aspect"].IsReady())
-                        {
-                            KL.Spells["Aspect"].Cast();
-                        }
-                    }
-
-                    if (KL.Spells["Javelin"].Level > 0 && !KL.SpellTimer["Javelin"].IsReady() && !KL.CatForm())
-                    {
-                        if (KL.Spells["Aspect"].IsReady())
-                        {
-                            KL.Spells["Aspect"].Cast();
-                        }
-                    }
-                }
-            }
         }
 
         internal static void Orb(Obj_AI_Base target)
