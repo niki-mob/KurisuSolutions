@@ -152,7 +152,7 @@ namespace KurisuNidalee
             aamenu.AddItem(new MenuItem("alvl6", ":: Auto (R) Level Up")).SetValue(false);
             aamenu.AddItem(new MenuItem("ndhqimm", ":: Auto (Q) Javelin Immobile")).SetValue(false);
             aamenu.AddItem(new MenuItem("ndhwimm", ":: Auto (W) Bushwhack Immobile")).SetValue(false);
-            aamenu.AddItem(new MenuItem("ndhrgap", ":: Auto (R) Enemy Gapclosers")).SetValue(false);
+            aamenu.AddItem(new MenuItem("ndhrgap", ":: Auto (R) Enemy Gapclosers")).SetValue(true);
             aamenu.AddItem(new MenuItem("ndcegap", ":: Auto (E) Swipe Gapclosers")).SetValue(true);
             aamenu.AddItem(new MenuItem("ndhqgap", ":: Auto (Q) Javelin Gapclosers")).SetValue(true);
             aamenu.AddItem(new MenuItem("ndcqgap", ":: Auto (Q) Takedown Gapclosers")).SetValue(true);
