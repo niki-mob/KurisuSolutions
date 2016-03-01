@@ -1316,10 +1316,10 @@ namespace KurisuRiven
                         {
                             if (orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None ||
                                 menu.Item("shycombo").GetValue<KeyBind>().Active)
-                                Game.SendEmote(Emote.Dance);
+                                Game.Say("/d");
 
                             else if (qtarg.IsValidTarget(450) && menubool("semiq"))
-                                Game.SendEmote(Emote.Dance);
+                                Game.Say("/d");
                         });
 
 
