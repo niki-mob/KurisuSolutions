@@ -86,7 +86,7 @@ namespace Blitzcrank
             var exmenu = new Menu("Extra", "exmenu");
             exmenu.AddItem(new MenuItem("int", "Interrupt")).SetValue(false);
             exmenu.AddItem(new MenuItem("supp", "Support")).SetValue(true);
-            exmenu.AddItem(new MenuItem("swag", "Use Swag")).SetValue(true);
+            exmenu.AddItem(new MenuItem("swag", "Use Swag")).SetValue(false).SetTooltip("No Swag Yet :(");
 
             Root.AddSubMenu(exmenu);
 
@@ -203,16 +203,16 @@ namespace Blitzcrank
                 LastFlash = Utils.GameTimeTickCount;
             }
 
-            if (sender.IsMe && args.Slot == SpellSlot.Q)
-            {
-                Utility.DelayAction.Add(800, () =>
-                {
-                    if (!HeroManager.Enemies.Any(x => x.HasBuff("rocketgrab2")) && Root.Item("swag").GetValue<bool>())
-                    {
-                        Utility.DelayAction.Add(Rand.Next(250, 1500), () => Game.SendEmote(Emote.Laugh));
-                    }
-                });               
-            }
+            //if (sender.IsMe && args.Slot == SpellSlot.Q)
+            //{
+                //Utility.DelayAction.Add(800, () =>
+                //{
+                //    if (!HeroManager.Enemies.Any(x => x.HasBuff("rocketgrab2")) && Root.Item("swag").GetValue<bool>())
+                //    {
+                //        Utility.DelayAction.Add(Rand.Next(250, 1500), () => Game.SendEmote(Emote.Laugh));
+                //    }
+                //});               
+            //}
 
             var hero = sender as Obj_AI_Hero;
             if (hero != null && hero.IsEnemy && Q.IsReady() && Root.Item("useqcombo").GetValue<bool>())
