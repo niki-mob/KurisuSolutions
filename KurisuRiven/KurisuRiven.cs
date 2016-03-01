@@ -1375,7 +1375,7 @@ namespace KurisuRiven
                         ssfl = true;
                         doFlash();
                         break;
-                    case "rivenizunablade":
+                    case "RivenIzunaBlade":
                         ssfl = false;
                         didws = true;
                         canws = false;
