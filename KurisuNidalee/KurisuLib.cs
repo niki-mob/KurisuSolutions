@@ -336,6 +336,23 @@ namespace KurisuNidalee
         {
             try
             {
+                if (KN.Root.Item("ndhwsp").GetValue<bool>())
+                {
+                    if (sender.IsEnemy && sender.Type == GameObjectType.obj_AI_Hero && SpellTimer["Javelin"].IsReady())
+                    {
+                        if (args.End.IsValid() && args.End.Distance(KN.Player.ServerPosition) <= KN.Player.BoundingRadius * 2)
+                        {
+                            var hero = sender as Obj_AI_Hero;
+                            if (hero == null || !hero.IsValidTarget(Spells["Bushwhack"].Range))
+                            {
+                                return;
+                            }
+
+                            CM.CastBushwhack(hero, "co");
+                        }
+                    }
+                }
+
                 if (sender.IsMe && args.SData.Name.ToLower() == "pounce")
                 {
                     var unit = args.Target as Obj_AI_Base;

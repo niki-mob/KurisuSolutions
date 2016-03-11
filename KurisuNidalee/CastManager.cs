@@ -403,10 +403,12 @@ namespace KurisuNidalee
                         if (mode != "jg")
                         {
                             // switch to cougar if can kill target
-                            if (KL.CatDamage(target) >= target.Health)
+                            if (KL.CatDamage(target) * 3 >= target.Health)
                             {
-                                if (mode == "co" && target.IsValidTarget(KL.Spells["Pounce"].Range + 55))
+                                if (mode == "co" && target.IsValidTarget(KL.Spells["Pounce"].Range + 200))
+                                {
                                     KL.Spells["Aspect"].Cast();
+                                }
                             }
 
                             // switch if Q disabled in menu
