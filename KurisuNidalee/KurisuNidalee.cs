@@ -241,6 +241,49 @@ namespace KurisuNidalee
             Drawing.OnDraw += Drawing_OnDraw;
             Obj_AI_Base.OnBuffAdd += Obj_AI_Base_OnBuffAdd;
             Obj_AI_Base.OnDoCast += Obj_AI_Base_OnDoCast;
+            Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
+        }
+
+        private static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        {
+            if (sender.IsEnemy || sender.Type != Player.Type || !args.SData.IsAutoAttack())
+            {
+                return;
+            }
+
+            foreach (var ally in Allies().Where(hero => !hero.IsMelee))
+            {
+                if (ally.NetworkId != sender.NetworkId || !Root.Item("xx" + ally.ChampionName).GetValue<bool>())
+                {
+                    return;
+                }
+
+                if (args.Target.Type == GameObjectType.obj_AI_Hero || args.Target.Type == GameObjectType.obj_AI_Turret)
+                {
+                    // auto heal on ally hero attacking
+                    if (KL.CanUse(KL.Spells["Primalsurge"], true, "on"))
+                    {
+                        if (ally.IsValidTarget(KL.Spells["Primalsurge"].Range, false) &&
+                            ally.Health / ally.MaxHealth * 100 <= 90)
+                        {
+                            if (!Player.Spellbook.IsChanneling && !Player.IsRecalling())
+                            {
+                                if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None ||
+                                    ally.Health / ally.MaxHealth * 100 <= 20 || !KL.CatForm())
+                                {
+                                    if (Player.Mana / Player.MaxMana * 100 <
+                                        Root.Item("ndhemana").GetValue<Slider>().Value &&
+                                        !(ally.Health / ally.MaxHealth * 100 <= 20))
+                                        return;
+
+                                    if (KL.CatForm() == false)
+                                        KL.Spells["Primalsurge"].CastOnUnit(ally);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private static void Obj_AI_Base_OnDoCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
@@ -380,8 +423,8 @@ namespace KurisuNidalee
                     return HeroManager.Allies.OrderBy(h => h.Health / h.MaxHealth * 100);
                 case 1:
                     return
-                        HeroManager.Allies.OrderByDescending(
-                            h => h.BaseAttackDamage + h.FlatPhysicalDamageMod + h.FlatMagicDamageMod);
+                        HeroManager.Allies.OrderByDescending(h => h.BaseAttackDamage + h.FlatPhysicalDamageMod)
+                            .ThenByDescending(h => h.FlatMagicDamageMod);
                 case 2:
                     return HeroManager.Allies.OrderByDescending(h => h.MaxHealth);
             }
@@ -436,12 +479,11 @@ namespace KurisuNidalee
 
                     foreach (
                         var hero in
-                            HeroManager.Allies.Where(
+                            Allies().Where(
                                 h => Root.Item("xx" + h.ChampionName).GetValue<bool>() &&
                                         h.IsValidTarget(KL.Spells["Primalsurge"].Range, false) &&
                                         h.Health / h.MaxHealth * 100 <
-                                        Root.Item("zz" + h.ChampionName).GetValue<Slider>().Value)
-                                .OrderBy(x => x.HealthPercent))
+                                        Root.Item("zz" + h.ChampionName).GetValue<Slider>().Value))
                     {
                         if (Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None ||
                             hero.Health / hero.MaxHealth * 100 <= 20 || !KL.CatForm())
