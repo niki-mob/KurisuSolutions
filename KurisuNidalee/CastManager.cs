@@ -109,6 +109,11 @@ namespace KurisuNidalee
             // if not harass mode ignore mana check
             if (!KL.CatForm() && KL.CanUse(KL.Spells["Bushwhack"], true, mode))
             {
+                if (KL.Player.ManaPercent <= 65 && target.IsHunted() && target.CanMove)
+                {
+                    return;
+                }
+
                 if (mode != "ha" || KL.Player.ManaPercent > 65)
                 {
                     if (target.IsValidTarget(KL.Spells["Bushwhack"].Range))
@@ -407,7 +412,11 @@ namespace KurisuNidalee
                             {
                                 if (mode == "co" && target.IsValidTarget(KL.Spells["Pounce"].Range + 200))
                                 {
-                                    KL.Spells["Aspect"].Cast();
+                                    if (!KL.CanUse(KL.Spells["Javelin"], true, "co") ||
+                                         KL.Spells["Javelin"].Cast(target) == Spell.CastStates.Collision)
+                                    {
+                                        KL.Spells["Aspect"].Cast();
+                                    }
                                 }
                             }
 
@@ -448,11 +457,11 @@ namespace KurisuNidalee
                         if (KL.SpellTimer["Javelin"].IsReady())
                         {
                             // check if in pounce range.
-                            if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 25)
+                            if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 100f)
                             {
                                 // if we dont meet hitchance on Q target pounce nearest target
-                                var poutput = KL.Spells["Javelin"].GetPrediction(target);
-                                if (poutput.Hitchance >= (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                                var poutput = KL.Spells["Javelin"].GetPrediction(KN.Target);
+                                if (poutput.Hitchance < (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
                                 {
                                     if (KL.Spells["Aspect"].IsReady())
                                         KL.Spells["Aspect"].Cast();
@@ -460,8 +469,7 @@ namespace KurisuNidalee
                             }
                         }
 
-                        if (KN.Target.IsHunted() && KN.Target.Distance(KL.Player.ServerPosition) >
-                            KL.Spells["ExPounce"].Range + 100)
+                        if (KN.Target.IsHunted() && KN.Target.Distance(KL.Player.ServerPosition) > KL.Spells["ExPounce"].Range + 100)
                         {
                             if (target.Distance(KL.Player.ServerPosition) <= KL.Spells["Pounce"].Range + 25)
                             {
