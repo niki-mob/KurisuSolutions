@@ -722,7 +722,7 @@ namespace KurisuRiven
                              isteamfightkappa && !wrektAny() || 
                              menubool("w" + target.ChampionName))
                         {
-                            if (player.HealthPercent < 45)
+                            if (player.HealthPercent < 45 || cc == 0 && !q.IsReady())
                             {
                                 w.Cast();
                             }
