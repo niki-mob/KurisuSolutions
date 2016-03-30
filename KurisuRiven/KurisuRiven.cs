@@ -473,13 +473,14 @@ namespace KurisuRiven
             combo.AddSubMenu(qmenu);
 
             var wmenu = new Menu("W Settings", "rivenw");
-            var newmenu = new Menu("Requires Targets", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
+            var newmenu = new Menu("Required Targets", "req").SetFontStyle(FontStyle.Regular, SharpDX.Color.LawnGreen);
             foreach (var hero in HeroManager.Enemies)
                 newmenu.AddItem(new MenuItem("w" + hero.ChampionName, hero.ChampionName))
                     .SetValue(false).SetTooltip("Only W if it will hit " + hero.ChampionName).DontSave();
             wmenu.AddSubMenu(newmenu);
 
             wmenu.AddItem(new MenuItem("usecombow", "Use W in Combo")).SetValue(true);
+            wmenu.AddItem(new MenuItem("fq", "-> Q after W")).SetValue(true).SetTooltip("Faster but -1 AA without tiamat/hdyra");
             wmenu.AddItem(new MenuItem("wint", "Use on Interrupt")).SetValue(true);
             wmenu.AddItem(new MenuItem("wgap", "Use on Gapcloser")).SetValue(true);
             combo.AddSubMenu(wmenu);
@@ -527,6 +528,7 @@ namespace KurisuRiven
             var wc = new Menu("Jungle", "waveclear");
             wc.AddItem(new MenuItem("usejungleq", "Use Q in Jungle")).SetValue(true);
             wc.AddItem(new MenuItem("usejunglew", "Use W in Jungle")).SetValue(true);
+            wc.AddItem(new MenuItem("fq2", "-> Q after W")).SetValue(true).SetTooltip("Faster but -1 AA without tiamat/hdyra");
             wc.AddItem(new MenuItem("usejunglee", "Use E in Jungle")).SetValue(true);
             farming.AddSubMenu(wc);
 
@@ -669,6 +671,13 @@ namespace KurisuRiven
             OrbTo(target);
             TryIgnote(target);
 
+            if (Utils.GameTimeTickCount - lastw < 300 &&
+                Utils.GameTimeTickCount - lastq > 500 && 
+                target.Distance(player.ServerPosition) <= q.Range + 90 && menubool("fq"))
+            {
+                q.Cast(target.ServerPosition);
+            }
+
             if (e.IsReady() && 
 
                (target.Distance(player.ServerPosition) <= e.Range + w.Range || 
@@ -713,7 +722,16 @@ namespace KurisuRiven
                              isteamfightkappa && !wrektAny() || 
                              menubool("w" + target.ChampionName))
                         {
-                            w.Cast();
+                            if (player.HealthPercent < 45)
+                            {
+                                w.Cast();
+                            }
+
+                            if (player.HealthPercent + 5 < target.HealthPercent &&
+                               (uo || r.IsReady() && menu.Item("user").GetValue<KeyBind>().Active) || !uo && !r.IsReady())
+                            {
+                                w.Cast();
+                            }
                         }
                     }
                 }
@@ -751,6 +769,20 @@ namespace KurisuRiven
                     if (Utils.GameTimeTickCount - lastq >= menuslide("gaptimez") * 10)
                     {
                         if (q.IsReady() && Utils.GameTimeTickCount - laste >= 600)
+                        {
+                            q.Cast(target.ServerPosition);
+                        }
+                    }
+                }
+            }
+
+            else if (target.Health <= q.GetDamage(target) * 2 + player.GetAutoAttackDamage(target) * 1)
+            {
+                if (target.Distance(player.ServerPosition) > truerange + q.Range + 10)
+                {
+                    if (target.Distance(player.ServerPosition) <= q.Range * 2)
+                    {
+                        if (Utils.GameTimeTickCount - lastq >= 400)
                         {
                             q.Cast(target.ServerPosition);
                         }
@@ -880,6 +912,14 @@ namespace KurisuRiven
                         }
                     }
 
+                    if (r.GetDamage(t) + w.GetDamage(t) >= t.Health && t.Distance(player.ServerPosition) <= w.Range)
+                    {
+                        if (w.IsReady())
+                        {
+                            w.Cast();
+                        }
+                    }
+
                     if (player.GetAutoAttackDamage(t, true) * menuslide("overaa") >= t.Health &&
                        (Orbwalking.InAutoAttackRange(t) && player.CountEnemiesInRange(r.Range) > 1) && 
                         player.HealthPercent > 65) 
@@ -888,7 +928,7 @@ namespace KurisuRiven
                     if (r.GetDamage(t) >= t.Health)
                     {
                         var p = r.GetPrediction(t, true, -1f, new[] {CollisionableObjects.YasuoWall});
-                        if (p.Hitchance == HitChance.VeryHigh && canws && !t.HasBuff("kindredrnodeathbuff"))
+                        if (p.Hitchance == HitChance.High && canws && !t.HasBuff("kindredrnodeathbuff"))
                         {
                             r.Cast(p.CastPosition);
                         }
@@ -936,6 +976,11 @@ namespace KurisuRiven
                                         if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || 
                                              isteamfightkappa && !rrektAny())
                                         {
+                                            if (w.IsReady())
+                                            {
+                                                w.Cast();
+                                            }
+
                                             r.Cast(p.CastPosition);
                                         }
                                     }
@@ -959,6 +1004,24 @@ namespace KurisuRiven
             foreach (var unit in minions.Where(m => !m.Name.Contains("Mini")))
             {
                 OrbTo(unit);
+
+                if (Utils.GameTimeTickCount - lastw < 300 &&
+                    Utils.GameTimeTickCount - lastq > 500 && // prevent double casting
+                    unit.Distance(player.ServerPosition) <= q.Range + 90 && menubool("fq2"))
+                {
+                    q.Cast(unit.ServerPosition);
+                }
+
+                if (Utils.GameTimeTickCount - laste < 600)
+                {
+                    if (unit.Distance(player.ServerPosition) <= w.Range + 45)
+                    {
+                        if (Items.CanUseItem(3077))
+                            Items.UseItem(3077);
+                        if (Items.CanUseItem(3074))
+                            Items.UseItem(3074);
+                    }
+                }
 
                 if (e.IsReady() && cane && menubool("usejunglee"))
                 {
@@ -1066,12 +1129,12 @@ namespace KurisuRiven
                 player.IssueOrder(GameObjectOrder.MoveTo, Game.CursorPos);
             }
 
-            if (cc > 2 && didq && Items.GetWardSlot() != null && menubool("wq3"))
+            if (cc > 2 && Items.GetWardSlot() != null && menubool("wq3"))
             {
-                var attacker = HeroManager.Enemies.FirstOrDefault(x => x.Distance(player.ServerPosition) <= q.Range);
-                if (attacker.IsValidTarget(q.Range) && !player.IsFacing(attacker))
+                var attacker = HeroManager.Enemies.FirstOrDefault(x => x.Distance(player.ServerPosition) <= q.Range + 50);
+                if (attacker.IsValidTarget(q.Range))
                 {
-                    if (Utils.GameTimeTickCount - lastwd >= 1000)
+                    if (Utils.GameTimeTickCount - lastwd >= 1000 && didq)
                     {
                         Utility.DelayAction.Add(100,
                             () => Items.UseItem((int) Items.GetWardSlot().Id, attacker.ServerPosition));
@@ -1380,7 +1443,7 @@ namespace KurisuRiven
                         didws = true;
                         canws = false;
 
-                        if (w.IsReady() && riventarget().IsValidTarget(w.Range))
+                        if (w.IsReady() && riventarget().IsValidTarget(w.Range + 55))
                             w.Cast();
 
                         else if (q.IsReady() && riventarget().IsValidTarget())
@@ -1542,7 +1605,7 @@ namespace KurisuRiven
         private static void CombatCore()
         {
             if (didaa && Utils.GameTimeTickCount - lastaa >= 
-                Game.Ping / 2 + 200 + player.AttackCastDelay * 1000)
+                100 - Game.Ping / 2 + 55 + player.AttackCastDelay * 1000)
                 didaa = false;
 
             if (didhd && canhd && Utils.GameTimeTickCount - lasthd >= 250)
