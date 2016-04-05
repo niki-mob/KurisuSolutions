@@ -68,9 +68,13 @@ namespace Blitzcrank
                     .SetValue(false);
 
             qsmenu.AddSubMenu(blqmenu);
-
             qsmenu.AddItem(new MenuItem("pred", "Hitchance")).SetValue(new Slider(3, 1, 4));
             qsmenu.AddItem(new MenuItem("fpred", "Flash Hitchance")).SetValue(new Slider(2, 1, 4));
+            qsmenu.AddItem(new MenuItem("maxq", "Maximum Q Range"))
+                .SetValue(new Slider((int) Q.Range, 100, (int) Q.Range));
+            qsmenu.AddItem(new MenuItem("minq", "Minimum Q Range"))
+                .SetValue(new Slider((int) (E.Range + 300), 100, (int) Q.Range));
+            qsmenu.AddItem(new MenuItem("graphp", "Dont grab if below HP%")).SetValue(new Slider());
             comenu.AddSubMenu(qsmenu);
 
             comenu.AddItem(new MenuItem("useqcombo", "Use Q")).SetValue(true);
@@ -186,9 +190,15 @@ namespace Blitzcrank
                     }
                 }
 
-                if (Q.IsReady() && Player.Distance(sender.ServerPosition) <= Q.Range)
+                if (Q.IsReady() && Player.Distance(sender.ServerPosition) <= Root.Item("maxq").GetValue<Slider>().Value)
                 {
-                    if (!Root.Item("blq" + sender.ChampionName).GetValue<bool>())
+                    if (Player.HealthPercent < Root.Item("grabhp").GetValue<Slider>().Value)
+                    {
+                        return;
+                    }
+
+                    if (!Root.Item("blq" + sender.ChampionName).GetValue<bool>() &&
+                        Player.Distance(sender.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value)
                     {
                         Q.Cast(sender);
                     }
@@ -203,26 +213,23 @@ namespace Blitzcrank
                 LastFlash = Utils.GameTimeTickCount;
             }
 
-            //if (sender.IsMe && args.Slot == SpellSlot.Q)
-            //{
-                //Utility.DelayAction.Add(800, () =>
-                //{
-                //    if (!HeroManager.Enemies.Any(x => x.HasBuff("rocketgrab2")) && Root.Item("swag").GetValue<bool>())
-                //    {
-                //        Utility.DelayAction.Add(Rand.Next(250, 1500), () => Game.SendEmote(Emote.Laugh));
-                //    }
-                //});               
-            //}
-
             var hero = sender as Obj_AI_Hero;
             if (hero != null && hero.IsEnemy && Q.IsReady() && Root.Item("useqcombo").GetValue<bool>())
             {
-                if (hero.IsValidTarget(Q.Range) && hero.Health > Q.GetDamage(hero))
+                if (Player.HealthPercent < Root.Item("grabhp").GetValue<Slider>().Value)
+                {
+                    return;
+                }
+
+                if (hero.IsValidTarget(Root.Item("maxq").GetValue<Slider>().Value) && hero.Health > Q.GetDamage(hero))
                 {
                     if (!Root.Item("blq" + hero.ChampionName).GetValue<bool>() &&
                          Root.Item("auq" + hero.ChampionName).GetValue<bool>())
                     {
-                        Q.CastIfHitchanceEquals(hero, HitChance.VeryHigh);
+                        if (hero.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value)
+                        {
+                            Q.CastIfHitchanceEquals(hero, HitChance.VeryHigh);
+                        }
                     }
                 }
             }
@@ -248,12 +255,17 @@ namespace Blitzcrank
                 Player.SetSkin(Player.CharData.BaseSkinName, Root.Item("skinid").GetValue<Slider>().Value);
             }
 
-            foreach (var ene in HeroManager.Enemies.Where(x => x.IsValidTarget(Q.Range)))
+            foreach (var ene in HeroManager.Enemies.Where(x => x.IsValidTarget(Root.Item("maxq").GetValue<Slider>().Value)))
             {
+                if (Player.HealthPercent < Root.Item("grabhp").GetValue<Slider>().Value)
+                {
+                    return;
+                }
+
                 if (!Root.Item("blq" + ene.ChampionName).GetValue<bool>() && 
                      Root.Item("auq" + ene.ChampionName).GetValue<bool>())
                 {
-                    if (ene.Distance(Player.ServerPosition) > E.Range + 325 && Q.IsReady())
+                    if (ene.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value && Q.IsReady())
                     {
                         Q.CastIfHitchanceEquals(ene, HitChance.Dashing, true);
                         Q.CastIfHitchanceEquals(ene, HitChance.Immobile, true);
@@ -303,22 +315,26 @@ namespace Blitzcrank
 
             if (useq && Q.IsReady())
             {
-                var QT = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
+                var QT = TargetSelector.GetTarget(Root.Item("maxq").GetValue<Slider>().Value, TargetSelector.DamageType.Magical);
                 if (QT != null && Root.Item("blq" + QT.ChampionName).GetValue<bool>())
                 {
                     return;
                 }
 
-                if (QT.IsValidTarget() && QT.Distance(Player.ServerPosition) > E.Range + 325)
+                if (!(Player.HealthPercent < Root.Item("grabhp").GetValue<Slider>().Value))
                 {
-                    var poutput = Q.GetPrediction(QT); // prediction output
-                    if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2 ||
-                        poutput.Hitchance >= (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2 &&
-                        Utils.GameTimeTickCount - LastFlash < 1500)
+                    if (QT.IsValidTarget() &&
+                        QT.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value)
                     {
-                        if (!QT.IsZombie && !TargetSelector.IsInvulnerable(QT, TargetSelector.DamageType.Magical))
+                        var poutput = Q.GetPrediction(QT); // prediction output
+                        if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2 ||
+                            poutput.Hitchance >= (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2 &&
+                            Utils.GameTimeTickCount - LastFlash < 1500)
                         {
-                            Q.Cast(poutput.CastPosition);
+                            if (!QT.IsZombie && !TargetSelector.IsInvulnerable(QT, TargetSelector.DamageType.Magical))
+                            {
+                                Q.Cast(poutput.CastPosition);
+                            }
                         }
                     }
                 }
@@ -359,22 +375,26 @@ namespace Blitzcrank
         {
             if (Q.IsReady() && enable)
             {
-                var QT = TargetSelector.GetTarget(Q.Range, TargetSelector.DamageType.Magical);
+                var QT = TargetSelector.GetTarget(Root.Item("maxq").GetValue<Slider>().Value, TargetSelector.DamageType.Magical);
                 if (QT != null && Root.Item("blq" + QT.ChampionName).GetValue<bool>())
                 {
                     return;
                 }
 
-                if (QT.IsValidTarget() && QT.Distance(Player.ServerPosition) > E.Range + 325)
+                if (!(Player.HealthPercent < Root.Item("grabhp").GetValue<Slider>().Value))
                 {
-                    var poutput = Q.GetPrediction(QT); // prediction output
-                    if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2 ||
-                        poutput.Hitchance >= (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2 &&
-                        Utils.GameTimeTickCount - LastFlash < 1500)
+                    if (QT.IsValidTarget() &&
+                        QT.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value)
                     {
-                        if (!QT.IsZombie && !TargetSelector.IsInvulnerable(QT, TargetSelector.DamageType.Magical))
+                        var poutput = Q.GetPrediction(QT); // prediction output
+                        if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2 ||
+                            poutput.Hitchance >= (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2 &&
+                            Utils.GameTimeTickCount - LastFlash < 1500)
                         {
-                            Q.Cast(poutput.CastPosition);
+                            if (!QT.IsZombie && !TargetSelector.IsInvulnerable(QT, TargetSelector.DamageType.Magical))
+                            {
+                                Q.Cast(poutput.CastPosition);
+                            }
                         }
                     }
                 }
@@ -386,7 +406,7 @@ namespace Blitzcrank
             if (useq && Q.IsReady())
             {
                 var QT = HeroManager.Enemies.FirstOrDefault(x => Q.GetDamage(x) > x.Health);
-                if (QT.IsValidTarget(Q.Range))
+                if (QT.IsValidTarget(Root.Item("maxq").GetValue<Slider>().Value))
                 {
                     var poutput = Q.GetPrediction(QT); // prediction output
                     if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2)
