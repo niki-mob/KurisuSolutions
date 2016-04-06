@@ -74,7 +74,7 @@ namespace Blitzcrank
                 .SetValue(new Slider((int) Q.Range, 100, (int) Q.Range));
             qsmenu.AddItem(new MenuItem("minq", "Minimum Q Range"))
                 .SetValue(new Slider((int) (E.Range + 300), 100, (int) Q.Range));
-            qsmenu.AddItem(new MenuItem("graphp", "Dont grab if below HP%")).SetValue(new Slider());
+            qsmenu.AddItem(new MenuItem("grabhp", "Dont grab if below HP%")).SetValue(new Slider());
             comenu.AddSubMenu(qsmenu);
 
             comenu.AddItem(new MenuItem("useqcombo", "Use Q")).SetValue(true);
