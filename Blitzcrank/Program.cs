@@ -9,6 +9,7 @@ namespace Blitzcrank
 {
     class Program
     {
+        // Keepo
         internal static Menu Root;
         internal static Random Rand;
         internal static Spell Q, W, E, R;
