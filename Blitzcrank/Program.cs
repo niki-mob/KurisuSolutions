@@ -322,17 +322,22 @@ namespace Blitzcrank
 
                 if (!(Player.HealthPercent < Root.Item("grabhp").GetValue<Slider>().Value))
                 {
-                    if (QT.IsValidTarget() &&
-                        QT.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value)
+                    if (QT.IsValidTarget() && QT.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value)
                     {
-                        var poutput = Q.GetPrediction(QT); // prediction output
-                        if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2 ||
-                            poutput.Hitchance >= (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2 &&
-                            Utils.GameTimeTickCount - LastFlash < 1500)
+                        if (!QT.IsZombie && !TargetSelector.IsInvulnerable(QT, TargetSelector.DamageType.Magical))
                         {
-                            if (!QT.IsZombie && !TargetSelector.IsInvulnerable(QT, TargetSelector.DamageType.Magical))
+                            var poutput = Q.GetPrediction(QT); // prediction output
+                            if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2)
                             {
                                 Q.Cast(poutput.CastPosition);
+                            }
+
+                            if (poutput.Hitchance >= (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2)
+                            {
+                                if (Utils.GameTimeTickCount - LastFlash < 1500)
+                                {
+                                    Q.Cast(poutput.CastPosition);
+                                }
                             }
                         }
                     }
@@ -345,7 +350,7 @@ namespace Blitzcrank
                     HeroManager.Enemies.FirstOrDefault(
                         x => x.HasBuff("rocketgrab2") || x.Distance(Player.ServerPosition) <= E.Range + 200);
 
-                if (ET.IsValidTarget())
+                if (ET != null)
                 {
                     if (!ET.IsZombie && !TargetSelector.IsInvulnerable(ET, TargetSelector.DamageType.Magical))
                     {
