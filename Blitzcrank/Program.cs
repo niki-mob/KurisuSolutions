@@ -69,10 +69,10 @@ namespace Blitzcrank
                     .SetValue(false);
 
             qsmenu.AddSubMenu(blqmenu);
-            qsmenu.AddItem(new MenuItem("pred", "Hitchance")).SetValue(new Slider(3, 1, 4));
-            qsmenu.AddItem(new MenuItem("fpred", "Flash Hitchance")).SetValue(new Slider(2, 1, 4));
+            qsmenu.AddItem(new MenuItem("pred", "Hitchance")).SetValue(new Slider(4, 1, 4));
+            qsmenu.AddItem(new MenuItem("fpred", "Flash Hitchance")).SetValue(new Slider(4, 1, 4));
             qsmenu.AddItem(new MenuItem("maxq", "Maximum Q Range")).SetValue(new Slider((int) Q.Range, 100, (int) Q.Range));
-            qsmenu.AddItem(new MenuItem("minq", "Minimum Q Range")).SetValue(new Slider((int) (E.Range + 300), 100, (int) Q.Range));
+            qsmenu.AddItem(new MenuItem("minq", "Minimum Q Range")).SetValue(new Slider(420, 100, (int) Q.Range));
             qsmenu.AddItem(new MenuItem("grabhp", "Dont grab if below HP%")).SetValue(new Slider(0,0,100));
             comenu.AddSubMenu(qsmenu);
 
@@ -327,17 +327,17 @@ namespace Blitzcrank
                         if (!QT.IsZombie && !TargetSelector.IsInvulnerable(QT, TargetSelector.DamageType.Magical))
                         {
                             var poutput = Q.GetPrediction(QT); // prediction output
-                            if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2)
+                            if (Utils.GameTimeTickCount - LastFlash < 1500)
                             {
-                                Q.Cast(poutput.CastPosition);
-                            }
-
-                            if (poutput.Hitchance >= (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2)
-                            {
-                                if (Utils.GameTimeTickCount - LastFlash < 1500)
+                                if (poutput.Hitchance == (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2)
                                 {
                                     Q.Cast(poutput.CastPosition);
                                 }
+                            }
+
+                            if (poutput.Hitchance == (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2)
+                            {
+                                Q.Cast(poutput.CastPosition);
                             }
                         }
                     }
@@ -387,15 +387,20 @@ namespace Blitzcrank
 
                 if (!(Player.HealthPercent < Root.Item("grabhp").GetValue<Slider>().Value))
                 {
-                    if (QT.IsValidTarget() &&
-                        QT.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value)
+                    if (QT.IsValidTarget() && QT.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value)
                     {
-                        var poutput = Q.GetPrediction(QT); // prediction output
-                        if (poutput.Hitchance >= (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2 ||
-                            poutput.Hitchance >= (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2 &&
-                            Utils.GameTimeTickCount - LastFlash < 1500)
+                        if (!QT.IsZombie && !TargetSelector.IsInvulnerable(QT, TargetSelector.DamageType.Magical))
                         {
-                            if (!QT.IsZombie && !TargetSelector.IsInvulnerable(QT, TargetSelector.DamageType.Magical))
+                            var poutput = Q.GetPrediction(QT); // prediction output
+                            if (Utils.GameTimeTickCount - LastFlash < 1500)
+                            {
+                                if (poutput.Hitchance == (HitChance) Root.Item("fpred").GetValue<Slider>().Value + 2)
+                                {
+                                    Q.Cast(poutput.CastPosition);
+                                }
+                            }
+
+                            if (poutput.Hitchance == (HitChance) Root.Item("pred").GetValue<Slider>().Value + 2)
                             {
                                 Q.Cast(poutput.CastPosition);
                             }
