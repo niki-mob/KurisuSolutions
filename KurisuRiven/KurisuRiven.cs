@@ -921,11 +921,6 @@ namespace KurisuRiven
 
         private static void Windslash()
         {
-            if (riventarget() != null)
-            {
-                Game.PrintChat("R2: " + Rdmg(riventarget()));
-            }
-
             if (uo && menubool("usews") && r.IsReady())
             {
                 if (menu.Item("shycombo").GetValue<KeyBind>().Active && canburst())
