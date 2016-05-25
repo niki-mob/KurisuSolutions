@@ -221,7 +221,7 @@ namespace KurisuRiven
                     {
                         if (riventarget().IsValidTarget() && !riventarget().IsZombie && !riventarget().HasBuff("kindredrnodeathbuff"))
                         {
-                            if (shy() && uo)
+                            if (shy() && uo && !canhd)
                             {
                                 if (riventarget().HasBuffOfType(BuffType.Stun))
                                     r.Cast(riventarget().ServerPosition);
