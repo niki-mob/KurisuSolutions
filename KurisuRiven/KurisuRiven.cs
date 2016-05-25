@@ -1389,7 +1389,8 @@ namespace KurisuRiven
 
                         if (menulist("wsmode") == 1 || menu.Item("shycombo").GetValue<KeyBind>().Active)
                         {
-                            if (menu.Item("combokey").GetValue<KeyBind>().Active)
+                            if (menu.Item("combokey").GetValue<KeyBind>().Active || 
+                                menu.Item("shycombo").GetValue<KeyBind>().Active)
                             {
                                 if (canburst() && uo)
                                 {
@@ -1403,8 +1404,7 @@ namespace KurisuRiven
                                                 {
                                                     if (riventarget().HasBuffOfType(BuffType.Stun))
                                                         r.Cast(riventarget().ServerPosition);
-
-                                                    if (!riventarget().HasBuffOfType(BuffType.Stun))
+                                                    else
                                                         r.Cast(r.CastIfHitchanceEquals(riventarget(), HitChance.Medium));
                                                 });
                                         }
