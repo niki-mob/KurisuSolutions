@@ -497,6 +497,7 @@ namespace KurisuRiven
             qmenu.AddItem(new MenuItem("keepq", "Use Q Before Expiry")).SetValue(true);
             qmenu.AddItem(new MenuItem("usegap", "Gapclose with Q")).SetValue(true);
             qmenu.AddItem(new MenuItem("gaptimez", "Gapclose Q Delay (ms)")).SetValue(new Slider(115, 0, 200));
+            qmenu.AddItem(new MenuItem("safeq", "Dont Q into multiple enemies")).SetValue(false);
             combo.AddSubMenu(qmenu);
 
             var wmenu = new Menu("W Settings", "rivenw");
@@ -512,8 +513,10 @@ namespace KurisuRiven
             combo.AddSubMenu(wmenu);
 
             var emenu = new Menu("E  Settings", "rivene");
+
             emenu.AddItem(new MenuItem("usecomboe", "Use E in Combo")).SetValue(true);
             emenu.AddItem(new MenuItem("vhealth", "Use E if HP% <=")).SetValue(new Slider(60));
+            emenu.AddItem(new MenuItem("safee", "Dont E into multiple enemies")).SetValue(true);
             combo.AddSubMenu(emenu);
 
             var rmenu = new Menu("R1 Settings", "rivenr");
@@ -697,13 +700,18 @@ namespace KurisuRiven
             OrbTo(target);
             TryIgnote(target);
 
-            if (Utils.GameTimeTickCount - lastw < 300 &&
-                Utils.GameTimeTickCount - lastq > 2000 && 
-                Utils.GameTimeTickCount - lasthd < 1600 &&
-                target.Distance(player.ServerPosition) <= q.Range + 90 && q.IsReady())
+            var endq = player.Position.Extend(target.Position, q.Range + 35);
+            var ende = player.Position.Extend(target.Position, e.Range + 35);
+
+            if (target.Distance(player.ServerPosition) <= q.Range + 90 && q.IsReady())
             {
-                q.Cast(target.ServerPosition);
-                canq = false;
+                if (Utils.GameTimeTickCount - lastw < 500 && Utils.GameTimeTickCount - lasthd < 1000)
+                {
+                    if (target.Distance(player.ServerPosition) <= q.Range + 90 && q.IsReady())
+                    {
+                        DoOneQ(target.ServerPosition);
+                    }
+                }
             }
 
             if (e.IsReady() && 
@@ -714,7 +722,18 @@ namespace KurisuRiven
             {
                 if (menubool("usecomboe") && cane)
                 {
-                    e.Cast(target.IsMelee ? Game.CursorPos : target.ServerPosition);
+                    if (menubool("safee"))
+                    {
+                        if (ende.CountEnemiesInRange(200) <=2)
+                        {
+                            e.Cast(target.IsMelee ? Game.CursorPos : target.ServerPosition);
+                        }
+                    }
+
+                    else
+                    {
+                        e.Cast(target.IsMelee ? Game.CursorPos : target.ServerPosition);
+                    }
                 }
 
                 if (target.Distance(player.ServerPosition) <= e.Range + w.Range)
@@ -779,7 +798,18 @@ namespace KurisuRiven
 
                 if (canq)
                 {
-                    q.Cast(target.ServerPosition);
+                    if (menubool("safeq"))
+                    {
+                        if (endq.CountEnemiesInRange(200) <= 2)
+                        {
+                            q.Cast(target.ServerPosition);
+                        }
+                    }
+
+                    else
+                    {
+                        q.Cast(target.ServerPosition);
+                    }
                 }
             }
 
@@ -797,13 +827,13 @@ namespace KurisuRiven
                 }
             }
 
-            else if (target.Health <= q.GetDamage(target) * 2 + player.GetAutoAttackDamage(target) * 1)
+            else if (target.Health <= q.GetDamage(target) * 2 + player.GetAutoAttackDamage(target) * 2)
             {
                 if (target.Distance(player.ServerPosition) > truerange + q.Range + 10)
                 {
                     if (target.Distance(player.ServerPosition) <= q.Range * 2)
                     {
-                        if (Utils.GameTimeTickCount - lastq >= 400)
+                        if (Utils.GameTimeTickCount - lastq >= 250)
                         {
                             q.Cast(target.ServerPosition);
                         }
@@ -1021,13 +1051,12 @@ namespace KurisuRiven
             {
                 OrbTo(unit);
 
-                if (Utils.GameTimeTickCount - lastw < 300 &&
-                    Utils.GameTimeTickCount - lastq > 2000 && // prevent double casting
-                    Utils.GameTimeTickCount - lasthd < 1600 &&
-                    unit.Distance(player.ServerPosition) <= q.Range + 90 && q.IsReady())
+                if (Utils.GameTimeTickCount - lastw < 500 && Utils.GameTimeTickCount - lasthd < 1000)
                 {
-                    q.Cast(unit.ServerPosition);
-                    canq = false;
+                    if (unit.Distance(player.ServerPosition) <= q.Range + 90 && q.IsReady())
+                    {
+                        DoOneQ(unit.ServerPosition);
+                    }
                 }
 
                 if (Utils.GameTimeTickCount - laste < 600)
@@ -1393,6 +1422,7 @@ namespace KurisuRiven
                         canmv = false;  
                
                         var dd = new[] {280 - Game.Ping, 290 - Game.Ping, 380 - Game.Ping};
+
                         Utility.DelayAction.Add(dd[Math.Max(cc, 1) - 1], () =>
                         {
                             if (orbwalker.ActiveMode != Orbwalking.OrbwalkingMode.None ||
@@ -1402,7 +1432,6 @@ namespace KurisuRiven
                             else if (qtarg.IsValidTarget(450) && menubool("semiq"))
                                 Game.Say("/d");
                         });
-
 
                         if (!uo) ssfl = false;
                         break;
@@ -1433,15 +1462,12 @@ namespace KurisuRiven
                             }
                         }
 
-
-
-
                         if (menu.Item("combokey").GetValue<KeyBind>().Active)
                         {
-                            if (cc == 2 && !uo)
+                            if (cc == 2 && !uo && r.IsReady())
                             {
                                 checkr();
-                                Utility.DelayAction.Add(140 - Game.Ping, () => q.Cast(Game.CursorPos));
+                                Utility.DelayAction.Add(240 - Game.Ping, () => q.Cast(Game.CursorPos));
                             }
 
                             if (menulist("wsmode") == 1 && cc == 2 && uo)
@@ -1477,7 +1503,23 @@ namespace KurisuRiven
 
         #endregion
 
-        #region Riven: Misc Events
+        #region Riven: Misc 
+
+        private static void DoOneQ(Vector3 pos)
+        {
+            canq = false;
+
+            if (q.IsReady() && Utils.GameTimeTickCount - lastq > 5000)
+            {
+                if (q.Cast(pos))
+                {
+                    lastq = Utils.GameTimeTickCount;
+                    didq = true;
+                    canq = false;
+                }
+            }
+        }
+
         private static void Interrupter()
         {
             Interrupter2.OnInterruptableTarget += (sender, args) =>
@@ -1534,6 +1576,7 @@ namespace KurisuRiven
 
         private void OnPlayAnimation()
         {
+          
         }
 
         #endregion
@@ -1562,8 +1605,13 @@ namespace KurisuRiven
                             var qext = player.ServerPosition.To2D() + 
                                        player.Direction.To2D().Perpendicular() * q.Range + 100;
 
-                            if (menubool("keepq") && !qext.To3D().UnderTurret(true))
-                                q.Cast(Game.CursorPos);
+                            if (menubool("keepq"))
+                            {
+                                if (qext.To3D().CountEnemiesInRange(200) <= 1 && !qext.To3D().UnderTurret(true))
+                                {
+                                    q.Cast(Game.CursorPos);
+                                }
+                            }
                         }
                     }
                 }
@@ -1848,6 +1896,5 @@ namespace KurisuRiven
         }
 
         #endregion
-
     }
 }
