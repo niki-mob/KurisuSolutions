@@ -24,6 +24,51 @@ namespace KurisuNidalee
                         if (target.IsChampion())
                         {
                             var qoutput = KL.Spells["Javelin"].GetPrediction(target);
+
+                            if (KN.Root.Item("ndhqcheck").GetValue<bool>())
+                            {
+                                switch (KN.Root.Item("ppred").GetValue<StringList>().SelectedValue)
+                                {
+                                    case "OKTW":
+                                        var pi = new SebbyLib.Prediction.PredictionInput
+                                        {
+                                            Aoe = false,
+                                            Collision = true,
+                                            Speed = 1300f,
+                                            Delay = 0.25f,
+                                            Range = 1500f,
+                                            From = KN.Player.ServerPosition,
+                                            Radius = 40f,
+                                            Unit = target,
+                                            Type = SebbyLib.Prediction.SkillshotType.SkillshotLine
+                                        };
+
+                                        var po = SebbyLib.Prediction.Prediction.GetPrediction(pi);
+                                        if (po.Hitchance == (SebbyLib.Prediction.HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                                        {
+                                            KL.Spells["Javelin"].Cast(po.CastPosition);
+                                        }
+
+                                        break;
+                                    
+                                    case "SPrediction":
+                                        var so = KL.Spells["Javelin"].GetSPrediction((Obj_AI_Hero) target);
+                                        if (so.HitChance == (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                                        {
+                                            KL.Spells["Javelin"].Cast(so.CastPosition);
+                                        }
+                                        break;
+
+                                    case "Common":
+                                        var co = KL.Spells["Javelin"].GetPrediction(target);
+                                        if (co.Hitchance == (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                                        {
+                                            KL.Spells["Javelin"].Cast(co.CastPosition);
+                                        }
+                                        break;
+                                }
+                            }
+
                             if (qoutput.Hitchance == HitChance.Collision && KL.Smite.IsReady())
                             {
                                 if (KN.Root.Item("qsmcol").GetValue<bool>() && target.Health <= KL.CatDamage(target) * 3)
@@ -46,50 +91,6 @@ namespace KurisuNidalee
                                 }
                             }
 
-
-                            if (KN.Root.Item("ndhqcheck").GetValue<bool>())
-                            {
-                                switch (KN.Root.Item("ppred").GetValue<StringList>().SelectedValue)
-                                {
-                                    case "OKTW":
-                                        var pi = new SebbyLib.Prediction.PredictionInput
-                                        {
-                                            Aoe = false,
-                                            Collision = true,
-                                            Speed = 1300f,
-                                            Delay = 0.25f,
-                                            Range = 1500f,
-                                            From = KN.Player.ServerPosition,
-                                            Radius = 40f,
-                                            Unit = target,
-                                            Type = SebbyLib.Prediction.SkillshotType.SkillshotLine
-                                        };
-
-                                        var po = SebbyLib.Prediction.Prediction.GetPrediction(pi);
-                                        if (po.Hitchance >= (SebbyLib.Prediction.HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
-                                        {
-                                            KL.Spells["Javelin"].Cast(po.CastPosition);
-                                        }
-
-                                        break;
-                                    
-                                    case "SPrediction":
-                                        var so = KL.Spells["Javelin"].GetSPrediction((Obj_AI_Hero) target);
-                                        if (so.HitChance >= (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
-                                        {
-                                            KL.Spells["Javelin"].Cast(so.CastPosition);
-                                        }
-                                        break;
-
-                                    case "Common":
-                                        var co = KL.Spells["Javelin"].GetPrediction(target);
-                                        if (co.Hitchance >= (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
-                                        {
-                                            KL.Spells["Javelin"].Cast(co.CastPosition);
-                                        }
-                                        break;
-                                }
-                            }
 
                             if (!KN.Root.Item("ndhqcheck").GetValue<bool>())
                                 KL.Spells["Javelin"].Cast(target);
