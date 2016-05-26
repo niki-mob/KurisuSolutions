@@ -1467,6 +1467,15 @@ namespace KurisuRiven
                             }
                         }
 
+                        if (menu.Item("shycombo").GetValue<KeyBind>().Active)
+                        {
+                            if (cc == 2 && !uo && r.IsReady())
+                            {
+                                checkr();
+                                Utility.DelayAction.Add(240 - Game.Ping, () => q.Cast(Game.CursorPos));
+                            }
+                        }
+
                         if (menu.Item("combokey").GetValue<KeyBind>().Active)
                         {
                             if (cc == 2 && !uo && r.IsReady())
