@@ -427,6 +427,11 @@ namespace KurisuRiven
 
                     else if (q.IsReady() && riventarget().Distance(player.ServerPosition) <= truerange + 100)
                     {
+                        if (Utils.GameTimeTickCount - lastw < 500 && Utils.GameTimeTickCount - lasthd < 1000)
+                        {
+                            DoOneQ(riventarget().ServerPosition);
+                        }
+                        
                         checkr();
                         TryIgnote(riventarget());
 
