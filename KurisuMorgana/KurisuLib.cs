@@ -203,7 +203,7 @@ namespace KurisuMorgana
             CCList.Add(
                 new KurisuLib
                 {
-                    HeroName = "Bruam",
+                    HeroName = "Braum",
                     SpellMenuName = "Winter's Bite",
                     Slot = SpellSlot.Q,
                     Type = Skilltype.Line,
@@ -213,7 +213,7 @@ namespace KurisuMorgana
             CCList.Add(
                 new KurisuLib
                 {
-                    HeroName = "Bruam",
+                    HeroName = "Braum",
                     SpellMenuName = "Glacial Fissure",
                     Slot = SpellSlot.R,
                     Type = Skilltype.Line,
