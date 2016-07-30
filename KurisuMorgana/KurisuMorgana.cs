@@ -28,17 +28,22 @@ namespace KurisuMorgana
             _e = new Spell(SpellSlot.E, 750f);
             _r = new Spell(SpellSlot.R, 600f);
 
-            _menu = new Menu("Kurisu's Morgana", "morgana", true);
+            _menu = new Menu("Morgana", "morgana", true);
 
-            var orbmenu = new Menu(":: Orbwalker", "orbwalker");
+            var orbmenu = new Menu("Orbwalk", "orbwalker");
             _orbwalker = new Orbwalking.Orbwalker(orbmenu);
             _menu.AddSubMenu(orbmenu);
 
-            var ccmenu = new Menu(":: Morgana Settings", "ccmenu");
+            var kemenu = new Menu("Keys", "kemenu");
+            kemenu.AddItem(new MenuItem("combokey", ":: Combo [active]")).SetValue(new KeyBind(32, KeyBindType.Press));
+            kemenu.AddItem(new MenuItem("harasskey", ":: Harass [active]")).SetValue(new KeyBind('C', KeyBindType.Press));
+            kemenu.AddItem(new MenuItem("farmkey", ":: WaveClear [active]")).SetValue(new KeyBind('V', KeyBindType.Press));
+            kemenu.AddItem(new MenuItem("fleekey", ":: Flee [active]")) .SetValue(new KeyBind('A', KeyBindType.Press));
+            _menu.AddSubMenu(kemenu);
+
+            var ccmenu = new Menu("Combo", "cmenu");
 
             var menuQ = new Menu("Dark Binding [Q]", "qmenu");
-            menuQ.AddItem(new MenuItem("hitchanceq", "Binding Hitchance"))
-                .SetValue(new Slider(3, 1, 4)).SetTooltip("Uses Common Prediction; Reccomended 3 or 4");
             menuQ.AddItem(new MenuItem("useqcombo", "Use in Combo")).SetValue(true);
             menuQ.AddItem(new MenuItem("useharassq", "Use in Harass")).SetValue(false);
             menuQ.AddItem(new MenuItem("useqanti", "Use on Gapcloser")).SetValue(true);
@@ -49,10 +54,6 @@ namespace KurisuMorgana
             ccmenu.AddSubMenu(menuQ);
 
             var menuW = new Menu("Tormented Soil [W]", "wmenu");
-            menuW.AddItem(new MenuItem("hitchancew", "Tormentsoil Hitchance "))
-                .SetValue(new Slider(3, 1, 4)).SetTooltip("Uses Common Prediction; Reccomended 2 or 3");
-            menuW.AddItem(new MenuItem("calcw", "Calculated Ticks"))
-                .SetValue(new Slider(6, 3, 10)).SetTooltip("The number of W ticks to include in combo damage calculation.");
             menuW.AddItem(new MenuItem("usewcombo", "Use in Combo")).SetValue(true);
             menuW.AddItem(new MenuItem("useharassw", "Use in Harass")).SetValue(false);
             menuW.AddItem(new MenuItem("usewauto", "Use on Immobile")).SetValue(true);
@@ -60,15 +61,9 @@ namespace KurisuMorgana
             ccmenu.AddSubMenu(menuW);
 
             var menuE = new Menu("BlackShield [E]", "emenu");
-            menuE.AddItem(new MenuItem("shieldtg", "Shield Only Target Spells"))
-                .SetValue(false).SetTooltip("Laning with a Scripter? ;)");
-            menuE.AddItem(new MenuItem("usemorge", "Enabled")).SetValue(true);
-
-            var newmenu = new Menu("Use Shield [Who?]", "usefor");
-            foreach (var frn in ObjectManager.Get<Obj_AI_Hero>().Where(x => x.Team == Me.Team))
-                newmenu.AddItem(new MenuItem("useon" + frn.ChampionName, "Shield " + frn.ChampionName)).SetValue(!frn.IsMe);
-            menuE.AddSubMenu(newmenu);
-
+            menuE.AddItem(new MenuItem("shieldtg", "No Skillshots")).SetValue(false);
+            menuE.AddItem(new MenuItem("usemorge", "Enabled [E]")).SetValue(true);
+         
             foreach (var ene in ObjectManager.Get<Obj_AI_Hero>().Where(x => x.Team != Me.Team))
             {
                 // create menu per enemy
@@ -91,29 +86,35 @@ namespace KurisuMorgana
             ccmenu.AddSubMenu(menuE);
 
             var menuR = new Menu("Soul Shackles [R]", "rmenu");
-            menuR.AddItem(new MenuItem("rkill", "Use in combo if killable")).SetValue(true);
-            menuR.AddItem(new MenuItem("rcount", "Use in combo if enemies >= ")).SetValue(new Slider(3, 1, 5));
-            menuR.AddItem(new MenuItem("useautor", "Use automatic if enemies >= ")).SetValue(new Slider(4, 2, 5));
-            menuR.AddItem(new MenuItem("usercombo", "Enabled")).SetValue(true);
+            menuR.AddItem(new MenuItem("rkill", "Use in Combo if Killable")).SetValue(true);
+            menuR.AddItem(new MenuItem("rcount", "Use in Combo if Enemies >= ")).SetValue(new Slider(3, 1, 5));
+            menuR.AddItem(new MenuItem("useautor", "Use Automatic if Enemies >= ")).SetValue(new Slider(4, 2, 5));
+            menuR.AddItem(new MenuItem("usercombo", "Enabled [R]")).SetValue(true);
             ccmenu.AddSubMenu(menuR);
 
-            ccmenu.AddItem(new MenuItem("harassmana", "Harass mana %")).SetValue(new Slider(55, 0, 99));
             _menu.AddSubMenu(ccmenu);
 
-            var wwmenu = new Menu(":: Farm Settings", "wwmenu");
+            var wwmenu = new Menu("Farm", "wwmenu");
             wwmenu.AddItem(new MenuItem("farmw", "Use W")).SetValue(true);
             wwmenu.AddItem(new MenuItem("farmcount", "-> If Min Minions >=")).SetValue(new Slider(3, 1, 7));
             _menu.AddSubMenu(wwmenu);
 
-            _menu.AddItem(new MenuItem("support", ":: Support Mode")).SetValue(false);
-            _menu.AddItem(new MenuItem("dp", ":: Drawings")).SetValue(true);
-            _menu.AddItem(new MenuItem("harasskey", ":: Harass [active]")).SetValue(new KeyBind('C', KeyBindType.Press));
-            _menu.AddItem(new MenuItem("combokey", ":: Combo [active]")).SetValue(new KeyBind(32, KeyBindType.Press));
-
-            _menu.AddItem(new MenuItem("farmkey", ":: WaveClear [active]"))
-                .SetValue(new KeyBind('V', KeyBindType.Press));
-
-
+            var tcmenu = new Menu("Extra", "exmenu");
+            var newmenu = new Menu("BlackShield [E] on", "usefor");
+            foreach (var frn in ObjectManager.Get<Obj_AI_Hero>().Where(x => x.Team == Me.Team))
+                newmenu.AddItem(new MenuItem("useon" + frn.ChampionName, "Shield " + frn.ChampionName)).SetValue(!frn.IsMe);
+            tcmenu.AddSubMenu(newmenu);
+            tcmenu.AddItem(new MenuItem("dp", "Drawings")).SetValue(true);
+            tcmenu.AddItem(new MenuItem("support", "Support")).SetValue(false);
+            tcmenu.AddItem(new MenuItem("harassmana", "Harass mana %")).SetValue(new Slider(55, 0, 99));
+            tcmenu.AddItem(new MenuItem("hitchanceq", "[Q] Hitchance"))
+                .SetValue(new Slider(3, 1, 4));
+            tcmenu.AddItem(new MenuItem("hitchancew", "[W] Hitchance "))
+                .SetValue(new Slider(3, 1, 4));
+            tcmenu.AddItem(new MenuItem("calcw", "[W] Combo Damage Ticks"))
+                .SetValue(new Slider(6, 3, 10))
+                .SetTooltip("The number of W ticks to include in combo damage calculation.");
+            _menu.AddSubMenu(tcmenu);
 
             _menu.AddToMainMenu();
 
@@ -164,9 +165,14 @@ namespace KurisuMorgana
 
         private static void Game_OnGameUpdate(EventArgs args)
         {
-            if (!Me.IsValidTarget(300, false))
+            if (!Me.IsValidTarget(300, false) || !Orbwalking.CanMove(100))
             {
                 return;
+            }
+
+            if (_menu.Item("fleekey").GetValue<KeyBind>().Active)
+            {
+                Orbwalking.Orbwalk(null, Game.CursorPos);
             }
 
             CheckDamage(TargetSelector.GetTarget(_r.Range + 10, TargetSelector.DamageType.Magical));
@@ -217,7 +223,7 @@ namespace KurisuMorgana
                 if (qtarget.IsValidTarget())
                 {
                     var poutput = _q.GetPrediction(qtarget);
-                    if (poutput.Hitchance >= (HitChance)_menu.Item("hitchanceq").GetValue<Slider>().Value + 2)
+                    if (poutput.Hitchance >= (HitChance) _menu.Item("hitchanceq").GetValue<Slider>().Value + 2)
                     {
                         _q.Cast(poutput.CastPosition);
                     }
@@ -277,7 +283,7 @@ namespace KurisuMorgana
                     if (Me.ManaPercent >= _menu.Item("harassmana").GetValue<Slider>().Value)
                     {
                         var poutput = _q.GetPrediction(qtarget);
-                        if (poutput.Hitchance >= (HitChance)_menu.Item("hitchanceq").GetValue<Slider>().Value + 2)
+                        if (poutput.Hitchance >= (HitChance) _menu.Item("hitchanceq").GetValue<Slider>().Value + 2)
                         {
                             _q.Cast(poutput.CastPosition);
                         }
@@ -295,7 +301,7 @@ namespace KurisuMorgana
                         if (!_menu.Item("waitfor").GetValue<bool>() || _mw * 1 >= wtarget.Health)
                         {
                             var poutput = _w.GetPrediction(wtarget);
-                            if (poutput.Hitchance >= (HitChance)_menu.Item("hitchancew").GetValue<Slider>().Value + 2)
+                            if (poutput.Hitchance >= (HitChance) _menu.Item("hitchancew").GetValue<Slider>().Value + 2)
                             {
                                 _w.Cast(poutput.CastPosition);
                             }
