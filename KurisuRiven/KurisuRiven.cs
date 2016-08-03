@@ -994,8 +994,7 @@ namespace KurisuRiven
                             var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
                             if (p.Hitchance >= HitChance.Medium && canws && !riventarget().HasBuff("kindredrnodeathbuff"))
                             {
-                                if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) ||
-                                     isteamfightkappa && !rrektAny())
+                                if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || isteamfightkappa && !rrektAny())
                                 {
                                     r.Cast(p.CastPosition);
                                 }
@@ -1015,12 +1014,14 @@ namespace KurisuRiven
                                 if (riventarget().Distance(player.ServerPosition) <= truerange + q.Range)
                                 {
                                     var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
-                                    if (p.Hitchance == HitChance.High && canws && !riventarget().HasBuff("kindredrnodeathbuff"))
+                                    if (!riventarget().HasBuff("kindredrnodeathbuff"))
                                     {
-                                        if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || 
-                                             isteamfightkappa && !rrektAny())
+                                        if (p.Hitchance == HitChance.High && canws || r.CastIfWillHit(riventarget(), 3) && canws)
                                         {
-                                            r.Cast(p.CastPosition);
+                                            if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || isteamfightkappa && !rrektAny())
+                                            {
+                                                r.Cast(p.CastPosition);
+                                            }
                                         }
                                     }
                                 }
@@ -1042,10 +1043,9 @@ namespace KurisuRiven
                 {
                     if (menubool("saver"))
                     {
-                        if (player.GetAutoAttackDamage(t, true) * menuslide("overaa") >= t.Health &&
-                            player.HealthPercent > 65)
+                        if (player.GetAutoAttackDamage(t, true) *  2 + menuslide("overaa") >= t.Health)
                         {
-                            if (Orbwalking.InAutoAttackRange(t) && player.CountEnemiesInRange(r.Range) > 1)
+                            if (player.HealthPercent > 70 && player.CountEnemiesInRange(q.Range) <= 2)
                             {
                                 continue;
                             }
@@ -1054,9 +1054,8 @@ namespace KurisuRiven
 
                     if (Rdmg(t) >= t.Health)
                     {
-                        var p = r.GetPrediction(t, true, -1f, new[] {CollisionableObjects.YasuoWall});
-                        if (p.Hitchance == (HitChance) menulist("rhitc") + 4 && canws &&
-                            !t.HasBuff("kindredrnodeathbuff"))
+                        var p = r.GetPrediction(t, true, -1f, new[] { CollisionableObjects.YasuoWall });
+                        if (p.Hitchance == (HitChance) menulist("rhitc") + 4 && canws && !t.HasBuff("kindredrnodeathbuff"))
                         {
                             r.Cast(p.CastPosition);
                         }
