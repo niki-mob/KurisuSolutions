@@ -388,12 +388,12 @@ namespace KurisuNidalee
                 if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar" && CatForm())
                 {                    
                     Counter = 0;
-                    Orbwalking.ResetAutoAttackTimer();
+                    //Orbwalking.ResetAutoAttackTimer();
                 }
 
                 if (sender.IsMe && args.SData.Name.ToLower() == "aspectofthecougar" && !CatForm())
                 {
-                    Orbwalking.ResetAutoAttackTimer();
+                    //Orbwalking.ResetAutoAttackTimer();
                 }
 
                 if (sender.IsMe && args.SData.IsAutoAttack() && Player.HasBuff("Takedown", true))
