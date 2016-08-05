@@ -184,7 +184,7 @@ namespace KurisuNidalee
                 .SetValue(new KeyBind('C', KeyBindType.Press));
             Root.AddItem(new MenuItem("usefarm", ":: Wave/Junge Clear [active]"))
                 .SetValue(new KeyBind('V', KeyBindType.Press));
-            Root.AddItem(new MenuItem("usecombo2", ":: Tripple AA [beta]"))
+            Root.AddItem(new MenuItem("usecombo2", ":: Tripple AA [broken 6.15]"))
                 .SetValue(new KeyBind('Z', KeyBindType.Press));
             Root.AddItem(new MenuItem("flee", ":: Flee/Walljumper [active]"))
                 .SetValue(new KeyBind('A', KeyBindType.Press));
