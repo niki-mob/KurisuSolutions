@@ -10,7 +10,7 @@ namespace KurisuMorgana
         private static Menu _menu;
         private static Spell _q, _w, _e, _r;
         private static Orbwalking.Orbwalker _orbwalker;
-        private static readonly Obj_AI_Hero Me = ObjectManager.Player;
+        private static Obj_AI_Hero Me => ObjectManager.Player;
 
         public KurisuMorgana()
         {
