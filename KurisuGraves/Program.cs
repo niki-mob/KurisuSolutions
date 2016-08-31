@@ -16,7 +16,7 @@ namespace KurisuGraves
         internal static Menu MainMenu;
         internal static Obj_AI_Hero Target;
         internal static Orbwalking.Orbwalker Orbwalker;
-        internal static readonly Obj_AI_Hero Me = ObjectManager.Player;
+        internal static Obj_AI_Hero Me => ObjectManager.Player;
         internal static HpBarIndicator HPi = new HpBarIndicator();
         internal static int LE, LR, LM;
 
