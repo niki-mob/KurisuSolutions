@@ -30,21 +30,21 @@ namespace KurisuNidalee
                                 switch (KN.Root.Item("ppred").GetValue<StringList>().SelectedValue)
                                 {
                                     case "OKTW":
-                                        var pi = new SebbyLib.Prediction.PredictionInput
-                                        {
-                                            Aoe = false,
-                                            Collision = true,
-                                            Speed = 1300f,
-                                            Delay = 0.25f,
-                                            Range = 1500f,
-                                            From = KN.Player.ServerPosition,
-                                            Radius = 40f,
-                                            Unit = target,
-                                            Type = SebbyLib.Prediction.SkillshotType.SkillshotLine
-                                        };
+
+                                        SebbyLib.Prediction.PredictionInput pi;
+                                        pi = new SebbyLib.Prediction.PredictionInput();
+                                        pi.Aoe = false;
+                                        pi.Collision = true;
+                                        pi.Speed = 1300f;
+                                        pi.Delay = 0.25f;
+                                        pi.Range = 1500f;
+                                        pi.From = KN.Player.ServerPosition;
+                                        pi.Radius = 40f;
+                                        pi.Unit = target;
+                                        pi.Type = SebbyLib.Prediction.SkillshotType.SkillshotLine;
 
                                         var po = SebbyLib.Prediction.Prediction.GetPrediction(pi);
-                                        if (po.Hitchance == (SebbyLib.Prediction.HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                                        if (po.Hitchance >= (SebbyLib.Prediction.HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
                                         {
                                             KL.Spells["Javelin"].Cast(po.CastPosition);
                                         }
@@ -53,7 +53,7 @@ namespace KurisuNidalee
                                     
                                     case "SPrediction":
                                         var so = KL.Spells["Javelin"].GetSPrediction((Obj_AI_Hero) target);
-                                        if (so.HitChance == (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                                        if (so.HitChance >= (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
                                         {
                                             KL.Spells["Javelin"].Cast(so.CastPosition);
                                         }
@@ -61,7 +61,7 @@ namespace KurisuNidalee
 
                                     case "Common":
                                         var co = KL.Spells["Javelin"].GetPrediction(target);
-                                        if (co.Hitchance == (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
+                                        if (co.Hitchance >= (HitChance) (KN.Root.Item("ndhqch").GetValue<StringList>().SelectedIndex + 3))
                                         {
                                             KL.Spells["Javelin"].Cast(co.CastPosition);
                                         }
@@ -110,6 +110,11 @@ namespace KurisuNidalee
             // if not harass mode ignore mana check
             if (!KL.CatForm() && KL.CanUse(KL.Spells["Bushwhack"], true, mode))
             {
+                if (!target.IsValidTarget(KL.Spells["Bushwhack"].Range))
+                {
+                    return;
+                }
+
                 if (KL.Player.ManaPercent <= 65 && target.IsHunted() && target.CanMove)
                 {
                     return;
@@ -117,22 +122,36 @@ namespace KurisuNidalee
 
                 if (mode != "ha" || KL.Player.ManaPercent > 65)
                 {
-                    if (target.IsValidTarget(KL.Spells["Bushwhack"].Range))
+                    // try bushwhack prediction
+                    if (KN.Root.Item("ndhwforce").GetValue<StringList>().SelectedIndex == 0)
                     {
-                        // try bushwhack prediction
-                        if (KN.Root.Item("ndhwforce").GetValue<StringList>().SelectedIndex == 0)
+                        if (target.IsChampion())
+                            KL.Spells["Bushwhack"].CastIfHitchanceEquals(target, HitChance.VeryHigh);
+                        else
                         {
-                            if (target.IsChampion())
-                                KL.Spells["Bushwhack"].CastIfHitchanceEquals(target, HitChance.VeryHigh);
+                            if ((KL.CanUse(KL.Spells["Javelin"], true, "jg") ||
+                                 KL.SpellTimer["Javelin"] > 4f) && target.Distance(KL.Player.ServerPosition) > 165f)
+                                KL.Spells["Bushwhack"].Cast(target.Position.Extend(KL.Player.ServerPosition, 305f));
                             else
-                                KL.Spells["Bushwhack"].Cast(target.ServerPosition);
+                                KL.Spells["Bushwhack"].Cast(target.Position.Extend(KL.Player.ServerPosition, 100f));
                         }
+                    }
 
-                        // try bushwhack behind target
-                        if (KN.Root.Item("ndhwforce").GetValue<StringList>().SelectedIndex == 1)
+                    // try bushwhack behind target
+                    if (KN.Root.Item("ndhwforce").GetValue<StringList>().SelectedIndex == 1)
+                    {
+                        if (target.IsChampion())
                         {
                             var unitpos = KL.Spells["Bushwhack"].GetPrediction(target).UnitPosition;
                             KL.Spells["Bushwhack"].Cast(unitpos.Extend(KL.Player.ServerPosition, -75f));
+                        }
+                        else
+                        {
+                            if ((KL.CanUse(KL.Spells["Javelin"], true, "jg") ||
+                                 KL.SpellTimer["Javelin"] > 4f) && target.Distance(KL.Player.ServerPosition) > 265f)
+                                KL.Spells["Bushwhack"].Cast(target.Position.Extend(KL.Player.ServerPosition, +305f));
+                            else
+                                KL.Spells["Bushwhack"].Cast(target.Position.Extend(KL.Player.ServerPosition, 100f));
                         }
                     }
                 }
@@ -282,20 +301,22 @@ namespace KurisuNidalee
 
         internal static void SwitchForm(Obj_AI_Base target, string mode)
         {
+            if (!target.IsValidTarget(KL.Spells["Javelin"].Range))
+                return;
+
             // catform -> human
             if (KL.CatForm() && KL.CanUse(KL.Spells["Aspect"], false, mode))
             {
-                if (!target.IsValidTarget(KL.Spells["Javelin"].Range))
-                    return;
-
                 // get hitbox
                 var radius = KL.Player.AttackRange + KL.Player.Distance(KL.Player.BBox.Minimum) + 1;
 
                 // dont switch if have Q buff and near target
-                if (KL.CanUse(KL.Spells["Takedown"], true, mode) && KL.Player.HasBuff("Takedown") &&
-                    target.Distance(KL.Player.ServerPosition) <= KL.Spells["Takedown"].Range + 65f)
+                if (KL.CanUse(KL.Spells["Takedown"], false, mode))
                 {
-                    return;
+                    if (KL.Player.HasBuff("Takedown") && Orbwalking.InAutoAttackRange(target))
+                    {
+                        return;
+                    }
                 }
 
                 // change form if Q is ready and meets hitchance

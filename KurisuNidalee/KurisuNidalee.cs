@@ -519,11 +519,8 @@ namespace KurisuNidalee
         {
             var solo = Root.Item("pstyle").GetValue<StringList>().SelectedIndex == 0;
 
-            if (!Player.IsWindingUp)
-            {
-                CM.CastJavelin(solo ? Target : TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
-                CM.SwitchForm(solo ? Target : TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
-            }
+            CM.CastJavelin(solo ? Target : TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
+            CM.SwitchForm(solo ? Target : TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "co");
 
             if (!Root.Item("ndhwsp").GetValue<bool>())
             {
@@ -624,13 +621,6 @@ namespace KurisuNidalee
                         CM.CastPounce(unit, "jg");
                         CM.CastTakedown(unit, "jg");
                         CM.CastSwipe(unit, "jg");
-
-                        if (unit.PassiveRooted() && Root.Item("jgaacount").GetValue<KeyBind>().Active &&
-                            Player.Distance(unit.ServerPosition) > 450)
-                        {
-                            return;
-                        }
-
                         CM.SwitchForm(unit, "jg");
                         break;
                     default:
