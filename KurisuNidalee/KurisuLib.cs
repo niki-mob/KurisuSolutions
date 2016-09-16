@@ -124,6 +124,7 @@ namespace KurisuNidalee
         /// Returns true if the spell is ready via game time.
         /// </summary>
         /// <param name="time"></param>
+        /// <param name="extra"></param>
         /// <returns></returns>
         internal static bool IsReady(this float time, float extra = 0f)
         {
@@ -357,7 +358,7 @@ namespace KurisuNidalee
                 {
                     var unit = args.Target as Obj_AI_Base;
                     if (unit.IsValid<Obj_AI_Base>() && unit.IsHunted())
-                        TimeStamp["Pounce"] = Game.Time + 1.5f;
+                        TimeStamp["Pounce"] = Game.Time + 3;
                     else
                         TimeStamp["Pounce"] = Game.Time + (5 + (5 * Player.PercentCooldownMod));
                 }
@@ -396,7 +397,7 @@ namespace KurisuNidalee
                     //Orbwalking.ResetAutoAttackTimer();
                 }
 
-                if (sender.IsMe && args.SData.IsAutoAttack() && Player.HasBuff("Takedown", true))
+                if (sender.IsMe && args.SData.IsAutoAttack() && Player.HasBuff("takedown"))
                 {
                     LastBite = Utils.GameTimeTickCount;
                     TimeStamp["Takedown"] = Game.Time + (5 + (5 * Player.PercentCooldownMod));
