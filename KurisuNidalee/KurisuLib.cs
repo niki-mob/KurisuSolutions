@@ -106,7 +106,7 @@ namespace KurisuNidalee
         {
             if (KN.Root.Item("usefarm").GetValue<KeyBind>().Active)
             {
-                if (args.Target.Name.Contains("Mini") && KN.m)
+                if (args.Target.Name.Contains("Mini") && KN.M)
                     args.Process = false;
             }
         }
@@ -265,16 +265,10 @@ namespace KurisuNidalee
         /// </summary>
         internal static void CastSmartSwipe()
         {
-            var minionpositions =
-                MinionManager.GetMinions(Player.ServerPosition, 500f, MinionTypes.All, MinionTeam.NotAllyForEnemy)
-                    .Select(x => x.Position.To2D())
-                    .ToList();
-
-            var swipelocation = MinionManager.GetBestCircularFarmLocation(minionpositions, 275f, 375f);
-
-            if (swipelocation.MinionsHit >= KurisuNidalee.Root.Item("ndcenum").GetValue<Slider>().Value)
-                if (SpellTimer["Swipe"].IsReady())
-                    Spells["Swipe"].Cast(swipelocation.Position);
+            var positions = MinionManager.GetMinions(Player.ServerPosition, 500f).Select(x => x.Position.To2D()).ToList();
+            var swipelocation = MinionManager.GetBestCircularFarmLocation(positions, 275f, 375f);
+            if (swipelocation.MinionsHit >= KN.Root.Item("ndcenum").GetValue<Slider>().Value)
+                Spells["Swipe"].Cast(swipelocation.Position);
         }
 
         /// <summary>
@@ -287,7 +281,7 @@ namespace KurisuNidalee
                 Spells["Javelin"].SetSkillshot(0.25f, 40f, 1300f, true, SkillshotType.SkillshotLine);
                 Spells["Bushwhack"].SetSkillshot(0.25f, 100f, float.MaxValue, false, SkillshotType.SkillshotCircle);
                 Spells["Swipe"].SetSkillshot(0.25f, (float)(15 * Math.PI / 180), float.MaxValue, false, SkillshotType.SkillshotCone);
-                Spells["Pounce"].SetSkillshot(0.50f, 400f, float.MaxValue, false, SkillshotType.SkillshotCircle);
+                Spells["Pounce"].SetSkillshot(0.125f, 275f, 2200, false, SkillshotType.SkillshotCircle);
             }
 
             catch (Exception e)
@@ -360,11 +354,11 @@ namespace KurisuNidalee
                     if (unit.IsValid<Obj_AI_Base>() && unit.IsHunted())
                         TimeStamp["Pounce"] = Game.Time + 3;
                     else
-                        TimeStamp["Pounce"] = Game.Time + (5 + (5 * Player.PercentCooldownMod));
+                        TimeStamp["Pounce"] = Game.Time + (6 + (6 * Player.PercentCooldownMod));
                 }
 
                 if (sender.IsMe && args.SData.Name.ToLower() == "swipe")
-                    TimeStamp["Swipe"] = Game.Time + (5 + (5 * Player.PercentCooldownMod));
+                    TimeStamp["Swipe"] = Game.Time + (6 + (6 * Player.PercentCooldownMod));
 
                 if (sender.IsMe && args.SData.Name.ToLower() == "primalsurge")
                     TimeStamp["Primalsurge"] = Game.Time + (12 + (12 * Player.PercentCooldownMod));
@@ -400,7 +394,7 @@ namespace KurisuNidalee
                 if (sender.IsMe && args.SData.IsAutoAttack() && Player.HasBuff("takedown"))
                 {
                     LastBite = Utils.GameTimeTickCount;
-                    TimeStamp["Takedown"] = Game.Time + (5 + (5 * Player.PercentCooldownMod));
+                    TimeStamp["Takedown"] = Game.Time + (6 + (6 * Player.PercentCooldownMod));
                 }
             }
 

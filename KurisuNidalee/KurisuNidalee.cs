@@ -44,8 +44,6 @@ namespace KurisuNidalee
 
             var ndhq = new Menu("(Q)  Javelin", "ndhq");
             ndhq.AddItem(new MenuItem("ndhqcheck", "Check Hitchance")).SetValue(true);
-            ndhq.AddItem(new MenuItem("qsmcol", "-> Smite Collision"))
-                .SetValue(false).SetTooltip("Optimized but still may decrease performance.");
             ndhq.AddItem(new MenuItem("ndhqco", "Enable in Combo")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqha", "Enable in Harass")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqjg", "Enable in Jungle")).SetValue(true);
@@ -114,7 +112,7 @@ namespace KurisuNidalee
 
             var ndce = new Menu("(E) Swipe", "ndce");
 
-            ndce.AddItem(new MenuItem("ndcecheck", "Check Hitchance")).SetValue(false);
+            ndce.AddItem(new MenuItem("ndcecheck", "Check Hitchance")).SetValue(true);
             ndce.AddItem(new MenuItem("ndcech", "-> Min Hitchance"))
                 .SetValue(new StringList(new[] {"Low", "Medium", "High", "Very High"}, 2));
             ndce.AddItem(new MenuItem("ndceco", "Enable in Combo")).SetValue(true);
@@ -149,6 +147,8 @@ namespace KurisuNidalee
                 .SetValue(new Slider(2, 1, 5));
             xmenu.AddItem(new MenuItem("kitejg", ":: Pounce Away [jungle]")).SetTooltip("Try kiting with pounce.")
                 .SetValue(false);
+            xmenu.AddItem(new MenuItem("noR", ":: Dont Use (R)")).SetValue(false);
+            xmenu.AddItem(new MenuItem("noRLevel", "-> Until Level >=")).SetValue(new Slider(4, 1, 18));
             ccmenu.AddSubMenu(xmenu);
 
             var aamenu = new Menu(":: Automatic Settings", "aamenu");
@@ -599,13 +599,13 @@ namespace KurisuNidalee
             CM.SwitchForm(TargetSelector.GetTarget(KL.Spells["Javelin"].Range, TargetSelector.DamageType.Magical), "ha");
         }
 
-        internal static bool m;
+        internal static bool M;
         internal static void Clear()
         {
             var minions = MinionManager.GetMinions(Player.ServerPosition, 
                 750f, MinionTypes.All, MinionTeam.All, MinionOrderTypes.MaxHealth);
 
-            m = minions.Any(KL.IsJungleMinion);
+            M = minions.Any(KL.IsJungleMinion);
 
             foreach (var unit in minions.OrderByDescending(KL.IsJungleMinion))
             {
