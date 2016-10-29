@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Security.AccessControl;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
-using CM = KurisuNidalee.CastManager;
 using Color = System.Drawing.Color;
+using CM = KurisuNidalee.CastManager;
 using KL = KurisuNidalee.KurisuLib;
 
 namespace KurisuNidalee
@@ -32,17 +31,64 @@ namespace KurisuNidalee
             }
 
             #region Root Menu
+
             Root = new Menu("Kurisu's Nidalee", "nidalee", true);
 
             var orbm = new Menu(":: Orbwalker", "orbm");
             Orbwalker = new Orbwalking.Orbwalker(orbm);
             Root.AddSubMenu(orbm);
 
-            var ccmenu = new Menu(":: Nidalee Settings", "ccmenu");
+            var mmenu = new Menu(":: Main Settings", "mmenu");
+
+            mmenu.AddItem(new MenuItem("pstyle", ":: Play Style"))
+                .SetValue(new StringList(new[] {"Single Target", "Multi-Target"}, 1));
+            mmenu.AddItem(new MenuItem("usecombo", ":: Combo [active]")).SetValue(new KeyBind(32, KeyBindType.Press));
+            mmenu.AddItem(new MenuItem("useharass", ":: Harass [active]"))
+                .SetValue(new KeyBind('C', KeyBindType.Press));
+            mmenu.AddItem(new MenuItem("usefarm", ":: Wave/Junge Clear [active]"))
+                .SetValue(new KeyBind('V', KeyBindType.Press));
+            mmenu.AddItem(new MenuItem("usecombo2", ":: Tripple AA [broken]"))
+                .SetValue(new KeyBind('Z', KeyBindType.Press));
+            mmenu.AddItem(new MenuItem("flee", ":: Flee/Walljumper [active]"))
+                .SetValue(new KeyBind('A', KeyBindType.Press));
+
+
+            var zzz = new MenuItem("ppred", ":: Prediction");
+
+            mmenu.AddItem(zzz).SetValue(new StringList(new[] { "Common", "OKTW", "SPrediction" }, 2));
+            mmenu.AddItem(new MenuItem("ndhqch", "-> Min Hitchance"))
+                .SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 3));
+
+            mmenu.AddItem(new MenuItem("bbb", ":: SPrediction not Loaded Please F5!"))
+                .Show(false).SetFontStyle(FontStyle.Bold, SharpDX.Color.DeepPink);
+
+            zzz.ValueChanged += (sender, eventArgs) =>
+            {
+                Root.Item("bbb")
+                    .Show(eventArgs.GetNewValue<StringList>().SelectedIndex == 2 &&
+                          Root.Children.All(x => x.Name != "SPRED"));
+
+                if (eventArgs.GetNewValue<StringList>().SelectedIndex == 2)
+                {
+                    Root.Item("ndhqch").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
+                }
+
+                if (eventArgs.GetNewValue<StringList>().SelectedIndex == 0)
+                {
+                    Root.Item("ndhqch").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 3));
+                }
+                else if (eventArgs.GetNewValue<StringList>().SelectedIndex == 1)
+                {
+                    Root.Item("ndhqch").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
+                }
+            };
+
+            Root.AddSubMenu(mmenu);
+
 
             var humenu = new Menu(":: Human Settings", "humenu");
 
-            var ndhq = new Menu("(Q)  Javelin", "ndhq");
+            var ndhq = new Menu("[Q]:  Javelin", "ndhq");
             ndhq.AddItem(new MenuItem("ndhqcheck", "Check Hitchance")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqco", "Enable in Combo")).SetValue(true);
             ndhq.AddItem(new MenuItem("ndhqha", "Enable in Harass")).SetValue(true);
@@ -50,7 +96,7 @@ namespace KurisuNidalee
             ndhq.AddItem(new MenuItem("ndhqwc", "Enable in WaveClear")).SetValue(false);
             humenu.AddSubMenu(ndhq);
 
-            var ndhw = new Menu("(W) Bushwhack", "ndhw");
+            var ndhw = new Menu("[W]: Bushwhack", "ndhw");
             ndhw.AddItem(new MenuItem("ndhwco", "Enable in Combo")).SetValue(false);
             ndhw.AddItem(new MenuItem("ndhwsp", "-> Reduce (W) Usage"))
                 .SetValue(false);
@@ -60,7 +106,7 @@ namespace KurisuNidalee
                 .SetValue(new StringList(new[] {"Prediction", "Behind Target"}));
             humenu.AddSubMenu(ndhw);
 
-            var ndhe = new Menu("(E)  Primal Surge", "ndhe");
+            var ndhe = new Menu("[E]:  Primal Surge", "ndhe");
             ndhe.AddItem(new MenuItem("ndheon", "Enable Healing")).SetValue(true);
             ndhe.AddItem(new MenuItem("ndhemana", "-> Minumum Mana")).SetValue(new Slider(55, 1));
             ndhe.AddItem(new MenuItem("ndhesw", "Switch Forms"))
@@ -78,7 +124,7 @@ namespace KurisuNidalee
             ndhe.AddItem(new MenuItem("ndheord", "Ally Priority:")).SetValue(new StringList(new[] { "Low HP", "Most AD/AP", "Max HP" }, 1));            
             humenu.AddSubMenu(ndhe);
 
-            var ndhr = new Menu("(R) Aspect of the Cougar", "ndhr");
+            var ndhr = new Menu("[R]: Aspect of the Cougar", "ndhr");
             ndhr.AddItem(new MenuItem("ndhrco", "Enable in Combo")).SetValue(true);
             ndhr.AddItem(new MenuItem("ndhrcreq", "-> Require Swipe/Takedown")).SetValue(true);
             ndhr.AddItem(new MenuItem("ndhrha", "Enable in Harass")).SetValue(true);
@@ -89,14 +135,14 @@ namespace KurisuNidalee
 
             var comenu = new Menu(":: Cougar Settings", "comenu");
 
-            var ndcq = new Menu("(Q) Takedown", "ndcq");
+            var ndcq = new Menu("[Q]: Takedown", "ndcq");
             ndcq.AddItem(new MenuItem("ndcqco", "Enable in Combo")).SetValue(true);
             ndcq.AddItem(new MenuItem("ndcqha", "Enable in Harass")).SetValue(true);
             ndcq.AddItem(new MenuItem("ndcqjg", "Enable in Jungle")).SetValue(true);
             ndcq.AddItem(new MenuItem("ndcqwc", "Enable in WaveClear")).SetValue(true);
             comenu.AddSubMenu(ndcq);
 
-            var ndcw = new Menu("(W) Pounce", "ndcw");
+            var ndcw = new Menu("[W]: Pounce", "ndcw");
             ndcw.AddItem(new MenuItem("ndcwcheck", "Check Hitchance")).SetValue(false);
             ndcw.AddItem(new MenuItem("ndcwch", "-> Min Hitchance"))
                 .SetValue(new StringList(new[] {"Low", "Medium", "High", "Very High"}, 2));
@@ -110,7 +156,7 @@ namespace KurisuNidalee
             ndcw.AddItem(new MenuItem("ndcwtow", "-> Dont Pounce into Turret")).SetValue(true);
             comenu.AddSubMenu(ndcw);
 
-            var ndce = new Menu("(E) Swipe", "ndce");
+            var ndce = new Menu("[E]: Swipe", "ndce");
 
             ndce.AddItem(new MenuItem("ndcecheck", "Check Hitchance")).SetValue(true);
             ndce.AddItem(new MenuItem("ndcech", "-> Min Hitchance"))
@@ -122,7 +168,7 @@ namespace KurisuNidalee
             ndce.AddItem(new MenuItem("ndcenum", "-> Minimum Minions Hit")).SetValue(new Slider(3, 1, 5));           
             comenu.AddSubMenu(ndce);
 
-            var ndcr = new Menu("(R) Aspect of the Cougar", "ndcr");
+            var ndcr = new Menu("[R]: Aspect of the Cougar", "ndcr");
             ndcr.AddItem(new MenuItem("ndcrco", "Enable in Combo")).SetValue(true);
             ndcr.AddItem(new MenuItem("ndcrha", "Enable in Harass")).SetValue(true);
             ndcr.AddItem(new MenuItem("ndcrjg", "Enable in Jungle")).SetValue(true);
@@ -136,10 +182,10 @@ namespace KurisuNidalee
             dmenu.AddItem(new MenuItem("dti", ":: Draw Javelin Timer")).SetValue(false);
             dmenu.AddItem(new MenuItem("dz", ":: Draw Pounce Range (Hunted)")).SetValue(false);
             dmenu.AddItem(new MenuItem("dt", ":: Draw Target")).SetValue(false);
-            ccmenu.AddSubMenu(dmenu);
+            Root.AddSubMenu(dmenu);
 
             var xmenu = new Menu(":: Jungle Settings", "xmenu");
-            xmenu.AddItem(new MenuItem("spcol", ":: Force (R) if (Q) Collision [jungle]")).SetValue(false);
+            xmenu.AddItem(new MenuItem("spcol", ":: Force [R] if [Q] Collision [jungle]")).SetValue(false);
             xmenu.AddItem(new MenuItem("jgaacount", ":: AA Weaving jungle] [beta]"))
                 .SetValue(new KeyBind('H', KeyBindType.Toggle))
                 .SetTooltip("Require auto attacks before switching to Cougar").Permashow();
@@ -147,28 +193,22 @@ namespace KurisuNidalee
                 .SetValue(new Slider(2, 1, 5));
             xmenu.AddItem(new MenuItem("kitejg", ":: Pounce Away [jungle]")).SetTooltip("Try kiting with pounce.")
                 .SetValue(false);
-            xmenu.AddItem(new MenuItem("noR", ":: Dont Use (R)")).SetValue(false);
-            xmenu.AddItem(new MenuItem("noRLevel", "-> Until Level >=")).SetValue(new Slider(4, 1, 18));
-            ccmenu.AddSubMenu(xmenu);
+            xmenu.AddItem(new MenuItem("noR", ":: Dont Use [R]")).SetValue(false);
+            xmenu.AddItem(new MenuItem("noRLevel", "-> Below Level <")).SetValue(new Slider(4, 1, 18));
+            Root.AddSubMenu(xmenu);
 
             var aamenu = new Menu(":: Automatic Settings", "aamenu");
-            aamenu.AddItem(new MenuItem("alvl6", ":: Auto (R) Level Up")).SetValue(false);
-            aamenu.AddItem(new MenuItem("ndhqimm", ":: Auto (Q) Javelin Immobile")).SetValue(false);
-            aamenu.AddItem(new MenuItem("ndhwimm", ":: Auto (W) Bushwhack Immobile")).SetValue(false);
-            aamenu.AddItem(new MenuItem("ndhrgap", ":: Auto (R) Enemy Gapclosers")).SetValue(true);
-            aamenu.AddItem(new MenuItem("ndcegap", ":: Auto (E) Swipe Gapclosers")).SetValue(true);
-            aamenu.AddItem(new MenuItem("ndhqgap", ":: Auto (Q) Javelin Gapclosers")).SetValue(true);
-            aamenu.AddItem(new MenuItem("ndcqgap", ":: Auto (Q) Takedown Gapclosers")).SetValue(true);
+            aamenu.AddItem(new MenuItem("alvl6", ":: Auto [R] Level Up")).SetValue(false);
+            aamenu.AddItem(new MenuItem("ndhqimm", ":: Auto [Q] Javelin Immobile")).SetValue(true);
+            aamenu.AddItem(new MenuItem("ndhwimm", ":: Auto [W] Bushwhack Immobile")).SetValue(true);
+            aamenu.AddItem(new MenuItem("ndhrgap", ":: Auto [R] Enemy Gapclosers")).SetValue(true);
+            aamenu.AddItem(new MenuItem("ndcegap", ":: Auto [E] Swipe Gapclosers")).SetValue(true);
+            aamenu.AddItem(new MenuItem("ndcqgap", ":: Auto [Q] Takedown Gapclosers")).SetValue(true);
+            aamenu.AddItem(new MenuItem("ndhqgap", ":: Auto [Q] Javelin Gapclosers")).SetValue(false);
 
-            ccmenu.AddItem(new MenuItem("pstyle", ":: Play Style"))
-                .SetValue(new StringList(new[] {"Single Target", "Multi-Target"}, 1));
-
-
-            ccmenu.AddSubMenu(comenu);
-            ccmenu.AddSubMenu(humenu);
-            ccmenu.AddSubMenu(aamenu);
-
-            Root.AddSubMenu(ccmenu);
+            Root.AddSubMenu(comenu);
+            Root.AddSubMenu(humenu);
+            Root.AddSubMenu(aamenu);
 
             var sset = new Menu(":: Smite Settings", "sset");
             sset.AddItem(new MenuItem("jgsmite", ":: Enable Smite")).SetValue(false);
@@ -179,42 +219,7 @@ namespace KurisuNidalee
             sset.AddItem(new MenuItem("jgsmitehe", "-> Smite On Hero")).SetValue(true);
             Root.AddSubMenu(sset);
 
-            Root.AddItem(new MenuItem("usecombo", ":: Combo [active]")).SetValue(new KeyBind(32, KeyBindType.Press));
-            Root.AddItem(new MenuItem("useharass", ":: Harass [active]"))
-                .SetValue(new KeyBind('C', KeyBindType.Press));
-            Root.AddItem(new MenuItem("usefarm", ":: Wave/Junge Clear [active]"))
-                .SetValue(new KeyBind('V', KeyBindType.Press));
-            Root.AddItem(new MenuItem("usecombo2", ":: Tripple AA [broken 6.15]"))
-                .SetValue(new KeyBind('Z', KeyBindType.Press));
-            Root.AddItem(new MenuItem("flee", ":: Flee/Walljumper [active]"))
-                .SetValue(new KeyBind('A', KeyBindType.Press));
-
-
-            var zzz = new MenuItem("ppred", ":: Prediction");
-
-            Root.AddItem(zzz).SetValue(new StringList(new[] {"Common", "OKTW", "SPrediction"}));
-            Root.AddItem(new MenuItem("ndhqch", "-> Min Hitchance"))
-                .SetValue(new StringList(new[] {"Low", "Medium", "High", "Very High"}, 3));
-
-            Root.AddItem(new MenuItem("bbb", ":: SPrediction not Loaded Please F5!"))
-                .Show(false).SetFontStyle(FontStyle.Bold, SharpDX.Color.DeepPink);
-
-            zzz.ValueChanged += (sender, eventArgs) =>
-            {
-                Root.Item("bbb")
-                    .Show(eventArgs.GetNewValue<StringList>().SelectedIndex == 2 &&
-                          Root.Children.All(x => x.Name != "SPRED"));
-
-                if (eventArgs.GetNewValue<StringList>().SelectedIndex == 2)
-                {
-                    Root.Item("ndhqch").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
-                }
-
-                if (eventArgs.GetNewValue<StringList>().SelectedIndex == 0 || eventArgs.GetNewValue<StringList>().SelectedIndex == 1)
-                {
-                    Root.Item("ndhqch").SetValue(new StringList(new[] { "Low", "Medium", "High", "Very High" }, 2));
-                }
-            };
+            
 
 
             Root.AddToMainMenu();
@@ -238,10 +243,11 @@ namespace KurisuNidalee
             Game.OnUpdate += Game_OnUpdate;
             Game.PrintChat("<b><font color=\"#FF33D6\">Kurisu's Nidalee</font></b> - Loaded!");
 
-            Drawing.OnDraw += Drawing_OnDraw;
+            Drawing.OnDraw += Drawing_OnDraw;   
             Obj_AI_Base.OnBuffAdd += Obj_AI_Base_OnBuffAdd;
             Obj_AI_Base.OnDoCast += Obj_AI_Base_OnDoCast;
             Obj_AI_Base.OnProcessSpellCast += Obj_AI_Base_OnProcessSpellCast;
+            //Timers.Initialize();
         }
 
         private static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)

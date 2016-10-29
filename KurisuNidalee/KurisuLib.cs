@@ -1,8 +1,8 @@
 ﻿using System;
-using LeagueSharp;
-using LeagueSharp.Common;
 using System.Collections.Generic;
 using System.Linq;
+using LeagueSharp;
+using LeagueSharp.Common;
 using SharpDX;
 using CM = KurisuNidalee.CastManager;
 using KN = KurisuNidalee.KurisuNidalee;
@@ -108,6 +108,20 @@ namespace KurisuNidalee
             {
                 if (args.Target.Name.Contains("Mini") && KN.M)
                     args.Process = false;
+            }
+
+            if (KN.Root.Item("usecombo").GetValue<KeyBind>().Active)
+            {
+                var hero = HeroManager.Enemies.FirstOrDefault(x => x.IsValidTarget(Spells["Javelin"].Range) && x.IsHunted() && x.Distance(Game.CursorPos) <= 260);
+                if (hero == null)
+                {
+                    return;
+                }
+
+                if (args.Target.NetworkId != hero.NetworkId && SpellTimer["Pounce"].IsReady(3))
+                {
+                    args.Process = false;
+                }
             }
         }
 

@@ -1,8 +1,6 @@
-﻿using System;
-using SPrediction;
-using System.Linq;
-using LeagueSharp;
+﻿using LeagueSharp;
 using LeagueSharp.Common;
+using SPrediction;
 using KL = KurisuNidalee.KurisuLib;
 using KN = KurisuNidalee.KurisuNidalee;
 using Prediction = SebbyLib.Prediction.Prediction;
