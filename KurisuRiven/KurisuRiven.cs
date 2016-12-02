@@ -1454,30 +1454,6 @@ namespace KurisuRiven
                         canhd = false;
                         didaa = false;
 
-                        if (menu.Item("combokey").GetValue<KeyBind>().Active)
-                        {
-                            if (w.IsReady() && menubool("usecombow") &&
-                                riventarget().Distance(player.ServerPosition) <= w.Range)
-                            {
-                                if (riventarget().Distance(player.ServerPosition) <= w.Range &&
-                                    Utils.GameTimeTickCount - lasthd > 1600)
-                                {
-                                    useinventoryitems(riventarget());
-                                    checkr();
-
-                                    if (menubool("usecombow") && !didaa)
-                                    {
-                                        if (!isteamfightkappa ||
-                                            isteamfightkappa && !wrektAny() ||
-                                            menubool("w" + riventarget().ChampionName))
-                                        {
-                                            w.Cast();
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
                         if (menulist("wsmode") == 1 || menu.Item("shycombo").GetValue<KeyBind>().Active)
                         {
                             if (menu.Item("combokey").GetValue<KeyBind>().Active || 
