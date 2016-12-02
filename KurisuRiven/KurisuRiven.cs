@@ -302,9 +302,9 @@ namespace KurisuRiven
                                     {
                                         e.Cast(menulist("esticky") == 0
                                             ? (aiHero.IsMelee
-                                                ? ExtendDir(aiHero.Position, (player.Position - aiHero.Position).Normalized(), w.Range)
+                                                ? ExtendDir(aiHero.Position, (player.Position - aiHero.Position).Normalized(), 80)
                                                 : aiHero.ServerPosition)
-                                            : ExtendDir(aiHero.Position, (player.Position - aiHero.Position).Normalized(), w.Range));
+                                            : ExtendDir(aiHero.Position, (player.Position - aiHero.Position).Normalized(), 80));
                                     }
                                 }
                             }
@@ -842,9 +842,9 @@ namespace KurisuRiven
                         {
                             e.Cast(menulist("esticky") == 0
                                 ? (target.IsMelee
-                                    ? ExtendDir(target.Position, (target.Position - player.Position).Normalized(), 50)
+                                    ? ExtendDir(target.Position, (player.Position - target.Position).Normalized(), 80)
                                     : target.ServerPosition)
-                                : ExtendDir(target.Position, (target.Position - player.Position).Normalized(), 50));
+                                : ExtendDir(target.Position, (player.Position - target.Position).Normalized(), 80));
                         }
                     }
 
@@ -852,9 +852,9 @@ namespace KurisuRiven
                     {
                         e.Cast(menulist("esticky") == 0
                             ? (target.IsMelee
-                                ? ExtendDir(target.Position, (target.Position - player.Position).Normalized(), 50)
+                                ? ExtendDir(target.Position, (player.Position - target.Position).Normalized(), 80)
                                 : target.ServerPosition)
-                            : ExtendDir(target.Position, (target.Position - player.Position).Normalized(), 50));
+                            : ExtendDir(target.Position, (player.Position - target.Position).Normalized(), 80));
                     }
                 }
 
@@ -1168,7 +1168,7 @@ namespace KurisuRiven
                         unit.Distance(player.ServerPosition) > truerange + 30 ||
                         unit.Distance(player.ServerPosition) <= player.BoundingRadius + 25) // to close
                     {
-                        e.Cast(ExtendDir(unit.Position, (player.Position - unit.Position).Normalized(), w.Range));
+                        e.Cast(ExtendDir(unit.Position, (player.Position - unit.Position).Normalized(), 80));
                     }
                 }
 
@@ -1223,7 +1223,7 @@ namespace KurisuRiven
                                 e.Cast(GetCenterMinion());
                             else
                             {
-                                ExtendDir(unit.Position, (player.Position - unit.Position).Normalized(), w.Range);
+                                ExtendDir(unit.Position, (player.Position - unit.Position).Normalized(), 100);
                             }
                         }
                     }
