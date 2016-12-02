@@ -302,9 +302,9 @@ namespace KurisuRiven
                                     {
                                         e.Cast(menulist("esticky") == 0
                                             ? (aiHero.IsMelee
-                                                ? ExtendDir(aiHero.Position, (aiHero.Position - player.Position).Normalized(), 50)
+                                                ? ExtendDir(aiHero.Position, (player.Position - aiHero.Position).Normalized(), w.Range)
                                                 : aiHero.ServerPosition)
-                                            : ExtendDir(aiHero.Position, (aiHero.Position - player.Position).Normalized(), 50));
+                                            : ExtendDir(aiHero.Position, (player.Position - aiHero.Position).Normalized(), w.Range));
                                     }
                                 }
                             }
@@ -655,7 +655,7 @@ namespace KurisuRiven
             var jg = new Menu("WaveClear", "jungle");
             jg.AddItem(new MenuItem("clearnearenemy", "Dont Clear Near Enemy")).SetValue(false);
             jg.AddItem(new MenuItem("uselaneq", "Use Q in WaveClear")).SetValue(true);
-            jg.AddItem(new MenuItem("useaoeq", "Try Q AoE WaveClear")).SetValue(false);
+            jg.AddItem(new MenuItem("useaoeq", "AoE WaveClear [Expiremental]")).SetValue(false).SetTooltip("May DROP FPS");
             jg.AddItem(new MenuItem("uselanew", "Use W in WaveClear")).SetValue(true);
             jg.AddItem(new MenuItem("wminion", "Use W Minions >=")).SetValue(new Slider(3, 1, 6));
             jg.AddItem(new MenuItem("uselanee", "Use E in WaveClear")).SetValue(true);
@@ -904,13 +904,13 @@ namespace KurisuRiven
             }
 
             var catchRange = e.IsReady() ? e.Range + truerange + 200 : truerange + 200;
-            if (q.IsReady() && target.Distance(player.ServerPosition) > catchRange)
+            if (!e.IsReady() && q.IsReady() && target.Distance(player.ServerPosition) > catchRange)
             {
                 if (menubool("usegap"))
                 {
                     if (Utils.GameTimeTickCount - lastq >= menuslide("gaptimez") * 10)
                     {
-                        if (q.IsReady() && Utils.GameTimeTickCount - laste >= 600)
+                        if (q.IsReady() && Utils.GameTimeTickCount - laste >= 1000)
                         {
                             q.Cast(target.ServerPosition);
                         }
@@ -1107,11 +1107,11 @@ namespace KurisuRiven
                 #region Killsteal
                 foreach (var t in ObjectManager.Get<Obj_AI_Hero>().Where(h => h.IsValidTarget(r.Range)))
                 {
-                    if (menubool("saver"))
+                    if (menubool("saver") && Orbwalking.InAutoAttackRange(t))
                     {
                         if (player.GetAutoAttackDamage(t, true) *  4 >= t.Health)
                         {
-                            if (player.HealthPercent > 55 && player.CountEnemiesInRange(q.Range) <= 2)
+                            if (player.HealthPercent > 65 && player.CountEnemiesInRange(q.Range + 100) <= 2)
                             {
                                 continue;
                             }
@@ -1165,9 +1165,10 @@ namespace KurisuRiven
                 if (e.IsReady() && !didaa && menubool("usejunglee"))
                 {
                     if (player.Health / player.MaxHealth * 100 <= 70 ||
-                        unit.Distance(player.ServerPosition) > truerange + 30)
+                        unit.Distance(player.ServerPosition) > truerange + 30 ||
+                        unit.Distance(player.ServerPosition) <= player.BoundingRadius + 25) // to close
                     {
-                        e.Cast(unit.ServerPosition);
+                        e.Cast(ExtendDir(unit.Position, (player.Position - unit.Position).Normalized(), w.Range));
                     }
                 }
 
@@ -1213,14 +1214,17 @@ namespace KurisuRiven
 
                 if (e.IsReady() && !player.ServerPosition.Extend(unit.ServerPosition, e.Range).UnderTurret(true))
                 {
-                    if (unit.Distance(player.ServerPosition) > truerange + 30)
+                    if (unit.Distance(player.ServerPosition) > truerange + 30 ||
+                        unit.Distance(player.ServerPosition) <= player.BoundingRadius + 25)
                     {
                         if (!didaa && menubool("uselanee"))
                         {
                             if (GetCenterMinion().IsValidTarget() && menubool("useaoeq"))
                                 e.Cast(GetCenterMinion());
                             else
-                                e.Cast(unit.ServerPosition);
+                            {
+                                ExtendDir(unit.Position, (player.Position - unit.Position).Normalized(), w.Range);
+                            }
                         }
                     }
 
@@ -1633,6 +1637,10 @@ namespace KurisuRiven
             {
                 if (sender.IsMe)
                 {
+                    if (orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.None &&
+                        menu.Item("shycombo").GetValue<KeyBind>().Active == false)
+                        return;
+
                     if (args.Animation.Contains("c29"))
                     {
                         Utility.DelayAction.Add((290 - Game.Ping/2), () =>
