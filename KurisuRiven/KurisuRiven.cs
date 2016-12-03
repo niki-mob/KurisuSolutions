@@ -1057,9 +1057,9 @@ namespace KurisuRiven
                                 if (riventarget().Distance(player.ServerPosition) <= truerange + q.Range)
                                 {
                                     var p = r.GetPrediction(riventarget(), true, -1f, new[] { CollisionableObjects.YasuoWall });
-                                    if (!riventarget().HasBuff("kindredrnodeathbuff"))
+                                    if (!riventarget().HasBuff("kindredrnodeathbuff") && !didaa)
                                     {
-                                        if (p.Hitchance == HitChance.High && !didaa || r.CastIfWillHit(riventarget(), 3) && !didaa)
+                                        if (p.Hitchance >= HitChance.High && !didaa)
                                         {
                                             if (!isteamfightkappa || menubool("r" + riventarget().ChampionName) || isteamfightkappa && !rrektAny())
                                             {
