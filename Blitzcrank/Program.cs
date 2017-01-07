@@ -57,9 +57,15 @@ namespace Blitzcrank
             var qsmenu = new Menu("Config", "qsmenu");
 
             var auqmenu = new Menu("Auto Grab", "auqmenu");
+
+            auqmenu.AddItem(new MenuItem("autogimmobile", "Immobile/Rooted")).SetValue(true);
+            auqmenu.AddItem(new MenuItem("autogdashing", "Dashing")).SetValue(true);
+            auqmenu.AddItem(new MenuItem("autogcasting", "Casting/AA")).SetValue(false);
+
+
             foreach (var hero in HeroManager.Enemies)
                 auqmenu.AddItem(new MenuItem("auq" + hero.ChampionName, hero.ChampionName))
-                    .SetValue(false).SetTooltip("Auto grab " + hero.ChampionName + " (Dashing/Immobile/Casting)");
+                    .SetValue(false);
 
             qsmenu.AddSubMenu(auqmenu);
 
@@ -122,7 +128,11 @@ namespace Blitzcrank
             Interrupter2.OnInterruptableTarget += Interrupter2_OnInterruptableTarget;
 
             Game.PrintChat("<b>Blitzcrank#</b> - Loaded!");
+            Utility.DelayAction.Add(1000, CheckActivator);
+        }
 
+        private static void CheckActivator()
+        {
             if (Menu.GetMenu("Activator", "activator") == null &&
                 Menu.GetMenu("ElUtilitySuite", "ElUtilitySuite") == null &&
                 Menu.GetMenu("adcUtility", "adcUtility") == null &&
@@ -227,7 +237,8 @@ namespace Blitzcrank
                     {
                         if (hero.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value)
                         {
-                            Q.CastIfHitchanceEquals(hero, HitChance.VeryHigh);
+                            if (Root.Item("autogcasting").GetValue<bool>())
+                                Q.CastIfHitchanceEquals(hero, HitChance.VeryHigh);
                         }
                     }
                 }
@@ -261,13 +272,16 @@ namespace Blitzcrank
                     return;
                 }
 
-                if (!Root.Item("blq" + ene.ChampionName).GetValue<bool>() && 
-                     Root.Item("auq" + ene.ChampionName).GetValue<bool>())
+                if (!Root.Item("blq" + ene.ChampionName).GetValue<bool>() && Root.Item("auq" + ene.ChampionName).GetValue<bool>())
                 {
                     if (ene.Distance(Player.ServerPosition) > Root.Item("minq").GetValue<Slider>().Value && Q.IsReady())
                     {
-                        Q.CastIfHitchanceEquals(ene, HitChance.Dashing, true);
-                        Q.CastIfHitchanceEquals(ene, HitChance.Immobile, true);
+
+                        if (Root.Item("autogdashing").GetValue<bool>())
+                            Q.CastIfHitchanceEquals(ene, HitChance.Dashing, true);
+
+                        if (Root.Item("autogimmobile").GetValue<bool>())
+                            Q.CastIfHitchanceEquals(ene, HitChance.Immobile, true);
                     }
                 }
             }
