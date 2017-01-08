@@ -298,14 +298,38 @@ namespace KurisuRiven
                         }
                     }
 
-                    if (menu.Item("combokey").GetValue<KeyBind>().Active)
+                    if (menu.Item("combokey").GetValue<KeyBind>().Active && aiHero.IsValidTarget())
                     {
-                        if (w.IsReady() && !didaa && riventarget().Distance(player.ServerPosition) <= w.Range)
+                        if (w.IsReady() && riventarget().Distance(player.ServerPosition) <= w.Range)
                         {
-                            w.Cast();
+                            if (menubool("usecombow") && !didaa)
+                            {
+                                if (!isteamfightkappa ||
+                                    isteamfightkappa && !wrektAny() ||
+                                    menubool("w" + aiHero.ChampionName))
+                                {
+                                    if (Utils.GameTimeTickCount - lasthd < 1000)
+                                    {
+                                        w.Cast();
+                                    }
+
+                                    if (aiHero.HealthPercent < player.HealthPercent
+                                        || (int) aiHero.HealthPercent == (int)player.HealthPercent)
+                                    {
+                                        if (cc >= 2 || !q.IsReady() || player.Distance(aiHero) > truerange)
+                                        {
+                                            w.Cast();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        w.Cast();
+                                    }
+                                }
+                            }
                         }
 
-                        if (q.IsReady() && !didaa && riventarget().Distance(player.ServerPosition) <= q.Range + 100)
+                        if (q.IsReady() && riventarget().Distance(player.ServerPosition) <= q.Range + 100)
                         {
                             useinventoryitems(riventarget());
 
@@ -683,7 +707,7 @@ namespace KurisuRiven
                     if (riventarget().Distance(player.ServerPosition) > e.Range + 50 &&
                         riventarget().Distance(player.ServerPosition) <= e.Range + w.Range + 275)
                     {
-                        if (player.Spellbook.CastSpell(flash, riventarget().ServerPosition.Extend(player.ServerPosition, 65)))
+                        if (player.Spellbook.CastSpell(flash, riventarget().ServerPosition.Extend(player.ServerPosition, 125)))
                         {
                             Game.Say("/d");
                             Orbwalking.ResetAutoAttackTimer();
@@ -820,7 +844,7 @@ namespace KurisuRiven
 
             if (w.IsReady() && menubool("usecombow") && target.Distance(player.ServerPosition) <= w.Range)
             {
-                if (Utils.GameTimeTickCount - lasthd > 1000)
+                if (Utils.GameTimeTickCount - lasthd > 1500)
                 {
                     useinventoryitems(target);
                     checkr();
@@ -834,7 +858,7 @@ namespace KurisuRiven
                             if (target.HealthPercent < player.HealthPercent 
                                 || (int) target.HealthPercent == (int) player.HealthPercent)
                             {
-                                if (cc >= 2 || !q.IsReady())
+                                if (cc >= 2 || !q.IsReady() || player.Distance(target) > truerange)
                                 {
                                     w.Cast();
                                 }
@@ -1046,7 +1070,7 @@ namespace KurisuRiven
                     {
                         if (player.GetAutoAttackDamage(t, true) *  3 >= t.Health)
                         {
-                            if (player.HealthPercent > 65 && player.CountEnemiesInRange(r.Range) <= 2)
+                            if (player.HealthPercent > 75 && t.CountEnemiesInRange(400) <= 2)
                             {
                                 continue;
                             }
@@ -1087,7 +1111,7 @@ namespace KurisuRiven
 
             foreach (var unit in minions.Where(m => !m.Name.Contains("Mini")))
             {
-                if (Utils.GameTimeTickCount - lastw < 500 && Utils.GameTimeTickCount - lasthd < 1000)
+                if (Utils.GameTimeTickCount - lastw < 1000 && Utils.GameTimeTickCount - lasthd < 1000)
                 {
                     if (unit.Distance(player.ServerPosition) <= q.Range + 90 && q.IsReady())
                     {
@@ -1119,8 +1143,7 @@ namespace KurisuRiven
                 {
                     if (unit.Distance(player.ServerPosition) <= w.Range + 25)
                     {
-                        if (Utils.GameTimeTickCount - lasthd > 1600
-                            || (cc >= 2 || !q.IsReady()))
+                        if (!canhd)
                         {
                             w.Cast();
                         }
@@ -1398,7 +1421,7 @@ namespace KurisuRiven
                         canhd = false;
                         didaa = false;
 
-                        if (qtarg != null)
+                        if (qtarg != null && (!w.IsReady() || !menubool("usecombow")))
                         {
                             if (menu.Item("combokey").GetValue<KeyBind>().Active 
                             ||  menu.Item("clearkey").GetValue<KeyBind>().Active && !qtarg.UnderTurret(true))
