@@ -1070,9 +1070,12 @@ namespace KurisuRiven
                     {
                         if (player.GetAutoAttackDamage(t, true) *  3 >= t.Health)
                         {
-                            if (player.HealthPercent > 75 && t.CountEnemiesInRange(400) <= 2)
+                            if (player.HealthPercent > 75)
                             {
-                                continue;
+                                if (t.CountEnemiesInRange(400) > 1 && t.CountEnemiesInRange(400) <= 2)
+                                {
+                                    continue;
+                                }
                             }
                         }
                     }
